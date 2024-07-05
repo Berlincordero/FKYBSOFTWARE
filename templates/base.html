@@ -1,0 +1,126 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Ferretería{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    {% block extra_head %} {% endblock %}
+  </head>
+  <body>
+    <div class="sidebar" id="sidebar">
+      <div class="avatar">
+        <img src="{% static 'img/avatar.png' %}" alt="Avatar" />
+      </div>
+      <div class="logo">
+        <a href="#" class="simple-text">
+          <i class="fa-solid fa-tools"></i>
+          Ferretería San Jerónimo
+        </a>
+      </div>
+      <hr />
+      <ul class="nav">
+        <li>
+          <a href="#"><i class="fa-solid fa-user"></i> <span>Usuarios</span></a>
+        </li>
+        <li>
+          <a href="#"
+            ><i class="fa-solid fa-cash-register"></i>
+            <span>Punto de Venta</span></a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><i class="fa-solid fa-boxes"></i> <span>Producto</span></a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><i class="fa-solid fa-paint-roller"></i> <span>Pinturas</span></a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><i class="fa-solid fa-truck"></i> <span>Proveedores</span></a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><i class="fa-solid fa-file-invoice"></i> <span>Proformas</span></a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><i class="fa-solid fa-file-invoice-dollar"></i>
+            <span>Facturación</span></a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><i class="fa-solid fa-chart-line"></i> <span>Reportes</span></a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><i class="fa-solid fa-shopping-cart"></i>
+            <span>Orden de Compras</span></a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><i class="fa-solid fa-shipping-fast"></i>
+            <span>Transportes</span></a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><i class="fa-solid fa-cogs"></i> <span>Configuraciones</span></a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><i class="fa-solid fa-question-circle"></i>
+            <span>Información</span></a
+          >
+        </li>
+        <li>
+          <a href="#"
+            ><i class="fa-solid fa-power-off"></i> <span>Logout</span></a
+          >
+        </li>
+      </ul>
+      <div class="footer">
+        <a href="#"><i class="fa-brands fa-python"></i> Django</a>
+        <a href="#"><i class="fa-solid fa-copyright"></i> FKYB SOFTWARE 2024</a>
+      </div>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <!-- Bootstrap JS y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      function toggleSidebar() {
+        var sidebar = document.getElementById("sidebar");
+        var hamburger = document.getElementById("hamburger");
+        sidebar.classList.toggle("active");
+        if (sidebar.classList.contains("active")) {
+          hamburger.style.left = "10px";
+        } else {
+          hamburger.style.left = "260px";
+        }
+      }
+    </script>
+    {% block extra_scripts %} {% endblock %}
+  </body>
+</html>
+
+

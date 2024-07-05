@@ -1,0 +1,126 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(180deg, #4b6eec, #066247);
+    color: white;
+    overflow-y: auto;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s;
+}
+
+.sidebar.active {
+    left: -250px;
+}
+
+.hamburger {
+    position: fixed;
+    top: 15px;
+    left: 260px; /* Adjust this value based on your sidebar width */
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: rgb(0, 55, 255);
+    cursor: pointer;
+    z-index: 1000;
+    transition: left 0.3s; /* Smooth transition for the hamburger position */
+}
+
+.hamburger:focus {
+    outline: none;
+}
+
+.sidebar .logo {
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.sidebar .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.sidebar .logo i {
+    margin-right: 10px;
+}
+
+hr {
+    border: 1px solid rgb(255, 255, 255);
+    margin: 0 15px;
+}
+
+.sidebar .avatar {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.sidebar .avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    flex-grow: 1;
+}
+
+.sidebar ul li {
+    padding: 15px 20px;
+    text-align: left;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.sidebar ul li a i {
+    margin-right: 20px; /* Adjusted the distance between the icon and the text */
+}
+
+.sidebar ul li a span {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background: rgba(255, 0, 234, 0.7);
+    border-radius: 5px;
+}
+
+.sidebar .footer {
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.sidebar .footer a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin: 5px 0;
+}
+
+.sidebar .footer a i {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
