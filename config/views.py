@@ -5,3 +5,4 @@ def index(request):
 
 def pos_view(request):
     return render(request, 'pos_template.html')
+

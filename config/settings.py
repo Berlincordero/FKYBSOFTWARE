@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'config',
+    'crispy_forms',
+    'crispy_bootstrap5',
   
     
 ]
@@ -94,6 +96,10 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
@@ -103,3 +109,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"

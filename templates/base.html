@@ -1,44 +1,29 @@
 {% load static %}
-<!-- Carga el template tag de Django 'static' que permite el uso de archivos estáticos -->
 
 <!DOCTYPE html>
-<!-- Declaración del tipo de documento HTML5 -->
 <html lang="en">
-  <!-- Inicio del documento HTML, se establece el idioma a inglés -->
   <head>
     <meta charset="UTF-8" />
-    <!-- Especifica la codificación de caracteres del documento -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Configura la ventana gráfica para mejorar la presentación en dispositivos móviles -->
     <title>{% block title %}Ferretería{% endblock %}</title>
-    <!-- Título del documento, utiliza bloques de Django para permitir la personalización del título -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
     />
-    <!-- Enlace a la hoja de estilos de Font Awesome para los iconos -->
+    
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <!-- Enlace a la hoja de estilos CSS personalizada, usando el template tag 'static' de Django -->
     {% block extra_head %} {% endblock %}
-    <!-- Bloque adicional en el 'head' para insertar contenido extra si es necesario -->
   </head>
   <body>
     <div class="sidebar" id="sidebar">
-      <!-- Contenedor principal de la barra lateral, con la clase 'sidebar' y el id 'sidebar' -->
       <div class="logo">
-        <!-- Sección del logo -->
         <a href="#" class="simple-text">
-          <!-- Enlace que contiene el logo, no dirige a ninguna parte ('#') -->
           
-          <!-- Icono de herramientas de Font Awesome -->
           <span>Ferretería San Jerónimo</span>
-          <!-- Texto que acompaña al logo -->
         </a>
       </div>
       <hr />
-      <!-- Línea horizontal para separación -->
       <ul class="nav flex-column">
-        <!-- Lista desordenada que contiene los elementos de navegación -->
         <li class="nav-item p-2">
           <a class="nav-link " href="#">
             <div class="icon-text">
@@ -145,35 +130,24 @@
         </li>
       </ul>
       <div class="footer">
-        <!-- Sección del pie de página de la barra lateral -->
         <a href="#"><i class="fa-brands fa-python"></i> <span>Django</span></a>
-        <!-- Enlace al pie de página, no dirige a ninguna parte ('#') -->
         <a href="#"
           ><i class="fa-solid fa-copyright"></i>
           <span>FKYB SOFTWARE 2024</span></a
         >
-        <!-- Enlace al pie de página con información de copyright, no dirige a ninguna parte ('#') -->
       </div>
     </div>
     <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
-      <!-- Botón de hamburguesa para abrir/cerrar la barra lateral -->
       <i class="fa-solid fa-bars"></i>
-      <!-- Icono de barras (hamburguesa) de Font Awesome -->
     </button>
     <div class="main-content content">
     
-      <!-- Contenedor principal del contenido -->
       {% block content %}{% endblock %}
-      <!-- Bloque de contenido principal que puede ser personalizado en otras plantillas -->
     </div>
 
-    <!-- Bootstrap JS y dependencias -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <!-- Carga jQuery desde CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <!-- Carga Popper.js desde CDN -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Carga Bootstrap JavaScript desde CDN -->
     <script>
       function toggleSidebar() {
         var sidebar = document.getElementById("sidebar");
@@ -185,6 +159,5 @@
       }
     </script>
     {% block extra_scripts %} {% endblock %}
-    <!-- Bloque adicional para insertar scripts extra si es necesario -->
   </body>
 </html>
