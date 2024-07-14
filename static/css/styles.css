@@ -1,4 +1,4 @@
-{
+html{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -40,124 +40,156 @@ body {
 }
 /* Configuración de la barra lateral */
 .sidebar {
-    height: 100%; /* Altura completa */
-    width: 250px; /* Ancho de la barra lateral */
-    position: fixed; /* Posición fija en la pantalla */
-    top: 0; /* Comienza desde la parte superior */
-    left: 0; /* Alineada a la izquierda */
-    background: linear-gradient(180deg, #072fc0, #044159); /* Degradado de fondo */
-    color: rgb(57, 127, 224); /* Color del texto */
-    overflow-y: auto; /* Barra de desplazamiento vertical */
-    padding-top: 20px; /* Espaciado superior */
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    background: linear-gradient(180deg, #072fc0, #044159);
+    color: white;
+    overflow-y: auto;
+    padding-top: 20px;
     display: flex;
-    flex-direction: column; /* Disposición en columna */
-    transition: 0.3s; /* Transición suave para animaciones */
+    flex-direction: column;
+    transition: left 0.3s;
+    z-index: 1000;
 }
+
 
 .sidebar.active {
-    left: -250px; /* Desplazamiento de la barra lateral cuando está activa */
+    left: 0;
 }
 
-/* Configuración del botón de hamburguesa */
 .hamburger {
-    position: fixed; /* Posición fija */
-    top: 15px; /* Desplazamiento desde la parte superior */
-    left: 260px; /* Desplazamiento desde la izquierda */
-    font-size: 24px; /* Tamaño de fuente */
-    background: none; /* Sin fondo */
-    border: none; /* Sin borde */
-    color: rgb(0, 55, 255); /* Color del botón */
-    cursor: pointer; /* Cursor en forma de mano */
-    z-index: 1000; /* Nivel de superposición */
-    transition: left 0.2s; /* Transición suave para la posición */
+    position: fixed;
+    top: 15px;
+    left: 15px; /* Ajusta este valor según sea necesario */
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: rgb(0, 55, 255);
+    cursor: pointer;
+    z-index: 1100; /* Asegúrate de que el botón de hamburguesa esté por encima del sidebar */
+    transition: left 0.3s; /* Transición suave para la posición del botón de hamburguesa */
 }
 
 .hamburger:focus {
-    outline: none; /* Sin contorno al enfocar */
+    outline: none;
 }
 
-/* Configuración del logo en la barra lateral */
 .sidebar .logo {
-    padding: 10px 15px; /* Espaciado interno */
-    text-align: center; /* Alineación centrada */
-    margin-bottom: 30px; /* Espacio adicional debajo del logo */
+    padding: 10px 15px;
+    text-align: center;
 }
 
 .sidebar .logo a {
-    color: rgb(51, 250, 220); /* Color del enlace */
-    text-decoration: none; /* Sin subrayado */
-    font-size: 20px; /* Tamaño de fuente */
-    font-weight: bold; /* Texto en negrita */
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .sidebar .logo i {
-    margin-right: 10px; /* Espaciado a la derecha del icono */
+    margin-right: 10px;
 }
 
-/* Línea divisoria */
 hr {
-    border: 1px solid rgb(246, 59, 199); /* Estilo de borde */
-    margin: 0 15px; /* Márgenes */
-    margin-bottom: 20px; /* Espacio adicional debajo de la línea divisoria */
+    border: 1px solid rgb(255, 255, 255);
+    margin: 0 15px;
 }
 
-/* Configuración de la lista de navegación en la barra lateral */
+.sidebar .avatar {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.sidebar .avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
 .sidebar ul {
-    list-style-type: none; /* Sin viñetas */
-    padding: 0; /* Sin espaciado interno */
-    flex-grow: 1; /* Ocupa el espacio disponible */
+    list-style-type: none;
+    padding: 0;
+    flex-grow: 1;
 }
 
-.sidebar ul li {
-    padding: 15px 20px; /* Espaciado interno */
-    text-align: left; /* Alineación a la izquierda */
-}
+
 
 .sidebar ul li a {
-    color: rgb(4, 2, 0); /* Color del enlace */
-    text-decoration: none; /* Sin subrayado */
-    display: flex; /* Disposición flexible */
-    align-items: center; /* Alineación central */
-    font-size: 16px; /* Tamaño de fuente */
-    padding-left: 10px; /* Espaciado izquierdo */
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar ul li a .icon-text {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.nav-item{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
 }
 
 .sidebar ul li a i {
-    margin-right: 20px; /* Espaciado a la derecha del icono */
-    min-width: 24px; /* Ancho mínimo del icono */
-    text-align: center; /* Alineación centrada */
+    margin-right: 10px;
+    width: 20px; /* Asegúrate de que los iconos tengan un ancho consistente */
+    text-align: center; /* Centra los iconos */
 }
 
 .sidebar ul li a span {
-    flex-grow: 1; /* Ocupa el espacio disponible */
-    text-align: left; /* Alineación a la izquierda */
+    text-align: left;
 }
 
 .sidebar ul li a:hover,
 .sidebar ul li a.active {
-    background: rgba(255, 0, 234, 0.7); /* Fondo al pasar el ratón o cuando está activo */
-    border-radius: 5px; /* Bordes redondeados */
+    background: rgb(255, 255, 255);
+    border-radius: 5px;
+    color: black;
 }
 
-/* Configuración del pie de página en la barra lateral */
 .sidebar .footer {
-    padding: 10px 15px; /* Espaciado interno */
-    text-align: center; /* Alineación centrada */
-    font-size: 12px; /* Tamaño de fuente */
-    margin-bottom: 10px; /* Margen inferior */
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 10px;
 }
 
 .sidebar .footer a {
-    color: rgb(4, 134, 248); /* Color del enlace */
-    text-decoration: none; /* Sin subrayado */
-    display: block; /* Ocupa todo el ancho */
-    margin: 5px 0; /* Márgenes verticales */
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin: 5px 0;
 }
 
 .sidebar .footer a i {
-    margin-right: 5px; /* Espaciado a la derecha del icono */
-    vertical-align: middle; /* Alineación vertical al medio */
+    margin-right: 5px;
+    vertical-align: middle;
 }
+
+.main-content {
+    margin-left: 0;
+    transition: margin-left 0.3s;
+}
+
+.sidebar.active ~ .main-content {
+    margin-left: 250px;
+}
+
+.sidebar.active ~ .hamburger {
+    left: 265px; /* Ajusta este valor según el ancho del sidebar */
+}
+
 
 /* Configuración del contenedor de punto de venta */
 .pos-container {

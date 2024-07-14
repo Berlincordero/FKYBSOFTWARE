@@ -29,7 +29,7 @@
         <!-- Sección del logo -->
         <a href="#" class="simple-text">
           <!-- Enlace que contiene el logo, no dirige a ninguna parte ('#') -->
-          <i class="fa-solid fa-tools"></i>
+          
           <!-- Icono de herramientas de Font Awesome -->
           <span>Ferretería San Jerónimo</span>
           <!-- Texto que acompaña al logo -->
@@ -37,89 +37,111 @@
       </div>
       <hr />
       <!-- Línea horizontal para separación -->
-      <ul class="nav">
+      <ul class="nav flex-column">
         <!-- Lista desordenada que contiene los elementos de navegación -->
-        <li>
-          <a href="#"><i class="fa-solid fa-user"></i> <span>Usuarios</span></a>
-          <!-- Elemento de navegación para 'Usuarios' con icono de usuario -->
+        <li class="nav-item p-2">
+          <a class="nav-link " href="#">
+            <div class="icon-text">
+              <i class="fa-solid fa-user"></i>
+              <span>Usuarios</span>
+            </div>
+          </a>
         </li>
-        <li>
-          <a href="{% url 'pos_view' %}"
-          
-            ><i class="fa-solid fa-cash-register"></i>
-            <span>Punto de Venta</span></a
-          >
-          <!-- Elemento de navegación para 'Punto de Venta', usando el template tag 'url' de Django para generar la URL -->
+        <li class="nav-item p-2">
+          <a class="nav-link " href="{% url 'pos_view' %}">
+            <div class="icon-text">
+              <i class="fa-solid fa-cash-register"></i>
+              <span>Punto de Venta</span>
+            </div>
+          </a>
         </li>
-        <li>
-          <a href="#"
-            ><i class="fa-solid fa-boxes"></i> <span>Producto</span></a
-          >
-          <!-- Elemento de navegación para 'Producto' con icono de cajas -->
+        <li class="nav-item p-2">
+          <a class="nav-link p-2" href="#">
+            <div class="icon-text">
+              <i class="fa-solid fa-boxes"></i>
+              <span>Producto</span>
+            </div>
+          </a>
         </li>
-        <li>
-          <a href="#"
-            ><i class="fa-solid fa-paint-roller"></i> <span>Pinturas</span></a
-          >
-          <!-- Elemento de navegación para 'Pinturas' con icono de rodillo de pintura -->
+        <li class="nav-item p-2">
+          <a class="nav-link p-2" href="#">
+            <div class="icon-text">
+              <i class="fa-solid fa-paint-roller"></i>
+              <span>Pinturas</span>
+            </div>
+          </a>
         </li>
-        <li>
-          <a href="#"
-            ><i class="fa-solid fa-truck"></i> <span>Proveedores</span></a
-          >
-          <!-- Elemento de navegación para 'Proveedores' con icono de camión -->
+        <li class="nav-item p-2">
+          <a class="nav-link p-2" href="#">
+            <div class="icon-text">
+              <i class="fa-solid fa-truck"></i>
+              <span>Proveedores</span>
+            </div>
+          </a>
         </li>
-        <li>
-          <a href="#"
-            ><i class="fa-solid fa-file-invoice"></i> <span>Proformas</span></a
-          >
-          <!-- Elemento de navegación para 'Proformas' con icono de factura -->
+        <li class="nav-item p-2">
+          <a class="nav-link p-2" href="#">
+            <div class="icon-text">
+              <i class="fa-solid fa-file-invoice"></i>
+              <span>Proformas</span>
+            </div>
+          </a>
         </li>
-        <li>
-          <a href="#"
-            ><i class="fa-solid fa-file-invoice-dollar"></i>
-            <span>Facturación</span></a
-          >
-          <!-- Elemento de navegación para 'Facturación' con icono de factura con signo de dólar -->
+        <li class="nav-item p-2">
+          <a class="nav-link p-2" href="#">
+            <div class="icon-text">
+              <i class="fa-solid fa-file-invoice-dollar"></i>
+              <span>Facturación</span>
+            </div>
+          </a>
         </li>
-        <li>
-          <a href="#"
-            ><i class="fa-solid fa-chart-line"></i> <span>Reportes</span></a
-          >
-          <!-- Elemento de navegación para 'Reportes' con icono de gráfica -->
+        <li class="nav-item p-2">
+          <a class="nav-link p-2" href="#">
+            <div class="icon-text">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Reportes</span>
+            </div>
+          </a>
         </li>
-        <li>
-          <a href="#"
-            ><i class="fa-solid fa-shopping-cart"></i>
-            <span>Orden de Compras</span></a
-          >
-          <!-- Elemento de navegación para 'Orden de Compras' con icono de carrito de compras -->
+        <li class="nav-item p-2">
+          <a class="nav-link p-2" href="#">
+            <div class="icon-text">
+              <i class="fa-solid fa-shopping-cart"></i>
+              <span>Orden de Compras</span>
+            </div>
+          </a>
         </li>
-        <li>
-          <a href="#"
-            ><i class="fa-solid fa-shipping-fast"></i>
-            <span>Transportes</span></a
-          >
-          <!-- Elemento de navegación para 'Transportes' con icono de camión en movimiento -->
+        <li class="nav-item p-2">
+          <a class="nav-link p-2" href="#">
+            <div class="icon-text">
+              <i class="fa-solid fa-shipping-fast"></i>
+              <span>Transportes</span>
+            </div>
+          </a>
         </li>
-        <li>
-          <a href="#"
-            ><i class="fa-solid fa-cogs"></i> <span>Configuraciones</span></a
-          >
-          <!-- Elemento de navegación para 'Configuraciones' con icono de engranajes -->
+        <li class="nav-item p-2">
+          <a class="nav-link p-2" href="#">
+            <div class="icon-text">
+              <i class="fa-solid fa-cogs"></i>
+              <span>Configuraciones</span>
+            </div>
+          </a>
         </li>
-        <li>
-          <a href="#"
-            ><i class="fa-solid fa-question-circle"></i>
-            <span>Información</span></a
-          >
-          <!-- Elemento de navegación para 'Información' con icono de círculo con signo de interrogación -->
+        <li class="nav-item p-2">
+          <a class="nav-link p-2" href="#">
+            <div class="icon-text">
+              <i class="fa-solid fa-question-circle"></i>
+              <span>Información</span>
+            </div>
+          </a>
         </li>
-        <li>
-          <a href="#"
-            ><i class="fa-solid fa-power-off"></i> <span>Logout</span></a
-          >
-          <!-- Elemento de navegación para 'Logout' con icono de apagado -->
+        <li class="nav-item p-2">
+          <a class="nav-link p-2" href="#">
+            <div class="icon-text">
+              <i class="fa-solid fa-power-off"></i>
+              <span>Logout</span>
+            </div>
+          </a>
         </li>
       </ul>
       <div class="footer">
@@ -154,16 +176,12 @@
     <!-- Carga Bootstrap JavaScript desde CDN -->
     <script>
       function toggleSidebar() {
-        <!-- Función JavaScript para alternar la visibilidad de la barra lateral -->
-        var sidebar = document.getElementById("sidebar"); <!-- Obtiene el elemento de la barra lateral por su id -->
-        var hamburger = document.getElementById("hamburger"); <!-- Obtiene el botón de hamburguesa por su id -->
-        sidebar.classList.toggle("active"); <!-- Alterna la clase 'active' en la barra lateral -->
-        if (sidebar.classList.contains("active")) {
-          <!-- Si la barra lateral tiene la clase 'active' -->
-          hamburger.style.left = "70px"; <!-- Cambia la posición del botón de hamburguesa a 70px desde la izquierda -->
-        } else {
-          hamburger.style.left = "270px"; <!-- Si no, cambia la posición del botón de hamburguesa a 270px desde la izquierda -->
-        }
+        var sidebar = document.getElementById("sidebar");
+        var hamburger = document.getElementById("hamburger");
+        var mainContent = document.querySelector(".main-content");
+        sidebar.classList.toggle("active");
+        hamburger.classList.toggle("active");
+        mainContent.classList.toggle("active");
       }
     </script>
     {% block extra_scripts %} {% endblock %}
