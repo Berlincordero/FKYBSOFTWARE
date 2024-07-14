@@ -1,8 +1,7 @@
-:root {
-    --primary-color: #3498db;
-    --secondary-color: #2ecc71;
-    --background-color: #f0f0f0;
-    --text-color: #333;
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -10,32 +9,35 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     margin: 0;
-    padding: 0;
-    height: 100%;
-    box-shadow: none;
+    padding: 10;
 }
-
 
 .header-red {
-    background-color: #ff0000;
-    color: white;
-    width: calc(100% - 40px);
-    padding: 40px 0;
-    text-align: center;
-    margin: 0 20px 20px 20px;
-    margin-top: 0; /* Ajuste para que esté pegado al borde superior */
-    position: sticky;
-    border-radius: 10px; /* Añade bordes redondeados de 10px */
-
-}
-
-.header-red h1 {
-    margin: 0; /* Sin margen */
-    font-size: 24px; /* Tamaño de fuente */
+    position: fixed;
+    top: 0px; /* Ajusta la distancia desde la parte superior según necesites */
+    left: 300px;
+    right: 85;
+    background-color: #e03f3f; /* Color de fondo del encabezado */
+    padding: 20px;
+    z-index: 1000; /* Ajusta el z-index si es necesario */
+    width: 65.2%; /* Opcional: asegura que el encabezado ocupe todo el ancho */
 }
 
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+}
 
+.pos-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #e84646; /* Color de fondo del contenedor principal */
+    min-height: 100vh;
+}
 /* Configuración de la barra lateral */
 .sidebar {
     height: 100%; /* Altura completa */
@@ -67,7 +69,7 @@ body {
     color: rgb(0, 55, 255); /* Color del botón */
     cursor: pointer; /* Cursor en forma de mano */
     z-index: 1000; /* Nivel de superposición */
-    transition: left 0.3s; /* Transición suave para la posición */
+    transition: left 0.2s; /* Transición suave para la posición */
 }
 
 .hamburger:focus {
