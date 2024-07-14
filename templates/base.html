@@ -1,126 +1,172 @@
 {% load static %}
+<!-- Carga el template tag de Django 'static' que permite el uso de archivos estáticos -->
 
 <!DOCTYPE html>
+<!-- Declaración del tipo de documento HTML5 -->
 <html lang="en">
+  <!-- Inicio del documento HTML, se establece el idioma a inglés -->
   <head>
     <meta charset="UTF-8" />
+    <!-- Especifica la codificación de caracteres del documento -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Configura la ventana gráfica para mejorar la presentación en dispositivos móviles -->
     <title>{% block title %}Ferretería{% endblock %}</title>
+    <!-- Título del documento, utiliza bloques de Django para permitir la personalización del título -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
     />
+    <!-- Enlace a la hoja de estilos de Font Awesome para los iconos -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <!-- Enlace a la hoja de estilos CSS personalizada, usando el template tag 'static' de Django -->
     {% block extra_head %} {% endblock %}
+    <!-- Bloque adicional en el 'head' para insertar contenido extra si es necesario -->
   </head>
   <body>
     <div class="sidebar" id="sidebar">
-      <div class="avatar">
-        <img src="{% static 'img/avatar.png' %}" alt="Avatar" />
-      </div>
+      <!-- Contenedor principal de la barra lateral, con la clase 'sidebar' y el id 'sidebar' -->
       <div class="logo">
+        <!-- Sección del logo -->
         <a href="#" class="simple-text">
+          <!-- Enlace que contiene el logo, no dirige a ninguna parte ('#') -->
           <i class="fa-solid fa-tools"></i>
-          Ferretería San Jerónimo
+          <!-- Icono de herramientas de Font Awesome -->
+          <span>Ferretería San Jerónimo</span>
+          <!-- Texto que acompaña al logo -->
         </a>
       </div>
       <hr />
+      <!-- Línea horizontal para separación -->
       <ul class="nav">
+        <!-- Lista desordenada que contiene los elementos de navegación -->
         <li>
           <a href="#"><i class="fa-solid fa-user"></i> <span>Usuarios</span></a>
+          <!-- Elemento de navegación para 'Usuarios' con icono de usuario -->
         </li>
         <li>
-          <a href="#"
+          <a href="{% url 'pos_view' %}"
+          
             ><i class="fa-solid fa-cash-register"></i>
             <span>Punto de Venta</span></a
           >
+          <!-- Elemento de navegación para 'Punto de Venta', usando el template tag 'url' de Django para generar la URL -->
         </li>
         <li>
           <a href="#"
             ><i class="fa-solid fa-boxes"></i> <span>Producto</span></a
           >
+          <!-- Elemento de navegación para 'Producto' con icono de cajas -->
         </li>
         <li>
           <a href="#"
             ><i class="fa-solid fa-paint-roller"></i> <span>Pinturas</span></a
           >
+          <!-- Elemento de navegación para 'Pinturas' con icono de rodillo de pintura -->
         </li>
         <li>
           <a href="#"
             ><i class="fa-solid fa-truck"></i> <span>Proveedores</span></a
           >
+          <!-- Elemento de navegación para 'Proveedores' con icono de camión -->
         </li>
         <li>
           <a href="#"
             ><i class="fa-solid fa-file-invoice"></i> <span>Proformas</span></a
           >
+          <!-- Elemento de navegación para 'Proformas' con icono de factura -->
         </li>
         <li>
           <a href="#"
             ><i class="fa-solid fa-file-invoice-dollar"></i>
             <span>Facturación</span></a
           >
+          <!-- Elemento de navegación para 'Facturación' con icono de factura con signo de dólar -->
         </li>
         <li>
           <a href="#"
             ><i class="fa-solid fa-chart-line"></i> <span>Reportes</span></a
           >
+          <!-- Elemento de navegación para 'Reportes' con icono de gráfica -->
         </li>
         <li>
           <a href="#"
             ><i class="fa-solid fa-shopping-cart"></i>
             <span>Orden de Compras</span></a
           >
+          <!-- Elemento de navegación para 'Orden de Compras' con icono de carrito de compras -->
         </li>
         <li>
           <a href="#"
             ><i class="fa-solid fa-shipping-fast"></i>
             <span>Transportes</span></a
           >
+          <!-- Elemento de navegación para 'Transportes' con icono de camión en movimiento -->
         </li>
         <li>
           <a href="#"
             ><i class="fa-solid fa-cogs"></i> <span>Configuraciones</span></a
           >
+          <!-- Elemento de navegación para 'Configuraciones' con icono de engranajes -->
         </li>
         <li>
           <a href="#"
             ><i class="fa-solid fa-question-circle"></i>
             <span>Información</span></a
           >
+          <!-- Elemento de navegación para 'Información' con icono de círculo con signo de interrogación -->
         </li>
         <li>
           <a href="#"
             ><i class="fa-solid fa-power-off"></i> <span>Logout</span></a
           >
+          <!-- Elemento de navegación para 'Logout' con icono de apagado -->
         </li>
       </ul>
       <div class="footer">
-        <a href="#"><i class="fa-brands fa-python"></i> Django</a>
-        <a href="#"><i class="fa-solid fa-copyright"></i> FKYB SOFTWARE 2024</a>
+        <!-- Sección del pie de página de la barra lateral -->
+        <a href="#"><i class="fa-brands fa-python"></i> <span>Django</span></a>
+        <!-- Enlace al pie de página, no dirige a ninguna parte ('#') -->
+        <a href="#"
+          ><i class="fa-solid fa-copyright"></i>
+          <span>FKYB SOFTWARE 2024</span></a
+        >
+        <!-- Enlace al pie de página con información de copyright, no dirige a ninguna parte ('#') -->
       </div>
     </div>
     <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
+      <!-- Botón de hamburguesa para abrir/cerrar la barra lateral -->
       <i class="fa-solid fa-bars"></i>
+      <!-- Icono de barras (hamburguesa) de Font Awesome -->
     </button>
+    <div class="main-content content">
+    
+      <!-- Contenedor principal del contenido -->
+      {% block content %}{% endblock %}
+      <!-- Bloque de contenido principal que puede ser personalizado en otras plantillas -->
+    </div>
+
     <!-- Bootstrap JS y dependencias -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Carga jQuery desde CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <!-- Carga Popper.js desde CDN -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Carga Bootstrap JavaScript desde CDN -->
     <script>
       function toggleSidebar() {
-        var sidebar = document.getElementById("sidebar");
-        var hamburger = document.getElementById("hamburger");
-        sidebar.classList.toggle("active");
+        <!-- Función JavaScript para alternar la visibilidad de la barra lateral -->
+        var sidebar = document.getElementById("sidebar"); <!-- Obtiene el elemento de la barra lateral por su id -->
+        var hamburger = document.getElementById("hamburger"); <!-- Obtiene el botón de hamburguesa por su id -->
+        sidebar.classList.toggle("active"); <!-- Alterna la clase 'active' en la barra lateral -->
         if (sidebar.classList.contains("active")) {
-          hamburger.style.left = "10px";
+          <!-- Si la barra lateral tiene la clase 'active' -->
+          hamburger.style.left = "70px"; <!-- Cambia la posición del botón de hamburguesa a 70px desde la izquierda -->
         } else {
-          hamburger.style.left = "260px";
+          hamburger.style.left = "270px"; <!-- Si no, cambia la posición del botón de hamburguesa a 270px desde la izquierda -->
         }
       }
     </script>
     {% block extra_scripts %} {% endblock %}
+    <!-- Bloque adicional para insertar scripts extra si es necesario -->
   </body>
 </html>
-
-

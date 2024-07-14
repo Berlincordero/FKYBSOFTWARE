@@ -1,126 +1,336 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f0f0f0;
+    --text-color: #333;
 }
 
-.sidebar {
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
     height: 100%;
-    width: 250px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: linear-gradient(180deg, #4b6eec, #066247);
+    box-shadow: none;
+}
+
+
+.header-red {
+    background-color: #ff0000;
     color: white;
-    overflow-y: auto;
-    padding-top: 20px;
+    width: calc(100% - 40px);
+    padding: 40px 0;
+    text-align: center;
+    margin: 0 20px 20px 20px;
+    margin-top: 0; /* Ajuste para que esté pegado al borde superior */
+    position: sticky;
+    border-radius: 10px; /* Añade bordes redondeados de 10px */
+
+}
+
+.header-red h1 {
+    margin: 0; /* Sin margen */
+    font-size: 24px; /* Tamaño de fuente */
+}
+
+
+
+/* Configuración de la barra lateral */
+.sidebar {
+    height: 100%; /* Altura completa */
+    width: 250px; /* Ancho de la barra lateral */
+    position: fixed; /* Posición fija en la pantalla */
+    top: 0; /* Comienza desde la parte superior */
+    left: 0; /* Alineada a la izquierda */
+    background: linear-gradient(180deg, #072fc0, #044159); /* Degradado de fondo */
+    color: rgb(57, 127, 224); /* Color del texto */
+    overflow-y: auto; /* Barra de desplazamiento vertical */
+    padding-top: 20px; /* Espaciado superior */
     display: flex;
-    flex-direction: column;
-    transition: 0.3s;
+    flex-direction: column; /* Disposición en columna */
+    transition: 0.3s; /* Transición suave para animaciones */
 }
 
 .sidebar.active {
-    left: -250px;
+    left: -250px; /* Desplazamiento de la barra lateral cuando está activa */
 }
 
+/* Configuración del botón de hamburguesa */
 .hamburger {
-    position: fixed;
-    top: 15px;
-    left: 260px; /* Adjust this value based on your sidebar width */
-    font-size: 24px;
-    background: none;
-    border: none;
-    color: rgb(0, 55, 255);
-    cursor: pointer;
-    z-index: 1000;
-    transition: left 0.3s; /* Smooth transition for the hamburger position */
+    position: fixed; /* Posición fija */
+    top: 15px; /* Desplazamiento desde la parte superior */
+    left: 260px; /* Desplazamiento desde la izquierda */
+    font-size: 24px; /* Tamaño de fuente */
+    background: none; /* Sin fondo */
+    border: none; /* Sin borde */
+    color: rgb(0, 55, 255); /* Color del botón */
+    cursor: pointer; /* Cursor en forma de mano */
+    z-index: 1000; /* Nivel de superposición */
+    transition: left 0.3s; /* Transición suave para la posición */
 }
 
 .hamburger:focus {
-    outline: none;
+    outline: none; /* Sin contorno al enfocar */
 }
 
+/* Configuración del logo en la barra lateral */
 .sidebar .logo {
-    padding: 10px 15px;
-    text-align: center;
+    padding: 10px 15px; /* Espaciado interno */
+    text-align: center; /* Alineación centrada */
+    margin-bottom: 30px; /* Espacio adicional debajo del logo */
 }
 
 .sidebar .logo a {
-    color: white;
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: bold;
+    color: rgb(51, 250, 220); /* Color del enlace */
+    text-decoration: none; /* Sin subrayado */
+    font-size: 20px; /* Tamaño de fuente */
+    font-weight: bold; /* Texto en negrita */
 }
 
 .sidebar .logo i {
-    margin-right: 10px;
+    margin-right: 10px; /* Espaciado a la derecha del icono */
 }
 
+/* Línea divisoria */
 hr {
-    border: 1px solid rgb(255, 255, 255);
-    margin: 0 15px;
+    border: 1px solid rgb(246, 59, 199); /* Estilo de borde */
+    margin: 0 15px; /* Márgenes */
+    margin-bottom: 20px; /* Espacio adicional debajo de la línea divisoria */
 }
 
-.sidebar .avatar {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.sidebar .avatar img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-}
-
+/* Configuración de la lista de navegación en la barra lateral */
 .sidebar ul {
-    list-style-type: none;
-    padding: 0;
-    flex-grow: 1;
+    list-style-type: none; /* Sin viñetas */
+    padding: 0; /* Sin espaciado interno */
+    flex-grow: 1; /* Ocupa el espacio disponible */
 }
 
 .sidebar ul li {
-    padding: 15px 20px;
-    text-align: left;
+    padding: 15px 20px; /* Espaciado interno */
+    text-align: left; /* Alineación a la izquierda */
 }
 
 .sidebar ul li a {
-    color: white;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    font-size: 16px;
+    color: rgb(4, 2, 0); /* Color del enlace */
+    text-decoration: none; /* Sin subrayado */
+    display: flex; /* Disposición flexible */
+    align-items: center; /* Alineación central */
+    font-size: 16px; /* Tamaño de fuente */
+    padding-left: 10px; /* Espaciado izquierdo */
 }
 
 .sidebar ul li a i {
-    margin-right: 20px; /* Adjusted the distance between the icon and the text */
+    margin-right: 20px; /* Espaciado a la derecha del icono */
+    min-width: 24px; /* Ancho mínimo del icono */
+    text-align: center; /* Alineación centrada */
 }
 
 .sidebar ul li a span {
-    flex-grow: 1;
-    text-align: left;
+    flex-grow: 1; /* Ocupa el espacio disponible */
+    text-align: left; /* Alineación a la izquierda */
 }
 
 .sidebar ul li a:hover,
 .sidebar ul li a.active {
-    background: rgba(255, 0, 234, 0.7);
-    border-radius: 5px;
+    background: rgba(255, 0, 234, 0.7); /* Fondo al pasar el ratón o cuando está activo */
+    border-radius: 5px; /* Bordes redondeados */
 }
 
+/* Configuración del pie de página en la barra lateral */
 .sidebar .footer {
-    padding: 10px 15px;
-    text-align: center;
-    font-size: 12px;
-    margin-bottom: 10px;
+    padding: 10px 15px; /* Espaciado interno */
+    text-align: center; /* Alineación centrada */
+    font-size: 12px; /* Tamaño de fuente */
+    margin-bottom: 10px; /* Margen inferior */
 }
 
 .sidebar .footer a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    margin: 5px 0;
+    color: rgb(4, 134, 248); /* Color del enlace */
+    text-decoration: none; /* Sin subrayado */
+    display: block; /* Ocupa todo el ancho */
+    margin: 5px 0; /* Márgenes verticales */
 }
 
 .sidebar .footer a i {
-    margin-right: 5px;
-    vertical-align: middle;
+    margin-right: 5px; /* Espaciado a la derecha del icono */
+    vertical-align: middle; /* Alineación vertical al medio */
 }
 
+/* Configuración del contenedor de punto de venta */
+.pos-container {
+    display: flex;
+    flex-direction: column; /* Disposición en columna */
+    padding: 100px; /* Espaciado interno */
+    background-color: hsl(0, 0%, 100%); /* Fondo del contenedor */
+    min-height: 100vh; /* Altura mínima de la ventana */
+    margin-left: 180px; /* Margen izquierdo */
+    margin-right: 300px; /* Margen derecho */
+}
+
+/* Configuración del encabezado */
+.header {
+    display: flex;
+    justify-content: space-between; /* Espaciado entre elementos */
+    align-items: center; /* Alineación central */
+    margin-bottom: 100px; /* Margen inferior */
+    width: 100%; /* Ancho completo */
+}
+
+.header .product-search {
+    flex-grow: 1; /* Ocupa el espacio disponible */
+    max-width: 600px; /* Ancho máximo */
+}
+
+.product-search input[type="text"] {
+    flex-grow: 1; /* Ocupa el espacio disponible */
+    height: 40px; /* Altura */
+    border: 2px solid #ccc; /* Borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 0 10px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+}
+
+.product-search button {
+    height: 40px; /* Altura */
+    border: none; /* Sin borde */
+    background-color: #007bff; /* Fondo del botón */
+    color: #fff; /* Color del texto */
+    padding: 0 20px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-left: 10px; /* Margen izquierdo */
+    cursor: pointer; /* Cursor en forma de mano */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+}
+
+.product-search button:hover {
+    background-color: #0056b3; /* Fondo al pasar el ratón */
+}
+
+.product-search .search-icon {
+    position: absolute; /* Posición absoluta */
+    right: 10px; /* Desplazamiento desde la derecha */
+    background: none; /* Sin fondo */
+    border: none; /* Sin borde */
+    color: #b51f5b; /* Color del icono */
+    font-size: 20px; /* Tamaño de fuente */
+    cursor: pointer; /* Cursor en forma de mano */
+}
+
+.product-search .search-icon:focus {
+    outline: none; /* Sin contorno al enfocar */
+}
+
+/* Configuración del contenedor interno del contenido principal */
+.main-content-inner {
+    display: flex;
+    justify-content: space-between; /* Espaciado entre elementos */
+}
+
+/* Configuración de la tabla de productos */
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-right: 100px; /* Espacio derecho */
+    margin-bottom: 10px; /* Espacio inferior */
+     /* Ajuste del margen izquierdo */
+}
+
+
+.product-table thead th {
+    border-right: none; /* Elimina el borde derecho */
+}
+
+.product-table th,
+.product-table td {
+    border: 1px solid #040678; /* Borde de las celdas */
+    padding: 5px; /* Espaciado interno */
+    text-align: left; /* Alineación a la izquierda */
+    border: none;
+}
+
+/* Configuración de los encabezados de la tabla */
+.product-table th {
+    background-color: #7a5555; /* Fondo de los encabezados */
+    color: white; /* Color del texto */
+}
+
+/* Configuración de la barra lateral derecha */
+.sidebar-content {
+    margin-left: 20px; /* Add margin to the left of the sidebar */
+    width: 300px; /* Fijar el ancho de la barra lateral */
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background-color: #494c4c;
+    padding: 20px;
+    border-left: 1px solid #2405a2;
+    overflow-y: auto;
+}
+
+.Descuento,
+.IVA,
+.totalVenta,
+.total {
+    margin-bottom: 20px; /* Margen inferior */
+    background-color: #f0f3f4; /* Fondo */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 18px; /* Tamaño de fuente */
+    font-weight: bold; /* Texto en negrita */
+    color: black; /* Color del texto */
+    text-align: left; /* Alineación a la izquierda */
+}
+
+.actions {
+    display: flex;
+    flex-direction: column; /* Disposición en columna */
+    gap: 10px; /* Espaciado entre botones */
+}
+
+.actions .btn {
+    width: 100%; /* Ancho completo */
+    padding: 10px; /* Espaciado interno */
+    margin-bottom: 10px; /* Margen inferior */
+    border: none; /* Sin borde */
+    background-color: hsl(207, 94%, 51%); /* Fondo */
+    color: 0rgb(8, 13, 15); /* Color del texto */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente */
+    font-weight: bold; /* Texto en negrita */
+    cursor: pointer; /* Cursor en forma de mano */
+    text-align: center; /* Alineación centrada */
+}
+
+.actions .btn:hover {
+    background-color: #ff007f; /* Fondo al pasar el ratón */
+}
+
+/* Agregación de los estilos proporcionados */
+/* Estilos personalizados */
+.quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity input[type="number"] {
+    width: 50px; /* Ajustar el ancho según sea necesario */
+    text-align: center; /* Centrar el texto */
+    padding: 5px; /* Ajustar el espaciado interno */
+    border: 1px solid #ccc; /* Estilo del borde */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.quantity input[type="number"]::-webkit-outer-spin-button,
+.quantity input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity input[type="number"]:focus {
+    outline: none;
+    border-color: #007bff; /* Cambiar color del borde al enfocar */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Efecto de sombra al enfocar */
+}
