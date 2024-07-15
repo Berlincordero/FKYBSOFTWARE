@@ -12,7 +12,11 @@
         <!-- Sección Izquierda -->
         <div class="section-left w-100">
             <div class="header mb-4 d-flex justify-content-between align-items-center w-100">
-                <h2 class="mb-0">Terminal 1</h2> <!-- Ajustado sin margen inferior -->
+                <h2 class="mb-0">
+                    <!-- Icono de punto de venta añadido aquí -->
+                    <i class="fas fa-cash-register"></i> Terminal 1
+                    <!-- Puedes cambiar el icono modificando la clase 'fas fa-cash-register' -->
+                </h2>
                 <div class="product-search input-group rounded">
                     <input type="text" class="form-control rounded" style="width: 500px;" placeholder="Producto (Busca por código o nombre)" aria-label="Buscar Producto" aria-describedby="button-addon2">
                     <button class="btn btn-outline-secondary search-icon" type="button" id="button-addon2">
@@ -30,25 +34,74 @@
                             <th scope="col">Cant.</th>
                             <th scope="col">Unidad</th>
                             <th scope="col">Prec. Unid.</th>
+                            <th scope="col">Impuesto.</th>
                             <th scope="col">Desc %</th>
                             <th scope="col">Total</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input type="text" class="form-control" placeholder="Código" aria-label="Código"></td>
-                            <td><input type="text" class="form-control" placeholder="Descripción" aria-label="Descripción"></td>
+                            <td>
+                                <div class="code">
+                                    <input type="text" class="form-control" value="45455555" min="1"  max="100000000">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="bisagra masaca 1x2 2 unid" aria-label="Descripción">
+                                </div>
+                            </td>
                             <td>
                                 <div class="quantity">
                                     <input type="number" class="form-control" value="1" min="1" max="100">
                                 </div>
                             </td>
-                            <td><input type="text" class="form-control col-1" placeholder="Unidad" aria-label="Unidad"></td>
-                            <td><input type="text" class="form-control col-2" placeholder="Prec. Unid." aria-label="Prec. Unid."></td>
-                            <td><input type="text" class="form-control col-1" placeholder="Desc %" aria-label="Desc %"></td>
-                            <td><input type="text" class="form-control col-2" placeholder="Total" aria-label="Total"></td>
+                            <td>
+                                <div class="form-group">
+                                    <select class="form-control" aria-label="Unidad">
+                                        <option value="kg">kg</option>
+                                        <option value="mts">mts</option>
+                                        <option value="unid">unid</option>
+                                        <option value="litros">litros</option>
+                                        <option value="gal">gal</option>
+                                        <option value="cms">cms</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="precio unid">
+                                    <input type="text" class="form-control col-2" value="4521" min="1" max="100000000">
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="form-group">
+                                    <select class="form-control" aria-label="Impuesto">
+                                        <option value="5%">13% I.V.A</option>
+                                        <option value="10%">10% RENTA</option>
+                                        <option value="9%">9%VALOR AGREGADO</option>
+                                
+                                    </select>
+                                </div>
+                            </td>
+                            
+                            <td>
+                                <div class="form-group">
+                                    <select class="form-control" aria-label="Impuesto">
+                                        <option value="5%">CLIENTE=5%</option>
+                                        <option value="10%">CLIENTE=10%</option>
+                                
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control col-2" placeholder="3850" aria-label="Total">
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
+                    
                 </table>
             </div>
         </div>
@@ -58,8 +111,4 @@
         <div class="section-right">
             <!-- Contenido adicional puede ir aquí -->
         </div>
-        <!-- Fin Sección Derecha -->
-    </div>
-    <!-- Fin Contenedor Principal -->
-</div>
 {% endblock %}
