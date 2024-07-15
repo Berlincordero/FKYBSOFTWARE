@@ -1,35 +1,35 @@
-/* POPPINS FONT */
+/* Importación de la fuente Poppins desde Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-
-*{
+/* Estilos globales para todos los elementos */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    
 }
 
+/* Estilos para el cuerpo del documento */
 body {
-    
     background-color: var(--background-color);
     color: var(--text-color);
     margin: 0;
-    padding: 10;
+    padding: 10px;
 }
 
+/* Estilos para un encabezado fijo con fondo rojo */
 .header-red {
     position: fixed;
-    top: 0px; /* Ajusta la distancia desde la parte superior según necesites */
+    top: 0;
     left: 300px;
-    right: 85;
-    background-color: #e03f3f; /* Color de fondo del encabezado */
+    right: 85px;
+    background-color: #e03f3f;
     padding: 20px;
-    z-index: 1000; /* Ajusta el z-index si es necesario */
-    width: 65.2%; /* Opcional: asegura que el encabezado ocupe todo el ancho */
+    z-index: 1000;
+    width: 65.2%;
 }
 
-
+/* Estilos para un encabezado flexible */
 .header {
     display: flex;
     justify-content: space-between;
@@ -37,14 +37,16 @@ body {
     padding: 50px;
 }
 
+/* Estilos para el contenedor principal */
 .pos-container {
     display: flex;
     flex-direction: column;
     padding: 20px;
-    background-color: #e84646; /* Color de fondo del contenedor principal */
+    background-color: #e84646;
     min-height: 100vh;
 }
-/* Configuración de la barra lateral */
+
+/* Estilos para la barra lateral */
 .sidebar {
     height: 100%;
     width: 250px;
@@ -61,31 +63,32 @@ body {
     z-index: 1000;
 }
 
-
+/* Estilos para la barra lateral cuando está activa */
 .sidebar.active {
     left: 0;
 }
 
+/* Estilos para el botón de hamburguesa */
 .hamburger {
     position: fixed;
     top: 15px;
-    left: 15px; /* Ajusta este valor según sea necesario */
+    left: 15px;
     font-size: 24px;
     background: none;
     border: none;
     color: rgb(0, 55, 255);
     cursor: pointer;
-    z-index: 1100; /* Asegúrate de que el botón de hamburguesa esté por encima del sidebar */
-    transition: left 0.3s; /* Transición suave para la posición del botón de hamburguesa */
+    z-index: 1100;
+    transition: left 0.3s;
 }
 
 .hamburger:focus {
     outline: none;
 }
 
+/* Estilos para el logotipo en la barra lateral */
 .sidebar .logo {
     padding: 10px 15px;
-    text-align: center;
 }
 
 .sidebar .logo a {
@@ -98,15 +101,13 @@ body {
     justify-content: center;
 }
 
-.sidebar .logo i {
-    margin-right: 10px;
-}
-
-hr {
-    border: 1px solid rgb(255, 255, 255);
+/* Línea divisoria en la barra lateral */
+.sidebar hr {
+    border: 1px solid #fff;
     margin: 0 15px;
 }
 
+/* Estilos para el avatar en la barra lateral */
 .sidebar .avatar {
     text-align: center;
     margin: 20px 0;
@@ -118,13 +119,12 @@ hr {
     border-radius: 50%;
 }
 
+/* Estilos para listas en la barra lateral */
 .sidebar ul {
     list-style-type: none;
     padding: 0;
     flex-grow: 1;
 }
-
-
 
 .sidebar ul li a {
     color: white;
@@ -141,16 +141,10 @@ hr {
     width: 100%;
 }
 
-.nav-item{
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-}
-
 .sidebar ul li a i {
     margin-right: 10px;
-    width: 20px; /* Asegúrate de que los iconos tengan un ancho consistente */
-    text-align: center; /* Centra los iconos */
+    width: 20px;
+    text-align: center;
 }
 
 .sidebar ul li a span {
@@ -159,11 +153,12 @@ hr {
 
 .sidebar ul li a:hover,
 .sidebar ul li a.active {
-    background: rgb(255, 255, 255);
+    background: #fff;
     border-radius: 5px;
     color: black;
 }
 
+/* Estilos para el pie de página en la barra lateral */
 .sidebar .footer {
     padding: 10px 15px;
     text-align: center;
@@ -183,6 +178,7 @@ hr {
     vertical-align: middle;
 }
 
+/* Estilos para el contenido principal al activar la barra lateral */
 .main-content {
     margin-left: 0;
     transition: margin-left 0.3s;
@@ -193,112 +189,93 @@ hr {
 }
 
 .sidebar.active ~ .hamburger {
-    left: 265px; /* Ajusta este valor según el ancho del sidebar */
+    left: 265px;
 }
 
-
-/* Configuración del contenedor de punto de venta */
+/* Estilos para el contenedor del punto de venta */
 .pos-container {
     display: flex;
-    flex-direction: column; /* Disposición en columna */
-    padding: 100px; /* Espaciado interno */
-    background-color: hsl(0, 0%, 100%); /* Fondo del contenedor */
-    min-height: 100vh; /* Altura mínima de la ventana */
-    margin-left: 180px; /* Margen izquierdo */
-    margin-right: 300px; /* Margen derecho */
+    flex-direction: column;
+    padding: 100px;
+    background-color: hsl(0, 0%, 100%);
+    min-height: 100vh;
+    margin-left: 180px;
+    margin-right: 300px;
 }
 
-/* Configuración del encabezado */
-.header {
+.product-search {
     display: flex;
-    justify-content: space-between; /* Espaciado entre elementos */
-    align-items: center; /* Alineación central */
-    margin-bottom: 100px; /* Margen inferior */
-    width: 100%; /* Ancho completo */
-}
-
-.header .product-search {
-    flex-grow: 1; /* Ocupa el espacio disponible */
-    max-width: 600px; /* Ancho máximo */
+    align-items: center;
 }
 
 .product-search input[type="text"] {
-    flex-grow: 1; /* Ocupa el espacio disponible */
-    height: 40px; /* Altura */
-    border: 2px solid #ccc; /* Borde */
-    border-radius: 5px; /* Bordes redondeados */
-    padding: 0 10px; /* Espaciado interno */
-    font-size: 16px; /* Tamaño de fuente */
+    flex-grow: 1;
+    height: 40px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 0 10px;
+    font-size: 16px;
 }
 
 .product-search button {
-    height: 40px; /* Altura */
-    border: none; /* Sin borde */
-    background-color: #007bff; /* Fondo del botón */
-    color: #fff; /* Color del texto */
-    padding: 0 20px; /* Espaciado interno */
-    border-radius: 5px; /* Bordes redondeados */
-    margin-left: 10px; /* Margen izquierdo */
-    cursor: pointer; /* Cursor en forma de mano */
-    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+    height: 40px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    padding: 0 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .product-search button:hover {
-    background-color: #0056b3; /* Fondo al pasar el ratón */
+    background-color: #0056b3;
 }
 
 .product-search .search-icon {
-    position: absolute; /* Posición absoluta */
-    right: 10px; /* Desplazamiento desde la derecha */
-    background: none; /* Sin fondo */
-    border: none; /* Sin borde */
-    color: #b51f5b; /* Color del icono */
-    font-size: 20px; /* Tamaño de fuente */
-    cursor: pointer; /* Cursor en forma de mano */
+    background: none;
+    border: none;
+    color: #b51f5b;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 .product-search .search-icon:focus {
-    outline: none; /* Sin contorno al enfocar */
+    outline: none;
 }
 
-/* Configuración del contenedor interno del contenido principal */
+/* Estilos para el contenido interno principal */
 .main-content-inner {
     display: flex;
-    justify-content: space-between; /* Espaciado entre elementos */
+    justify-content: space-between;
 }
 
-/* Configuración de la tabla de productos */
+
 .product-table {
     width: 100%;
     border-collapse: collapse;
-    margin-right: 100px; /* Espacio derecho */
-    margin-bottom: 10px; /* Espacio inferior */
-     /* Ajuste del margen izquierdo */
-}
+    margin-right: 200px;
+    margin-bottom: 10px;
+    margin-top: 100px;
 
-
-.product-table thead th {
-    border-right: none; /* Elimina el borde derecho */
 }
 
 .product-table th,
 .product-table td {
-    border: 1px solid #040678; /* Borde de las celdas */
-    padding: 5px; /* Espaciado interno */
-    text-align: left; /* Alineación a la izquierda */
     border: none;
+    padding: 5px;
+    text-align: left;
 }
 
-/* Configuración de los encabezados de la tabla */
 .product-table th {
-    background-color: #7a5555; /* Fondo de los encabezados */
-    color: white; /* Color del texto */
+    background-color: #ffffff;
+    color: rgb(11, 11, 11);
 }
 
-/* Configuración de la barra lateral derecha */
+/* Estilos para la barra lateral derecha */
 .sidebar-content {
-    margin-left: 20px; /* Add margin to the left of the sidebar */
-    width: 300px; /* Fijar el ancho de la barra lateral */
+    margin-left: 20px;
+    width: 300px;
     position: fixed;
     right: 0;
     top: 0;
@@ -309,46 +286,47 @@ hr {
     overflow-y: auto;
 }
 
+/* Estilos para secciones específicas */
 .Descuento,
 .IVA,
 .totalVenta,
 .total {
-    margin-bottom: 20px; /* Margen inferior */
-    background-color: #f0f3f4; /* Fondo */
-    padding: 10px; /* Espaciado interno */
-    border-radius: 5px; /* Bordes redondeados */
-    font-size: 18px; /* Tamaño de fuente */
-    font-weight: bold; /* Texto en negrita */
-    color: black; /* Color del texto */
-    text-align: left; /* Alineación a la izquierda */
+    margin-bottom: 20px;
+    background-color: #f0f3f4;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    text-align: left;
 }
 
+/* Estilos para acciones */
 .actions {
     display: flex;
-    flex-direction: column; /* Disposición en columna */
-    gap: 10px; /* Espaciado entre botones */
+    flex-direction: column;
+    gap: 10px;
 }
 
 .actions .btn {
-    width: 100%; /* Ancho completo */
-    padding: 10px; /* Espaciado interno */
-    margin-bottom: 10px; /* Margen inferior */
-    border: none; /* Sin borde */
-    background-color: hsl(207, 94%, 51%); /* Fondo */
-    color: 0rgb(8, 13, 15); /* Color del texto */
-    border-radius: 5px; /* Bordes redondeados */
-    font-size: 16px; /* Tamaño de fuente */
-    font-weight: bold; /* Texto en negrita */
-    cursor: pointer; /* Cursor en forma de mano */
-    text-align: center; /* Alineación centrada */
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    background-color: hsl(207, 94%, 51%);
+    color: rgb(8, 13, 15);
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
 }
 
 .actions .btn:hover {
-    background-color: #ff007f; /* Fondo al pasar el ratón */
+    background-color: #ff007f;
 }
 
-/* Agregación de los estilos proporcionados */
-/* Estilos personalizados */
+/* Estilos para la entrada de cantidad */
 .quantity {
     display: flex;
     align-items: center;
@@ -356,11 +334,11 @@ hr {
 }
 
 .quantity input[type="number"] {
-    width: 50px; /* Ajustar el ancho según sea necesario */
-    text-align: center; /* Centrar el texto */
-    padding: 5px; /* Ajustar el espaciado interno */
-    border: 1px solid #ccc; /* Estilo del borde */
-    border-radius: 5px; /* Bordes redondeados */
+    width: 50px;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .quantity input[type="number"]::-webkit-outer-spin-button,
@@ -371,6 +349,6 @@ hr {
 
 .quantity input[type="number"]:focus {
     outline: none;
-    border-color: #007bff; /* Cambiar color del borde al enfocar */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Efecto de sombra al enfocar */
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
