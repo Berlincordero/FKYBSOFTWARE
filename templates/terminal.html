@@ -1,116 +1,76 @@
 {% extends 'base.html' %} {% block content %}
 <div class="pos-container mt-5">
-  <!-- Cabecera Roja -->
-  <div class="header-red">
-    <h1>FKYB SOFTWARE</h1>
-  </div>
-
-  <!-- Contenedor Principal -->
-  <div
-    class="main-content d-flex flex-column justify-content-start align-items-start"
-  >
-    <!-- Alineación vertical arriba -->
-    <!-- Sección Izquierda -->
-    <div class="section-left w-100">
-      <div
-        class="header mb-4 d-flex justify-content-between align-items-center w-100"
-      >
-        <h2 class="mb-0">
-          <!-- Icono de punto de venta añadido aquí -->
-          <i class="fas fa-cash-register"></i> Terminal 1
-          <!-- Puedes cambiar el icono modificando la clase 'fas fa-cash-register' -->
-        </h2>
-        <div class="product-search input-group rounded">
-          <input
-            type="text"
-            class="form-control rounded"
-            style="width: 500px"
-            placeholder="Producto (Busca por código o nombre)"
-            aria-label="Buscar Producto"
-            aria-describedby="button-addon2"
-          />
-          <button
-            class="btn btn-outline-secondary search-icon"
-            type="button"
-            id="button-addon2"
-          >
-            <i class="fa fa-search"></i>
-          </button>
-        </div>
-      </div>
-
-      <div class="table-container mt-5">
-        <!-- Añadir contenedor para la tabla -->
-        <table class="table table-striped product-table">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">Código</th>
-              <th scope="col">Descripción</th>
-              <th scope="col">Cant.</th>
-              <th scope="col">Unidad</th>
-              <th scope="col">Prec. Unid.</th>
-              <th scope="col">Impuesto.</th>
-              <th scope="col">Desc %</th>
-              <th scope="col">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <div class="code">
-                  <input
-                    type="text"
-                    class="form-control"
-                    value="45455555"
-                    min="1"
-                    max="100000000"
-                  />
+    <!-- Cabecera Roja -->
+    <div class="header-red">
+        <h1>FKYB SOFTWARE</h1>
+    </div>
+    
+    <!-- Contenedor Principal -->
+    <div class="main-content d-flex flex-column justify-content-start align-items-start"> <!-- Alineación vertical arriba -->
+        <!-- Sección Izquierda -->
+        <div class="section-left w-100">
+            <div class="header mb-4 d-flex justify-content-between align-items-center w-100">
+                <h2 class="mb-0">
+                    <!-- Icono de punto de venta añadido aquí -->
+                    <i class="fas fa-cash-register"></i> Terminal 1
+                    <!-- Puedes cambiar el icono modificando la clase 'fas fa-cash-register' -->
+                </h2>
+                <div class="product-search input-group rounded">
+                    <input type="text" class="form-control rounded" style="width: 500px;" placeholder="Producto (Busca por código o nombre)" aria-label="Buscar Producto" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary search-icon" type="button" id="button-addon2">
+                        <i class="fa fa-search"></i>
+                    </button>
                 </div>
-              </td>
-              <td>
-                <div class="Descripción">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="bisagra masaca 1x2 2 unid"
-                    aria-label="Descripción"
-                  />
-                </div>
-              </td>
-              <td>
-                <div class="quantity">
-                  <input
-                    type="number"
-                    class="form-control"
-                    value="1"
-                    min="1"
-                    max="100"
-                  />
-                </div>
-              </td>
-              <td>
-                <div class="form-group">
-                  <select class="form-control" aria-label="Unidad">
-                    <option value="kg">kg</option>
-                    <option value="mts">mts</option>
-                    <option value="unid">unid</option>
-                    <option value="litros">litros</option>
-                    <option value="gal">gal</option>
-                    <option value="cms">cms</option>
-                  </select>
-                </div>
-              </td>
-              <td>
-                <div class="precio unid">
-                  <input
-                    type="text"
-                    class="form-control col-2"
-                    value="4521"
-                    min="1"
-                    max="100000000"
-                  />
-                </div>
-              </td>
+            </div>
+            
+            <div class="table-container mt-5"> <!-- Añadir contenedor para la tabla -->
+                <table class="table table-striped product-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Código</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Cant.</th>
+                            <th scope="col">Unidad</th>
+                            <th scope="col">Prec. Unid.</th>
+                            <th scope="col">Impuesto.</th>
+                            <th scope="col">Desc %</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="code">
+                                    <input type="text" class="form-control" value="45455555" min="1"  max="100000000">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="bisagra masaca 1x2 2 unid" aria-label="Descripción">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="quantity">
+                                    <input type="number" class="form-control" value="1" min="1" max="100">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <select class="form-control" aria-label="Unidad">
+                                        <option value="kg">kg</option>
+                                        <option value="mts">mts</option>
+                                        <option value="unid">unid</option>
+                                        <option value="litros">litros</option>
+                                        <option value="gal">gal</option>
+                                        <option value="cms">cms</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="precio unid">
+                                    <input type="text" class="form-control col-2" value="4521" min="1" max="100000000">
+                                </div>
+                            </td>
 
               <td>
                 <div class="form-group">
