@@ -16,7 +16,7 @@
     min-height: 100vh;
 }
 .side-image{
-    background-image: url("img/banner.jpg");
+    background-image: url("/static/img/banner.jpg");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

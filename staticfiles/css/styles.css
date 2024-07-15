@@ -16,6 +16,14 @@ body {
     margin: 0;
     padding: 10px;
 }
+a{
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
+li{
+    list-style: none;
+}
 
 /* Estilos para un encabezado fijo con fondo rojo */
 .header-red {
@@ -199,11 +207,6 @@ body {
 }
 
 
-.nav-item{
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-}
 
 
 /* Estilos para el contenedor del punto de venta */
@@ -469,23 +472,3 @@ body {
 }
 
 
-/*nav bar*/
-
-.main {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    min-width: 0;
-    overflow: hidden;
-    transition: all 0.35s ease-in-out;
-    width: 100%;
-    background: var(--bs-dark-bg-subtle);
-}
-.avatar {
-    height: 40px;
-    width: 40px;
-}
-
-.navbar-expand .navbar-nav {
-    margin-left: auto;
-}
