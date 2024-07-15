@@ -22,20 +22,12 @@
   <body>
     <div class="sidebar" id="sidebar">
       <div class="logo">
-        <a href="#" class="simple-text">
+        <a href="{% url 'index' %}" class="simple-text">
           <span>Ferretería San Jerónimo</span>
         </a>
       </div>
       <hr />
       <ul class="nav flex-column">
-        <li class="nav-item p-2">
-          <a class="nav-link" href="#">
-            <div class="icon-text">
-              <i class="fa-solid fa-user"></i>
-              <span>Usuarios</span>
-            </div>
-          </a>
-        </li>
         <li class="nav-item p-2">
           <a class="nav-link" href="{% url 'pos_view' %}">
             <div class="icon-text">
@@ -44,6 +36,16 @@
             </div>
           </a>
         </li>
+
+        <li class="nav-item p-2">
+          <a class="nav-link " href="#">
+            <div class="icon-text">
+              <i class="fa-solid fa-user"></i>
+              <span>Usuarios</span>
+            </div>
+          </a>
+        </li>
+        
         <li class="nav-item p-2">
           <a class="nav-link" href="#">
             <div class="icon-text">
@@ -152,10 +154,10 @@
       function toggleSidebar() {
         var sidebar = document.getElementById("sidebar");
         var hamburger = document.getElementById("hamburger");
-        var mainContent = document.querySelector(".main-content");
+        
         sidebar.classList.toggle("active");
         hamburger.classList.toggle("active");
-        mainContent.classList.toggle("active");
+        
       }
     </script>
     {% block extra_scripts %} {% endblock %}

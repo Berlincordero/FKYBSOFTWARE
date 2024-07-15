@@ -53,7 +53,7 @@ body {
     position: fixed;
     top: 0;
     left: -250px;
-    background: linear-gradient(180deg, #072fc0, #044159);
+    background: linear-gradient(180deg, #2a2c36, #044159);
     color: white;
     overflow-y: auto;
     padding-top: 20px;
@@ -76,7 +76,7 @@ body {
     font-size: 24px;
     background: none;
     border: none;
-    color: rgb(0, 55, 255);
+    color: #2a2c36;
     cursor: pointer;
     z-index: 1100;
     transition: left 0.3s;
@@ -153,7 +153,7 @@ body {
 
 .sidebar ul li a:hover,
 .sidebar ul li a.active {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.8); /* Transparencia del hover */
     border-radius: 5px;
     color: black;
 }
@@ -184,13 +184,27 @@ body {
     transition: margin-left 0.3s;
 }
 
-.sidebar.active ~ .main-content {
+.sidebar.active + .main-content {
     margin-left: 250px;
 }
 
-.sidebar.active ~ .hamburger {
-    left: 265px;
+.sidebar.active + .hamburger {
+    left: 265px; /* Ajusta este valor según el ancho del sidebar */
 }
+
+.nav-item{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+
+.nav-item{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
 
 /* Estilos para el contenedor del punto de venta */
 .pos-container {

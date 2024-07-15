@@ -1,0 +1,376 @@
+/* POPPINS FONT */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    
+}
+
+body {
+    
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 10;
+}
+
+.header-red {
+    position: fixed;
+    top: 0px; /* Ajusta la distancia desde la parte superior según necesites */
+    left: 300px;
+    right: 85;
+    background-color: #e03f3f; /* Color de fondo del encabezado */
+    padding: 20px;
+    z-index: 1000; /* Ajusta el z-index si es necesario */
+    width: 65.2%; /* Opcional: asegura que el encabezado ocupe todo el ancho */
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+}
+
+.pos-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #e84646; /* Color de fondo del contenedor principal */
+    min-height: 100vh;
+}
+/* Configuración de la barra lateral */
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    background: linear-gradient(180deg, #072fc0, #044159);
+    color: white;
+    overflow-y: auto;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: left 0.3s;
+    z-index: 1000;
+}
+
+
+.sidebar.active {
+    left: 0;
+}
+
+.hamburger {
+    position: fixed;
+    top: 15px;
+    left: 15px; /* Ajusta este valor según sea necesario */
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: rgb(255, 0, 0);
+    cursor: pointer;
+    z-index: 1100; /* Asegúrate de que el botón de hamburguesa esté por encima del sidebar */
+    transition: left 0.3s; /* Transición suave para la posición del botón de hamburguesa */
+}
+
+.hamburger:focus {
+    outline: none;
+}
+
+.sidebar .logo {
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.sidebar .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar .logo i {
+    margin-right: 10px;
+}
+
+hr {
+    border: 1px solid rgb(255, 255, 255);
+    margin: 0 15px;
+}
+
+.sidebar .avatar {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.sidebar .avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    flex-grow: 1;
+}
+
+
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar ul li a .icon-text {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.nav-item{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+.sidebar ul li a i {
+    margin-right: 10px;
+    width: 20px; /* Asegúrate de que los iconos tengan un ancho consistente */
+    text-align: center; /* Centra los iconos */
+}
+
+.sidebar ul li a span {
+    text-align: left;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background: rgb(255, 255, 255);
+    border-radius: 5px;
+    color: black;
+}
+
+.sidebar .footer {
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.sidebar .footer a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin: 5px 0;
+}
+
+.sidebar .footer a i {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.main-content {
+    margin-left: 0;
+    transition: margin-left 0.3s;
+}
+
+.sidebar.active ~ .main-content {
+    margin-left: 250px;
+}
+
+.sidebar.active ~ .hamburger {
+    left: 265px; /* Ajusta este valor según el ancho del sidebar */
+}
+
+
+/* Configuración del contenedor de punto de venta */
+.pos-container {
+    display: flex;
+    flex-direction: column; /* Disposición en columna */
+    padding: 100px; /* Espaciado interno */
+    background-color: hsl(0, 0%, 100%); /* Fondo del contenedor */
+    min-height: 100vh; /* Altura mínima de la ventana */
+    margin-left: 180px; /* Margen izquierdo */
+    margin-right: 300px; /* Margen derecho */
+}
+
+/* Configuración del encabezado */
+.header {
+    display: flex;
+    justify-content: space-between; /* Espaciado entre elementos */
+    align-items: center; /* Alineación central */
+    margin-bottom: 100px; /* Margen inferior */
+    width: 100%; /* Ancho completo */
+}
+
+.header .product-search {
+    flex-grow: 1; /* Ocupa el espacio disponible */
+    max-width: 600px; /* Ancho máximo */
+}
+
+.product-search input[type="text"] {
+    flex-grow: 1; /* Ocupa el espacio disponible */
+    height: 40px; /* Altura */
+    border: 2px solid #ccc; /* Borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 0 10px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+}
+
+.product-search button {
+    height: 40px; /* Altura */
+    border: none; /* Sin borde */
+    background-color: #007bff; /* Fondo del botón */
+    color: #fff; /* Color del texto */
+    padding: 0 20px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-left: 10px; /* Margen izquierdo */
+    cursor: pointer; /* Cursor en forma de mano */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+}
+
+.product-search button:hover {
+    background-color: #0056b3; /* Fondo al pasar el ratón */
+}
+
+.product-search .search-icon {
+    position: absolute; /* Posición absoluta */
+    right: 10px; /* Desplazamiento desde la derecha */
+    background: none; /* Sin fondo */
+    border: none; /* Sin borde */
+    color: #b51f5b; /* Color del icono */
+    font-size: 20px; /* Tamaño de fuente */
+    cursor: pointer; /* Cursor en forma de mano */
+}
+
+.product-search .search-icon:focus {
+    outline: none; /* Sin contorno al enfocar */
+}
+
+/* Configuración del contenedor interno del contenido principal */
+.main-content-inner {
+    display: flex;
+    justify-content: space-between; /* Espaciado entre elementos */
+}
+
+/* Configuración de la tabla de productos */
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-right: 100px; /* Espacio derecho */
+    margin-bottom: 10px; /* Espacio inferior */
+     /* Ajuste del margen izquierdo */
+}
+
+
+.product-table thead th {
+    border-right: none; /* Elimina el borde derecho */
+}
+
+.product-table th,
+.product-table td {
+    border: 1px solid #040678; /* Borde de las celdas */
+    padding: 5px; /* Espaciado interno */
+    text-align: left; /* Alineación a la izquierda */
+    border: none;
+}
+
+/* Configuración de los encabezados de la tabla */
+.product-table th {
+    background-color: #7a5555; /* Fondo de los encabezados */
+    color: white; /* Color del texto */
+}
+
+/* Configuración de la barra lateral derecha */
+.sidebar-content {
+    margin-left: 20px; /* Add margin to the left of the sidebar */
+    width: 300px; /* Fijar el ancho de la barra lateral */
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background-color: #494c4c;
+    padding: 20px;
+    border-left: 1px solid #2405a2;
+    overflow-y: auto;
+}
+
+.Descuento,
+.IVA,
+.totalVenta,
+.total {
+    margin-bottom: 20px; /* Margen inferior */
+    background-color: #f0f3f4; /* Fondo */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 18px; /* Tamaño de fuente */
+    font-weight: bold; /* Texto en negrita */
+    color: black; /* Color del texto */
+    text-align: left; /* Alineación a la izquierda */
+}
+
+.actions {
+    display: flex;
+    flex-direction: column; /* Disposición en columna */
+    gap: 10px; /* Espaciado entre botones */
+}
+
+.actions .btn {
+    width: 100%; /* Ancho completo */
+    padding: 10px; /* Espaciado interno */
+    margin-bottom: 10px; /* Margen inferior */
+    border: none; /* Sin borde */
+    background-color: hsl(207, 94%, 51%); /* Fondo */
+    color: 0rgb(8, 13, 15); /* Color del texto */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente */
+    font-weight: bold; /* Texto en negrita */
+    cursor: pointer; /* Cursor en forma de mano */
+    text-align: center; /* Alineación centrada */
+}
+
+.actions .btn:hover {
+    background-color: #ff007f; /* Fondo al pasar el ratón */
+}
+
+/* Agregación de los estilos proporcionados */
+/* Estilos personalizados */
+.quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity input[type="number"] {
+    width: 50px; /* Ajustar el ancho según sea necesario */
+    text-align: center; /* Centrar el texto */
+    padding: 5px; /* Ajustar el espaciado interno */
+    border: 1px solid #ccc; /* Estilo del borde */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.quantity input[type="number"]::-webkit-outer-spin-button,
+.quantity input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity input[type="number"]:focus {
+    outline: none;
+    border-color: #007bff; /* Cambiar color del borde al enfocar */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Efecto de sombra al enfocar */
+}
