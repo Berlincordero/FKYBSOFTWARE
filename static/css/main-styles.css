@@ -1,129 +1,85 @@
-/* Importación de la fuente Poppins desde Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-/* Estilos globales para todos los elementos */
-* {
-    margin: 0;
-    padding: 0;
+*, ::after,::before{
     box-sizing: border-box;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    opacity: 1;
+    overflow-y: scroll;
+    margin: 0;
+}
+
+a{
+    cursor: pointer;
+    text-decoration: none;
     font-family: 'Poppins', sans-serif;
 }
 
-/* Estilos para el cuerpo del documento */
-body {
-    background-color: var(--background-color);
-    color: var(--text-color);
-    margin: 0;
-    padding: 10px;
+li{
+    list-style: none;
 }
 
-/* Estilos para un encabezado fijo con fondo rojo */
-.header-red {
-    position: fixed;
-    top: 0;
-    left: 300px;
-    right: 85px;
-    background-color: #e03f3f;
-    padding: 20px;
-    z-index: 1000;
-    width: 65.2%;
-}
+/* layout dashboard*/
 
-/* Estilos para un encabezado flexible */
-.header {
+.wrapper{
+    align-items: stretch;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 50px;
+    width: 100%;
 }
 
-/* Estilos para el contenedor principal */
-.pos-container {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background-color: #e84646;
-    min-height: 100vh;
-}
-
-/* Estilos para la barra lateral */
-.sidebar {
-    height: 100%;
-    width: 250px;
-    position: fixed;
-    top: 0;
-    left: -250px;
+#sidebar{
+    max-width: 264px;
+    min-width: 264px;
     background: linear-gradient(180deg, #2a2c36, #044159);
-    color: white;
-    overflow-y: auto;
-    padding-top: 20px;
+    
+    transition: 0.5s ease-in-out;
+}
+
+.main{
     display: flex;
     flex-direction: column;
-    transition: left 0.3s;
-    z-index: 1000;
+    min-height: 100vh;
+    min-width: 0;
+    overflow: hidden;
+    transition: all 0.35 ease-in-out;
+    width: 100%;
+    background: var(--bs-dark-bg-subtle);
 }
 
-/* Estilos para la barra lateral cuando está activa */
-.sidebar.active {
-    left: 0;
+/* sidebar  elements style */
+
+.sidebar-logo{
+    padding: 1.5rem;
 }
 
-/* Estilos para el botón de hamburguesa */
-.hamburger {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    font-size: 24px;
-    background: none;
-    border: none;
-    color: #2a2c36;
-    cursor: pointer;
-    z-index: 1100;
-    transition: left 0.3s;
-}
-
-.hamburger:focus {
-    outline: none;
-}
-
-/* Estilos para el logotipo en la barra lateral */
-.sidebar .logo {
-    padding: 10px 15px;
-}
-
-.sidebar .logo a {
+.sidebar-logo a{
     color: white;
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 1.15rem;
+    font-weight: 600;
 }
 
-/* Línea divisoria en la barra lateral */
-.sidebar hr {
-    border: 1px solid #fff;
-    margin: 0 15px;
-}
-
-/* Estilos para el avatar en la barra lateral */
-.sidebar .avatar {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.sidebar .avatar img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-}
-
-/* Estilos para listas en la barra lateral */
-.sidebar ul {
-    list-style-type: none;
-    padding: 0;
+.sidebar-nav{
     flex-grow: 1;
+    list-style: none;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-left: 0;
+}
+.sidebar-header {
+    color: #e9ecef;
+    font-size: .75rem;
+    padding: 1.5rem 1.5rem .375rem;
+}
+
+a.sidebar-link {
+    padding: .625rem 1.625rem;
+    color: #e9ecef;
+    position: relative;
+    display: block;
+    font-size: 0.875rem;
 }
 
 .sidebar ul li a {
@@ -163,14 +119,14 @@ body {
     padding: 10px 15px;
     text-align: center;
     font-size: 12px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 .sidebar .footer a {
     color: white;
     text-decoration: none;
     display: block;
-    margin: 5px 0;
+    
 }
 
 .sidebar .footer a i {
@@ -178,31 +134,140 @@ body {
     vertical-align: middle;
 }
 
-/* Estilos para el contenido principal al activar la barra lateral */
-.main-content {
-    margin-left: 0;
-    transition: margin-left 0.3s;
-}
-
-.sidebar.active + .main-content {
-    margin-left: 250px;
-}
-
-.sidebar.active + .hamburger {
-    left: 265px; /* Ajusta este valor según el ancho del sidebar */
-}
-
-.nav-item{
+.sidebar-item{
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 5px;
 }
 
+.sidebar-link[data-bs-toggle="collapse"]::after {
+    border: solid;
+    border-width: 0 .075rem .075rem 0;
+    content: "";
+    display: inline-block;
+    padding: 2px;
+    position: absolute;
+    right: 1.5rem;
+    top: 1.4rem;
+    transform: rotate(-135deg);
+    transition: all .2s ease-out;
+}
 
-.nav-item{
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
+.sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+    transform: rotate(45deg);
+    transition: all .2s ease-out;
+}
+
+#sidebar.collapsed {
+    margin-left: -264px;
+    transition: 0.5s ease-in-out;
+}
+
+.avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+
+.sub-menu-wrap{
+    position: absolute;
+    top: 100%;
+    right: 10%;
+    width: 320px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-heigth 0.5s;
+}
+
+.sub-menu-wrap.open-menu{
+    max-height: 400px;
+}
+
+.sub-menu{
+    background: white;
+    padding: 20px;
+    margin: 10px;
+}
+
+.user-info{
+    display: flex;
+    align-items: center;
+}
+.user-info h3{
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.user-info img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+.sub-menu hr{
+    border: 0;
+    height: 1px;
+    width: 100%;
+    background: #2a2c36;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.sub-menu-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: gray;
+    margin: 12px 0;
+}
+.sub-menu-link i{
+    font-size: 20px;
+}
+.sub-menu-link p{
+    font-size: 20px;
+    width: 100%;
+    font-weight: 200;
+}
+.sub-menu-link:hover p{
+    font-weight: 500;
+}
+
+.navbar-expand .navbar-nav {
+    margin-left: auto;
+    
+}
+
+
+/*POS*/
+
+/* Estilos para un encabezado fijo con fondo rojo */
+.header-red {
+    position: fixed;
+    top: 0;
+    left: 300px;
+    right: 85px;
+    background-color: #e03f3f;
+    padding: 20px;
+    z-index: 1000;
+    width: 65.2%;
+}
+
+/* Estilos para un encabezado flexible */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+}
+
+/* Estilos para el contenedor principal */
+.pos-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #e84646;
+    min-height: 100vh;
 }
 
 
@@ -466,26 +531,4 @@ body {
     height: 40px; /* Ajusta la altura del select para que coincida con los otros inputs */
     width: 100%; /* Asegura que el select ocupe todo el espacio disponible */
     font-size: 16px; /* Ajusta el tamaño de la fuente según sea necesario */
-}
-
-
-/*nav bar*/
-
-.main {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    min-width: 0;
-    overflow: hidden;
-    transition: all 0.35s ease-in-out;
-    width: 100%;
-    background: var(--bs-dark-bg-subtle);
-}
-.avatar {
-    height: 40px;
-    width: 40px;
-}
-
-.navbar-expand .navbar-nav {
-    margin-left: auto;
 }

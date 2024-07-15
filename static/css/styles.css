@@ -16,6 +16,14 @@ body {
     margin: 0;
     padding: 10px;
 }
+a{
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
+li{
+    list-style: none;
+}
 
 /* Estilos para un encabezado fijo con fondo rojo */
 .header-red {
@@ -199,11 +207,6 @@ body {
 }
 
 
-.nav-item{
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-}
 
 
 /* Estilos para el contenedor del punto de venta */
@@ -467,3 +470,5 @@ body {
     width: 100%; /* Asegura que el select ocupe todo el espacio disponible */
     font-size: 16px; /* Ajusta el tamaño de la fuente según sea necesario */
 }
+
+
