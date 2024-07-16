@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-*, ::after, ::before {
+*, ::after,::before{
     box-sizing: border-box;
 }
 
-body {
+body{
     font-family: 'Poppins', sans-serif;
     font-size: 0.875rem;
     opacity: 1;
@@ -12,60 +12,61 @@ body {
     margin: 0;
 }
 
-a {
+a{
     cursor: pointer;
     text-decoration: none;
     font-family: 'Poppins', sans-serif;
 }
 
-li {
+li{
     list-style: none;
 }
 
-/* layout dashboard */
-.wrapper {
+/* Estilos dashboard*/
+
+.wrapper{
     align-items: stretch;
     display: flex;
     width: 100%;
 }
 
-#sidebar {
+#sidebar{
     max-width: 264px;
     min-width: 264px;
     background: linear-gradient(180deg, #2a2c36, #044159);
     transition: 0.5s ease-in-out;
 }
 
-.main {
+.main{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     min-width: 0;
     overflow: hidden;
-    transition: all 0.35s ease-in-out;
+    transition: all 0.35 ease-in-out;
     width: 100%;
     background: var(--bs-dark-bg-subtle);
 }
 
-/* sidebar elements style */
-.sidebar-logo {
+/* sidebar  elements style */
+
+.sidebar-logo{
     padding: 1.5rem;
 }
 
-.sidebar-logo a {
+.sidebar-logo a{
     color: white;
     font-size: 1.15rem;
     font-weight: 600;
 }
 
-.sidebar-nav {
+.sidebar-nav{
     flex-grow: 1;
     list-style: none;
     margin-bottom: 0;
     margin-left: 0;
     padding-left: 0;
 }
-
 .sidebar-header {
     color: #e9ecef;
     font-size: .75rem;
@@ -107,7 +108,7 @@ a.sidebar-link {
 
 .sidebar ul li a:hover,
 .sidebar ul li a.active {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.8); /* Transparencia del hover */
     border-radius: 5px;
     color: black;
 }
@@ -124,6 +125,7 @@ a.sidebar-link {
     color: white;
     text-decoration: none;
     display: block;
+    
 }
 
 .sidebar .footer a i {
@@ -131,7 +133,7 @@ a.sidebar-link {
     vertical-align: middle;
 }
 
-.sidebar-item {
+.sidebar-item{
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 5px;
@@ -166,44 +168,43 @@ a.sidebar-link {
     border-radius: 50%;
 }
 
-.sub-menu-wrap {
+
+.sub-menu-wrap{
     position: absolute;
     top: 100%;
     right: 10%;
     width: 320px;
     max-height: 0px;
     overflow: hidden;
-    transition: max-height 0.5s;
+    transition: max-heigth 0.5s;
 }
 
-.sub-menu-wrap.open-menu {
+.sub-menu-wrap.open-menu{
     max-height: 400px;
 }
 
-.sub-menu {
+.sub-menu{
     background: white;
     padding: 20px;
     margin: 10px;
 }
 
-.user-info {
+.user-info{
     display: flex;
     align-items: center;
 }
-
-.user-info h3 {
+.user-info h3{
     font-weight: 300;
     font-size: 20px;
 }
 
-.user-info img {
+.user-info img{
     height: 50px;
     width: 50px;
     border-radius: 50%;
     margin-right: 15px;
 }
-
-.sub-menu hr {
+.sub-menu hr{
     border: 0;
     height: 1px;
     width: 100%;
@@ -212,33 +213,32 @@ a.sidebar-link {
     margin-bottom: 10px;
 }
 
-.sub-menu-link {
+.sub-menu-link{
     display: flex;
     align-items: center;
     text-decoration: none;
     color: gray;
     margin: 12px 0;
 }
-
-.sub-menu-link i {
+.sub-menu-link i{
     font-size: 20px;
 }
-
-.sub-menu-link p {
+.sub-menu-link p{
     font-size: 20px;
     width: 100%;
     font-weight: 200;
 }
-
-.sub-menu-link:hover p {
+.sub-menu-link:hover p{
     font-weight: 500;
 }
 
 .navbar-expand .navbar-nav {
     margin-left: auto;
+    
 }
 
-/* POS */
+
+/*POS*/
 
 /* Estilos para un encabezado fijo con fondo rojo */
 .header-red {
@@ -261,6 +261,26 @@ a.sidebar-link {
 }
 
 /* Estilos para el contenedor principal */
+.pos-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #e84646;
+    min-height: 100vh;
+}
+
+
+/* Estilos para el contenedor del punto de venta */
+.pos-container {
+    display: flex;
+    flex-direction: column;
+    padding: 100px;
+    background-color: hsl(0, 0%, 100%);
+    min-height: 100vh;
+    margin-left: 180px;
+    margin-right: 300px;
+}
+
 .product-search {
     display: flex;
     align-items: center;
@@ -309,9 +329,9 @@ a.sidebar-link {
 }
 
 .product-table {
-    width: 80%;
+    width: 100%;
     border-collapse: collapse;
-    margin-right: 0;
+    margin-right: 200px;
     margin-bottom: 10px;
     margin-top: 100px;
 }
@@ -334,10 +354,6 @@ a.sidebar-link {
 .product-table tr:not(:first-child) td {
     border-bottom: 1px solid #ccc;
     border-radius: 25px;
-}
-
-#product-table {
-    display: none;
 }
 
 /* Estilos para la entrada de cantidad */
@@ -388,235 +404,130 @@ a.sidebar-link {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-/* Estilos para la entrada de precio */
-.precio {
+/* Estilos para la entrada de descripción */
+.descripcion {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.precio input[type="text"] {
-    width: 100px;
-    text-align: right;
+.descripcion input[type="text"] {
+    width: 200px;
+    text-align: left;
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-.precio input[type="text"]:focus {
+.descripcion input[type="text"]:focus {
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-/* Estilos para la cantidad total */
-.total-quantity {
+/* Estilos para el select de unidad */
+.unidad-select {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.total-quantity input[type="number"] {
-    width: 70px;
-    text-align: center;
+.unidad-select select {
+    border-radius: 35px;
+    border: 1px solid #110f0f;
     padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.total-quantity input[type="number"]::-webkit-outer-spin-button,
-.total-quantity input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.total-quantity input[type="number"]:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-/* Estilos para el botón "Calcular" */
-.calculate-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.calculate-button:hover {
-    background-color: #0056b3;
-}
-
-/* Estilos para el cuadro de totales */
-.total-box {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.total-box p {
-    margin: 0;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-/* Estilos para el cuadro de totales de las secciones de precio */
-.total-box .section-total {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-/* Estilos para el botón "Añadir Producto" */
-.add-product-button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-left: 15px;
-}
-
-.add-product-button:hover {
-    background-color: #218838;
-}
-
-/* Estilos para la barra lateral */
-.sidebar {
-    background-color: #2c3e50;
-    width: 250px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: all 0.3s;
-}
-
-.sidebar .sidebar-logo {
-    padding: 15px;
-    color: white;
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    background-color: #000000;
-}
-
-.sidebar ul {
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar ul li {
-    list-style: none;
-}
-
-.sidebar ul li a {
-    display: flex;
-    align-items: center;
-    color: white;
-    text-decoration: none;
-    padding: 15px;
-    transition: all 0.3s;
-}
-
-.sidebar ul li a:hover {
-    background-color: #34495e;
-}
-
-.sidebar ul li a i {
-    margin-right: 10px;
-}
-
-.sidebar ul li a span {
-    flex-grow: 1;
-}
-
-.sidebar ul li.active a {
-    background-color: #1abc9c;
-}
-
-/* Estilos para el pie de página de la barra lateral */
-.sidebar .footer {
-    padding: 15px;
-    text-align: center;
-    font-size: 14px;
-    background-color: #000000;
-}
-
-/* Añadir efectos de transición y animación */
-.sidebar ul li a,
-.sidebar ul li a i,
-.sidebar ul li a span {
-    transition: all 0.3s;
-}
-
-.sidebar ul li a:hover i,
-.sidebar ul li a:hover span {
-    color: #1abc9c;
-}
-
-/* Añadir una animación para el ícono en la barra lateral */
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-10px);
-    }
-    60% {
-        transform: translateY(-5px);
-    }
-}
-
-.sidebar ul li a:hover i {
-    animation: bounce 1s;
-}
-
-/* Ocultar la barra lateral cuando se hace clic en el botón de hamburguesa */
-.sidebar.hide {
-    transform: translateX(-100%);
-}
-
-.sidebar.show {
-    transform: translateX(0);
-}
-
-/* Estilos para el botón de hamburguesa */
-.hamburger {
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-}
-
-.hamburger div {
-    width: 25px;
-    height: 3px;
     background-color: white;
-    margin: 4px 0;
-    transition: all 0.3s;
+    height: 40px;
+    width: 100%;
+    font-size: 16px;
 }
 
-.hamburger.active div:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+/* Estilos para la entrada de precio unitario */
+.precio-unidad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.hamburger.active div:nth-child(2) {
-    opacity: 0;
+.precio-unidad input[type="text"] {
+    width: 100px;
+    text-align: left;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-.hamburger.active div:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
+.precio-unidad input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilos para la entrada de descuento */
+.descuento {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.descuento input[type="text"] {
+    width: 100px;
+    text-align: left;
+    padding: 5px;
+    border: 1px solid #eeeeee;
+    border-radius: 25px;
+}
+
+.descuento input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilos para la entrada de total */
+.total {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.total input[type="text"] {
+    width: 100px;
+    text-align: left;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.total input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilos para el icono de terminal */
+.header h2 .fas.fa-terminal {
+    margin-right: 10px; /* Espacio entre el icono y el texto */
+    font-size: 44px;    /* Tamaño del icono */
+    vertical-align: middle; /* Alineación vertical */
+    color: #510f03; /* Color del icono */
+}
+
+
+/* Estilos para el icono de terminal */
+.header h2 .fas.fa-terminal {
+    margin-right: 10px; /* Espacio entre el icono y el texto */
+    font-size: 44px;    /* Tamaño del icono */
+    vertical-align: middle; /* Alineación vertical */
+    color: #510f03; /* Color del icono */
+}
+ Estilos para el select de unidad */
+.unidad-select {
+    border-radius: 35px; /* Ajusta el radio del borde según sea necesario */
+    border: 1px solid #110f0f; /* Ajusta el color del borde según sea necesario */
+    padding: 5px; /* Añade padding para un mejor aspecto */
+    background-color: white; /* Ajusta el color de fondo según sea necesario */
+    height: 40px; /* Ajusta la altura del select para que coincida con los otros inputs */
+    width: 100%; /* Asegura que el select ocupe todo el espacio disponible */
+    font-size: 16px; /* Ajusta el tamaño de la fuente según sea necesario */
 }
