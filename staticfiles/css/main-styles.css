@@ -22,7 +22,7 @@ li{
     list-style: none;
 }
 
-/* layout dashboard*/
+/* Estilos dashboard*/
 
 .wrapper{
     align-items: stretch;
@@ -33,7 +33,7 @@ li{
 #sidebar{
     max-width: 264px;
     min-width: 264px;
-    background: linear-gradient(180deg, #2a2c36, #044159);
+    background: linear-gradient(180deg, #465bc7, #044159);
     
     transition: 0.5s ease-in-out;
 }
@@ -209,7 +209,7 @@ a.sidebar-link {
     border: 0;
     height: 1px;
     width: 100%;
-    background: #2a2c36;
+    background: #1a3eee;
     margin-top: 15px;
     margin-bottom: 10px;
 }
@@ -348,7 +348,7 @@ a.sidebar-link {
 .product-table th {
     background-color: #ffffff;
     color: rgb(11, 11, 11);
-    border-bottom: 2px solid #000; /* Borde inferior para los encabezados */
+    border-bottom: 2px solid #2f0e8a; /* Borde inferior para los encabezados */
 }
 
 /* Borde inferior para todas las filas a partir de la segunda */
@@ -417,7 +417,7 @@ a.sidebar-link {
     text-align: left;
     padding: 5px;
     border: 1px solid #ccc;
-    border-radius: 25px;
+    border-radius: 5px;
 }
 
 .descripcion input[type="text"]:focus {
