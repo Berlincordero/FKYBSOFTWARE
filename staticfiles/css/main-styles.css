@@ -417,7 +417,7 @@ a.sidebar-link {
     text-align: left;
     padding: 5px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 25px;
 }
 
 .descripcion input[type="text"]:focus {

@@ -262,25 +262,7 @@ a.sidebar-link {
 }
 
 /* Estilos para el contenedor principal */
-.pos-container {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background-color: #e84646;
-    min-height: 100vh;
-}
 
-
-/* Estilos para el contenedor del punto de venta */
-.pos-container {
-    display: flex;
-    flex-direction: column;
-    padding: 100px;
-    background-color: hsl(0, 0%, 100%);
-    min-height: 100vh;
-    margin-left: 180px;
-    margin-right: 300px;
-}
 
 .product-search {
     display: flex;
