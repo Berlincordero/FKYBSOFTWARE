@@ -38,6 +38,7 @@ li{
 }
 
 .main{
+    position: relative;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -45,7 +46,8 @@ li{
     overflow: hidden;
     transition: all 0.35 ease-in-out;
     width: 100%;
-    background: var(--bs-dark-bg-subtle);
+    background: white;
+    
 }
 
 /* sidebar  elements style */
@@ -174,9 +176,10 @@ a.sidebar-link {
     top: 100%;
     right: 10%;
     width: 320px;
-    max-height: 0px;
+    max-height: 0;
     overflow: hidden;
     transition: max-heigth 0.5s;
+    z-index: 1000;
 }
 
 .sub-menu-wrap.open-menu{
@@ -530,4 +533,95 @@ a.sidebar-link {
     height: 40px; /* Ajusta la altura del select para que coincida con los otros inputs */
     width: 100%; /* Asegura que el select ocupe todo el espacio disponible */
     font-size: 16px; /* Ajusta el tamaño de la fuente según sea necesario */
+}
+
+
+/* Estilo modulo Usuarios */
+
+.dropdown-container {
+    position: relative; /* Asegúrate de que esté establecido */
+    display: inline-block;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #333;
+    padding: 0; 
+    margin: 0; 
+}
+
+.options-wrap {
+    position: absolute;
+    top: 50%; 
+    left: 100%; 
+    width: 200px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+    
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    background: #fff;
+    border-radius: 8px;
+}
+
+.options-wrap.open-options {
+    max-height: 200px; 
+}
+
+.subOptions {
+    padding: 10px;
+}
+
+.sub-option-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: gray;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.sub-option-link:hover {
+    background-color: #f1f1f1; 
+}
+
+.sub-option-link i {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.sub-option-link p {
+    margin: 0;
+    font-size: 16px;
+    width: 100%;
+    font-weight: 400;
+}
+
+
+.modal {
+    z-index: 1050; /* Valor por defecto de Bootstrap */
+}
+.modal-backdrop {
+    z-index: 1040; /* Valor por defecto de Bootstrap */
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
 }

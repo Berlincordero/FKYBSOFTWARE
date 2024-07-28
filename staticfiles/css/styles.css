@@ -1,86 +1,137 @@
+/* Importación de la fuente Poppins desde Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-*, ::after,::before{
-    box-sizing: border-box;
-}
-
-body{
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.875rem;
-    opacity: 1;
-    overflow-y: scroll;
+/* Estilos globales para todos los elementos */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
+/* Estilos para el cuerpo del documento */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 10px;
+}
 a{
     cursor: pointer;
     text-decoration: none;
     font-family: 'Poppins', sans-serif;
 }
-
 li{
     list-style: none;
 }
 
-/* Estilos dashboard*/
+/* Estilos para un encabezado fijo con fondo rojo */
+.header-red {
+    position: fixed;
+    top: 0;
+    left: 300px;
+    right: 85px;
+    background-color: #e03f3f;
+    padding: 20px;
+    z-index: 1000;
+    width: 65.2%;
+}
 
-.wrapper{
-    align-items: stretch;
+/* Estilos para un encabezado flexible */
+.header {
     display: flex;
-    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
 }
 
-#sidebar{
-    max-width: 264px;
-    min-width: 264px;
-    background: linear-gradient(180deg, #2a2c36, #044159);
-    transition: 0.5s ease-in-out;
-}
-
-.main{
-    position: relative;
+/* Estilos para el contenedor principal */
+.pos-container {
     display: flex;
     flex-direction: column;
+    padding: 20px;
+    background-color: #e84646;
     min-height: 100vh;
-    min-width: 0;
-    overflow: hidden;
-    transition: all 0.35 ease-in-out;
-    width: 100%;
-    background: white;
-    z-index: 1;
 }
 
-/* sidebar  elements style */
-
-.sidebar-logo{
-    padding: 1.5rem;
-}
-
-.sidebar-logo a{
+/* Estilos para la barra lateral */
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    background: linear-gradient(180deg, #2a2c36, #044159);
     color: white;
-    font-size: 1.15rem;
-    font-weight: 600;
+    overflow-y: auto;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: left 0.3s;
+    z-index: 1000;
 }
 
-.sidebar-nav{
+/* Estilos para la barra lateral cuando está activa */
+.sidebar.active {
+    left: 0;
+}
+
+/* Estilos para el botón de hamburguesa */
+.hamburger {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #2a2c36;
+    cursor: pointer;
+    z-index: 1100;
+    transition: left 0.3s;
+}
+
+.hamburger:focus {
+    outline: none;
+}
+
+/* Estilos para el logotipo en la barra lateral */
+.sidebar .logo {
+    padding: 10px 15px;
+}
+
+.sidebar .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Línea divisoria en la barra lateral */
+.sidebar hr {
+    border: 1px solid #fff;
+    margin: 0 15px;
+}
+
+/* Estilos para el avatar en la barra lateral */
+.sidebar .avatar {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.sidebar .avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+/* Estilos para listas en la barra lateral */
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
     flex-grow: 1;
-    list-style: none;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-left: 0;
-}
-.sidebar-header {
-    color: #e9ecef;
-    font-size: .75rem;
-    padding: 1.5rem 1.5rem .375rem;
-}
-
-a.sidebar-link {
-    padding: .625rem 1.625rem;
-    color: #e9ecef;
-    position: relative;
-    display: block;
-    font-size: 0.875rem;
 }
 
 .sidebar ul li a {
@@ -120,14 +171,14 @@ a.sidebar-link {
     padding: 10px 15px;
     text-align: center;
     font-size: 12px;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
 }
 
 .sidebar .footer a {
     color: white;
     text-decoration: none;
     display: block;
-    
+    margin: 5px 0;
 }
 
 .sidebar .footer a i {
@@ -135,142 +186,27 @@ a.sidebar-link {
     vertical-align: middle;
 }
 
-.sidebar-item{
+/* Estilos para el contenido principal al activar la barra lateral */
+.main-content {
+    margin-left: 0;
+    transition: margin-left 0.3s;
+}
+
+.sidebar.active + .main-content {
+    margin-left: 250px;
+}
+
+.sidebar.active + .hamburger {
+    left: 265px; /* Ajusta este valor según el ancho del sidebar */
+}
+
+.nav-item{
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 5px;
 }
 
-.sidebar-link[data-bs-toggle="collapse"]::after {
-    border: solid;
-    border-width: 0 .075rem .075rem 0;
-    content: "";
-    display: inline-block;
-    padding: 2px;
-    position: absolute;
-    right: 1.5rem;
-    top: 1.4rem;
-    transform: rotate(-135deg);
-    transition: all .2s ease-out;
-}
 
-.sidebar-link[data-bs-toggle="collapse"].collapsed::after {
-    transform: rotate(45deg);
-    transition: all .2s ease-out;
-}
-
-#sidebar.collapsed {
-    margin-left: -264px;
-    transition: 0.5s ease-in-out;
-}
-
-.avatar {
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-}
-
-
-.sub-menu-wrap{
-    position: absolute;
-    top: 100%;
-    right: 10%;
-    width: 320px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-heigth 0.5s;
-    z-index: 1000;
-}
-
-.sub-menu-wrap.open-menu{
-    max-height: 400px;
-}
-
-.sub-menu{
-    background: white;
-    padding: 20px;
-    margin: 10px;
-}
-
-.user-info{
-    display: flex;
-    align-items: center;
-}
-.user-info h3{
-    font-weight: 300;
-    font-size: 20px;
-}
-
-.user-info img{
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    margin-right: 15px;
-}
-.sub-menu hr{
-    border: 0;
-    height: 1px;
-    width: 100%;
-    background: #2a2c36;
-    margin-top: 15px;
-    margin-bottom: 10px;
-}
-
-.sub-menu-link{
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: gray;
-    margin: 12px 0;
-}
-.sub-menu-link i{
-    font-size: 20px;
-}
-.sub-menu-link p{
-    font-size: 20px;
-    width: 100%;
-    font-weight: 200;
-}
-.sub-menu-link:hover p{
-    font-weight: 500;
-}
-
-.navbar-expand .navbar-nav {
-    margin-left: auto;
-    
-}
-
-
-/*POS*/
-
-/* Estilos para un encabezado fijo con fondo rojo */
-.header-red {
-    position: fixed;
-    top: 0;
-    left: 300px;
-    right: 85px;
-    background-color: #e03f3f;
-    padding: 20px;
-    z-index: 1000;
-    width: 65.2%;
-}
-
-/* Estilos para un encabezado flexible */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 50px;
-}
-
-/* Estilos para el contenedor principal */
-.pos-container {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background-color: #e84646;
-    min-height: 100vh;
-}
 
 
 /* Estilos para el contenedor del punto de venta */
@@ -536,92 +472,3 @@ a.sidebar-link {
 }
 
 
-/* Estilo modulo Usuarios */
-
-.dropdown-container {
-    position: relative; /* Asegúrate de que esté establecido */
-    display: inline-block;
-}
-
-.btn-icon {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: #333;
-    padding: 0; 
-    margin: 0; 
-}
-
-.options-wrap {
-    position: absolute;
-    top: 50%; 
-    left: 100%; 
-    width: 200px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease-out;
-    z-index: 1000;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    background: #fff;
-    border-radius: 8px;
-}
-
-.options-wrap.open-options {
-    max-height: 200px; 
-}
-
-.subOptions {
-    padding: 10px;
-}
-
-.sub-option-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: gray;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.sub-option-link:hover {
-    background-color: #f1f1f1; 
-}
-
-.sub-option-link i {
-    font-size: 16px;
-    margin-right: 10px;
-}
-
-.sub-option-link p {
-    margin: 0;
-    font-size: 16px;
-    width: 100%;
-    font-weight: 400;
-}
-
-
-.modal {
-    z-index: 1050; /* Valor por defecto de Bootstrap */
-}
-.modal-backdrop {
-    z-index: 1040; /* Valor por defecto de Bootstrap */
-}
-
-.modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1040;
-}
-
-.modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1050;
-}
