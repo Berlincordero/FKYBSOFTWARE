@@ -12,5 +12,4 @@ def producto_view(request):
 def proforma_view(request):
     return render(request, 'proforma.html')
 
-def base2(request):
-    return render(request, 'base2.html')
+

@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-md d-flex justify-content-between">
+            <div class="col-md-6">
+                <h1>Reporte de ventas</h1>
+            </div>
+            <div class="col-md-6 text-end">
+                <input type="date" id="start-date" class="form-control d-inline" style="width: auto;" placeholder="Fecha Inicio">
+                <input type="date" id="end-date" class="form-control d-inline ms-2" style="width: auto;" placeholder="Fecha Fin">
+                <button type="button" class="btn btn-outline-warning ms-2" id="filter-button">
+                    Filtrar
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="card shadow my-3">
+        <div class="container p-3">
+            <canvas id="salesChart"></canvas>
+            <button type="button" class="btn btn-outline-primary mt-3" id="download-report">Descargar Reporte</button>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="container p-3">
+            <table class="display" id="DTable">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Número de Factura</th>
+                        <th>Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2024-07-25</td>
+                        <td>FAC12345</td>
+                        <td>$150.00</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewInvoiceModal" onclick="viewInvoice('FAC12345')">
+                                Ver Factura
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2024-07-28</td>
+                        <td>FAC12346</td>
+                        <td>$200.00</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewInvoiceModal" onclick="viewInvoice('FAC12346')">
+                                Ver Factura
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal para ver factura -->
+    <div class="modal fade" id="viewInvoiceModal" tabindex="-1" aria-labelledby="viewInvoiceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewInvoiceModalLabel">Detalles de la Factura</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="invoiceDetails">
+                    <!-- Aquí se mostrarán los detalles de la factura -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#DTable').DataTable();
+
+        // Inicializamos el grafico de Chart.js
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'], // Etiquetas de ejemplo, estas las podemos hacer por año
+                datasets: [{
+                    label: 'Ventas',
+                    data: [12, 19, 28, 5, 2, 3], // Datos de ejemplo deben cambiar segun el total de ventas que registremos en la db
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        $('#filter-button').on('click', function() {
+            // Funcionalidad de filtrado por fechas
+            var startDate = $('#start-date').val();
+            var endDate = $('#end-date').val();
+            $('#DTable').DataTable().draw(); // Redibujamos la tabla
+        });
+
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                var startDate = $('#start-date').val();
+                var endDate = $('#end-date').val();
+                var date = data[0]; // La fecha está en la primera columna
+
+                if ((startDate === "" && endDate === "") ||
+                    (startDate === "" && date <= endDate) ||
+                    (startDate <= date && endDate === "") ||
+                    (startDate <= date && date <= endDate)) {
+                    return true;
+                }
+                return false;
+            }
+        );
+
+        $('#download-report').on('click', function() {
+            var link = document.createElement('a');
+            link.href = document.getElementById('salesChart').toDataURL('image/png');
+            link.download = 'reporte_ventas.png';
+            link.click();
+        });
+    });
+
+    function viewInvoice(invoiceId) {
+        //Aquí debemos implementar la lógica para obtener y mostrar los detalles de la factura, datos de ejemplo.
+        document.getElementById('invoiceDetails').innerHTML = `
+            <p><strong>Factura ID:</strong> ${invoiceId}</p>
+            <p><strong>Detalles de la factura</strong>: Ejemplo de detalles para ${invoiceId}.</p>
+        `;
+    }
+
+    function toggleOptions(event) {
+        const optionsMenu = document.getElementById('subOptions');
+        if (optionsMenu.classList.contains('open-options')) {
+            optionsMenu.classList.remove('open-options');
+        } else {
+            optionsMenu.classList.add('open-options');
+        }
+        event.stopPropagation();
+    }
+
+    document.addEventListener('click', function(e) {
+        const optionsMenu = document.getElementById('subOptions');
+        if (!optionsMenu.contains(e.target)) {
+            optionsMenu.classList.remove('open-options');
+        }
+    });
+</script>
+{% endblock %}

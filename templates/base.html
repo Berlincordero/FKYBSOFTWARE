@@ -27,13 +27,13 @@
                                 Caja Registradora
                             </a>
                         </li>
-                        
+                    
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link collapsed" data-bs-target="#pages" data-bs-toggle="collapse"
+                            <a href="#" class="sidebar-link collapsed" data-bs-target="#personal" data-bs-toggle="collapse"
                                 aria-expanded="false"><i class="fa-solid fa-user pe-2"></i>
                                 Personal
                             </a>
-                            <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <ul id="personal" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                                 <li class="sidebar-item">
                                     <a href="{% url 'usuarios' %}" class="sidebar-link">Administrar staff</a>
                                 </li>
@@ -66,10 +66,22 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">
+                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#Reportes" aria-expanded="false">
                                 <i class="fa-solid fa-chart-line pe-2"></i>
                                 Reportes
                             </a>
+                            <ul id="Reportes" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#Reportes">
+                                <a href="{% url 'ventas' %}" class="sidebar-link"> Reporte de ventas</a>
+                                <a href="{% url 'cuentasCobrar' %}" class="sidebar-link"> Cuentas por cobrar</a>
+                                <a href="{% url 'pagosFacturas' %}" class="sidebar-link"> Pagos a facturas</a>
+                                <a href="#" class="sidebar-link"> Reporte 4</a>
+                                <a href="#" class="sidebar-link"> Reporte 5</a>
+                                <a href="#" class="sidebar-link"> Reporte 1</a>
+                                <a href="#" class="sidebar-link"> Reporte 2</a>
+                                <a href="#" class="sidebar-link"> Reporte 3</a>
+                                <a href="#" class="sidebar-link"> Reporte 4</a>
+                                <a href="#" class="sidebar-link"> Reporte 5</a>
+                            </ul>
                         </li>
                         <li class="sidebar-item">
                             <a href="#" class="sidebar-link">
