@@ -1,0 +1,474 @@
+/* Importación de la fuente Poppins desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Estilos globales para todos los elementos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Estilos para el cuerpo del documento */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 10px;
+}
+a{
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+}
+li{
+    list-style: none;
+}
+
+/* Estilos para un encabezado fijo con fondo rojo */
+.header-red {
+    position: fixed;
+    top: 0;
+    left: 300px;
+    right: 85px;
+    background-color: #e03f3f;
+    padding: 20px;
+    z-index: 1000;
+    width: 65.2%;
+}
+
+/* Estilos para un encabezado flexible */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+}
+
+/* Estilos para el contenedor principal */
+.pos-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #e84646;
+    min-height: 100vh;
+}
+
+/* Estilos para la barra lateral */
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    background: linear-gradient(180deg, #2a2c36, #044159);
+    color: white;
+    overflow-y: auto;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: left 0.3s;
+    z-index: 1000;
+}
+
+/* Estilos para la barra lateral cuando está activa */
+.sidebar.active {
+    left: 0;
+}
+
+/* Estilos para el botón de hamburguesa */
+.hamburger {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #2a2c36;
+    cursor: pointer;
+    z-index: 1100;
+    transition: left 0.3s;
+}
+
+.hamburger:focus {
+    outline: none;
+}
+
+/* Estilos para el logotipo en la barra lateral */
+.sidebar .logo {
+    padding: 10px 15px;
+}
+
+.sidebar .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Línea divisoria en la barra lateral */
+.sidebar hr {
+    border: 1px solid #fff;
+    margin: 0 15px;
+}
+
+/* Estilos para el avatar en la barra lateral */
+.sidebar .avatar {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.sidebar .avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+/* Estilos para listas en la barra lateral */
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    flex-grow: 1;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar ul li a .icon-text {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.sidebar ul li a i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar ul li a span {
+    text-align: left;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background: rgba(255, 255, 255, 0.8); /* Transparencia del hover */
+    border-radius: 5px;
+    color: black;
+}
+
+/* Estilos para el pie de página en la barra lateral */
+.sidebar .footer {
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.sidebar .footer a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin: 5px 0;
+}
+
+.sidebar .footer a i {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+/* Estilos para el contenido principal al activar la barra lateral */
+.main-content {
+    margin-left: 0;
+    transition: margin-left 0.3s;
+}
+
+.sidebar.active + .main-content {
+    margin-left: 250px;
+}
+
+.sidebar.active + .hamburger {
+    left: 265px; /* Ajusta este valor según el ancho del sidebar */
+}
+
+.nav-item{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+
+
+
+/* Estilos para el contenedor del punto de venta */
+.pos-container {
+    display: flex;
+    flex-direction: column;
+    padding: 100px;
+    background-color: hsl(0, 0%, 100%);
+    min-height: 100vh;
+    margin-left: 180px;
+    margin-right: 300px;
+}
+
+.product-search {
+    display: flex;
+    align-items: center;
+}
+
+.product-search input[type="text"] {
+    flex-grow: 1;
+    height: 40px;
+    border: 2px solid #ccc;
+    border-radius: 25px;
+    padding: 0 10px;
+    font-size: 16px;
+}
+
+.product-search button {
+    height: 40px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    padding: 0 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.product-search button:hover {
+    background-color: #0056b3;
+}
+
+.product-search .search-icon {
+    background: none;
+    border: none;
+    color: #b51f5b;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.product-search .search-icon:focus {
+    outline: none;
+}
+
+/* Estilos para el contenido interno principal */
+.main-content-inner {
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-right: 200px;
+    margin-bottom: 10px;
+    margin-top: 100px;
+}
+
+/* Estilos para la tabla */
+.product-table th,
+.product-table td {
+    border: none;
+    padding: 5px;
+    text-align: left;
+}
+
+.product-table th {
+    background-color: #ffffff;
+    color: rgb(11, 11, 11);
+    border-bottom: 2px solid #000; /* Borde inferior para los encabezados */
+}
+
+/* Borde inferior para todas las filas a partir de la segunda */
+.product-table tr:not(:first-child) td {
+    border-bottom: 1px solid #ccc;
+    border-radius: 25px;
+}
+
+/* Estilos para la entrada de cantidad */
+.quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity input[type="number"] {
+    width: 50px;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.quantity input[type="number"]::-webkit-outer-spin-button,
+.quantity input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity input[type="number"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilos para la entrada de código */
+.codigo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.codigo input[type="text"] {
+    width: 100px;
+    text-align: left;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.codigo input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilos para la entrada de descripción */
+.descripcion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.descripcion input[type="text"] {
+    width: 200px;
+    text-align: left;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.descripcion input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilos para el select de unidad */
+.unidad-select {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.unidad-select select {
+    border-radius: 35px;
+    border: 1px solid #110f0f;
+    padding: 5px;
+    background-color: white;
+    height: 40px;
+    width: 100%;
+    font-size: 16px;
+}
+
+/* Estilos para la entrada de precio unitario */
+.precio-unidad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.precio-unidad input[type="text"] {
+    width: 100px;
+    text-align: left;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.precio-unidad input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilos para la entrada de descuento */
+.descuento {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.descuento input[type="text"] {
+    width: 100px;
+    text-align: left;
+    padding: 5px;
+    border: 1px solid #eeeeee;
+    border-radius: 25px;
+}
+
+.descuento input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilos para la entrada de total */
+.total {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.total input[type="text"] {
+    width: 100px;
+    text-align: left;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.total input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilos para el icono de terminal */
+.header h2 .fas.fa-terminal {
+    margin-right: 10px; /* Espacio entre el icono y el texto */
+    font-size: 44px;    /* Tamaño del icono */
+    vertical-align: middle; /* Alineación vertical */
+    color: #510f03; /* Color del icono */
+}
+
+
+/* Estilos para el icono de terminal */
+.header h2 .fas.fa-terminal {
+    margin-right: 10px; /* Espacio entre el icono y el texto */
+    font-size: 44px;    /* Tamaño del icono */
+    vertical-align: middle; /* Alineación vertical */
+    color: #510f03; /* Color del icono */
+}
+ Estilos para el select de unidad */
+.unidad-select {
+    border-radius: 35px; /* Ajusta el radio del borde según sea necesario */
+    border: 1px solid #110f0f; /* Ajusta el color del borde según sea necesario */
+    padding: 5px; /* Añade padding para un mejor aspecto */
+    background-color: white; /* Ajusta el color de fondo según sea necesario */
+    height: 40px; /* Ajusta la altura del select para que coincida con los otros inputs */
+    width: 100%; /* Asegura que el select ocupe todo el espacio disponible */
+    font-size: 16px; /* Ajusta el tamaño de la fuente según sea necesario */
+}
+
+

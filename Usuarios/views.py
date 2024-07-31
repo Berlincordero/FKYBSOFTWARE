@@ -15,3 +15,8 @@ def external_login(request):
         form = LoginForm()
 
     return render(request, 'external_login.html', {'form': form})
+
+
+def usuarios(request):
+    #datos = modelo.objects.all()
+    return render(request, 'Usuarios/usuarios.html')
