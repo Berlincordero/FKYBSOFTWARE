@@ -27,7 +27,7 @@
   width:  900px;
   height:550px;
   border-radius: 10px;
-  background: #fff;
+  background: #e3e0e0;
   padding: 0px;
   box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.2);
 }
@@ -107,7 +107,7 @@ img{
     border: none;
     outline: none;
     height: 45px;
-    background: #ececec;
+    background: #ebebeb;
     border-radius: 5px;
     transition: .4s;
  }

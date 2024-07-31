@@ -1,0 +1,96 @@
+
+<title>Proforma</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Proforma</h1>
+    <div class="header">
+      <div class="header-left">
+        <p>Fecha: 2024-07-18</p>
+        <p>Moneda: CRC</p>
+      </div>
+      <div class="header-right">
+        <p>
+          Venta al por menor artículos de ferretería pinturas madera y
+          materiales para la construcción
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="cliente">Cliente:</label>
+      <input
+        type="text"
+        id="cliente"
+        placeholder="Busca por nombre, cédula o teléfono"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="Código-actividad-económica">Código-actividad-económica</label>
+      <select id="Código-actividad-económica">
+        <option value="codigo">regular</option>
+        <!-- other options -->
+      </select>
+
+    <div class="form-group">
+      <label for="medio-pago">Medio de pago:</label>
+      <select id="medio-pago">
+        <option value="efectivo">Efectivo</option>
+        <!-- other options -->
+      </select>
+      <label for="condicion-venta">Condición de venta:</label>
+      <select id="condicion-venta">
+        <option value="contado">Contado</option>
+        <!-- other options -->
+      </select>
+    </div>
+    <h2>Detalle de líneas</h2>
+    <div class="line-details">
+      <input type="text" placeholder="Código / Nombre del producto" />
+      <button class="add-line">AGREGAR LÍNEA</button>
+    </div>
+    <div class="line-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Cant.</th>
+            <th>Unidad</th>
+            <th>Prec. Unid.</th>
+            <th>Desc %</th>
+            <th>Subtotal</th>
+            <th>IVA</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Unid</td>
+            <td>0</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+            <td>0.00</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>Notas</h2>
+      <div class="line-details">
+        <input type="text" placeholder="Agregar una Nota" />
+        <button class="add-line">AGREGAR Nota</button>
+      </div>
+
+    </div>
+    <div class="buttons">
+      <button class="extra-info">AGREGAR INFORMACIÓN EXTRA</button>
+      <button class="other-charge">AGREGAR OTRO CARGO</button>
+      <button class="add-reference">AGREGAR REFERENCIA</button>
+    </div>
+    <div class="totals">
+      <p>Total Impuesto: <span>0.00</span></p>
+      <p>Total Comprobante: <span>0.00</span></p>
+    </div>
+    <button class="save-proforma">GUARDAR PROFORMA</button>
+  </div>
+</body>
+</html>
