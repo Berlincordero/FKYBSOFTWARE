@@ -12,6 +12,9 @@ urlpatterns = [
     path('usuarios/', include('Usuarios.urls')),
     path('producto/', views.producto_view, name='producto_view'),
     path('proforma/', views.proforma_view, name='proforma_view'),
+    path('facturacion/', views.facturacion_view, name='facturacion_view'),
+    path('informacion/', views.informacion_view, name='informacion_view'),
+    path('base2/', views.base2, name='base2'),
     path('', include("django.contrib.auth.urls")),
     path('Reportes/', include('Reportes.urls')),
     path('proveedores/', include('Proveedores.urls')),  # Ruta para las URLs de la app Proveedores

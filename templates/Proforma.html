@@ -11,10 +11,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
     />
     <style>
-      body {
-        background-color: #d3d3d3;
-        font-family: Arial, sans-serif;
-      }
       .container {
         width: 80%;
         margin: 0 auto;
@@ -23,8 +19,12 @@
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         margin-top: 50px;
+        position: relative;
       }
       .title-with-icon {
+        font-size: 18px;
+        color: orange;
+        font-size: 16px;
         display: flex;
         align-items: center;
         margin-bottom: 10px;
@@ -41,6 +41,7 @@
         display: flex;
         align-items: center;
         margin-bottom: 20px;
+        position: relative;
       }
       .search-container input {
         padding: 8px;
@@ -48,7 +49,8 @@
         border: 1px solid #ddd;
         margin-right: 10px;
       }
-      .search-container button {
+      .search-container .search-button,
+      .search-container .filter-button {
         background-color: #4caf50;
         border: none;
         color: white;
@@ -59,6 +61,29 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-right: 10px;
+      }
+      .filter-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: white;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+      }
+      .filter-menu button {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        text-align: left;
+      }
+      .filter-menu button:hover {
+        background-color: #f6d079;
       }
       .header,
       .form-group,
@@ -90,19 +115,19 @@
         text-align: left;
       }
       th {
-        background-color: #f2f2f2;
+        background-color: #f6d079;
       }
       .save-proforma,
       .create-proforma {
         padding: 10px 20px;
-        background-color: #4caf50;
+        background-color: #3163f9;
         color: white;
         border: none;
         cursor: pointer;
         font-size: 16px;
         margin-top: 20px;
       }
-      .modal {
+      .modal-proforma {
         display: none;
         position: fixed;
         z-index: 1;
@@ -138,6 +163,39 @@
         margin-right: 10px;
         font-size: 1.2em;
       }
+      .fixed-icons {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+      .fixed-icons button {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        color: #3163f9;
+        padding: 8px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        cursor: pointer;
+        font-size: 1.5em;
+      }
+      .create-proforma {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #4caf50;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        border-radius: 50%;
+        font-size: 24px;
+        color: white;
+        width: 50px;
+        height: 50px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
     </style>
   </head>
   <body>
@@ -148,12 +206,23 @@
       </div>
       <div class="search-container">
         <input type="text" id="search" placeholder="Buscar proforma..." />
-        <button><i class="fa fa-search"></i></button>
-        <button><i class="fa fa-filter"></i></button>
+        <button class="search-button"><i class="fa fa-search"></i></button>
+        <div class="filter-container">
+          <button class="filter-button" onclick="toggleFilterMenu()"><i class="fa fa-filter"></i></button>
+          <div class="filter-menu" id="filter-menu">
+            <button onclick="filterBy('ID')">Cliente</button>
+            <button onclick="filterBy('Fecha')">Fecha</button>
+          </div>
+        </div>
       </div>
-      <button class="create-proforma" onclick="openProformaModal()">
-        Crear Proforma
-      </button>
+      <div class="fixed-icons">
+        <button title="Download">
+          <i class="fa fa-download"></i>
+        </button>
+        <button title="Print">
+          <i class="fa fa-print"></i>
+        </button>
+      </div>
     </div>
 
     <div class="proforma-list" style="width: 80%; margin: 20px auto">
@@ -175,7 +244,7 @@
       </table>
     </div>
 
-    <div id="proformaModal" class="modal">
+    <div id="proformaModal" class="modal-proforma">
       <div class="modal-content">
         <span class="close">&times;</span>
         <h1>Proforma</h1>
@@ -214,221 +283,91 @@
             <option value="efectivo">Efectivo</option>
             <!-- other options -->
           </select>
-          <label for="condicion-venta">Condición de venta:</label>
-          <select id="condicion-venta">
+          <label for="condición-venta">Condición de venta:</label>
+          <select id="condición-venta">
             <option value="contado">Contado</option>
             <!-- other options -->
           </select>
         </div>
-        <h2>Detalle de líneas</h2>
         <div class="line-details">
-          <input
-            type="text"
-            id="product-details"
-            placeholder="Código / Nombre del producto"
-          />
-          <button class="add-line">AGREGAR LÍNEA</button>
-        </div>
-        <div class="line-table">
-          <table>
+          <h2>Detalles de línea</h2>
+          <table id="line-items-table">
             <thead>
               <tr>
-                <th>Cant.</th>
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Cantidad</th>
                 <th>Unidad</th>
-                <th>Prec. Unid.</th>
-                <th>Desc %</th>
-                <th>Subtotal</th>
-                <th>IVA</th>
+                <th>Precio Unitario</th>
+                <th>Descuento</th>
                 <th>Total</th>
               </tr>
             </thead>
-            <tbody id="line-table-body"></tbody>
+            <tbody>
+              <tr>
+                <td>001</td>
+                <td>Producto 1</td>
+                <td>1</td>
+                <td>unidad</td>
+                <td>1000</td>
+                <td>0</td>
+                <td>1000</td>
+              </tr>
+              <!-- other rows -->
+            </tbody>
           </table>
         </div>
-        <h2>Notas</h2>
-        <div class="line-details">
-          <input type="text" id="nota" placeholder="Agregar una Nota" />
-          <button class="add-line">AGREGAR NOTA</button>
+        <div class="totals">
+          <h2>Totales</h2>
+          <p>Subtotal: <span id="subtotal">1000</span></p>
+          <p>Descuento: <span id="descuento">0</span></p>
+          <p>Total: <span id="total">1000</span></p>
         </div>
         <div class="buttons">
-          <button class="extra-info">AGREGAR INFORMACIÓN EXTRA</button>
-          <button class="other-charge">AGREGAR OTRO CARGO</button>
-          <button class="add-reference">AGREGAR REFERENCIA</button>
+          <button class="save-proforma">Guardar</button>
         </div>
-        <div class="totals">
-          <p>Total Impuesto: <span id="total-impuesto">0.00</span></p>
-          <p>Total Comprobante: <span id="total-comprobante">0.00</span></p>
-        </div>
-        <button class="save-proforma" onclick="saveProforma()">
-          GUARDAR PROFORMA
-        </button>
       </div>
     </div>
 
-    <div id="viewProformaModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h1>Vista de Proforma</h1>
-        <div id="proforma-details"></div>
-      </div>
-    </div>
-
-    <div id="deleteConfirmModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Confirmación</h2>
-        <p>¿Está seguro de que desea eliminar esta proforma?</p>
-        <button id="confirmDeleteButton">Aceptar</button>
-      </div>
-    </div>
+    <button class="create-proforma"><i class="fa fa-plus"></i></button>
 
     <script>
-      var modal = document.getElementById("proformaModal");
-      var spans = document.getElementsByClassName("close");
-      var viewModal = document.getElementById("viewProformaModal");
-      var deleteConfirmModal = document.getElementById("deleteConfirmModal");
-      var deleteConfirmButton = document.getElementById("confirmDeleteButton");
-      var deleteElement = null;
-
-      function openProformaModal() {
-        modal.style.display = "block";
-      }
-
-      for (var i = 0; i < spans.length; i++) {
-        spans[i].onclick = function () {
-          modal.style.display = "none";
-          viewModal.style.display = "none";
-          deleteConfirmModal.style.display = "none";
-        };
-      }
-
-      window.onclick = function (event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
-        if (event.target == viewModal) {
-          viewModal.style.display = "none";
-        }
-        if (event.target == deleteConfirmModal) {
-          deleteConfirmModal.style.display = "none";
-        }
-      };
-
-      function saveProforma() {
-        const cliente = document.getElementById("cliente").value;
-        const total = document.getElementById("total-comprobante").innerText;
-        const fecha = new Date().toISOString().split("T")[0];
-        const codigoActividad = document.getElementById(
-          "Código-actividad-económica"
-        ).value;
-        const medioPago = document.getElementById("medio-pago").value;
-        const condicionVenta = document.getElementById("condicion-venta").value;
-        const detalles = document.getElementById("product-details").value;
-        const nota = document.getElementById("nota").value;
-
-        if (cliente && total) {
-          const tableBody = document.getElementById("proforma-table-body");
-          const newRow = document.createElement("tr");
-
-          const fechaCell = document.createElement("td");
-          const clienteCell = document.createElement("td");
-          const codigoActividadCell = document.createElement("td");
-          const medioPagoCell = document.createElement("td");
-          const condicionVentaCell = document.createElement("td");
-          const detallesCell = document.createElement("td");
-          const notaCell = document.createElement("td");
-          const totalCell = document.createElement("td");
-          const actionsCell = document.createElement("td");
-
-          fechaCell.innerText = fecha;
-          clienteCell.innerText = cliente;
-          codigoActividadCell.innerText = codigoActividad;
-          medioPagoCell.innerText = medioPago;
-          condicionVentaCell.innerText = condicionVenta;
-          detallesCell.innerText = detalles;
-          notaCell.innerText = nota;
-          totalCell.innerText = total;
-
-          actionsCell.innerHTML = `
-          <i class="fa fa-trash" onclick="confirmDeleteProforma(this)" title="Eliminar"></i>
-          <i class="fa fa-eye" onclick="viewProforma('${fecha}', '${cliente}', '${codigoActividad}', '${medioPago}', '${condicionVenta}', '${detalles}', '${total}', '${nota}')" title="Visualizar"></i>
-        `;
-
-          newRow.appendChild(fechaCell);
-          newRow.appendChild(clienteCell);
-          newRow.appendChild(codigoActividadCell);
-          newRow.appendChild(medioPagoCell);
-          newRow.appendChild(condicionVentaCell);
-          newRow.appendChild(detallesCell);
-          newRow.appendChild(notaCell);
-          newRow.appendChild(totalCell);
-          newRow.appendChild(actionsCell);
-
-          tableBody.appendChild(newRow);
-
-          modal.style.display = "none";
-          document.getElementById("cliente").value = "";
-          document.getElementById("total-comprobante").innerText = "0.00";
+      function toggleFilterMenu() {
+        var filterMenu = document.getElementById('filter-menu');
+        if (filterMenu.style.display === 'block') {
+          filterMenu.style.display = 'none';
         } else {
-          alert("Por favor complete los campos requeridos");
+          filterMenu.style.display = 'block';
         }
       }
-
-      function confirmDeleteProforma(element) {
-        deleteElement = element;
-        deleteConfirmModal.style.display = "block";
+      
+      function filterBy(criteria) {
+        // Implement filtering logic based on the selected criteria
+        console.log(`Filtering by ${criteria}`);
+        toggleFilterMenu(); // Close the filter menu after selection
       }
 
-      deleteConfirmButton.onclick = function () {
-        var row = deleteElement.parentNode.parentNode;
-        row.parentNode.removeChild(row);
-        deleteConfirmModal.style.display = "none";
-      };
+      document.addEventListener('DOMContentLoaded', function () {
+        var modal = document.getElementById('proformaModal');
+        var btn = document.querySelector('.create-proforma');
+        var span = document.querySelector('.close');
 
-      function viewProforma(
-        fecha,
-        cliente,
-        codigoActividad,
-        medioPago,
-        condicionVenta,
-        detalles,
-        total,
-        nota
-      ) {
-        const proformaDetails = document.getElementById("proforma-details");
-        proformaDetails.innerHTML = `
-        <p><strong>Fecha:</strong> ${fecha}</p>
-        <p><strong>Cliente:</strong> ${cliente}</p>
-        <p><strong>Código Actividad Económica:</strong> ${codigoActividad}</p>
-        <p><strong>Medio de Pago:</strong> ${medioPago}</p>
-        <p><strong>Condición de Venta:</strong> ${condicionVenta}</p>
-        <p><strong>Detalles:</strong> ${detalles}</p>
-        <p><strong>Total:</strong> ${total}</p>
-        <p><strong>Nota:</strong> ${nota}</p>
-      `;
-        viewModal.style.display = "block";
-      }
+        btn.onclick = function () {
+          modal.style.display = 'block';
+        };
 
-      document.getElementById("search").addEventListener("input", function () {
-        const searchTerm = this.value.toLowerCase();
-        const rows = document.querySelectorAll("#proforma-table-body tr");
+        span.onclick = function () {
+          modal.style.display = 'none';
+        };
 
-        rows.forEach((row) => {
-          const cells = row.getElementsByTagName("td");
-          let match = false;
-
-          for (let i = 0; i < cells.length; i++) {
-            if (cells[i].innerText.toLowerCase().includes(searchTerm)) {
-              match = true;
-              break;
-            }
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = 'none';
           }
-
-          row.style.display = match ? "" : "none";
-        });
+        };
       });
     </script>
   </body>
 </html>
 
-{% endblock %}
+{% endblock content %}

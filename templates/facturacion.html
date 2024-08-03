@@ -1,0 +1,282 @@
+{% extends 'base.html' %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comprobantes</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 10px 20px;
+        margin-bottom: 20px;
+      }
+      .header h1 {
+        color: #f90;
+        margin: 0;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+      }
+      .header .icon {
+        font-size: 36px;
+        margin-right: 15px;
+      }
+      .header .search-box {
+        display: flex;
+        align-items: center;
+      }
+      .header input[type="text"] {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-right: 10px;
+      }
+      .header button {
+        padding: 10px 15px;
+        background-color: #28a745;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        margin-right: 5px;
+      }
+      table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f6d079;
+      }
+      .fixed-icons {
+        display: flex;
+      }
+      .fixed-icons button {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        color: #3163f9;
+        padding: 8px;
+        border-radius: 50%;
+        margin-left: 10px;
+        cursor: pointer;
+        font-size: 1.5em;
+      }
+      .fixed-icons button img {
+        width: 20px;
+        height: 20px;
+      }
+      .status-icon {
+        font-size: 1.2em;
+        margin-left: 5px;
+      }
+      .status-paid {
+        color: #28a745;
+      }
+      .status-pending {
+        color: #dc3545;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>
+          <i class="fa-solid fa-circle-dollar-to-slot icon"></i>Facturación
+        </h1>
+        <div class="fixed-icons">
+          <button title="Descargar">
+            <i class="fa fa-download"></i>
+          </button>
+          <button title="Imprimir">
+            <i class="fa fa-print"></i>
+          </button>
+        </div>
+        <div class="search-box">
+          <input type="text" placeholder="Buscar proforma..." />
+          <button type="button" class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
+          <button type="button" class="filter-button">
+            <i class="fas fa-filter"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>N° ID</th>
+          <th>Fecha / Hora</th>
+          <th>Cliente</th>
+          <th>Tipo</th>
+          <th>Moneda</th>
+          <th>Total</th>
+          <th>Estado De La Factura</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0000003125</td>
+          <td>24/05/24 05:35PM</td>
+          <td>JESSICA SOLANO GONZALEZ</td>
+          <td>Tiquete</td>
+          <td>CRC</td>
+          <td>6150.00</td>
+          <td>
+            Pago Pendiente
+            <i class="fa fa-times-circle status-icon status-pending"></i>
+          </td>
+        </tr>
+        <tr>
+          <td>0000000161</td>
+          <td>24/05/24 05:28PM</td>
+          <td>Humberto Antonio Martínez Umaña</td>
+          <td>Factura</td>
+          <td>CRC</td>
+          <td>4440.00</td>
+          <td>
+            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+        </tr>
+        <tr>
+          <td>0000003124</td>
+          <td>24/05/24 05:07PM</td>
+          <td></td>
+          <td>Tiquete</td>
+          <td>CRC</td>
+          <td>400.00</td>
+          <td>
+            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+        </tr>
+        <tr>
+          <td>0000003123</td>
+          <td>24/05/24 05:03PM</td>
+          <td></td>
+          <td>Tiquete</td>
+          <td>CRC</td>
+          <td>8350.00</td>
+          <td>
+            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+        </tr>
+        <tr>
+          <td>0000003122</td>
+          <td>24/05/24 04:59PM</td>
+          <td></td>
+          <td>Tiquete</td>
+          <td>CRC</td>
+          <td>4700.00</td>
+          <td>
+            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+        </tr>
+        <tr>
+          <td>0000003121</td>
+          <td>24/05/24 04:55PM</td>
+          <td></td>
+          <td>Tiquete</td>
+          <td>CRC</td>
+          <td>750.00</td>
+          <td>
+            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+        </tr>
+        <tr>
+          <td>0000003120</td>
+          <td>24/05/24 04:35PM</td>
+          <td></td>
+          <td>Tiquete</td>
+          <td>CRC</td>
+          <td>1950.00</td>
+          <td>
+            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+        </tr>
+        <tr>
+          <td>0000003119</td>
+          <td>24/05/24 04:30PM</td>
+          <td></td>
+          <td>Tiquete</td>
+          <td>CRC</td>
+          <td>10,384.00</td>
+          <td>
+            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+        </tr>
+        <tr>
+          <td>0000003118</td>
+          <td>24/05/24 04:26PM</td>
+          <td></td>
+          <td>Tiquete</td>
+          <td>CRC</td>
+          <td>12,984.00</td>
+          <td>
+            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+        </tr>
+        <tr>
+          <td>0000003117</td>
+          <td>24/05/24 04:21PM</td>
+          <td></td>
+          <td>Tiquete</td>
+          <td>CRC</td>
+          <td>23,846.00</td>
+          <td>
+            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+        </tr>
+        <tr>
+          <td>0000003116</td>
+          <td>24/05/24 04:16PM</td>
+          <td></td>
+          <td>Tiquete</td>
+          <td>CRC</td>
+          <td>4500.00</td>
+          <td>
+            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+        </tr>
+        <tr>
+          <td>0000003115</td>
+          <td>24/05/24 04:08PM</td>
+          <td></td>
+          <td>Factura</td>
+          <td>CRC</td>
+          <td>12,741.00</td>
+          <td>
+            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+{% endblock %}

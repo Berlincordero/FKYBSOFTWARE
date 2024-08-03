@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'Usuarios',
     'Reportes',
     'Proveedores',
+    'terminal',
   
     
 ]
