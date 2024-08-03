@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Formulario de Registro de Proveedores</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% extends 'base.html' %}
+{% block content %}
+
+<title>Formulario de Registro de Proveedores</title>
+    
     <style>
         .form-section {
             margin-bottom: 20px;
@@ -45,9 +45,7 @@
        style{
             width: 100%;
        }
-       .container{
-        padding-bottom: 50px
-       }
+       
        .form {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -82,8 +80,7 @@
 
 
     </style>
-</head>
-<body>
+
     <div class="form-header">
         <h2 class="mt-4">Formulario de Registro de Proveedores</h2>
         </div>
@@ -97,7 +94,7 @@
                     <th colspan="2">Id proveedor</th>
                     <th>Fecha</th>
                 </tr>
-                <tr>
+                <tr><!--
                     <td colspan="2">
                         {{ form.id_proveedor }}
                         {% if form.id_proveedor.errors %}
@@ -112,7 +109,7 @@
                             <div class="invalid-feedback">
                                 {{ form.fecha_ingreso.errors }}
                             </div>
-                        {% endif %}
+                        {% endif %}-->
                     </td>
                 </tr>
             </table>
@@ -177,11 +174,6 @@
                         </div>
                     </div>
                 </div>
-        
-        
-
-
-
 
 
             <div class="form-section">
@@ -368,5 +360,4 @@
             });
         });
     </script>
-</body>
-</html>
+{% endblock %}

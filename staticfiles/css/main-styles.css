@@ -34,7 +34,6 @@ li{
     max-width: 264px;
     min-width: 264px;
     background: linear-gradient(180deg, #2a2c36, #044159);
-    background: linear-gradient(180deg, #2a2c36, #044159);
     transition: 0.5s ease-in-out;
 }
 
@@ -48,7 +47,7 @@ li{
     transition: all 0.35 ease-in-out;
     width: 100%;
     background: white;
-    z-index: 1;
+    
 }
 
 /* sidebar  elements style */
@@ -213,7 +212,6 @@ a.sidebar-link {
     height: 1px;
     width: 100%;
     background: #2a2c36;
-    background: #2a2c36;
     margin-top: 15px;
     margin-bottom: 10px;
 }
@@ -305,11 +303,11 @@ a.sidebar-link {
 }
 .invoice-details th, .invoice-details td {
     padding: 10px;
-    border: 1px solid #010a18;
+    border: 1px solid #0562f7;
 }
 .invoice-details th {
     background-color: #fa970c;
-    color: #2718f5;
+    color: #060607;
 }
 
 /* Asegúrate de que solo se aplique el borde redondeado a la tabla y no a los elementos internos del contenedor */
@@ -378,15 +376,6 @@ a.sidebar-link {
     margin-right: 10px;
 }
 
-
-/******************************************************************************************************/
-
-
-
-
-
-
-
 /*********************************FIN DE ESTILOS DE TERMINAL*******************************************/
 /***************************************************************************************************/
 /******************************************************************************************************/
@@ -403,8 +392,8 @@ a.sidebar-link {
     padding: 20px;
 }
 .icono-caja {
-             font-size: 24px;
-             color: #ff0008;
+             font-size: 34px;
+             color: #f3590c;
              display: flex;
              align-items: center;
              justify-content: space-between;
@@ -553,7 +542,7 @@ h2 {
     background: none;
     border: none;
     cursor: pointer;
-    color: #007bff;
+    color: #fb2a0ee7;
     font-size: 14px;
 }
 
@@ -615,22 +604,13 @@ h2 {
 }
 
 .product-table th, .product-table td {
-    border: 1px solid #ddd;
+    border: 1px solid #ebecee;
     padding: 10px;
     text-align: left;
 }
 
 .product-table th {
-    background-color: #ffffff;
-    color: rgb(11, 11, 11);
-    border-bottom: 2px solid #000; /* Borde inferior para los encabezados */
-}
-
-/* Borde inferior para todas las filas a partir de la segunda */
-.product-table tr:not(:first-child) td {
-    border-bottom: 1px solid #ccc;
-    border-radius: 25px;
-    background-color: #f8f9fa;
+    background-color: #f6d079;
 }
 
 .add-button {
@@ -639,7 +619,7 @@ h2 {
     right: 20px;
     width: 60px;
     height: 60px;
-    background-color: #28a745;
+    background-color: #05ae16;
     color: #4b1010;
     border: none;
     border-radius: 50%;
@@ -725,7 +705,7 @@ h2 {
     max-width: 80%;
   }
   .modal-content {
-    align: right;
+    align-items: right;
     padding: 20px;
     width: 80%;
   }
@@ -776,7 +756,6 @@ h2 {
 /***************************************************************************************************************************/
 
 
-
 /* Estilo modulo Usuarios */
 
 .dropdown-container {
@@ -802,7 +781,7 @@ h2 {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s ease-out;
-    z-index: 1000;
+    
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     background: #fff;
     border-radius: 8px;
@@ -866,3 +845,36 @@ h2 {
     transform: translate(-50%, -50%);
     z-index: 1050;
 }
+
+
+/*estilos proveedores */
+
+.header-proveedores {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 55px;
+    font-size: 3rem;
+}
+
+.header-proveedores h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+.table-form th, .table-form td {
+    border: 1px solid black;
+    padding: 8px;
+}
+.table-form th {
+    background-color: #f2f2f2;
+}
+.btn-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.icon-small {
+    font-size: 1.5rem; 
+    color: green;
+}
+
