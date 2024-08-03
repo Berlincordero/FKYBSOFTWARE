@@ -8,3 +8,4 @@ def pos_view(request):
 
 def base2(request):
     return render(request, 'base2.html')
+

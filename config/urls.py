@@ -12,5 +12,6 @@ urlpatterns = [
     path('terminal/', views.pos_view, name='pos_view'),
     path('base2/', views.base2, name='base2'),
     path('', include("django.contrib.auth.urls")),
+    path('proveedores/', include('Proveedores.urls')),  # Ruta para las URLs de la app Proveedores
     
 ]

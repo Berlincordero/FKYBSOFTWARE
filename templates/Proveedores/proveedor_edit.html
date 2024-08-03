@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Registro de Proveedores</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .form-section h4 {
+            background-color: #0174DF;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .form-header {
+            background-color: #0174DF;
+            color: white;
+            padding: 5px;
+            text-align: center;
+            font-family: emoji;
+            width : 58%;
+            margin: 40px auto;
+            
+        }
+        .table-form th, .table-form td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        .table-form th {
+            background-color: #f2f2f2;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .table-form th.internal-use, .table-form td.internal-use {
+            text-align: center !important;
+            vertical-align: middle !important;
+        }
+        
+        label {
+            font-weight: bold;
+        }
+       style{
+            width: 100%;
+       }
+       .container{
+        padding-bottom: 50px
+       }
+       .form {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        }
+        .form-group {
+        display: flex;
+        flex-direction: column;
+         }
+        .form-group label {
+        margin-bottom: 5px;
+        color: #333333;
+        }
+        .form-group input,
+        .form-group select {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: none;
+        outline: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+        border-color: #007bff;
+        }
+        .invalid-feedback {
+        color: #dc3545;
+        font-size: 12px;
+        margin-top: 5px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="form-header">
+        <h2 class="mt-4">Formulario de Registro de Proveedores</h2>
+        </div>
+    <div class="container">
+        
+        <form method="post">
+            {% csrf_token %}
+            <table class="table table-form">
+                <tr>
+                    <th class="internal-use" rowspan="2">Solo para uso interno</th>
+                    <th colspan="2">Id proveedor</th>
+                    <th>Fecha</th>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        {{ form.id_proveedor }}
+                        {% if form.id_proveedor.errors %}
+                            <div class="invalid-feedback">
+                                {{ form.id_proveedor.errors }}
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ form.fecha_ingreso }}
+                        {% if form.fecha_ingreso.errors %}
+                            <div class="invalid-feedback">
+                                {{ form.fecha_ingreso.errors }}
+                            </div>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+
+
+            <div class="form-section">
+                <tr>
+                    <th colspan="4"><strong>Nombre de la empresa</strong></th> <!-- strong pude ponerlo en negrita" -->
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        {{ form.nombre_empresa }}
+                        {% if form.nombre_empresa.errors %}
+                            <div class="invalid-feedback">
+                                {{ form.nombre_empresa.errors }}
+                            </div>
+                        {% endif %}
+                    </td>
+                </tr>
+            </div>
+
+
+
+            <div class="form-section">
+               <h4>Contacto</h4>
+                <div class="form">
+                        <div class="form-group">
+                            {{ form.tipo_identificacion.label_tag }}
+                            {{ form.tipo_identificacion }}
+                            {% if form.tipo_identificacion.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.tipo_identificacion.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.identificacion.label_tag }}
+                            {{ form.identificacion }}
+                            {% if form.identificacion.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.identificacion.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.nombre.label_tag }}
+                            {{ form.nombre }}
+                            {% if form.nombre.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.nombre.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.email.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+        
+        
+
+
+
+
+
+            <div class="form-section">
+                <h4>Direcciones</h4>
+                <div class="form">
+                <div class="form-group">
+                    <label for="provincia">Provincia</label>
+                    <select name="provincia" class="form-control" id="provincia" maxlength="100">
+                        <option value="">Seleccione una provincia</option>
+                    </select>  
+                </div>
+                <div class="form-group">
+                    <label for="canton">Cantón</label>
+                    <select name="canton" class="form-control" id="canton" maxlength="100">
+                        <option value="">Seleccione una canton</option>
+                    </select>  
+                </div>
+                <div class="form-group">
+                    <label for="distrito">Distrito</label>
+                   
+                    <select name="distrito" class="form-control" id="distrito" maxlength="100">
+                        <option value="">Seleccione una distrito</option>
+                    </select>  
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="direccion_exacta">Dirección Exacta</label>
+                    {{ form.direccion_exacta }}
+                </div>
+            </div>
+
+
+
+            <div class="form-section">
+                <h4>Teléfonos</h4>
+                <div class="form">
+                <div class="form-group">
+                    <label for="telefono1">Teléfono de contacto 1</label>
+                    {{ form.telefono1 }}
+                </div>
+                <div class="form-group">
+                    <label for="telefono2">Teléfono de contacto 2</label>
+                    {{ form.telefono2 }}
+                </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Guardar</button>
+            
+            <a href="{% url 'proveedor_list' %}" class="btn btn-secondary ml-2">Cancelar y volver al listado de proveedores</a>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const costaRicaLocations = {
+                // Datos de localidades de Costa Rica aquí
+                "San José": {
+                    cantons: {
+                        "San José": ["Carmen", "Merced", "Hospital", "Catedral", "Zapote", "San Francisco de Dos Ríos", "Uruca", "Mata Redonda", "Pavas", "Hatillo", "San Sebastián"],
+                        "Escazú": ["Escazú", "San Antonio", "San Rafael"],
+                        "Desamparados": ["Desamparados", "San Miguel", "San Juan de Dios", "San Rafael Arriba", "San Rafael Abajo", "San Antonio", "Frailes", "Patarrá", "San Cristóbal", "Rosario", "Damas", "San Rafael", "Gravilias"],
+                        "Puriscal": ["Santiago", "Mercedes Sur", "Barbacoas", "Grifo Alto", "San Rafael", "Candelarita", "Desamparaditos", "San Antonio", "Chires"],
+                        "Tarrazú": ["San Marcos", "San Lorenzo", "San Carlos"],
+                        "Aserrí": ["Aserrí", "Tarbaca", "Vuelta de Jorco", "San Gabriel", "Legua", "Monterrey", "Salitrillos"],
+                        "Mora": ["Ciudad Colón", "Guayabo", "Tabarcia", "Piedras Negras", "Picagres"],
+                        "Goicoechea": ["Guadalupe", "San Francisco", "Calle Blancos", "Mata de Plátano", "Ipís", "Rancho Redondo", "Purral"],
+                        "Santa Ana": ["Santa Ana", "Salitral", "Pozos", "Uruca", "Piedades", "Brasil"],
+                        "Alajuelita": ["Alajuelita", "San Josecito", "San Antonio", "Concepción", "San Felipe"],
+                        "Vásquez de Coronado": ["San Isidro", "San Rafael", "Dulce Nombre de Jesús", "Patalillo", "Cascajal"],
+                        "Acosta": ["San Ignacio", "Guaitil", "Palmichal", "Cangrejal", "Sabanillas"],
+                        "Tibás": ["San Juan", "Cinco Esquinas", "Anselmo Llorente", "León XIII", "Colima"],},},
+                "Alajuela": {
+                    cantons: {
+                        "Alajuela": ["Alajuela", "San José", "Carrizal", "San Antonio", "Guácima", "San Isidro", "Sabanilla", "San Rafael"],
+                        "San Ramón": ["San Ramón", "Santiago", "San Juan", "Piedades Norte", "Piedades Sur", "San Rafael", "San Isidro", "Ángeles", "Alfaro", "Volio", "Concepción", "Zapotal", "Peñas Blancas"],
+                        "Grecia": ["Grecia", "San Isidro", "San José", "San Roque", "Tacares", "Río Cuarto", "Puente de Piedra", "Bolívar"],
+                        "San Mateo": ["San Mateo", "Desmonte", "Jesús María"],
+                        "Atenas": ["Atenas", "Jesús", "Mercedes", "San Isidro", "Concepción", "San José", "Santa Eulalia"],
+                        "Naranjo": ["Naranjo", "San Miguel", "San José", "Cirrí Sur", "San Jerónimo"],
+                        "Palmares": ["Palmares", "Zaragoza", "Buenos Aires", "Santiago", "Candelaria", "Esquipulas", "La Granja"],
+                        "Poás": ["San Pedro", "San Juan", "San Rafael", "Carrillos", "Sabana Redonda"],
+                        "Orotina": ["Orotina", "El Mastate", "Hacienda Vieja", "Coyolar", "La Ceiba"],
+                        "San Carlos": ["Quesada", "Florencia", "Buenavista", "Aguas Zarcas", "Venecia", "Pital", "La Fortuna", "La Tigra", "La Palmera"],
+                        "Zarcero": ["Zarcero", "Laguna", "Tapezco", "Guadalupe", "Palmira", "Zapote", "Brisas"],
+                        "Valverde Vega": ["Sarchí Norte", "Sarchí Sur", "Toro Amarillo", "San Pedro", "Rodríguez"],
+                        "Upala": ["Upala", "Aguas Claras", "San José (Pizote)", "Bijagua", "Delicias", "Dos Ríos"], },},        
+                "Cartago": {
+                    cantons: {
+                        "Cartago": ["Oriental", "Occidental", "Carmen", "San Nicolás", "Agua Caliente", "Guadalupe", "Corralillo", "Tierra Blanca", "Dulce Nombre"],
+                        "Paraíso": ["Paraíso", "Santiago", "Orosi", "Cachí", "Llanos de Santa Lucía"],
+                        "La Unión": ["Tres Ríos", "San Diego", "San Juan", "San Rafael", "Concepción", "Dulce Nombre", "San Ramón", "Río Azul"],
+                        "Jiménez": ["Juan Viñas", "Tucurrique", "Pejibaye"],
+                        "Turrialba": ["Turrialba", "La Suiza", "Peralta", "Santa Cruz", "Santa Teresita", "Pavones", "Tuis", "Tayutic", "Santa Rosa", "Tres Equis"],
+                        "Alvarado": ["Pacayas", "Cervantes", "Capellades"],
+                        "Oreamuno": ["San Rafael", "Cot", "Potrero Cerrado", "Cipreses", "Santa Rosa"],
+                        "El Guarco": ["El Tejar", "San Isidro", "Tobosi", "Patio de Agua"],},}, 
+                "Heredia": {
+                    cantons: {
+                        "Heredia": ["Heredia", "Mercedes", "San Francisco", "Ulloa", "Vara Blanca"],
+                        "Barva": ["Barva", "San Pedro", "San Pablo", "San Roque", "Santa Lucía", "San José de la Montaña"],
+                        "Santo Domingo": ["Santo Domingo", "San Vicente", "San Miguel", "Paracito", "Santo Tomás", "Santa Rosa", "Tures"],
+                        "Santa Bárbara": ["Santa Bárbara", "San Pedro", "San Juan", "Jesús", "Santo Domingo", "Purabá"],
+                        "San Rafael": ["San Rafael", "San Josecito", "Santiago", "Ángeles", "Concepción"],
+                        "San Isidro": ["San Isidro", "San José", "Concepción", "San Francisco"],},},    
+                "Guanacaste": {
+                    cantons: {
+                        "Liberia": ["Liberia", "Cañas Dulces", "Mayorga", "Nacascolo", "Curubandé"],
+                        "Nicoya": ["Nicoya", "Mansión", "San Antonio", "Quebrada Honda", "Sámara", "Nosara", "Belén de Nosarita"],
+                        "Santa Cruz": ["Santa Cruz", "Bolsón", "Veintisiete de Abril", "Tempate", "Cartagena", "Cuajiniquil", "Diriá", "Cabo Velas", "Tamarindo"],
+                        "Bagaces": ["Bagaces", "La Fortuna", "Mogote", "Río Naranjo"],
+                        "Carrillo": ["Filadelfia", "Palmira", "Sardinal", "Belén"],
+                        "Cañas": ["Cañas", "Palmira", "San Miguel", "Bebedero", "Porozal"],
+                        "Abangares": ["Las Juntas", "Sierra", "San Juan", "Colorado"],
+                        "Tilarán": ["Tilarán", "Quebrada Grande", "Tronadora", "Santa Rosa", "Líbano", "Tierras Morenas", "Arenal"],
+                        "Nandayure": ["Carmona", "Santa Rita", "Zapotal", "San Pablo", "Porvenir", "Bejuco"],
+                        "La Cruz": ["La Cruz", "Santa Cecilia", "La Garita", "Santa Elena"],
+                        "Hojancha": ["Hojancha", "Monte Romo", "Puerto Carrillo", "Huacas", "Matambú"],},},     
+                "Puntarenas": {
+                    cantons: {
+                        "Puntarenas": ["Puntarenas", "Pitahaya", "Chomes", "Lepanto", "Paquera", "Manzanillo", "Guacimal", "Barranca", "Monteverde", "Isla del Coco", "Cóbano"],
+                        "Esparza": ["Espíritu Santo", "San Juan Grande", "Macacona", "San Rafael", "San Jerónimo"],
+                        "Buenos Aires": ["Buenos Aires", "Volcán", "Potrero Grande", "Boruca", "Pilas", "Colinas", "Chánguena", "Biolley", "Brunka"],
+                        "Montes de Oro": ["Miramar", "La Unión", "San Isidro"],
+                        "Osa": ["Cortés", "Palmar", "Sierpe", "Bahía Ballena", "Piedras Blancas", "Bahía Drake"],
+                        "Quepos": ["Quepos", "Savegre", "Naranjito"],
+                        "Golfito": ["Golfito", "Puerto Jiménez", "Guaycará", "Pavón"],
+                        "Coto Brus": ["San Vito", "Sabalito", "Aguabuena", "Limoncito", "Pittier"],
+                        "Parrita": ["Parrita"],
+                        "Corredores": ["Corredor", "La Cuesta", "Paso Canoas", "Laurel"],},},
+                "Limón": {  
+                    cantons: {
+                        "Limón": ["Limón", "Valle La Estrella", "Río Blanco", "Matama"],
+                        "Pococí": ["Guápiles", "Jiménez", "La Rita", "Roxana", "Cariari", "Colorado"],
+                        "Siquirres": ["Siquirres", "Pacuarito", "Florida", "Germania", "Cairo", "Alegría"],
+                        "Talamanca": ["Bratsi", "Sixaola", "Cahuita", "Telire"],
+                        "Matina": ["Matina", "Batán", "Carrandi"],
+                        "Guácimo": ["Guácimo", "Mercedes", "Pocora", "Río Jiménez", "Duacarí"],},},
+            };
+
+            const provinciaSelect = document.getElementById("provincia");
+            const cantonSelect = document.getElementById("canton");
+            const distritoSelect = document.getElementById("distrito");
+
+            // Poblar provincias
+            Object.keys(costaRicaLocations).forEach((provincia) => {
+                const option = document.createElement("option");
+                option.value = provincia;
+                option.text = provincia;
+                provinciaSelect.appendChild(option);
+            });
+
+            // Actualizar cantones y distritos según la provincia seleccionada
+            provinciaSelect.addEventListener("change", () => {
+                const selectedProvincia = provinciaSelect.value;
+                cantonSelect.innerHTML = '<option value="">Seleccione un cantón</option>';
+                distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
+
+                if (selectedProvincia) {
+                    const cantons = costaRicaLocations[selectedProvincia].cantons;
+                    Object.keys(cantons).forEach((canton) => {
+                        const option = document.createElement("option");
+                        option.value = canton;
+                        option.text = canton;
+                        cantonSelect.appendChild(option);
+                    });
+                }
+            });
+
+            // Actualizar distritos según el cantón seleccionado
+            cantonSelect.addEventListener("change", () => {
+                const selectedProvincia = provinciaSelect.value;
+                const selectedCanton = cantonSelect.value;
+                distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
+
+                if (selectedProvincia && selectedCanton) {
+                    const distritos = costaRicaLocations[selectedProvincia].cantons[selectedCanton];
+                    distritos.forEach((distrito) => {
+                        const option = document.createElement("option");
+                        option.value = distrito;
+                        option.text = distrito;
+                        distritoSelect.appendChild(option);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
