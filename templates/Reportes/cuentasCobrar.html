@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Gestión de Cuentas por Cobrar</h1>
+    <div class="card shadow my-4">
+        <div class="card-body">
+            <h2>Registrar Cuenta por Cobrar</h2>
+            <form id="accountReceivableForm" method="post" action="">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="clientName" class="form-label">Nombre del Cliente</label>
+                    <input type="text" class="form-control" id="clientName" name="clientName" required>
+                </div>
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Monto</label>
+                    <input type="number" step="0.01" class="form-control" id="amount" name="amount" required>
+                </div>
+                <div class="mb-3">
+                    <label for="dueDate" class="form-label">Fecha de Vencimiento</label>
+                    <input type="date" class="form-control" id="dueDate" name="dueDate" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. Consulta de Cuentas por Cobrar Pendientes -->
+    <div class="card shadow my-4">
+        <div class="card-body">
+            <h2>Cuentas por Cobrar Pendientes</h2>
+            <table class="display" id="accountsReceivableTable">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Monto</th>
+                        <th>Fecha de Vencimiento</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ejemplo de datos -->
+                    <tr>
+                        <td>Cliente A</td>
+                        <td>$500.00</td>
+                        <td>2024-08-15</td>
+                        <td>Pendiente</td>
+                        <td>
+                            <button type="button" class="btn btn-info" onclick="viewAccountDetails('1')">Ver</button>
+                        </td>
+                    </tr>
+                    <!-- Más filas según sea necesario -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal para ver detalles de la cuenta por cobrar -->
+    <div class="modal fade" id="viewAccountModal" tabindex="-1" aria-labelledby="viewAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewAccountModalLabel">Detalles de la Cuenta por Cobrar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="accountDetails">
+                    <!-- Aquí se mostrarán los detalles de la cuenta -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Generar Reporte en PDF -->
+    <div class="text-end my-4">
+        <button type="button" class="btn btn-success" id="generateReport">Generar Reporte PDF</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#accountsReceivableTable').DataTable();
+
+        // Función para mostrar detalles de una cuenta por cobrar
+        function viewAccountDetails(accountId) {
+            // Aquí se podría hacer una solicitud AJAX para obtener los detalles
+            $('#accountDetails').html(`
+                <p><strong>Cliente:</strong> Cliente A</p>
+                <p><strong>Monto:</strong> $500.00</p>
+                <p><strong>Fecha de Vencimiento:</strong> 2024-08-15</p>
+                <p><strong>Descripción:</strong> Ejemplo de descripción para la cuenta.</p>
+            `);
+            $('#viewAccountModal').modal('show');
+        }
+
+        // Función para generar reporte PDF
+        $('#generateReport').on('click', function() {
+            // Aquí podrías usar una librería como jsPDF para generar el PDF
+            alert('Generando reporte PDF... (funcionalidad a implementar)');
+        });
+
+        window.viewAccountDetails = viewAccountDetails; // Exponer la función al ámbito global
+    });
+</script>
+{% endblock %}

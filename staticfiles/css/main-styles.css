@@ -33,12 +33,13 @@ li{
 #sidebar{
     max-width: 264px;
     min-width: 264px;
-    background: linear-gradient(180deg, #465bc7, #044159);
-    
+    background: linear-gradient(180deg, #2a2c36, #044159);
+    background: linear-gradient(180deg, #2a2c36, #044159);
     transition: 0.5s ease-in-out;
 }
 
 .main{
+    position: relative;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -46,7 +47,8 @@ li{
     overflow: hidden;
     transition: all 0.35 ease-in-out;
     width: 100%;
-    background: var(--bs-dark-bg-subtle);
+    background: white;
+    z-index: 1;
 }
 
 /* sidebar  elements style */
@@ -175,9 +177,10 @@ a.sidebar-link {
     top: 100%;
     right: 10%;
     width: 320px;
-    max-height: 0px;
+    max-height: 0;
     overflow: hidden;
     transition: max-heigth 0.5s;
+    z-index: 1000;
 }
 
 .sub-menu-wrap.open-menu{
@@ -209,7 +212,8 @@ a.sidebar-link {
     border: 0;
     height: 1px;
     width: 100%;
-    background: #1a3eee;
+    background: #2a2c36;
+    background: #2a2c36;
     margin-top: 15px;
     margin-bottom: 10px;
 }
@@ -239,296 +243,626 @@ a.sidebar-link {
 }
 
 
-/*POS*/
+.navbar-toggler-icon {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    content: "";
+    background:"" ;
+    background-size: 100% 100%;
+}
+/***********************************************************************************************************************/
+/**********************************Estilos Personalizados de terminal*****************************************************/
 
-/* Estilos para un encabezado fijo con fondo rojo */
-.header-red {
-    position: fixed;
-    top: 0;
-    left: 300px;
-    right: 85px;
-    background-color: #e03f3f;
+.container {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
     padding: 20px;
-    z-index: 1000;
-    width: 65.2%;
+}
+.barra-busqueda,
+.barra-caja {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.barra-busqueda input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 200px;
+}
+.barra-busqueda button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #00a2e8;
+    color: #fff;
+    border-radius: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.barra-busqueda button i {
+    margin-right: 5px;
+}
+.header {
+    background-color: #e0f0ff;
+    padding: 10px;
+    border-bottom: 3px solid #00a2e8;
+    position: relative;
+}
+.header .company-details {
+    text-align: right;
+}
+.clear {
+    clear: both;
+}
+.invoice-details {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+}
+.invoice-details th, .invoice-details td {
+    padding: 10px;
+    border: 1px solid #010a18;
+}
+.invoice-details th {
+    background-color: #fa970c;
+    color: #2718f5;
 }
 
-/* Estilos para un encabezado flexible */
+/* Asegúrate de que solo se aplique el borde redondeado a la tabla y no a los elementos internos del contenedor */
+#summaryTable {
+    width: 60%;
+    border-collapse: collapse; /* Colapsa los bordes para evitar bordes adicionales */
+    border: 1px solid #db8308; /* Borde de la tabla */
+    border-radius: 15px; /* Bordes redondeados */
+    overflow: hidden; /* Asegura que el contenido no sobresalga de los bordes */
+}
+
+#summaryTable td {
+    padding: 10px;
+    border: 1px solid #0823d2; /* Borde de las celdas */
+}
+
+/* Aplica el borde redondeado a las esquinas de la tabla */
+#summaryTable tr:first-child td:first-child {
+    border-top-left-radius: 15px; /* Esquina superior izquierda */
+}
+
+#summaryTable tr:first-child td:last-child {
+    border-top-right-radius: 15px; /* Esquina superior derecha */
+}
+
+#summaryTable tr:last-child td:first-child {
+    border-bottom-left-radius: 15px; /* Esquina inferior izquierda */
+}
+
+#summaryTable tr:last-child td:last-child {
+    border-bottom-right-radius: 15px; /* Esquina inferior derecha */
+}
+
+.observations,
+.button-container,
+.thanks {
+    border: none; /* Elimina cualquier borde adicional */
+}
+
+
+.total-section {
+    margin-top: 20px;
+    text-align: right;
+}
+.total-section .total {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00a2e8;
+}
+.observations {
+    margin-top: 40px;
+    background-color: #e0f0ff;
+    padding: 10px;
+}
+.footer {
+    text-align: center;
+    font-size: 12px;
+}
+.barra-caja {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.barra-caja i {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+
+/******************************************************************************************************/
+
+
+
+
+
+
+
+/*********************************FIN DE ESTILOS DE TERMINAL*******************************************/
+/***************************************************************************************************/
+/******************************************************************************************************/
+/********************************AQUI EMPIEZA PRODUCTOS************************************************/
+/************************formulario de crear producto*************************************************/
+
+.container-producto-formuario {
+    width: 90%;
+    max-width: 2800px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+.icono-caja {
+             font-size: 24px;
+             color: #ff0008;
+             display: flex;
+             align-items: center;
+             justify-content: space-between;
+         }
+ 
+         .icono-caja i {
+             margin-right: 10px;
+         }
+ 
+         .icon-bar {
+             display: flex;
+             gap: 15px;
+         }
+ 
+         .icon-bar i {
+             font-size: 24px;
+             cursor: pointer;
+         }
+
+h2 {
+    margin-top: 0;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #382ef6;
+    border-radius: 5px;
+}
+.form-group input[type="file"] {
+    display: none;
+}
+.form-group .file-label {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px dashed #007bff;
+    color: #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+.form-group .error {
+    color: red;
+    font-size: 0.9em;
+}
+.form-group .file-label:hover {
+    background-color: #e6f7ff;
+}
+.form-group .btn-group {
+    display: flex;
+}
+.form-group .btn-group button {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #1a7bea;
+    cursor: pointer;
+}
+.form-group .btn-group .selected {
+    background-color: #050506;
+    border-color: #007bff;
+}
+.form-group .btn-group button:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.form-group .btn-group button:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.form-group .checkbox-label {
+    display: flex;
+    align-items: center;
+}
+.form-group .checkbox-label input {
+    margin-right: 10px;
+}
+.form-group .btn-impuestos-group {
+    display: flex;
+}
+.form-group .btn-impuestos-group button {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #3168f3;
+    background-color: #3163f9;
+    cursor: pointer;
+}
+.form-group .btn-impuestos-group .selected {
+    background-color: #0d0f14;
+    border-color: #0e050f;
+}
+.form-group .btn-impuestos-group button:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.form-group .btn-impuestos-group button:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.save-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.save-button button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+.save-button button:hover {
+    background-color: #218838;
+}
+/************************************************************************/
+
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 50px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #fb6634;
+    margin-bottom: 20px;
 }
 
-/* Estilos para el contenedor principal */
-.pos-container {
+.nav-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-button {
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    background-color: #e84646;
-    min-height: 100vh;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #007bff;
+    font-size: 14px;
 }
 
-
-/* Estilos para el contenedor del punto de venta */
-.pos-container {
-    display: flex;
-    flex-direction: column;
-    padding: 100px;
-    background-color: hsl(0, 0%, 100%);
-    min-height: 100vh;
-    margin-left: 180px;
-    margin-right: 300px;
+.nav-button .icon {
+    font-size: 24px;
+    margin-bottom: 5px;
 }
 
-.product-search {
+.search-bar {
     display: flex;
     align-items: center;
 }
 
-.product-search input[type="text"] {
-    flex-grow: 1;
-    height: 40px;
-    border: 2px solid #ccc;
-    border-radius: 25px;
-    padding: 0 10px;
-    font-size: 16px;
+.search-bar input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-.product-search button {
-    height: 40px;
-    border: none;
+.search-bar button {
+    padding: 10px;
     background-color: #007bff;
-    color: #fff;
-    padding: 0 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.product-search button:hover {
-    background-color: #0056b3;
-}
-
-.product-search .search-icon {
-    background: none;
     border: none;
-    color: #b51f5b;
-    font-size: 20px;
+    color: #0f0e0e;
+    border-radius: 4px;
     cursor: pointer;
 }
 
-.product-search .search-icon:focus {
-    outline: none;
+.content {
+    display: flex;
 }
 
-/* Estilos para el contenido interno principal */
-.main-content-inner {
-    display: flex;
-    justify-content: space-between;
+.filters {
+    width: 200px;
+    padding: 10px;
+    border-right: 1px solid #202020;
+}
+
+.filters button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: #040404;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .product-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-right: 200px;
-    margin-bottom: 10px;
-    margin-top: 100px;
+    flex-grow: 1;
+    padding: 10px;
 }
 
-/* Estilos para la tabla */
-.product-table th,
-.product-table td {
-    border: none;
-    padding: 5px;
+.product-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.product-table th, .product-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
     text-align: left;
 }
 
 .product-table th {
     background-color: #ffffff;
     color: rgb(11, 11, 11);
-    border-bottom: 2px solid #2f0e8a; /* Borde inferior para los encabezados */
+    border-bottom: 2px solid #000; /* Borde inferior para los encabezados */
 }
 
 /* Borde inferior para todas las filas a partir de la segunda */
 .product-table tr:not(:first-child) td {
     border-bottom: 1px solid #ccc;
     border-radius: 25px;
+    background-color: #f8f9fa;
 }
 
-/* Estilos para la entrada de cantidad */
-.quantity {
+.add-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #28a745;
+    color: #4b1010;
+    border: none;
+    border-radius: 50%;
+    font-size: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+/********************************************//* Estilos para la barra de búsqueda */
+/* Estilos para la barra de búsqueda */
+/* Estilos para la barra de búsqueda */
+.search-bar {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 5px;
 }
 
-.quantity input[type="number"] {
-    width: 50px;
-    text-align: center;
+.search-bar input[type="text"] {
+    flex: 1;
     padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.quantity input[type="number"]::-webkit-outer-spin-button,
-.quantity input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.quantity input[type="number"]:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-/* Estilos para la entrada de código */
-.codigo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.codigo input[type="text"] {
-    width: 100px;
-    text-align: left;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.codigo input[type="text"]:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-/* Estilos para la entrada de descripción */
-.descripcion {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.descripcion input[type="text"] {
-    width: 200px;
-    text-align: left;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.descripcion input[type="text"]:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-/* Estilos para el select de unidad */
-.unidad-select {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.unidad-select select {
-    border-radius: 35px;
-    border: 1px solid #110f0f;
-    padding: 5px;
-    background-color: white;
-    height: 40px;
-    width: 100%;
     font-size: 16px;
 }
 
-/* Estilos para la entrada de precio unitario */
-.precio-unidad {
+.search-bar button {
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.filter-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Estilos para la barra de filtros y paginación */
+.filter-pagination-bar {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
-.precio-unidad input[type="text"] {
-    width: 100px;
-    text-align: left;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.precio-unidad input[type="text"]:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-/* Estilos para la entrada de descuento */
-.descuento {
+.pagination {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 5px;
 }
 
-.descuento input[type="text"] {
-    width: 100px;
-    text-align: left;
+.pagination span {
+    margin: 0 5px;
+    font-size: 16px;
+}
+
+.pagination-button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
     padding: 5px;
-    border: 1px solid #eeeeee;
-    border-radius: 25px;
 }
 
-.descuento input[type="text"]:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+.pagination-button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
 }
 
-/* Estilos para la entrada de total */
-.total {
+/* Estilos para la tabla de productos */
+.product-table {
+    margin-top: 10px;
+    color: #06101a;
+}
+
+
+.add-code-button {
+    margin-bottom: 20px; /* Ajusta este valor según el espacio que desees */
+  }
+
+
+  .modal-dialog {
+    max-width: 80%;
+  }
+  .modal-content {
+    align: right;
+    padding: 20px;
+    width: 80%;
+  }
+  .form-group label {
+    font-weight: bold;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .save-button {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .modal-header h5 {
+    font-size: 1.5rem;
+  }
+
+
+  .file-label {
+    display: block;
+    width: 100%;
+    padding: 20px;
+    border: 2px dashed #00a2ff;
+    text-align: center;
+    cursor: pointer;
+    color: #00a2ff;
+    font-size: 16px;
+    position: relative;
+  }
+  .file-label::before {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 50px;
+    background: url('data:image/png;base64,...') no-repeat center center; /* base64 de la imagen de la nube con la flecha */
+    background-size: contain;
+    margin: 0 auto 10px;
+  }
+  .file-input {
+    display: none;
+  }
+
+/********************************************aqui termina producto**************************************************************/
+/*****************************************************************************************************************************/
+/**************************************** aqui empieza proformas*************************************************************/
+/***************************************************************************************************************************/
+
+
+
+/* Estilo modulo Usuarios */
+
+.dropdown-container {
+    position: relative; /* Asegúrate de que esté establecido */
+    display: inline-block;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #333;
+    padding: 0; 
+    margin: 0; 
+}
+
+.options-wrap {
+    position: absolute;
+    top: 50%; 
+    left: 100%; 
+    width: 200px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+    z-index: 1000;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    background: #fff;
+    border-radius: 8px;
+}
+
+.options-wrap.open-options {
+    max-height: 200px; 
+}
+
+.subOptions {
+    padding: 10px;
+}
+
+.sub-option-link {
     display: flex;
     align-items: center;
-    justify-content: center;
+    text-decoration: none;
+    color: gray;
+    padding: 10px;
+    cursor: pointer;
 }
 
-.total input[type="text"] {
-    width: 100px;
-    text-align: left;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.sub-option-link:hover {
+    background-color: #f1f1f1; 
 }
 
-.total input[type="text"]:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+.sub-option-link i {
+    font-size: 16px;
+    margin-right: 10px;
 }
 
-/* Estilos para el icono de terminal */
-.header h2 .fas.fa-terminal {
-    margin-right: 10px; /* Espacio entre el icono y el texto */
-    font-size: 44px;    /* Tamaño del icono */
-    vertical-align: middle; /* Alineación vertical */
-    color: #510f03; /* Color del icono */
+.sub-option-link p {
+    margin: 0;
+    font-size: 16px;
+    width: 100%;
+    font-weight: 400;
 }
 
 
-/* Estilos para el icono de terminal */
-.header h2 .fas.fa-terminal {
-    margin-right: 10px; /* Espacio entre el icono y el texto */
-    font-size: 44px;    /* Tamaño del icono */
-    vertical-align: middle; /* Alineación vertical */
-    color: #510f03; /* Color del icono */
+.modal {
+    z-index: 1050; /* Valor por defecto de Bootstrap */
 }
- Estilos para el select de unidad */
-.unidad-select {
-    border-radius: 35px; /* Ajusta el radio del borde según sea necesario */
-    border: 1px solid #110f0f; /* Ajusta el color del borde según sea necesario */
-    padding: 5px; /* Añade padding para un mejor aspecto */
-    background-color: white; /* Ajusta el color de fondo según sea necesario */
-    height: 40px; /* Ajusta la altura del select para que coincida con los otros inputs */
-    width: 100%; /* Asegura que el select ocupe todo el espacio disponible */
-    font-size: 16px; /* Ajusta el tamaño de la fuente según sea necesario */
+.modal-backdrop {
+    z-index: 1040; /* Valor por defecto de Bootstrap */
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
 }

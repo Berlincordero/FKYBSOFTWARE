@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Gestión de Pagos a Facturas</h1>
+
+    <div class="card shadow my-4">
+        <div class="card-body">
+            <h2>Registrar Pago a Factura</h2>
+            <form id="paymentForm" method="post" action="">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="invoiceNumber" class="form-label">Número de Factura</label>
+                    <input type="text" class="form-control" id="invoiceNumber" name="invoiceNumber" required>
+                </div>
+                <div class="mb-3">
+                    <label for="paymentAmount" class="form-label">Monto del Pago</label>
+                    <input type="number" step="0.01" class="form-control" id="paymentAmount" name="paymentAmount" required>
+                </div>
+                <div class="mb-3">
+                    <label for="paymentDate" class="form-label">Fecha del Pago</label>
+                    <input type="date" class="form-control" id="paymentDate" name="paymentDate" required>
+                </div>
+                <div class="mb-3">
+                    <label for="paymentMethod" class="form-label">Método de Pago</label>
+                    <select class="form-control" id="paymentMethod" name="paymentMethod" required>
+                        <option value="">Seleccionar</option>
+                        <option value="transferencia">Transferencia</option>
+                        <option value="tarjeta">Tarjeta</option>
+                        <option value="efectivo">Efectivo</option>
+                        <option value="Sinpe">Sinpe</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Registrar Pago</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. Gestión de Pagos a Facturas -->
+    <div class="card shadow my-4">
+        <div class="card-body">
+            <h2>Pagos Realizados a Facturas</h2>
+            <table class="display" id="paymentsTable">
+                <thead>
+                    <tr>
+                        <th>Número de Factura</th>
+                        <th>Monto del Pago</th>
+                        <th>Fecha del Pago</th>
+                        <th>Método de Pago</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>FAC1001</td>
+                        <td>$250.00</td>
+                        <td>2024-07-20</td>
+                        <td>Transferencia</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#paymentsTable').DataTable();
+
+        $('#paymentForm').on('submit', function(e) {
+            //Validación de campos obligatorios
+            var valid = true;
+            $('#paymentForm input, #paymentForm select').each(function() {
+                if ($(this).val() === '') {
+                    valid = false;
+                    $(this).addClass('is-invalid');
+                } else {
+                    $(this).removeClass('is-invalid');
+                }
+            });
+            if (!valid) {
+                e.preventDefault();
+                alert('Por favor, complete todos los campos obligatorios.');
+            }
+        });
+    });
+</script>
+{% endblock %}

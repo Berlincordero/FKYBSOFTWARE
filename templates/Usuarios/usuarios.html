@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-md d-flex justify-content-between">
+            <div class="col-md-6">
+                <h1>Gestión de staff</h1>
+            </div>
+            <div class="col-md-6 text-end">
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#AgregarPersonalModal">
+                    Agregar Personal
+                </button>
+            </div>
+        </div>
+    </nav>
+    <div class="card shadow">
+        <div class="container p-2">
+            <table class="display" id="DTable">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Usuario123</td>
+                        <td>Juan</td>
+                        <td>juan@example.com</td>
+                        <td>
+                            <div class="dropdown-container">
+                                <button type="button" class="btn-icon" onclick="toggleOptions(event)">
+                                    <i class="fa fa-ellipsis-v"></i> <!-- Icono de tres puntos verticales -->
+                                </button>
+                                <div class="options-wrap" id="subOptions">
+                                    <div class="subOptions border rounded">
+                                        <a href="#" class="dropdown-item sub-option-link" data-bs-toggle="modal" data-bs-target="#EditarPersonalModal" data-id="1">
+                                            <p><i class="fa fa-edit me-2"></i>Editar</p>
+                                        </a>
+                                        <a href="#" class="dropdown-item sub-option-link" data-bs-toggle="modal" data-bs-target="#EliminarPersonalModal" data-id="1">
+                                           <p><i class="fa fa-trash me-2"></i>Borrar</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Agregar Personal -->
+<div class="modal fade" id="AgregarPersonalModal" tabindex="-1" aria-labelledby="AgregarPersonalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AgregarPersonalLabel">Agregar Personal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="AgregarPersonalForm" method="post" action="">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="Usuario" class="form-label">Usuario:</label>
+                        <input type="text" class="form-control" id="Usuario" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="Nombre" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="Email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Password" class="form-label">Password:</label>
+                        <input type="password" class="form-control" id="Password" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ConfirmPassword" class="form-label">Confirme Password:</label>
+                        <input type="password" class="form-control" id="ConfirmPassword" name="confirm_password" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Editar Personal -->
+<div class="modal fade" id="EditarPersonalModal" tabindex="-1" aria-labelledby="EditarPersonalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditarPersonalLabel">Editar Personal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="EditarPersonalForm" method="post" action="">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="UsuarioEdit" class="form-label">Usuario:</label>
+                        <input type="text" class="form-control" id="UsuarioEdit" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="NombreEdit" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="NombreEdit" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="EmailEdit" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="EmailEdit" name="email" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Eliminar Personal -->
+<div class="modal fade" id="EliminarPersonalModal" tabindex="-1" aria-labelledby="EliminarPersonalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="EliminarPersonalLabel">AVISO: Eliminando personal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Desea eliminar el usuario <span id="deleteUsername"></span>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="EliminarPersonalForm" method="post" action="">
+                    {% csrf_token %}
+                    <input type="hidden" name="username" id="deleteUsernameField">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#DTable').DataTable();
+
+        $('#EditarPersonalModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var username = button.data('id');
+            // Aquí puedes realizar una solicitud AJAX para obtener los datos del usuario a editar y llenar el formulario
+
+            // Ejemplo de cómo llenar los campos (reemplaza esto con los datos reales)
+            $('#UsuarioEdit').val(username);
+            $('#NombreEdit').val('Nombre del usuario');
+            $('#EmailEdit').val('usuario@example.com');
+        });
+
+        $('#EliminarPersonalModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var username = button.data('id');
+            $('#deleteUsername').text(username);
+            $('#deleteUsernameField').val(username);
+        });
+    });
+
+    function toggleOptions(event) {
+        const optionsMenu = document.getElementById('subOptions');
+        if (optionsMenu.classList.contains('open-options')) {
+            optionsMenu.classList.remove('open-options');
+        } else {
+            optionsMenu.classList.add('open-options');
+        }
+        event.stopPropagation();
+    }
+
+    document.addEventListener('click', function(e) {
+        const optionsMenu = document.getElementById('subOptions');
+        if (!optionsMenu.contains(e.target)) {
+            optionsMenu.classList.remove('open-options');
+        }
+    });
+</script>
+{% endblock %}
