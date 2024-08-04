@@ -1,0 +1,357 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+  <h1 class="text-center mb-4">Módulo de Clientes</h1>
+
+  <!-- Formulario para ingresar y editar clientes -->
+  <div id="formularioCliente">
+    <h2 id="formTitle">Ingresar Nuevo Cliente</h2>
+    <form id="clienteForm">
+      <div class="mb-3">
+        <label for="clienteId" class="form-label">ID Cliente</label>
+        <input type="text" class="form-control" id="clienteId" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="cedula" class="form-label">Número de Cédula</label>
+        <input type="text" class="form-control" id="cedula" required />
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombre" required />
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+      <div class="mb-3">
+        <label for="apellido1" class="form-label">Apellido 1</label>
+        <input type="text" class="form-control" id="apellido1" required />
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+      <div class="mb-3">
+        <label for="apellido2" class="form-label">Apellido 2</label>
+        <input type="text" class="form-control" id="apellido2" />
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" required />
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+      <div class="mb-3">
+        <label for="telefono" class="form-label">Teléfono</label>
+        <input type="text" class="form-control" id="telefono" required />
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+      <div class="mb-3">
+        <label for="provincia" class="form-label">Provincia</label>
+        <select class="form-select" id="provincia" name="provincia" required>
+          <option value="">Seleccione una provincia</option>
+        </select>
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+      <div class="mb-3">
+        <label for="canton" class="form-label">Cantón</label>
+        <select class="form-select" id="canton" name="canton" required>
+          <option value="">Seleccione un cantón</option>
+        </select>
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+      <div class="mb-3">
+        <label for="distrito" class="form-label">Distrito</label>
+        <select class="form-select" id="distrito" name="distrito" required>
+          <option value="">Seleccione un distrito</option>
+        </select>
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+      <div class="mb-3">
+        <label for="direccion" class="form-label">Dirección Exacta</label>
+        <textarea id="direccion" name="direccion" class="form-control" rows="3" required></textarea>
+        <div class="invalid-feedback">Este campo es obligatorio.</div>
+      </div>
+      <button type="submit" class="btn btn-primary" id="guardarBtn">Guardar</button>
+      <button type="button" class="btn btn-secondary" id="cancelarBtn">Cancelar y volver al listado de clientes</button>
+    </form>
+  </div>
+
+  <!-- Lista de clientes -->
+  <div id="listaClientes" class="mt-5">
+    <h2>Lista de Clientes</h2>
+    <div class="mb-3">
+      <label for="search" class="form-label">Buscar por:</label>
+      <select class="form-select" id="searchType">
+        <option value="cedula">Número de Cédula</option>
+        <option value="nombre">Nombre</option>
+        <option value="apellido">Apellido</option>
+      </select>
+    </div>
+    <input class="form-control mb-3" id="search" type="text" placeholder="Buscar clientes..." />
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID Cliente</th>
+          <th>Cédula</th>
+          <th>Nombre</th>
+          <th>Apellido 1</th>
+          <th>Apellido 2</th>
+          <th>Email</th>
+          <th>Teléfono</th>
+          <th>Provincia</th>
+          <th>Cantón</th>
+          <th>Distrito</th>
+          <th>Dirección</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="clientesTable">
+        <!-- Filas de clientes se añadirán aquí dinámicamente -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal de confirmación de eliminación -->
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ¿Está seguro de que desea eliminar este cliente?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alertas -->
+  <div class="alert alert-success" id="successAlert" style="display:none;"></div>
+  <div class="alert alert-danger" id="errorAlert" style="display:none;"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  $(document).ready(function () {
+    let clientes = [];
+    let editIndex = null;
+    let clienteToDelete = null;
+    let nextId = 1; // Variable para el próximo ID
+
+    function mostrarAlerta(tipo, mensaje) {
+      const alert = tipo === "success" ? $("#successAlert") : $("#errorAlert");
+      alert.text(mensaje).show();
+      setTimeout(() => alert.hide(), 3000);
+    }
+
+    function actualizarTabla(clientesFiltrados = clientes) {
+      const tableBody = $("#clientesTable");
+      tableBody.empty();
+      clientesFiltrados.forEach((cliente, index) => {
+        tableBody.append(`
+          <tr>
+            <td>${cliente.id}</td>
+            <td>${cliente.cedula}</td>
+            <td>${cliente.nombre}</td>
+            <td>${cliente.apellido1}</td>
+            <td>${cliente.apellido2}</td>
+            <td>${cliente.email}</td>
+            <td>${cliente.telefono}</td>
+            <td>${cliente.provincia}</td>
+            <td>${cliente.canton}</td>
+            <td>${cliente.distrito}</td>
+            <td>${cliente.direccion}</td>
+            <td>
+              <button class="btn btn-warning btn-sm" onclick="editarCliente(${index})">Editar</button>
+              <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="prepararEliminacion(${index})">Eliminar</button>
+            </td>
+          </tr>
+        `);
+      });
+    }
+
+    window.editarCliente = function (index) {
+      const cliente = clientes[index];
+      $("#clienteId").val(cliente.id);
+      $("#cedula").val(cliente.cedula);
+      $("#nombre").val(cliente.nombre);
+      $("#apellido1").val(cliente.apellido1);
+      $("#apellido2").val(cliente.apellido2);
+      $("#email").val(cliente.email);
+      $("#telefono").val(cliente.telefono);
+      $("#provincia").val(cliente.provincia);
+      $("#canton").val(cliente.canton);
+      $("#distrito").val(cliente.distrito);
+      $("#direccion").val(cliente.direccion);
+      $("#formTitle").text("Editar Cliente");
+      $("#guardarBtn").text("Guardar Cambios");
+      editIndex = index;
+    };
+
+    window.prepararEliminacion = function (index) {
+      clienteToDelete = index;
+    };
+
+    $("#confirmDeleteBtn").on("click", function () {
+      if (clienteToDelete !== null) {
+        clientes.splice(clienteToDelete, 1);
+        mostrarAlerta("success", "Cliente eliminado con éxito");
+        actualizarTabla();
+        clienteToDelete = null;
+        $('#confirmDeleteModal').modal('hide');
+      }
+    });
+
+    $("#clienteForm").on("submit", function (e) {
+      e.preventDefault();
+      const cliente = {
+        id: editIndex !== null ? clientes[editIndex].id : nextId++,
+        cedula: $("#cedula").val(),
+        nombre: $("#nombre").val(),
+        apellido1: $("#apellido1").val(),
+        apellido2: $("#apellido2").val(),
+        email: $("#email").val(),
+        telefono: $("#telefono").val(),
+        provincia: $("#provincia").val(),
+        canton: $("#canton").val(),
+        distrito: $("#distrito").val(),
+        direccion: $("#direccion").val(),
+      };
+      
+      if (editIndex !== null) {
+        clientes[editIndex] = cliente;
+        mostrarAlerta("success", "Cliente actualizado con éxito");
+        $("#formTitle").text("Ingresar Nuevo Cliente");
+        $("#guardarBtn").text("Guardar");
+        editIndex = null;
+      } else {
+        clientes.push(cliente);
+        mostrarAlerta("success", "Cliente guardado con éxito");
+      }
+      actualizarTabla();
+      $(this).trigger("reset");
+    });
+
+    $("#cancelarBtn").on("click", function () {
+      $("#formularioCliente").hide();
+      $("#listaClientes").show();
+    });
+
+    $("#search").on("input", function () {
+      const searchValue = $(this).val().toLowerCase();
+      const searchType = $("#searchType").val();
+      let filteredClientes = clientes;
+      
+      if (searchValue) {
+        filteredClientes = clientes.filter(cliente => {
+          if (searchType === "cedula") {
+            return cliente.cedula.toLowerCase().includes(searchValue);
+          } else if (searchType === "nombre") {
+            return cliente.nombre.toLowerCase().includes(searchValue) || cliente.apellido1.toLowerCase().includes(searchValue);
+          } else if (searchType === "apellido") {
+            return cliente.apellido1.toLowerCase().includes(searchValue) || cliente.apellido2.toLowerCase().includes(searchValue);
+          }
+        });
+      }
+      actualizarTabla(filteredClientes);
+    });
+
+    // Inicializar datos de provincias, cantones y distritos
+    // Puedes reemplazar esto con una llamada a tu API para obtener los datos reales.
+    // Datos de provincias, cantones y distritos
+    // ...
+    const costaRicaLocations = {
+      "San José": {
+          cantons: {
+              "San José": ["Carmen", "Merced", "Hospital", "Catedral", "Zapote", "San Francisco de Dos Ríos", "Uruca", "Mata Redonda", "Pavas", "Hatillo", "San Sebastián"],
+                "Escazú": ["Escazú", "San Antonio", "San Rafael"],
+                "Desamparados": ["Desamparados", "San Miguel", "San Juan de Dios", "San Rafael Arriba", "San Rafael Abajo", "San Antonio", "Frailes", "Patarrá", "San Cristóbal", "Rosario", "Damas", "San Rafael", "Gravilias"],
+                "Puriscal": ["Santiago", "Mercedes Sur", "Barbacoas", "Grifo Alto", "San Rafael", "Candelarita", "Desamparaditos", "San Antonio", "Chires"],
+                "Tarrazú": ["San Marcos", "San Lorenzo", "San Carlos"],
+                "Aserrí": ["Aserrí", "Tarbaca", "Vuelta de Jorco", "San Gabriel", "Legua", "Monterrey", "Salitrillos"],
+                "Mora": ["Ciudad Colón", "Guayabo", "Tabarcia", "Piedras Negras", "Picagres"],
+                "Goicoechea": ["Guadalupe", "San Francisco", "Calle Blancos", "Mata de Plátano", "Ipís", "Rancho Redondo", "Purral"],
+                "Santa Ana": ["Santa Ana", "Salitral", "Pozos", "Uruca", "Piedades", "Brasil"],
+                "Alajuelita": ["Alajuelita", "San Josecito", "San Antonio", "Concepción", "San Felipe"],
+                "Vásquez de Coronado": ["San Isidro", "San Rafael", "Dulce Nombre de Jesús", "Patalillo", "Cascajal"],
+                "Acosta": ["San Ignacio", "Guaitil", "Palmichal", "Cangrejal", "Sabanillas"],
+                "Tibás": ["San Juan", "Cinco Esquinas", "Anselmo Llorente", "León XIII", "Colima"],
+          }
+      },
+      "Alajuela": {
+          cantons: {
+              "Alajuela": ["Alajuela", "San José", "Carrizal", "San Antonio", "Guácima", "San Isidro", "Sabanilla", "San Rafael"],
+                "San Ramón": ["San Ramón", "Santiago", "San Juan", "Piedades Norte", "Piedades Sur", "San Rafael", "San Isidro", "Ángeles", "Alfaro", "Volio", "Concepción", "Zapotal", "Peñas Blancas"],
+                "Grecia": ["Grecia", "San Isidro", "San José", "San Roque", "Tacares", "Río Cuarto", "Puente de Piedra", "Bolívar"],
+                "San Mateo": ["San Mateo", "Desmonte", "Jesús María"],
+                "Atenas": ["Atenas", "Jesús", "Mercedes", "San Isidro", "Concepción", "San José", "Santa Eulalia"],
+                "Naranjo": ["Naranjo", "San Miguel", "San José", "Cirrí Sur", "San Jerónimo"],
+                "Palmares": ["Palmares", "Zaragoza", "Buenos Aires", "Santiago", "Candelaria", "Esquipulas", "La Granja"],
+                "Poás": ["San Pedro", "San Juan", "San Rafael", "Carrillos", "Sabana Redonda"],
+                "Orotina": ["Orotina", "El Mastate", "Hacienda Vieja", "Coyolar", "La Ceiba"],
+                "San Carlos": ["Quesada", "Florencia", "Buenavista", "Aguas Zarcas", "Venecia", "Pital", "La Fortuna", "La Tigra", "La Palmera"],
+                "Zarcero": ["Zarcero", "Laguna", "Tapezco", "Guadalupe", "Palmira", "Zapote", "Brisas"],
+                "Valverde Vega": ["Sarchí Norte", "Sarchí Sur", "Toro Amarillo", "San Pedro", "Rodríguez"],
+                "Upala": ["Upala", "Aguas Claras", "San José (Pizote)", "Bijagua", "Delicias", "Dos Ríos"],
+          }
+      },
+      "Cartago": {
+          cantons: {
+              "Cartago": ["Oriental", "Occidental", "Carmen", "San Nicolás", "Agua Caliente", "Guadalupe", "Corralillo", "Tierra Blanca", "Dulce Nombre"],
+                "Paraíso": ["Paraíso", "Santiago", "Orosi", "Cachí", "Llanos de Santa Lucía"],
+                "La Unión": ["Tres Ríos", "San Diego", "San Juan", "San Rafael", "Concepción", "Dulce Nombre", "San Ramón", "Río Azul"],
+                "Jiménez": ["Juan Viñas", "Tucurrique", "Pejibaye"],
+                "Turrialba": ["Turrialba", "La Suiza", "Peralta", "Santa Cruz", "Santa Teresita", "Pavones", "Tuis", "Tayutic", "Santa Rosa", "Tres Equis"],
+                "Alvarado": ["Pacayas", "Cervantes", "Capellades"],
+                "Oreamuno": ["San Rafael", "Cot", "Potrero Cerrado", "Cipreses", "Santa Rosa"],
+                "El Guarco": ["El Tejar", "San Isidro", "Tobosi", "Patio de Agua"],
+          }
+      },
+      "Heredia": {
+          cantons: {
+              "Heredia": ["Heredia", "Mercedes", "San Francisco", "Ulloa", "Vara Blanca"],
+                "Barva": ["Barva", "San Pedro", "San Pablo", "San Roque", "Santa Lucía", "San José de la Montaña"],
+                "Santo Domingo": ["Santo Domingo", "San Vicente", "San Miguel", "Paracito", "Santo Tomás", "Santa Rosa", "Tures"],
+                "Santa Bárbara": ["Santa Bárbara", "San Pedro", "San Juan", "Jesús", "Santo Domingo", "Purabá"],
+                "San Rafael": ["San Rafael", "San Josecito", "Santiago", "Ángeles", "Concepción"],
+                "San Isidro": ["San Isidro", "San José", "Concepción", "San Francisco"],
+          }
+      },
+    
+      
+      // Otras provincias...
+    };
+    
+    // Inicializar provincias en el dropdown
+    const provincias = Object.keys(costaRicaLocations);
+    provincias.forEach(p => $("#provincia").append(`<option value="${p}">${p}</option>`));
+    
+    // Manejar el cambio en la provincia
+    $("#provincia").on("change", function () {
+      const provincia = $(this).val();
+      const cantones = provincia in costaRicaLocations ? Object.keys(costaRicaLocations[provincia].cantons) : [];
+      $("#canton").empty().append(`<option value="">Seleccione un cantón</option>`);
+      cantones.forEach(c => $("#canton").append(`<option value="${c}">${c}</option>`));
+      $("#distrito").empty().append(`<option value="">Seleccione un distrito</option>`);
+    });
+    
+    // Manejar el cambio en el cantón
+    $("#canton").on("change", function () {
+      const provincia = $("#provincia").val();
+      const canton = $(this).val();
+      const distritos = (provincia in costaRicaLocations && canton in costaRicaLocations[provincia].cantons) 
+          ? costaRicaLocations[provincia].cantons[canton]
+          : [];
+      $("#distrito").empty().append(`<option value="">Seleccione un distrito</option>`);
+      distritos.forEach(d => $("#distrito").append(`<option value="${d}">${d}</option>`));
+    });
+    
+      
+
+
+  });
+</script>
+{% endblock %}

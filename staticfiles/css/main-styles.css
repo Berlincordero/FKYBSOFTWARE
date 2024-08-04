@@ -874,8 +874,36 @@ h2 {
     align-items: center;
     gap: 10px;
 }
-.icon-small {
-    font-size: 1.5rem; 
-    color: green;
+
+.total input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
+/* Estilos para el icono de terminal */
+.header h2 .fas.fa-terminal {
+    margin-right: 10px; /* Espacio entre el icono y el texto */
+    font-size: 44px;    /* Tamaño del icono */
+    vertical-align: middle; /* Alineación vertical */
+    color: #510f03; /* Color del icono */
+}
+
+
+/* Estilos para el icono de terminal */
+.header h2 .fas.fa-terminal {
+    margin-right: 10px; /* Espacio entre el icono y el texto */
+    font-size: 44px;    /* Tamaño del icono */
+    vertical-align: middle; /* Alineación vertical */
+    color: #510f03; /* Color del icono */
+}
+ Estilos para el select de unidad */
+.unidad-select {
+    border-radius: 35px; /* Ajusta el radio del borde según sea necesario */
+    border: 1px solid #110f0f; /* Ajusta el color del borde según sea necesario */
+    padding: 5px; /* Añade padding para un mejor aspecto */
+    background-color: white; /* Ajusta el color de fondo según sea necesario */
+    height: 40px; /* Ajusta la altura del select para que coincida con los otros inputs */
+    width: 100%; /* Asegura que el select ocupe todo el espacio disponible */
+    font-size: 16px; /* Ajusta el tamaño de la fuente según sea necesario */
+}

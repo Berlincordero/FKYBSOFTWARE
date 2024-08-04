@@ -27,10 +27,6 @@ INSTALLED_APPS = [
     'config',
     'crispy_forms',
     'crispy_bootstrap5',
-    'Usuarios',
-    'Reportes',
-    'Proveedores',
-    'terminal',
   
     
 ]
@@ -67,6 +63,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
@@ -101,9 +98,7 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 
 
