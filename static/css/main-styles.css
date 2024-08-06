@@ -874,6 +874,10 @@ h2 {
     align-items: center;
     gap: 10px;
 }
+.icon-small {
+    font-size: 1.5rem; 
+    color: green;
+}
 
 .total input[type="text"]:focus {
     outline: none;
