@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-
-
+  
     <div class="container">
         <div class="header-proveedores">
             <h1>Listado de Proveedores</h1>
         </div>
-        <a href="{% url 'proveedor_new' %}" data-bs-toggle="tooltip" title="Agregar nuevo">
-        <i class="fa-solid fa-user-plus icon icon-small" ></i>
-        </a>
+        <!-- Botón para abrir el modal de agregar proveedor -->
+        <a href="#" data-bs-toggle="modal" title="Agregar nuevo proveedor" data-bs-target="#AgregarProveedor">
+            <i class="fa-solid fa-user-plus icon icon-small"></i></a>
+ 
+            
         <table id="proveedoresTable" class="table table-striped table-bordered mt-3" style="width:100%">
             <thead>
                 <tr>
+                    <th> </th>
                     <th>Codigo Proveedor</th>
                     <th>Nombre</th>
                     <th>Activo</th>
@@ -21,50 +23,175 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- {% for proveedor in proveedores %}
-                <tr>
+            <tr>                    
+                <td><a href="#" class="btn btn-outline-warning btn-sm"  data-bs-toggle="modal" title="Editar proveedor" data-bs-target="#AgregarProveedor"><i class="fas fa-edit"></i></a></td>
+                <td>1234</td>
+                <td>ABC</td>
+                <td>No</td>
+                <td>123456789</td>
+                <td>abc@email.com</td>
+                <td>
+                    <a href="#" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" title="Detalles" data-bs-target="#DetalleProveedor" data-id="{{ proveedor.pk }}" data-username="{{ proveedor.nombre }}">
+                        <i class="fa-solid fa-eye"></i></a>
                     
-                    <td>{{ proveedor.id_proveedor }}</td>
-                    <td>{{ proveedor.nombre }}</td>
-                    <td>a{{ proveedor.activo }}</td>
-                    <td>{{ proveedor.telefono }}/td>
-                    <td>{{ proveedor.email }}</td>
-                    <td>
-                        
-                        <a href="{% url 'proveedor_detail' proveedor.pk %}" class="btn btn-outline-success btn-sm" data-bs-toggle="tooltip" title="Ver detalles"><i class="fas fa-eye"></i></a>
-                        <a href="{% url 'proveedor_edit' proveedor.pk %}" class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" title="Editar"><i class="fas fa-edit"></i></a>
-                        <a href="{% url 'proveedor_delete' proveedor.pk %}" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" title="Eliminar"><i class="fa-solid fa-user-xmark"></i></a>
-                        
-                    </td>
-                    <td>1233</td>
-                    <td>EPA</td>
-                    <td>Si</td>
-                    <td>343434343</td>
-                    <td>email@email.com</td>
-                    <td>
-                        
-                        <a href="" class="btn btn-outline-success btn-sm" data-bs-toggle="tooltip" title="Ver detalles"><i class="fas fa-eye"></i></a>
-                            <a href="" class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" title="Editar"><i class="fas fa-edit"></i></a>
-                            <a href="" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" title="Eliminar"><i class="fa-solid fa-user-xmark"></i></a>
-                        
-                    </td>
-                </tr>
-                {% endfor %}-->
-                <tr>
-                    <td>1234</td>
-                    <td>ABC</td>
-                    <td>No</td>
-                    <td>123456789</td>
-                    <td>abc@email.com</td>
-                    <td>
-                        <a href="{% url 'proveedor_detail'%}" class="btn btn-outline-success btn-sm" data-bs-toggle="tooltip" title="Ver detalles"><i class="fas fa-eye"></i></a>
-                        <a href="{% url 'proveedor_edit'%}" class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" title="Editar"><i class="fas fa-edit"></i></a>
-                        <a href="{% url 'proveedor_delete'%}" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" title="Eliminar"><i class="fa-solid fa-user-xmark"></i></a>
-                    </td>
-                </tr>
+                    <a href="#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" title="Eliminar" data-bs-target="#EliminarProveedor" data-id="{{ proveedor.pk }}" data-username="{{ proveedor.nombre }}">
+                        <i class="fa-solid fa-user-xmark"></i></a>
+                </td>
+            </tr>
+
             </tbody>
         </table>
+        <div class="mt-3 d-flex justify-content-between">
+            <a href="{% url 'index' %}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Regresar al menú lateral</a>
+        </div>
         
+    </div>
+
+    <div class="modal fade" id="EliminarProveedor" tabindex="-1" aria-labelledby="EliminarProveedorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger " id="EliminarProveedorLabel">AVISO: Eliminando proveedor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>¿Desea eliminar el proveedor <span id="deleteUsername"></span>?</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <form id="EliminarProveedorForm" method="post" action="">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" id="deleteId">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="DetalleProveedor" tabindex="-1" aria-labelledby="DetalleProveedorLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="DetalleProveedorLabel">Detalle del Proveedor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-content-inner">
+                        <p><strong>Código Proveedor:</strong> 1</p>
+                        <p><strong>Fecha que se ingresó al sistema:</strong> 30/8/2024</p>
+                        <p><strong>Nombre de la Empresa:</strong> Construplaza</p>
+                        <p><strong>Tipo de Identificación:</strong> Jurídica</p>
+                        <p><strong>Número de Identificación:</strong> 4020120000000</p>
+                        <p><strong>Nombre:</strong> Marco Ulate</p>
+                        <p><strong>Email:</strong> constru@gmail.com</p>
+                        <p><strong>Provincia:</strong> Heredia</p>
+                        <p><strong>Cantón:</strong> Heredia</p>
+                        <p><strong>Distrito:</strong> Heredia</p>
+                        <p><strong>Dirección Exacta:</strong> Heredia centro</p>
+                        <p><strong>Teléfono 1:</strong> 55555555555</p>
+                        <p><strong>Teléfono 2:</strong> 55555555555</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="AgregarProveedor" tabindex="-1" aria-labelledby="AgregarProveedorLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title form-header" id="AgregarProveedorLabel">Formulario de Registro de Proveedores</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Copiar el contenido del formulario aquí -->
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <div class="form-section">
+                            <h4>Solo para uso interno</h4>
+                            <table class="table-form">
+                                <tr>
+                                    <th class="internal-use">Id proveedor</th>
+                                    <th class="internal-use">Fecha</th>
+                                </tr>
+                                <tr>
+                                    <td class="internal-use">
+                                        <input type="text" class="form-control" id="id_proveedor" name="id_proveedor">
+                                    </td>
+                                    <td class="internal-use">
+                                        <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="form-section">
+                            <label for="nombre_empresa" class="form-label"><strong >Nombre de la empresa </strong> </label>
+                            <input type="text" class="form-control" id="nombre_empresa" name="nombre_empresa">
+                        </div>
+                        <div class="form-section">
+                            <h4>Contacto</h4>
+                            <div class="form-group">
+                                <label for="tipo_identificacion">Tipo identificación:</label>
+                                <select id="tipo_identificacion" name="tipo_identificacion" class="form-control">
+                                    <option value="Cedula">Cédula Física</option>
+                                    <!-- Agrega aquí otras opciones -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="identificacion">Identificación:</label>
+                                <input type="text" class="form-control" id="identificacion" name="identificacion">
+                            </div>
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" name="email">
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h4>Direcciones</h4>
+                            <div class="form-group">
+                                <label for="provincia">Provincia:</label>
+                                <select id="provincia" name="provincia" class="form-control">
+                                    <!-- Agrega aquí las opciones -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="canton">Cantón:</label>
+                                <select id="canton" name="canton" class="form-control">
+                                    <!-- Agrega aquí las opciones -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="distrito">Distrito:</label>
+                                <select id="distrito" name="distrito" class="form-control">
+                                    <!-- Agrega aquí las opciones -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="direccion">Dirección Exacta:</label>
+                                <input type="text" class="form-control" id="direccion" name="direccion">
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h4>Teléfonos</h4>
+                            <div class="form-group">
+                                <label for="telefono1">Teléfono de contacto 1:</label>
+                                <input type="text" class="form-control" id="telefono1" name="telefono1">
+                            </div>
+                            <div class="form-group">
+                                <label for="telefono2">Teléfono de contacto 2:</label>
+                                <input type="text" class="form-control" id="telefono2" name="telefono2">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Incluir jQuery y DataTables JS -->
@@ -74,23 +201,203 @@
  
 
     <script>
+
         $(document).ready(function() {
-            $('#proveedoresTable').DataTable({
-                "paging": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "lengthChange": false,
-                "pageLength": 5,
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+            // Inicializar DataTable
+            var table = $('#proveedoresTable').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                lengthChange: false,
+                pageLength: 5,
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                }
+            });
+    
+            // Inicializar tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+    
+            // Manejo del modal de eliminación
+            var eliminarModal = document.getElementById('EliminarProveedor');
+            eliminarModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget; // Elemento que abrió el modal
+                var proveedorId = button.getAttribute('data-id'); // Obtener el ID del proveedor
+                var proveedorNombre = button.getAttribute('data-username'); // Obtener el nombre del proveedor
+                
+                var modalBody = eliminarModal.querySelector('.modal-body #deleteUsername');
+                var form = eliminarModal.querySelector('#EliminarProveedorForm');
+                var idField = eliminarModal.querySelector('#deleteId');
+                
+                modalBody.textContent = proveedorNombre; // Mostrar el nombre del proveedor en el modal
+                idField.value = proveedorId; // Establecer el ID del proveedor en el campo oculto
+                
+                // Establecer la URL del formulario para la eliminación
+                form.action = "".replace('0', proveedorId);
+            });
+    
+            // Manejo de la eliminación en el servidor
+            $('#EliminarProveedorForm').on('submit', function(e) {
+                e.preventDefault(); // Evitar el envío del formulario por defecto
+    
+                var form = $(this);
+                var id = $('#deleteId').val();
+    
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function(response) {
+                        // Remover la fila de la tabla
+                        $('#proveedoresTable').find('tr[data-id="' + id + '"]').remove();
+                        // Cerrar el modal
+                        $('#EliminarProveedor').modal('hide');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error al eliminar:', error);
+                        alert('Error al eliminar el proveedor.');
+                    }
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const costaRicaLocations = {
+                // Datos de localidades de Costa Rica aquí
+                "San José": {
+                    cantons: {
+                        "San José": ["Carmen", "Merced", "Hospital", "Catedral", "Zapote", "San Francisco de Dos Ríos", "Uruca", "Mata Redonda", "Pavas", "Hatillo", "San Sebastián"],
+                        "Escazú": ["Escazú", "San Antonio", "San Rafael"],
+                        "Desamparados": ["Desamparados", "San Miguel", "San Juan de Dios", "San Rafael Arriba", "San Rafael Abajo", "San Antonio", "Frailes", "Patarrá", "San Cristóbal", "Rosario", "Damas", "San Rafael", "Gravilias"],
+                        "Puriscal": ["Santiago", "Mercedes Sur", "Barbacoas", "Grifo Alto", "San Rafael", "Candelarita", "Desamparaditos", "San Antonio", "Chires"],
+                        "Tarrazú": ["San Marcos", "San Lorenzo", "San Carlos"],
+                        "Aserrí": ["Aserrí", "Tarbaca", "Vuelta de Jorco", "San Gabriel", "Legua", "Monterrey", "Salitrillos"],
+                        "Mora": ["Ciudad Colón", "Guayabo", "Tabarcia", "Piedras Negras", "Picagres"],
+                        "Goicoechea": ["Guadalupe", "San Francisco", "Calle Blancos", "Mata de Plátano", "Ipís", "Rancho Redondo", "Purral"],
+                        "Santa Ana": ["Santa Ana", "Salitral", "Pozos", "Uruca", "Piedades", "Brasil"],
+                        "Alajuelita": ["Alajuelita", "San Josecito", "San Antonio", "Concepción", "San Felipe"],
+                        "Vásquez de Coronado": ["San Isidro", "San Rafael", "Dulce Nombre de Jesús", "Patalillo", "Cascajal"],
+                        "Acosta": ["San Ignacio", "Guaitil", "Palmichal", "Cangrejal", "Sabanillas"],
+                        "Tibás": ["San Juan", "Cinco Esquinas", "Anselmo Llorente", "León XIII", "Colima"],},},
+                "Alajuela": {
+                    cantons: {
+                        "Alajuela": ["Alajuela", "San José", "Carrizal", "San Antonio", "Guácima", "San Isidro", "Sabanilla", "San Rafael"],
+                        "San Ramón": ["San Ramón", "Santiago", "San Juan", "Piedades Norte", "Piedades Sur", "San Rafael", "San Isidro", "Ángeles", "Alfaro", "Volio", "Concepción", "Zapotal", "Peñas Blancas"],
+                        "Grecia": ["Grecia", "San Isidro", "San José", "San Roque", "Tacares", "Río Cuarto", "Puente de Piedra", "Bolívar"],
+                        "San Mateo": ["San Mateo", "Desmonte", "Jesús María"],
+                        "Atenas": ["Atenas", "Jesús", "Mercedes", "San Isidro", "Concepción", "San José", "Santa Eulalia"],
+                        "Naranjo": ["Naranjo", "San Miguel", "San José", "Cirrí Sur", "San Jerónimo"],
+                        "Palmares": ["Palmares", "Zaragoza", "Buenos Aires", "Santiago", "Candelaria", "Esquipulas", "La Granja"],
+                        "Poás": ["San Pedro", "San Juan", "San Rafael", "Carrillos", "Sabana Redonda"],
+                        "Orotina": ["Orotina", "El Mastate", "Hacienda Vieja", "Coyolar", "La Ceiba"],
+                        "San Carlos": ["Quesada", "Florencia", "Buenavista", "Aguas Zarcas", "Venecia", "Pital", "La Fortuna", "La Tigra", "La Palmera"],
+                        "Zarcero": ["Zarcero", "Laguna", "Tapezco", "Guadalupe", "Palmira", "Zapote", "Brisas"],
+                        "Valverde Vega": ["Sarchí Norte", "Sarchí Sur", "Toro Amarillo", "San Pedro", "Rodríguez"],
+                        "Upala": ["Upala", "Aguas Claras", "San José (Pizote)", "Bijagua", "Delicias", "Dos Ríos"], },},        
+                "Cartago": {
+                    cantons: {
+                        "Cartago": ["Oriental", "Occidental", "Carmen", "San Nicolás", "Agua Caliente", "Guadalupe", "Corralillo", "Tierra Blanca", "Dulce Nombre"],
+                        "Paraíso": ["Paraíso", "Santiago", "Orosi", "Cachí", "Llanos de Santa Lucía"],
+                        "La Unión": ["Tres Ríos", "San Diego", "San Juan", "San Rafael", "Concepción", "Dulce Nombre", "San Ramón", "Río Azul"],
+                        "Jiménez": ["Juan Viñas", "Tucurrique", "Pejibaye"],
+                        "Turrialba": ["Turrialba", "La Suiza", "Peralta", "Santa Cruz", "Santa Teresita", "Pavones", "Tuis", "Tayutic", "Santa Rosa", "Tres Equis"],
+                        "Alvarado": ["Pacayas", "Cervantes", "Capellades"],
+                        "Oreamuno": ["San Rafael", "Cot", "Potrero Cerrado", "Cipreses", "Santa Rosa"],
+                        "El Guarco": ["El Tejar", "San Isidro", "Tobosi", "Patio de Agua"],},}, 
+                "Heredia": {
+                    cantons: {
+                        "Heredia": ["Heredia", "Mercedes", "San Francisco", "Ulloa", "Vara Blanca"],
+                        "Barva": ["Barva", "San Pedro", "San Pablo", "San Roque", "Santa Lucía", "San José de la Montaña"],
+                        "Santo Domingo": ["Santo Domingo", "San Vicente", "San Miguel", "Paracito", "Santo Tomás", "Santa Rosa", "Tures"],
+                        "Santa Bárbara": ["Santa Bárbara", "San Pedro", "San Juan", "Jesús", "Santo Domingo", "Purabá"],
+                        "San Rafael": ["San Rafael", "San Josecito", "Santiago", "Ángeles", "Concepción"],
+                        "San Isidro": ["San Isidro", "San José", "Concepción", "San Francisco"],},},    
+                "Guanacaste": {
+                    cantons: {
+                        "Liberia": ["Liberia", "Cañas Dulces", "Mayorga", "Nacascolo", "Curubandé"],
+                        "Nicoya": ["Nicoya", "Mansión", "San Antonio", "Quebrada Honda", "Sámara", "Nosara", "Belén de Nosarita"],
+                        "Santa Cruz": ["Santa Cruz", "Bolsón", "Veintisiete de Abril", "Tempate", "Cartagena", "Cuajiniquil", "Diriá", "Cabo Velas", "Tamarindo"],
+                        "Bagaces": ["Bagaces", "La Fortuna", "Mogote", "Río Naranjo"],
+                        "Carrillo": ["Filadelfia", "Palmira", "Sardinal", "Belén"],
+                        "Cañas": ["Cañas", "Palmira", "San Miguel", "Bebedero", "Porozal"],
+                        "Abangares": ["Las Juntas", "Sierra", "San Juan", "Colorado"],
+                        "Tilarán": ["Tilarán", "Quebrada Grande", "Tronadora", "Santa Rosa", "Líbano", "Tierras Morenas", "Arenal"],
+                        "Nandayure": ["Carmona", "Santa Rita", "Zapotal", "San Pablo", "Porvenir", "Bejuco"],
+                        "La Cruz": ["La Cruz", "Santa Cecilia", "La Garita", "Santa Elena"],
+                        "Hojancha": ["Hojancha", "Monte Romo", "Puerto Carrillo", "Huacas", "Matambú"],},},     
+                "Puntarenas": {
+                    cantons: {
+                        "Puntarenas": ["Puntarenas", "Pitahaya", "Chomes", "Lepanto", "Paquera", "Manzanillo", "Guacimal", "Barranca", "Monteverde", "Isla del Coco", "Cóbano"],
+                        "Esparza": ["Espíritu Santo", "San Juan Grande", "Macacona", "San Rafael", "San Jerónimo"],
+                        "Buenos Aires": ["Buenos Aires", "Volcán", "Potrero Grande", "Boruca", "Pilas", "Colinas", "Chánguena", "Biolley", "Brunka"],
+                        "Montes de Oro": ["Miramar", "La Unión", "San Isidro"],
+                        "Osa": ["Cortés", "Palmar", "Sierpe", "Bahía Ballena", "Piedras Blancas", "Bahía Drake"],
+                        "Quepos": ["Quepos", "Savegre", "Naranjito"],
+                        "Golfito": ["Golfito", "Puerto Jiménez", "Guaycará", "Pavón"],
+                        "Coto Brus": ["San Vito", "Sabalito", "Aguabuena", "Limoncito", "Pittier"],
+                        "Parrita": ["Parrita"],
+                        "Corredores": ["Corredor", "La Cuesta", "Paso Canoas", "Laurel"],},},
+                "Limón": {  
+                    cantons: {
+                        "Limón": ["Limón", "Valle La Estrella", "Río Blanco", "Matama"],
+                        "Pococí": ["Guápiles", "Jiménez", "La Rita", "Roxana", "Cariari", "Colorado"],
+                        "Siquirres": ["Siquirres", "Pacuarito", "Florida", "Germania", "Cairo", "Alegría"],
+                        "Talamanca": ["Bratsi", "Sixaola", "Cahuita", "Telire"],
+                        "Matina": ["Matina", "Batán", "Carrandi"],
+                        "Guácimo": ["Guácimo", "Mercedes", "Pocora", "Río Jiménez", "Duacarí"],},},
+            };
+
+            const provinciaSelect = document.getElementById("provincia");
+            const cantonSelect = document.getElementById("canton");
+            const distritoSelect = document.getElementById("distrito");
+
+            // Poblar provincias
+            Object.keys(costaRicaLocations).forEach((provincia) => {
+                const option = document.createElement("option");
+                option.value = provincia;
+                option.text = provincia;
+                provinciaSelect.appendChild(option);
+            });
+
+            // Actualizar cantones y distritos según la provincia seleccionada
+            provinciaSelect.addEventListener("change", () => {
+                const selectedProvincia = provinciaSelect.value;
+                cantonSelect.innerHTML = '<option value="">Seleccione un cantón</option>';
+                distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
+
+                if (selectedProvincia) {
+                    const cantons = costaRicaLocations[selectedProvincia].cantons;
+                    Object.keys(cantons).forEach((canton) => {
+                        const option = document.createElement("option");
+                        option.value = canton;
+                        option.text = canton;
+                        cantonSelect.appendChild(option);
+                    });
+                }
+            });
+
+            // Actualizar distritos según el cantón seleccionado
+            cantonSelect.addEventListener("change", () => {
+                const selectedProvincia = provinciaSelect.value;
+                const selectedCanton = cantonSelect.value;
+                distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
+
+                if (selectedProvincia && selectedCanton) {
+                    const distritos = costaRicaLocations[selectedProvincia].cantons[selectedCanton];
+                    distritos.forEach((distrito) => {
+                        const option = document.createElement("option");
+                        option.value = distrito;
+                        option.text = distrito;
+                        distritoSelect.appendChild(option);
+                    });
                 }
             });
         });
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+
     </script>
 
 {% endblock %}
