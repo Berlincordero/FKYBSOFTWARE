@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Utilidades</title>
+    <style>
+        
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .summary {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reporte de Utilidades</h1>
+    <h2>Periodo: 01/01/2023 - 31/12/2023</h2>
+    <table>
+        <tr>
+            <th>Concepto</th>
+            <th>Monto (COLONES)</th>
+        </tr>
+        <tr>
+            <td>Ingresos Totales</td>
+            <td>100,000 colones</td>
+        </tr>
+        <tr>
+            <td>Costos de Bienes Vendidos (COGS)</td>
+            <td>40,000 colones</td>
+        </tr>
+        <tr>
+            <td>Gastos Operativos</td>
+            <td>30,000 colones</td>
+        </tr>
+        <tr>
+            <td>Utilidades Brutas</td>
+            <td>60,000 colones</td>
+        </tr>
+        <tr>
+            <td>Utilidades Operativas</td>
+            <td>30,000 colones</td>
+        </tr>
+        <tr>
+            <td>Gastos Adicionales</td>
+            <td>5,000 colones</td>
+        </tr>
+        <tr>
+            <td>Utilidades Netas</td>
+            <td>25,000 colones</td>
+        </tr>
+    </table>
+    <div class="summary">
+        <h2>Resumen</h2>
+        <p>Las utilidades netas para el periodo especificado son de <strong>190,000  colones netos</strong>.</p>
+    </div>
+    
+    <div class="summary">
+        <h2>TOTAL DE IMPUESTOS</h2>
+        <p>los impuestos recaudados del periodo especificado son de <strong>19,280  colones netos</strong>.</p>
+        <p>este monton se debe pagar antes del 15 de enero del 2024</p>
+    
+    
+</body>
+</html>
+
+
+
+{% endblock %}

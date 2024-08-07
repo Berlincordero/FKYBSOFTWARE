@@ -13,3 +13,13 @@ def cuentasCobrar(request):
 
 def pagosFacturas(request):
     return render(request, 'Reportes/pagosFacturas.html')
+
+
+def reporteUtilidades(request):
+    return render(request, 'Reportes/reporteUtilidades.html')
+
+def cierreCaja(request):
+    return render(request, 'Reportes/cierreCaja.html')
+
+def reporteProformas(request):
+    return render(request, 'Reportes/reporteProformas.html')

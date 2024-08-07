@@ -11,9 +11,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <style>
-      body {
-        font-family: Arial, sans-serif;
-      }
       .container {
         width: 80%;
         margin: 20px auto;
@@ -68,13 +65,23 @@
       }
       th,
       td {
-        border: 1px solid #ddd;
+        border: 1px solid #95defd;
         padding: 8px;
         text-align: left;
       }
       th {
-        background-color: #f6d079;
+        background-color: #95defd;
       }
+      tr:hover {
+        background-color: hsl(180, 1%, 83%); /* Cambia el fondo de la fila al pasar el ratón */
+        transition: background-color 0.3s; /* Para una transición suave */
+    }
+      td:hover {
+        background-color: #efc737; /* Cambia el fondo de la celda al pasar el ratón */
+        transition: background-color 0.3s; /* Para una transición suave */
+    }
+
+
       .fixed-icons {
         display: flex;
       }
@@ -101,6 +108,13 @@
       }
       .status-pending {
         color: #dc3545;
+      }
+      .archive-button {
+        background-color: transparent;
+        border: none;
+        color: #007bff;
+        cursor: pointer;
+        font-size: 1.2em;
       }
     </style>
   </head>
@@ -139,6 +153,8 @@
           <th>Moneda</th>
           <th>Total</th>
           <th>Estado De La Factura</th>
+          <th>Tipo de Pago</th>
+          <th>Archivar</th>
         </tr>
       </thead>
       <tbody>
@@ -153,6 +169,12 @@
             Pago Pendiente
             <i class="fa fa-times-circle status-icon status-pending"></i>
           </td>
+          <td>A crédito</td>
+          <td>
+            <button class="archive-button" title="Archivar">
+              <i class="fa fa-archive"></i>
+            </button>
+          </td>
         </tr>
         <tr>
           <td>0000000161</td>
@@ -163,6 +185,12 @@
           <td>4440.00</td>
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+          <td>A contado</td>
+          <td>
+            <button class="archive-button" title="Archivar">
+              <i class="fa fa-archive"></i>
+            </button>
           </td>
         </tr>
         <tr>
@@ -175,6 +203,12 @@
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
           </td>
+          <td>A contado</td>
+          <td>
+            <button class="archive-button" title="Archivar">
+              <i class="fa fa-archive"></i>
+            </button>
+          </td>
         </tr>
         <tr>
           <td>0000003123</td>
@@ -185,6 +219,12 @@
           <td>8350.00</td>
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+          <td>A contado</td>
+          <td>
+            <button class="archive-button" title="Archivar">
+              <i class="fa fa-archive"></i>
+            </button>
           </td>
         </tr>
         <tr>
@@ -197,6 +237,12 @@
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
           </td>
+          <td>A contado</td>
+          <td>
+            <button class="archive-button" title="Archivar">
+              <i class="fa fa-archive"></i>
+            </button>
+          </td>
         </tr>
         <tr>
           <td>0000003121</td>
@@ -207,6 +253,12 @@
           <td>750.00</td>
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+          <td>A contado</td>
+          <td>
+            <button class="archive-button" title="Archivar">
+              <i class="fa fa-archive"></i>
+            </button>
           </td>
         </tr>
         <tr>
@@ -219,6 +271,12 @@
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
           </td>
+          <td>A contado</td>
+          <td>
+            <button class="archive-button" title="Archivar">
+              <i class="fa fa-archive"></i>
+            </button>
+          </td>
         </tr>
         <tr>
           <td>0000003119</td>
@@ -229,6 +287,12 @@
           <td>10,384.00</td>
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+          <td>A contado</td>
+          <td>
+            <button class="archive-button" title="Archivar">
+              <i class="fa fa-archive"></i>
+            </button>
           </td>
         </tr>
         <tr>
@@ -241,6 +305,12 @@
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
           </td>
+          <td>A contado</td>
+          <td>
+            <button class="archive-button" title="Archivar">
+              <i class="fa fa-archive"></i>
+            </button>
+          </td>
         </tr>
         <tr>
           <td>0000003117</td>
@@ -251,6 +321,12 @@
           <td>23,846.00</td>
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+          <td>A contado</td>
+          <td>
+            <button class="archive-button" title="Archivar">
+              <i class="fa fa-archive"></i>
+            </button>
           </td>
         </tr>
         <tr>
@@ -263,6 +339,12 @@
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
           </td>
+          <td>A contado</td>
+          <td>
+            <button class="archive-button" title="Archivar">
+              <i class="fa fa-archive"></i>
+            </button>
+          </td>
         </tr>
         <tr>
           <td>0000003115</td>
@@ -273,6 +355,12 @@
           <td>12,741.00</td>
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+          </td>
+          <td>A contado</td>
+          <td>
+            <button class="archive-button" title="Archivar">
+              <i class="fa fa-archive"></i>
+            </button>
           </td>
         </tr>
       </tbody>

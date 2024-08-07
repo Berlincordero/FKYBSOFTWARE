@@ -110,13 +110,25 @@
       }
       th,
       td {
-        border: 1px solid #ddd;
+        border: 1px solid #95defd;
         padding: 8px;
         text-align: left;
       }
       th {
-        background-color: #f6d079;
+        background-color: #95defd;
       }
+
+      tbody tr:hover {
+        background-color: hsl(180, 1%, 83%); /* Cambia el fondo de la fila al pasar el ratón */
+        transition: background-color 0.3s; /* Para una transición suave */
+    }
+    
+      tbody td:hover {
+        background-color: #efc737; /* Cambia el fondo de la celda al pasar el ratón */
+        transition: background-color 0.3s; /* Para una transición suave */
+    }
+
+
       .save-proforma,
       .create-proforma {
         padding: 10px 20px;
@@ -340,7 +352,7 @@
           filterMenu.style.display = 'block';
         }
       }
-      
+
       function filterBy(criteria) {
         // Implement filtering logic based on the selected criteria
         console.log(`Filtering by ${criteria}`);
@@ -365,7 +377,47 @@
             modal.style.display = 'none';
           }
         };
+
+        document.querySelector('.save-proforma').onclick = function () {
+          saveProforma();
+        };
       });
+
+      function saveProforma() {
+        var cliente = document.getElementById('cliente').value;
+        var codigoActividad = document.getElementById('Código-actividad-económica').value;
+        var medioPago = document.getElementById('medio-pago').value;
+        var condicionVenta = document.getElementById('condición-venta').value;
+        var fecha = document.getElementById('fecha-proforma').innerText;
+        var detalles = ''; // Puedes agregar lógica para obtener detalles de la línea
+        var nota = ''; // Puedes agregar lógica para obtener la nota
+        var total = document.getElementById('total').innerText;
+
+        var tableBody = document.getElementById('proforma-table-body');
+        var newRow = tableBody.insertRow();
+        newRow.innerHTML = `
+          <td>${fecha}</td>
+          <td>${cliente}</td>
+          <td>${codigoActividad}</td>
+          <td>${medioPago}</td>
+          <td>${condicionVenta}</td>
+          <td>${detalles}</td>
+          <td>${nota}</td>
+          <td>${total}</td>
+          <td class="action-icons">
+            <i class="fa fa-edit"></i>
+            <i class="fa fa-trash" onclick="deleteRow(this)"></i>
+          </td>
+        `;
+
+        var modal = document.getElementById('proformaModal');
+        modal.style.display = 'none';
+      }
+
+      function deleteRow(icon) {
+        var row = icon.closest('tr');
+        row.remove();
+      }
     </script>
   </body>
 </html>

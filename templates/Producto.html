@@ -1,9 +1,140 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block content %}
 <!DOCTYPE html>
 <html lang="es">
-  <head> </head>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <style>
+      .btn-action {
+        border: none;
+        background: none;
+        cursor: pointer;
+        margin-right: 10px; /* Adjust the spacing here */
+      }
+
+      .btn-action i.fa-trash {
+        color: red;
+      }
+
+      .btn-action i.fa-edit {
+        color: blue;
+      }
+
+      .btn-action i.fa-image {
+        color: purple;
+      }
+
+      .code-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .code-list li {
+        display: flex;
+        align-items: center;
+      }
+
+      .code-list li i {
+        margin-right: 8px;
+      }
+
+      .fa-save {
+        color: blue;
+      }
+
+      .fa-barcode {
+        color: red;
+      }
+
+      .fa-box {
+        color: red;
+      }
+      .nav-button {
+        position: relative;
+      }
+
+      .submenu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #f9f9f9;
+        border: 1px solid #ccc;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-button:hover .submenu {
+        display: block;
+      }
+
+      .submenu-item {
+        display: flex;
+        align-items: center;
+        padding: 5px 0;
+      }
+
+      .submenu-item i {
+        margin-right: 8px;
+      }
+
+      .submenu-item:hover {
+        background-color: #007bff; /* Color azul para el hover */
+        color: #fff; /* Cambia el color del texto a blanco para mejor legibilidad */
+    }
+
+      .btn-action {
+        background-color: #96c4f5;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+      }
+     
+      /* Estilos para el modal */
+.modal-imagen-tabla {
+  display: none;
+  position: fixed; /* Posicionar el modal en la pantalla */
+  z-index: 1; /* Mostrar el modal encima de otros elementos */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
+  display: flex; /* Utilizar flexbox para centrar el contenido */
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+}
+
+/* Estilos para el contenido del modal */
+.modal-imagen-tabla .modal-content {
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  margin: auto; /* Centrar el contenido dentro del contenedor */
+}
+
+/* Estilos para el botón de cerrar */
+.modal-imagen-tabla .close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+    </style>
+  </head>
   <body>
     <div class="container">
       <div class="header">
@@ -15,11 +146,29 @@
           <button type="button" class="nav-button">
             <span class="icon">&#8645;</span>
             <span class="text">AJUSTES INVENTARIO</span>
+            <div class="submenu">
+              <div class="submenu-item">
+                <i class="fas fa-print"></i> Imprimir
+              </div>
+              <div class="submenu-item">
+                <i class="fas fa-download"></i> Descargar
+              </div>
+
           </button>
           <button type="button" class="nav-button">
             <span class="icon">&#128190;</span>
             <span class="text">CATÁLOGO CABYS</span>
+            <div class="submenu">
+              <div class="submenu-item">
+                <i class="fas fa-download"></i> Cargar archivo
+              </div>
           </button>
+          
+          <button type="button" class="nav-button" onclick="generarReportePDF()">
+            <span class="icon"><i class="fas fa-file-pdf"></i></span>
+            <span class="text">REPORTES</span>
+          </button>
+          
         </div>
         <div class="search-bar">
           <input type="text" placeholder="Busca producto por código o nombre" />
@@ -34,54 +183,118 @@
         <button type="button" class="pagination-button">&#9654;</button>
       </div>
     </div>
-    <div class="content">
-      <div class="filters">
-        <button type="button">Filtros</button>
-      </div>
-      <div class="product-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Códigos</th>
-              <th>Nombre</th>
-              <th>Inventario</th>
-              <th>Precio(s)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>SC3497-4</td>
-              <td>PINTURA SEAL COAT SATIN ACCENT 1 GL LANCO</td>
-              <td>3.00</td>
-              <td>
-                <div>Regular: 174,497.00</div>
-                <div>Costo: 66,160.00</div>
-              </td>
-            </tr>
-            <tr>
-              <td>SC3748-2</td>
-              <td>PINTURA SUPER COAT SATIN BLANCO 1 CUB</td>
-              <td>1.00</td>
-              <td>
-                <div>Regular: 67,950.00</div>
-                <div>Costo: 40,879.00</div>
-              </td>
-            </tr>
-            <!-- Add more rows as needed -->
-          </tbody>
-        </table>
-      </div>
-      <button
-        class="add-button btn btn-success"
-        data-toggle="modal"
-        data-target="#productModal"
-      >
-        +
-      </button>
+    <div class="product-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Códigos</th>
+            <th>Nombre</th>
+            <th>Inventario</th>
+            <th>Estado</th>
+            <th>Precio(s)</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <ul class="code-list">
+                <li><i class="fas fa-box"></i> SC3497-4</li>
+                <li><i class="fas fa-barcode"></i> SC3748-2</li>
+                <li><i class="fas fa-save"></i> SC9101-1</li>
+              </ul>
+            </td>
+            <td>PINTURA SEAL COAT SATIN ACCENT 1 GL LANCO</td>
+            <td data-inventory="20.00">20.00</td>
+            <td class="alert-cell"></td>
+            <td>
+              <div>Regular: 174,497.00</div>
+              <div>Costo: 66,160.00</div>
+            </td>
+            <td>
+              <button class="btn-action">
+                <i class="fas fa-trash"></i>
+              </button>
+              <button class="btn-action">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn-action btn-image">
+                <i class="fas fa-image"></i>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <ul class="code-list">
+                <li><i class="fas fa-box"></i> SC3497-4</li>
+                <li><i class="fas fa-barcode"></i> SC3748-2</li>
+                <li><i class="fas fa-save"></i> SC9101-1</li>
+              </ul>
+            </td>
+            <td>PINTURA SUPER COAT SATIN BLANCO 1 CUB</td>
+            <td data-inventory="1.00">1.00</td>
+            <td class="alert-cell"></td>
+            <td>
+              <div>Regular: 67,950.00</div>
+              <div>Costo: 40,879.00</div>
+            </td>
+            <td>
+              <button class="btn-action">
+                <i class="fas fa-trash"></i>
+              </button>
+              <button class="btn-action">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn-action" onclick="openModal()">
+                <i class="fas fa-image"></i>
+              </button>
+              
+              <div id="modal-imagen-tabla" class="modal-imagen-tabla">
+                <span class="close" onclick="closeModal()">&times;</span>
+                {% load static %}
+               <img src="{% static 'img/pintura.jpg' %}" alt="Question Image" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <ul class="code-list">
+                <li><i class="fas fa-box"></i> SC3497-4</li>
+                <li><i class="fas fa-barcode"></i> SC3748-2</li>
+                <li><i class="fas fa-save"></i> SC9101-1</li>
+              </ul>
+            </td>
+            <td>PINTURA SUPER COAT SATIN BLANCO 1 CUB</td>
+            <td data-inventory="150.00">150.00</td>
+            <td class="alert-cell"></td>
+            <td>
+              <div>Regular: 67,950.00</div>
+              <div>Costo: 40,879.00</div>
+            </td>
+            <td>
+              <button class="btn-action">
+                <i class="fas fa-trash"></i>
+              </button>
+              <button class="btn-action">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn-action">
+                <i class="fas fa-image"></i>
+              </button>
+            </td>
+          </tr>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
     </div>
+    <button
+      class="add-button btn btn-success"
+      data-toggle="modal"
+      data-target="#productModal"><i class="fa fa-plus"></i></button>
 
-    <!-- Modal -->
-    <div
+   
+  </div>
+     <div
       class="modal fade"
       id="productModal"
       tabindex="-1"
@@ -95,14 +308,7 @@
             <h5 class="modal-title" id="productModalLabel">
               Formulario de Producto
             </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+            
           </div>
           <div class="modal-body">
             <!-- Formulario de Producto -->
@@ -116,6 +322,14 @@
                   name="nombre"
                   class="form-control"
                 />
+                <div class="form-group">
+                  <label for="nombre">Cantidad</label>
+                  <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    class="form-control"
+                  />
                 <div class="form-group">
                   <label for="unidad-medida">Unidad de medida</label>
                   <input
@@ -185,28 +399,7 @@
               </div>
               <h2>Precios de Venta</h2>
               <div class="form-group">
-                <label for="Preios-regular"
-                  >Precio Regular Venta al consumidor final*</label
-                >
-                <input
-                  type="text"
-                  id="Precios-regular"
-                  name="Precios-regular"
-                  class="form-control"
-                />
-              </div>
-              <div class="form-group">
-                <label for="Precios">calculo</label>
-                <input
-                  type="number"
-                  id="calculo"
-                  name="Precios"
-                  value="0"
-                  class="form-control"
-                />
-              </div>
-              <div class="form-group">
-                <label for="Preios-regular">Precio Venta Mayorista</label>
+                <label for="Preios-regular">Precio Venta Regular</label>
                 <input
                   type="text"
                   id="Precios-regular"
@@ -318,11 +511,15 @@
         </div>
       </div>
     </div>
+    </div>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+      
+
       document.querySelectorAll(".btn-group button").forEach((button) => {
         button.addEventListener("click", () => {
           document
@@ -341,6 +538,71 @@
             button.classList.add("selected");
           });
         });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const alertCells = document.querySelectorAll('.alert-cell');
+
+        alertCells.forEach(function (cell) {
+          const inventory = parseFloat(
+            cell.previousElementSibling.getAttribute('data-inventory')
+          );
+
+          if (inventory <= 10) {
+            cell.innerHTML = '<span style="color: red;"><i class="fas fa-exclamation-triangle"></i> Stock bajo</span>';
+          } else if (inventory > 10 && inventory <= 100) {
+            cell.innerHTML = '<span style="color: green;"><i class="fas fa-check-circle"></i> Inventario normal</span>';
+          } else if (inventory > 100) {
+            cell.innerHTML = '<span style="color: blue;"><i class="fas fa-money-bill-wave"></i> Excedente inventario</span>';
+          }
+        });
+      });
+
+      
+      function openModal() {
+        document.getElementById("modal-imagen-tabla").style.display = "flex";
+      }
+      
+      function closeModal() {
+        document.getElementById("modal-imagen-tabla").style.display = "none";
+      }
+      
+      // Asegurarse de que el modal esté oculto al cargar la página
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById("modal-imagen-tabla").style.display = "none";
+    });
+
+    function generarReportePDF() {
+      // Importar jsPDF
+      const { jsPDF } = window.jspdf;
+      
+      // Crear una instancia de jsPDF
+      const doc = new jsPDF();
+
+      // Título del documento
+      doc.setFontSize(20);
+      doc.text('Reporte de Productos', 20, 20);
+
+      // Agregar el contenido de la tabla
+      let startY = 30; // Punto inicial en el eje Y
+      const margin = 10; // Margen izquierdo
+      
+      // Obtener los datos de la tabla
+      const rows = document.querySelectorAll('table tbody tr');
+      
+      rows.forEach((row, index) => {
+        const columns = row.querySelectorAll('td');
+        
+        columns.forEach((col, colIndex) => {
+          let text = col.innerText || '';
+          doc.setFontSize(12); // Tamaño de fuente para el contenido
+          doc.text(text, margin + colIndex * 50, startY + index * 10);
+        });
+      });
+
+      // Descargar el PDF
+      doc.save('reporte_productos.pdf');
+    }
+
     </script>
   </body>
 </html>

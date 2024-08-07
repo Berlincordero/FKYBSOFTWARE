@@ -328,12 +328,10 @@ a.sidebar-link {
 }
 
 .invoice-details th {
-    background-color: #fa970c;
+    background-color: #4fc4f6;
     color: #060607;
 }
 
-
-/* Asegúrate de que solo se aplique el borde redondeado a la tabla y no a los elementos internos del contenedor */
 
 #summaryTable {
     width: 60%;
@@ -493,7 +491,7 @@ h2 {
 .form-group .file-label {
     display: inline-block;
     padding: 10px 20px;
-    border: 1px dashed #007bff;
+    border: 1px dashed #2185f0;
     color: #007bff;
     border-radius: 5px;
     cursor: pointer;
@@ -594,13 +592,13 @@ h2 {
 
 
 /************************************************************************/
-
+/***********************pagina principal productos**************************/
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-bottom: 10px;
-    border-bottom: 1px solid #fb6634;
+    border-bottom: 1px solid #f77246;
     margin-bottom: 20px;
 }
 
@@ -640,7 +638,7 @@ h2 {
 
 .search-bar button {
     padding: 10px;
-    background-color: #007bff;
+    background-color: #63f0b1;
     border: none;
     color: #0f0e0e;
     border-radius: 4px;
@@ -669,23 +667,36 @@ h2 {
 
 .product-table {
     flex-grow: 1;
-    padding: 10px;
+    padding: 20px;
 }
 
 .product-table table {
-    width: 100%;
+   
+    width: 85%;
+    margin: 0 auto;
+    align-content: center;
     border-collapse: collapse;
+    
 }
 
-.product-table th,
-.product-table td {
+.product-table table tr:hover {
+    background-color: hsl(180, 1%, 83%); /* Cambia el fondo de la fila al pasar el ratón */
+    transition: background-color 0.3s; /* Para una transición suave */
+}
+
+.product-table table td:hover {
+    background-color: #efc737; /* Cambia el fondo de la celda al pasar el ratón */
+    transition: background-color 0.3s; /* Para una transición suave */
+}
+
+.product-table th, .product-table td {
     border: 1px solid #ebecee;
     padding: 10px;
     text-align: left;
 }
 
 .product-table th {
-    background-color: #f6d079;
+    background-color: #95defd;
 }
 
 .add-button {
@@ -764,11 +775,13 @@ h2 {
 }
 
 .pagination-button {
+    
     background: none;
     border: none;
-    font-size: 18px;
+    font-size: 25px;
     cursor: pointer;
     padding: 5px;
+    color: #348fff;
 }
 
 .pagination-button:disabled {
@@ -853,11 +866,7 @@ h2 {
 
 
 /*****************************************************************************************************************************/
-
-
 /**************************************** aqui empieza proformas*************************************************************/
-
-
 /***************************************************************************************************************************/
 
 
@@ -948,9 +957,9 @@ h2 {
 .modal {
     z-index: 1050;
 }
-
-.modal-dialog {}
-
+.modal-dialog{
+    
+}
 
 /*estilos proveedores*/
 
