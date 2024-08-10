@@ -1,0 +1,601 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% load custom_filters %} 
+{% block content %}
+
+<div class="container mt-4">
+    <h2>Módulo de Transportes</h2>
+
+    <!-- Aviso de éxito -->
+    <div class="alert alert-success text-center" id="success-alert" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050;">
+        <strong>¡Éxito!</strong> <span id="success-message"></span>
+    </div>
+    <!-- Aviso de Error -->
+    <div class="alert alert-danger text-center" id="error-alert" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050;">
+        <strong>¡Error!</strong> <span id="error-message"></span>
+    </div>
+
+    
+    
+    
+    <!-- Ingresar Nuevo Conductor -->
+    <h4>Ingresar Nuevo Conductor</h4>
+    <form id="form-nuevo-conductor">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" required>
+        </div>
+        <div class="mb-3">
+            <label for="primer_apellido" class="form-label">Primer Apellido</label>
+            <input type="text" class="form-control" id="primer_apellido" required>
+        </div>
+        <div class="mb-3">
+            <label for="segundo_apellido" class="form-label">Segundo Apellido</label>
+            <input type="text" class="form-control" id="segundo_apellido" required>
+        </div>
+        <div class="mb-3">
+            <label for="numero_cedula" class="form-label">Número de Cédula</label>
+            <input type="text" class="form-control" id="numero_cedula" required>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="guardarConductor()">Guardar</button>
+    </form>
+
+    <!-- Ingresar Nueva Placa de Vehículo -->
+    <h4 class="mt-4">Ingresar Nueva Placa de Vehículo</h4>
+    <form id="form-nueva-placa">
+        <div class="mb-3">
+            <label for="numero_placa" class="form-label">Número de Placa</label>
+            <input type="text" class="form-control" id="numero_placa" required>
+        </div>
+        <div class="mb-3">
+            <label for="conductor_select" class="form-label">Seleccionar Conductor</label>
+            <select id="conductor_select" class="form-select" required>
+                <option value="">Seleccione un conductor</option>
+                <!-- Opciones de conductores se llenarán dinámicamente -->
+            </select>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="guardarPlaca()">Guardar Placa</button>
+    </form>
+
+    <!-- Asignar Nueva Ruta -->
+    <h4 class="mt-4">Asignar Nueva Ruta</h4>
+    <form id="form-nueva-ruta">
+        <div class="mb-3">
+            <label for="numero_factura" class="form-label">Número de Factura</label>
+            <input type="text" class="form-control" id="numero_factura" required>
+        </div>
+        <div class="mb-3">
+            <label for="provincia" class="form-label">Provincia</label>
+            <select id="provincia" class="form-select" required onchange="cargarCantones()">
+                <option value="">Seleccione una provincia</option>
+                <option value="San José">San José</option>
+                <option value="Alajuela">Alajuela</option>
+                <option value="Cartago">Cartago</option>
+                <option value="Heredia">Heredia</option>
+                <option value="Guanacaste">Guanacaste</option>
+                <option value="Puntarenas">Puntarenas</option>
+                <option value="Limón">Limón</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="canton" class="form-label">Cantón</label>
+            <select id="canton" class="form-select" required onchange="cargarDistritos()">
+                <option value="">Seleccione un cantón</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="distrito" class="form-label">Distrito</label>
+            <select id="distrito" class="form-select" required>
+                <option value="">Seleccione un distrito</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección Exacta</label>
+            <input type="text" class="form-control" id="direccion" required>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="guardarRuta()">Guardar Ruta</button>
+    </form>
+
+    <!-- Cuadro de Rutas del Día -->
+    <h4 class="mt-4">Rutas del Día</h4>
+    <table class="table table-bordered" id="tabla-rutas">
+        <thead>
+            <tr>
+                <th>Número de Factura</th>
+                <th>Placa</th>
+                <th>Conductor</th>
+                <th>Fecha</th>
+                <th>Provincia</th>
+                <th>Cantón</th>
+                <th>Distrito</th>
+                <th>Dirección Exacta</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Las rutas se llenarán dinámicamente -->
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-danger" onclick="eliminarTodasRutas()">Eliminar Todas las Rutas</button>
+    <button type="button" class="btn btn-secondary" onclick="imprimirRutas()">Imprimir Rutas</button>
+</div>
+
+<!-- Modal de Edición -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar Ruta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editRutaForm">
+                    <input type="hidden" id="editRutaIndex">
+                    <div class="mb-3">
+                        <label for="editNumeroFactura" class="form-label">Número de Factura</label>
+                        <input type="text" class="form-control" id="editNumeroFactura" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPlaca" class="form-label">Placa</label>
+                        <input type="text" class="form-control" id="editPlaca" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editConductor" class="form-label">Conductor</label>
+                        <select id="editConductor" class="form-select" required>
+                            <option value="">Seleccione un conductor</option>
+                            <!-- Opciones de conductores se llenarán dinámicamente -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editProvincia" class="form-label">Provincia</label>
+                        <input type="text" class="form-control" id="editProvincia" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCanton" class="form-label">Cantón</label>
+                        <input type="text" class="form-control" id="editCanton" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDistrito" class="form-label">Distrito</label>
+                        <input type="text" class="form-control" id="editDistrito" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDireccion" class="form-label">Dirección Exacta</label>
+                        <input type="text" class="form-control" id="editDireccion" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarCambiosRuta()">Guardar cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmación -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirmación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="confirmationModalBody">
+                <p>¿Estás seguro de que deseas eliminar esta ruta?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Función para mostrar el aviso de éxito
+    function showSuccessMessage(message) {
+        document.getElementById('success-message').textContent = message;
+        document.getElementById('success-alert').style.display = 'block';
+        
+        setTimeout(() => {
+            document.getElementById('success-alert').style.display = 'none';
+        }, 3000);
+    }
+
+    // Función para mostrar el aviso de error
+function showErrorMessage(message) {
+    document.getElementById('error-message').textContent = message;
+    document.getElementById('error-alert').style.display = 'block';
+    
+    setTimeout(() => {
+        document.getElementById('error-alert').style.display = 'none';
+    }, 3000);
+}
+
+
+    // Datos de ejemplo para conductores y rutas
+    let conductores = [];
+    let rutas = [];
+    
+    // Datos de cantones y distritos por provincia
+    const cantonesPorProvincia = {
+        "San José": [
+            "San José", "Escazú", "Desamparados", "Puriscal", "Tibas", "Moravia", "Santo Domingo", "Santa Ana", "Alajuelita", "Vásquez de Coronado", "Aserrí", "Turrubares", "Dota", "Curridabat", "Pérez Zeledón", "La Unión", "San Isidro", "San Pablo", "San Juan"
+        ],
+        "Alajuela": [
+            "Alajuela", "San Carlos", "Grecia", "Naranjo", "Atenas", "Palmares", "Valverde Vega", "Zarcero", "Sarchí Norte", "Sarchí Sur", "San Ramón", "San Mateo", "Orotina", "Naranjo", "Atenas"
+        ],
+        "Cartago": [
+            "Cartago", "Turrialba", "Paraíso", "La Unión", "Oreamuno", "El Guarco"
+        ],
+        "Heredia": [
+            "Heredia", "Barva", "Santo Domingo", "San Rafael", "San Isidro", "Santa Bárbara", "San Juan de Tibás", "San Pablo", "San Jorge"
+        ],
+        "Guanacaste": [
+            "Liberia", "Nicoya", "Santa Cruz", "Bagaces", "Cañas", "Tilarán", "Abangares", "Carrillo", "La Cruz", "Nandayure"
+        ],
+        "Puntarenas": [
+            "Puntarenas", "Esparza", "Buenos Aires", "Montes de Oro", "Osa", "Quepos", "Coto Brus", "Golfito", "Palmar", "Pérez Zeledón", "Corredores"
+        ],
+        "Limón": [
+            "Limón", "Pococí", "Siquirres", "Talamanca", "Matina", "Guácimo", "Batán", "Bribrí", "Cahuita"
+        ]
+    };
+
+    const distritosPorCanton = {
+        "San José": ["Carmen", "Merced", "Hospital", "Catedral"],
+        "Escazú": ["Escazú", "San Antonio", "San Miguel", "Salitral"],
+        "Desamparados": ["Desamparados", "San Miguel", "San Juan", "San Rafael"],
+        "Puriscal": ["Puriscal", "Santiago", "Grifo Alto", "Barbacoas", "Cascajal"],
+        "Tibas": ["Tibas", "Colonia del Rio", "Calle Vieja", "Calle de Aguas"],
+        "San Carlos": ["Ciudad Quesada", "Aguas Zarcas", "La Fortuna", "Florencia"],
+        "Grecia": ["Grecia", "San Isidro", "San Roque", "San Juan"],
+        "Naranjo": ["Naranjo", "El Llano", "San Juan", "San José"],
+        "Atenas": ["Atenas", "Santa Eulalia", "Desamparados", "San José"],
+        "Palmares": ["Palmares", "Zaragoza", "Santiago", "San Isidro"],
+        "Valverde Vega": ["San Pedro", "San Francisco", "San Ignacio"],
+        "Zarcero": ["Zarcero", "Laguna", "Turf", "Guadalupe"],
+        "Sarchí Norte": ["Sarchí Norte", "Sarchí Sur"],
+        "Sarchí Sur": ["Sarchí Sur"],
+        "San Ramón": ["San Ramón", "San Isidro", "Santiago", "San Juan"],
+        "San Mateo": ["San Mateo"],
+        "Orotina": ["Orotina", "Hacienda Vieja"],
+        "Cartago": ["Cartago", "Oriental", "Occidental"],
+        "Turrialba": ["Turrialba", "La Suiza", "Santa Teresita"],
+        "Paraíso": ["Paraíso", "Santiago", "Hacienda Vieja"],
+        "La Unión": ["San Diego", "San Ramón"],
+        "Oreamuno": ["Oreamuno"],
+        "El Guarco": ["El Guarco"],
+        "Heredia": ["Heredia", "Mercedes", "San Francisco", "Santo Domingo"],
+        "Barva": ["Barva", "San Pedro", "San Pablo"],
+        "Santo Domingo": ["Santo Domingo", "San Vicente"],
+        "San Rafael": ["San Rafael", "San Juan"],
+        "San Isidro": ["San Isidro", "San José"],
+        "Santa Bárbara": ["Santa Bárbara"],
+        "San Juan de Tibás": ["San Juan de Tibás"],
+        "San Pablo": ["San Pablo"],
+        "San Jorge": ["San Jorge"],
+        "Liberia": ["Liberia"],
+        "Nicoya": ["Nicoya"],
+        "Santa Cruz": ["Santa Cruz"],
+        "Bagaces": ["Bagaces"],
+        "Cañas": ["Cañas"],
+        "Tilarán": ["Tilarán"],
+        "Abangares": ["Abangares"],
+        "Carrillo": ["Carrillo"],
+        "La Cruz": ["La Cruz"],
+        "Nandayure": ["Nandayure"],
+        "Puntarenas": ["Puntarenas"],
+        "Esparza": ["Esparza"],
+        "Buenos Aires": ["Buenos Aires"],
+        "Montes de Oro": ["Montes de Oro"],
+        "Osa": ["Osa"],
+        "Quepos": ["Quepos"],
+        "Coto Brus": ["Coto Brus"],
+        "Golfito": ["Golfito"],
+        "Palmar": ["Palmar"],
+        "Pérez Zeledón": ["Pérez Zeledón"],
+        "Corredores": ["Corredores"],
+        "Limón": ["Limón"],
+        "Pococí": ["Pococí"],
+        "Siquirres": ["Siquirres"],
+        "Talamanca": ["Talamanca"],
+        "Matina": ["Matina"],
+        "Guácimo": ["Guácimo"],
+        "Batán": ["Batán"],
+        "Bribrí": ["Bribrí"],
+        "Cahuita": ["Cahuita"],
+    };
+    
+
+
+    
+    function guardarConductor() {
+        const nombre = document.getElementById('nombre').value;
+        const primerApellido = document.getElementById('primer_apellido').value;
+        const segundoApellido = document.getElementById('segundo_apellido').value;
+        const numeroCedula = document.getElementById('numero_cedula').value;
+    
+        if (nombre && primerApellido && segundoApellido && numeroCedula) {
+            const nuevoConductor = { nombre, primerApellido, segundoApellido, numeroCedula };
+            conductores.push(nuevoConductor);
+            showSuccessMessage('Conductor guardado con éxito');
+            document.getElementById('form-nuevo-conductor').reset();
+            actualizarConductores();
+        } else {
+            showErrorMessage('Todos los campos son obligatorios');
+        }
+    }
+    
+    function actualizarConductores() {
+        const selectConductor = document.getElementById('conductor_select');
+        const editSelectConductor = document.getElementById('editConductor');
+        selectConductor.innerHTML = '<option value="">Seleccione un conductor</option>';
+        editSelectConductor.innerHTML = '<option value="">Seleccione un conductor</option>';
+        conductores.forEach((conductor, index) => {
+            const option = document.createElement('option');
+            option.value = index; // Usar el índice como ID
+            option.text = `${conductor.nombre} ${conductor.primerApellido} ${conductor.segundoApellido}`;
+            selectConductor.add(option);
+            const editOption = option.cloneNode(true);
+            editSelectConductor.add(editOption);
+        });
+    }
+    
+    function cargarCantones() {
+        const provincia = document.getElementById('provincia').value;
+        const cantonSelect = document.getElementById('canton');
+        cantonSelect.innerHTML = '<option value="">Seleccione un cantón</option>'; // Limpiar opciones anteriores
+        if (cantonesPorProvincia[provincia]) {
+            cantonesPorProvincia[provincia].forEach(canton => {
+                const option = document.createElement('option');
+                option.value = canton;
+                option.textContent = canton;
+                cantonSelect.appendChild(option);
+            });
+        }
+        cargarDistritos(); // Limpiar distritos al cambiar de cantón
+    }
+
+    function cargarDistritos() {
+        const canton = document.getElementById('canton').value;
+        const distritoSelect = document.getElementById('distrito');
+        distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>'; // Limpiar opciones anteriores
+        if (distritosPorCanton[canton]) {
+            distritosPorCanton[canton].forEach(distrito => {
+                const option = document.createElement('option');
+                option.value = distrito;
+                option.textContent = distrito;
+                distritoSelect.appendChild(option);
+            });
+        }
+    }
+    
+    function guardarPlaca() {
+        const numeroPlaca = document.getElementById('numero_placa').value;
+        const conductorIndex = document.getElementById('conductor_select').value;
+    
+        if (numeroPlaca && conductorIndex !== "") {
+            showSuccessMessage('Placa de vehículo guardada con éxito');
+            document.getElementById('form-nueva-placa').reset();
+            // Aquí puedes agregar lógica para almacenar la placa en una base de datos cuando esté disponible
+        } else {
+            showErrorMessage('Todos los campos son obligatorios');
+        }
+    }
+    
+    function guardarRuta() {
+        const numeroFactura = document.getElementById('numero_factura').value;
+        const placa = document.getElementById('numero_placa').value;
+        const conductorIndex = document.getElementById('conductor_select').value;
+        const provincia = document.getElementById('provincia').value;
+        const canton = document.getElementById('canton').value;
+        const distrito = document.getElementById('distrito').value;
+        const direccion = document.getElementById('direccion').value;
+    
+        if (numeroFactura && placa && conductorIndex !== "" && provincia && canton && distrito && direccion) {
+            const ruta = {
+                numeroFactura,
+                placa,
+                conductor: conductores[conductorIndex],
+                fecha: new Date().toLocaleDateString(),
+                provincia,
+                canton,
+                distrito,
+                direccion
+            };
+            rutas.push(ruta);
+            showSuccessMessage('Ruta guardada con éxito');
+            document.getElementById('form-nueva-ruta').reset();
+            actualizarRutas();
+        } else {
+            showErrorMessage('Todos los campos son obligatorios');
+        }
+    }
+    
+    function actualizarRutas() {
+        const tbody = document.getElementById('tabla-rutas').querySelector('tbody');
+        tbody.innerHTML = ''; // Limpiar tabla
+    
+        rutas.forEach((ruta, index) => {
+            const row = `<tr>
+                <td>${ruta.numeroFactura}</td>
+                <td>${ruta.placa}</td>
+                <td>${ruta.conductor.nombre} ${ruta.conductor.primerApellido}</td>
+                <td>${ruta.fecha}</td>
+                <td>${ruta.provincia}</td>
+                <td>${ruta.canton}</td>
+                <td>${ruta.distrito}</td>
+                <td>${ruta.direccion}</td>
+                <td>
+                    <button class="btn btn-warning" onclick="abrirModalEdicion(${index})">Editar</button>
+                    <button class="btn btn-danger" onclick="confirmDelete(${index})">Eliminar</button>
+                </td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
+    }
+    
+    function abrirModalEdicion(index) {
+        const ruta = rutas[index];
+        document.getElementById('editRutaIndex').value = index;
+        document.getElementById('editNumeroFactura').value = ruta.numeroFactura;
+        document.getElementById('editPlaca').value = ruta.placa;
+        document.getElementById('editConductor').value = conductores.indexOf(ruta.conductor); // Verifica que esto funcione correctamente
+        document.getElementById('editProvincia').value = ruta.provincia;
+        document.getElementById('editCanton').value = ruta.canton;
+        document.getElementById('editDistrito').value = ruta.distrito;
+        document.getElementById('editDireccion').value = ruta.direccion;
+
+        // Mostrar el modal
+        const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+        editModal.show();
+    }
+
+    function guardarCambiosRuta() {
+        const index = document.getElementById('editRutaIndex').value;
+        const numeroFactura = document.getElementById('editNumeroFactura').value;
+        const placa = document.getElementById('editPlaca').value;
+        const provincia = document.getElementById('editProvincia').value;
+        const canton = document.getElementById('editCanton').value;
+        const distrito = document.getElementById('editDistrito').value;
+        const direccion = document.getElementById('editDireccion').value;
+    
+        // Verifica si todos los campos están llenos
+        if (numeroFactura && placa && provincia && canton && distrito && direccion) {
+            // Actualiza la ruta en el array
+            rutas[index] = {
+                numeroFactura,
+                placa,
+                conductor: conductores[document.getElementById('editConductor').value], // Asegúrate de que esto esté bien
+                fecha: new Date().toLocaleDateString(),
+                provincia,
+                canton,
+                distrito,
+                direccion
+            };
+            showSuccessMessage('Cambios guardados con éxito');
+    
+            // Ocultar el modal
+            const editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+            editModal.hide(); 
+    
+            // Actualiza la lista de rutas
+            actualizarRutas();
+        } else {
+            showErrorMessage('Todos los campos son obligatorios');
+        }
+    }
+    
+
+    function confirmDelete(index) {
+        const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+        document.getElementById('confirmationModalBody').innerHTML = '<p>¿Estás seguro de que deseas eliminar esta ruta?</p>';
+        
+        document.getElementById('confirmDeleteButton').onclick = function() {
+            eliminarRuta(index);
+            confirmationModal.hide();
+        };
+        
+        confirmationModal.show();
+    }
+
+    function eliminarRuta(index) {
+        rutas.splice(index, 1);
+        showSuccessMessage('Ruta eliminada con éxito');
+        actualizarRutas();
+    }
+
+    function eliminarTodasRutas() {
+        const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+        document.getElementById('confirmationModalBody').innerHTML = '<p>¿Estás seguro de que deseas eliminar todas las rutas?</p>';
+        
+        document.getElementById('confirmDeleteButton').onclick = function() {
+            rutas = [];
+            showSuccessMessage('Todas las rutas han sido eliminadas');
+            actualizarRutas();
+            confirmationModal.hide();
+        };
+        
+        confirmationModal.show();
+    }
+
+    function imprimirRutas() {
+        // Obtén la tabla de rutas
+        const tabla = document.getElementById('tabla-rutas');
+        const filas = tabla.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+    
+        // Verifica si hay rutas en la tabla
+        if (filas.length === 0) {
+            alert("No hay rutas para imprimir.");
+            return;
+        }
+    
+        // Crea una cadena para mostrar los datos de las rutas
+        let contenido = '<h2>Rutas del Día</h2>';
+        contenido += '<table border="1"><tr><th>Número de Factura</th><th>Placa</th><th>Conductor</th><th>Fecha</th><th>Provincia</th><th>Cantón</th><th>Distrito</th><th>Dirección Exacta</th></tr>';
+    
+        for (let i = 0; i < filas.length; i++) {
+            const celdas = filas[i].getElementsByTagName('td');
+            contenido += '<tr>';
+            for (let j = 0; j < celdas.length; j++) {
+                contenido += `<td>${celdas[j].innerText}</td>`;
+            }
+            contenido += '</tr>';
+        }
+        contenido += '</table>';
+    
+        // Abre una nueva ventana para imprimir
+        const ventanaImpresion = window.open('', '', 'height=600,width=800');
+        ventanaImpresion.document.write('<html><head><title>Imprimir Rutas</title>');
+        ventanaImpresion.document.write('</head><body>');
+        ventanaImpresion.document.write(contenido);
+        ventanaImpresion.document.write('</body></html>');
+        ventanaImpresion.document.close(); // Necesario para IE >= 10
+        ventanaImpresion.print(); // Llama a la función de impresión
+    }
+    
+
+    
+
+    function showConfirmation(message, callback) {
+            const modalHtml = `
+                <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirmación</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>${message}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-primary" id="confirmButton">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            $('#confirmationModal').modal('show');
+
+            document.getElementById('confirmButton').onclick = function() {
+                callback();
+                $('#confirmationModal').modal('hide');
+                $('#confirmationModal').on('hidden.bs.modal', function() {
+                    $(this).remove();
+                });
+            };
+        }
+
+
+
+</script>
+
+{% endblock %}

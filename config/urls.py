@@ -8,11 +8,8 @@ from . import views
 urlpatterns = [
     path('', usuarios_views.external_login, name='external_login'),
     path('index/', views.index, name="index"),
-    path('modulo_transporte/', views.modulo_transporte, name='modulo_transporte'),
-    path('agregar_conductor/', views.agregar_conductor, name='agregar_conductor'),
-    path('agregar_placa/', views.agregar_placa, name='agregar_placa'),
-    path('asignar_ruta/', views.asignar_ruta, name='asignar_ruta'),
     path('admin/', admin.site.urls),
+    path('transportes/', views.modulo_transportes, name='modulo_transportes'),
     path('terminal/', views.pos_view, name='pos_view'),
     path('accounts/', include("django.contrib.auth.urls")),
     path('usuarios/', include('Usuarios.urls')),

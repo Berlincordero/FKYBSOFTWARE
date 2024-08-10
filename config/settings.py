@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'terminal',
     'Clientes',
     'mi_aplicacion',
+    'transportes',
     
 ]
 
