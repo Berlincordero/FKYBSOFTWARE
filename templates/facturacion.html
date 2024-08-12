@@ -58,6 +58,28 @@
         cursor: pointer;
         margin-right: 5px;
       }
+
+      .pagination {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin: 10px 190px;
+      }
+      .pagination-button {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        color: #3163f9;
+        padding: 8px;
+        border-radius: 50%;
+        margin: 0 5px;
+        cursor: pointer;
+        font-size: 1.2em;
+      }
+      .page-number {
+        font-size: 16px;
+        margin: 0 10px;
+      }
+
       table {
         width: 80%;
         margin: 20px auto;
@@ -73,14 +95,17 @@
         background-color: #95defd;
       }
       tr:hover {
-        background-color: hsl(180, 1%, 83%); /* Cambia el fondo de la fila al pasar el ratón */
+        background-color: hsl(
+          180,
+          1%,
+          83%
+        ); /* Cambia el fondo de la fila al pasar el ratón */
         transition: background-color 0.3s; /* Para una transición suave */
-    }
+      }
       td:hover {
         background-color: #efc737; /* Cambia el fondo de la celda al pasar el ratón */
         transition: background-color 0.3s; /* Para una transición suave */
-    }
-
+      }
 
       .fixed-icons {
         display: flex;
@@ -110,11 +135,13 @@
         color: #dc3545;
       }
       .archive-button {
-        background-color: transparent;
+        background-color: #96c4f5;
+        color: blue;
         border: none;
-        color: #007bff;
+        padding: 10px 20px;
         cursor: pointer;
-        font-size: 1.2em;
+        font-size: 16px;
+        border-radius: 5px;
       }
     </style>
   </head>
@@ -143,6 +170,17 @@
         </div>
       </div>
     </div>
+
+    <div class="pagination">
+      <button class="pagination-button">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <div class="page-number">Página 1 de 10</div>
+      <button class="pagination-button">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
     <table>
       <thead>
         <tr>
@@ -152,7 +190,7 @@
           <th>Tipo</th>
           <th>Moneda</th>
           <th>Total</th>
-          <th>Estado De La Factura</th>
+          <th>Estado de La Factura</th>
           <th>Tipo de Pago</th>
           <th>Archivar</th>
         </tr>
@@ -246,11 +284,11 @@
         </tr>
         <tr>
           <td>0000003121</td>
-          <td>24/05/24 04:55PM</td>
+          <td>24/05/24 04:56PM</td>
           <td></td>
           <td>Tiquete</td>
           <td>CRC</td>
-          <td>750.00</td>
+          <td>4400.00</td>
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
           </td>
@@ -263,11 +301,11 @@
         </tr>
         <tr>
           <td>0000003120</td>
-          <td>24/05/24 04:35PM</td>
+          <td>24/05/24 04:52PM</td>
           <td></td>
           <td>Tiquete</td>
           <td>CRC</td>
-          <td>1950.00</td>
+          <td>4250.00</td>
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
           </td>
@@ -280,11 +318,11 @@
         </tr>
         <tr>
           <td>0000003119</td>
-          <td>24/05/24 04:30PM</td>
+          <td>24/05/24 04:49PM</td>
           <td></td>
           <td>Tiquete</td>
           <td>CRC</td>
-          <td>10,384.00</td>
+          <td>11900.00</td>
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
           </td>
@@ -297,62 +335,11 @@
         </tr>
         <tr>
           <td>0000003118</td>
-          <td>24/05/24 04:26PM</td>
+          <td>24/05/24 04:43PM</td>
           <td></td>
           <td>Tiquete</td>
           <td>CRC</td>
-          <td>12,984.00</td>
-          <td>
-            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
-          </td>
-          <td>A contado</td>
-          <td>
-            <button class="archive-button" title="Archivar">
-              <i class="fa fa-archive"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>0000003117</td>
-          <td>24/05/24 04:21PM</td>
-          <td></td>
-          <td>Tiquete</td>
-          <td>CRC</td>
-          <td>23,846.00</td>
-          <td>
-            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
-          </td>
-          <td>A contado</td>
-          <td>
-            <button class="archive-button" title="Archivar">
-              <i class="fa fa-archive"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>0000003116</td>
-          <td>24/05/24 04:16PM</td>
-          <td></td>
-          <td>Tiquete</td>
-          <td>CRC</td>
-          <td>4500.00</td>
-          <td>
-            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
-          </td>
-          <td>A contado</td>
-          <td>
-            <button class="archive-button" title="Archivar">
-              <i class="fa fa-archive"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>0000003115</td>
-          <td>24/05/24 04:08PM</td>
-          <td></td>
-          <td>Factura</td>
-          <td>CRC</td>
-          <td>12,741.00</td>
+          <td>4600.00</td>
           <td>
             Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
           </td>
@@ -367,4 +354,16 @@
     </table>
   </body>
 </html>
+
+<script>
+  // Agregar un evento de clic a todos los botones de archivar
+  document.querySelectorAll(".archive-button").forEach(function (button) {
+    button.addEventListener("click", function () {
+      // Encontrar la fila padre de este botón y ocultarla
+      var row = button.closest("tr");
+      row.style.display = "none";
+    });
+  });
+</script>
+
 {% endblock %}

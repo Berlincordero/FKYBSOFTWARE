@@ -1,9 +1,16 @@
-{% extends 'base.html' %} 
-{% load static %} 
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<style>
+  .text-center.mb-4 {
+    margin-top: 20px;
+    color: orange; /* Cambia el color del texto a anaranjado */
+  }
+</style>
 
 <div class="container">
-  <h1 class="text-center mb-4">Módulo de Clientes</h1>
+  <h1 class="text-center mb-4">
+    <i class="fas fa-users"></i>  Clientes
+  </h1>
 
   <!-- Formulario para ingresar y editar clientes -->
   <div id="formularioCliente">
@@ -240,27 +247,25 @@
         // Eliminar el cliente de la lista
         clientes.splice(clienteToDelete, 1);
         mostrarAlerta("success", "Cliente eliminado con éxito");
-    
+
         // Actualizar la tabla
         actualizarTabla();
-    
+
         // Limpiar el índice de eliminación
         clienteToDelete = null;
-    
+
         // Cerrar el modal
-        $('#confirmDeleteModal').modal('hide');
-    
+        $("#confirmDeleteModal").modal("hide");
+
         // Asegúrate de que el fondo oscuro se elimine
         setTimeout(() => {
           $(".modal-backdrop").remove(); // Eliminar el fondo oscuro si persiste
         }, 100); // Ajusta el tiempo si es necesario
-    
+
         // Recargar la página
         location.reload(); // Esta línea recargará la página
       }
     });
-    
-    
 
     $("#clienteForm").on("submit", function (e) {
       e.preventDefault();

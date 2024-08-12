@@ -1,9 +1,177 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Cierre de Caja</title>
+    <style>
+        
 
+        .main-container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
+        h1 {
+            text-align: center;
+            color: #f90;
+        }
+
+        .info, .transacciones, .movimientos, .arqueo, .chart-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .info div, .arqueo div {
+            margin-bottom: 10px;
+        }
+
+        .info span, .arqueo span {
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <h1>Reporte de Cierre de Caja</h1>
+
+    <div class="info">
+        <div><span>Sucursal:</span> #1</div>
+        <div><span>Caja Registradora:</span> #1</div>
+        <div><span>Fecha Apertura:</span> 24 / 07 / 2024</div>
+        <div><span>Fecha Cierre:</span> 24 / 07 / 2024</div>
+        <div><span>Hora Apertura:</span> 08:00 AM</div>
+        <div><span>Hora Cierre:</span> 08:00 PM</div>
+        <div><span>Monto inicial en la caja:</span> 100000 CRC</div>
+    </div>
+
+    <div class="transacciones">
+        <h2>Transacciones del Día</h2>
+        <div><span>Impuestos:</span> 135 652 CRC</div>
+        <div><span>Facturas Proveedor:</span> 5.00</div>
+        <div><span>Notas de Débito:</span> 0.0</div>
+        <div><span>Ingreso Efectivo:</span> 1 000 000.00 CRC</div>
+        <div><span>Ingreso Tarjetas:</span> 70 000.00 CRC</div>
+        <div><span>Ingreso Sinpe/ Transf:</span> 15 000.00 CRC</div>
+        <div><span>Venta Crédito:</span> 0.0 CRC</div>
+        <div><span>Cantidad Tiquetes:</span> 35</div>
+        <div><span>Total de la Venta:</span> 480 000.00 CRC</div>
+    </div>
+
+    <div class="movimientos">
+        <h2>Movimiento de Dineros Reportados</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Usuario</th>
+                    <th>Nota</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>01-07-2011</td>
+                    <td></td>
+                    <td>SE RETIRA LA CANTIDAD DE</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <div><span>Total Movimientos:</span> 0.00 CRC</div>
+    </div>
+
+    <div class="arqueo">
+        <h2>Arqueo de Caja</h2>
+        <div>
+            <span>Conteo Actual de Monto Efectivo:</span>
+            <input type="text" value="0" readonly>
+        </div>
+        <div>
+            <span>Monto Contado en Efectivo:</span>
+            <input type="text" value="">
+        </div>
+        <div>
+            <span>Conteo Actual de Monto Tarjeta:</span>
+            <input type="text" value="0" readonly>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="ventasChart"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('ventasChart').getContext('2d');
+    const ventasChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Ingreso Efectivo', 'Ingreso Tarjetas', 'Ingreso Sinpe'],
+            datasets: [{
+                label: 'Monto en CRC',
+                data: [1000000, 70000, 15000],
+                backgroundColor: ['#4CAF50', '#FFC107', '#00ACC1']
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
 
 {% endblock %}
-
-

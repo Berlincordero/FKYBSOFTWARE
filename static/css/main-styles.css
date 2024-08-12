@@ -123,7 +123,7 @@ a.sidebar-link {
 /* Estilos para el pie de página en la barra lateral */
 
 .sidebar .footer {
-    padding: 10px 15px;
+    padding: 20px 15px;
     text-align: center;
     font-size: 12px;
     margin-bottom: 0px;
@@ -290,7 +290,7 @@ a.sidebar-link {
     padding: 10px 20px;
     border: none;
     background-color: #00a2e8;
-    color: #fff;
+    color: #f3edea;
     border-radius: 4px;
     margin-left: 10px;
     cursor: pointer;
@@ -690,7 +690,7 @@ h2 {
 }
 
 .product-table th, .product-table td {
-    border: 1px solid #ebecee;
+    border: 1px solid #95defd;;
     padding: 10px;
     text-align: left;
 }
@@ -960,6 +960,8 @@ h2 {
 .modal-dialog{
     
 }
+/**********************************************************************************************************************/
+/**********************************************************************************************************************/
 
 /*estilos proveedores*/
 
@@ -972,8 +974,10 @@ h2 {
 }
 
 .header-proveedores h1 {
+    color: orange;
     margin: 0;
-    font-size: 1.5rem;
+    margin-top: 20px;
+    font-size: 2rem;
 }
 
 .table-form th,
@@ -1076,7 +1080,7 @@ h2 {
 }
 
 .table-form th {
-    background-color: #f2f2f2;
+    background-color: #f9f4f4;
 }
 
 .form-label {

@@ -8,9 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte de Utilidades</title>
     <style>
-        
-        h1, h2 {
-            color: #333;
+        .main {
+            margin: 0 auto;
+            width: 80%;
+        }
+        h1 {
+            color: #f90;
+        }
+        h2, p, td, th {
+            color: #000000;
         }
         table {
             width: 100%;
@@ -30,59 +36,103 @@
         .summary {
             margin-top: 20px;
         }
+        .chart-container {
+            margin-top: 40px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Center the chart within the container */
+        }
+        canvas {
+            margin: 0 auto; /* Center the canvas within the container */
+            width: 350px !important; /* Set a specific width */
+            height: 350px !important; /* Set a specific height */
+        }
     </style>
 </head>
 <body>
-    <h1>Reporte de Utilidades</h1>
-    <h2>Periodo: 01/01/2023 - 31/12/2023</h2>
-    <table>
-        <tr>
-            <th>Concepto</th>
-            <th>Monto (COLONES)</th>
-        </tr>
-        <tr>
-            <td>Ingresos Totales</td>
-            <td>100,000 colones</td>
-        </tr>
-        <tr>
-            <td>Costos de Bienes Vendidos (COGS)</td>
-            <td>40,000 colones</td>
-        </tr>
-        <tr>
-            <td>Gastos Operativos</td>
-            <td>30,000 colones</td>
-        </tr>
-        <tr>
-            <td>Utilidades Brutas</td>
-            <td>60,000 colones</td>
-        </tr>
-        <tr>
-            <td>Utilidades Operativas</td>
-            <td>30,000 colones</td>
-        </tr>
-        <tr>
-            <td>Gastos Adicionales</td>
-            <td>5,000 colones</td>
-        </tr>
-        <tr>
-            <td>Utilidades Netas</td>
-            <td>25,000 colones</td>
-        </tr>
-    </table>
-    <div class="summary">
-        <h2>Resumen</h2>
-        <p>Las utilidades netas para el periodo especificado son de <strong>190,000  colones netos</strong>.</p>
+    <div class="main">
+        <h1>Reporte de Utilidades</h1>
+        <h2>Periodo: 01/01/2023 - 31/12/2023</h2>
+        <table>
+            <tr>
+                <th>Concepto</th>
+                <th>Monto (COLONES)</th>
+            </tr>
+            <tr>
+                <td>Ingresos Totales</td>
+                <td>100,000 colones</td>
+            </tr>
+            <tr>
+                <td>Costos de Bienes Vendidos (COGS)</td>
+                <td>40,000 colones</td>
+            </tr>
+            <tr>
+                <td>Gastos Operativos</td>
+                <td>30,000 colones</td>
+            </tr>
+            <tr>
+                <td>Utilidades Brutas</td>
+                <td>60,000 colones</td>
+            </tr>
+            <tr>
+                <td>Utilidades Operativas</td>
+                <td>30,000 colones</td>
+            </tr>
+            <tr>
+                <td>Gastos Adicionales</td>
+                <td>5,000 colones</td>
+            </tr>
+            <tr>
+                <td>Utilidades Netas</td>
+                <td>25,000 colones</td>
+            </tr>
+        </table>
+        <div class="summary">
+            <h2>Resumen</h2>
+            <p>Las utilidades netas para el periodo especificado son de <strong>190,000 colones netos</strong>.</p>
+        </div>
+        
+        <div class="summary">
+            <h2>TOTAL DE IMPUESTOS</h2>
+            <p>Los impuestos recaudados del periodo especificado son de <strong>19,280 colones netos</strong>.</p>
+            <p>Este monto se debe pagar antes del 15 de enero del 2024.</p>
+        </div>
+
+        <div class="chart-container">
+            <h2>Distribución de Ingresos y Gastos</h2>
+            <canvas id="distribucionChart"></canvas>
+        </div>
+
     </div>
-    
-    <div class="summary">
-        <h2>TOTAL DE IMPUESTOS</h2>
-        <p>los impuestos recaudados del periodo especificado son de <strong>19,280  colones netos</strong>.</p>
-        <p>este monton se debe pagar antes del 15 de enero del 2024</p>
-    
-    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('distribucionChart').getContext('2d');
+        const distribucionChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Costos de Bienes Vendidos', 'Gastos Operativos', 'Utilidades Netas'],
+                datasets: [{
+                    label: 'Distribución de Ingresos',
+                    data: [40000, 30000, 25000],
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                }
+            }
+        });
+    </script>
+
 </body>
 </html>
-
-
 
 {% endblock %}

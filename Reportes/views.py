@@ -23,3 +23,7 @@ def cierreCaja(request):
 
 def reporteProformas(request):
     return render(request, 'Reportes/reporteProformas.html')
+
+def reportetransportes(request):
+    return render(request, 'Reportes/reportetransportes.html')
+

@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Transportes</title>
+    <style>
+        .reportetransportes {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        h1 {
+            color: #ff7f00; /* Color anaranjado */
+        }
+        h2 {
+            color: #333;
+        }
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .search-container input[type="text"] {
+            padding: 10px;
+            width: 60%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .search-container button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .chart-container {
+            width: 80%;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+        .generate-report-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 8px 16px; /* Botón más pequeño */
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px; /* Tamaño de fuente reducido */
+        }
+        .ver-transporte-btn {
+            padding: 8px 12px;
+            background-color: #17a2b8;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            display: inline-block;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="reportetransportes">
+        <h1>Reporte de Transportes</h1>
+
+        <!-- Barra de búsqueda -->
+        <div class="search-container">
+            <input type="text" placeholder="Buscar por nombre, número de placa, número de factura...">
+            <button>Buscar</button>
+        </div>
+
+        <h2>Conductor</h2>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <td>Juan Carlos</td>
+            </tr>
+            <tr>
+                <th>Primer Apellido</th>
+                <td>Gómez</td>
+            </tr>
+            <tr>
+                <th>Segundo Apellido</th>
+                <td>Martínez</td>
+            </tr>
+            <tr>
+                <th>Número de Cédula</th>
+                <td>0123456789</td>
+            </tr>
+        </table>
+
+        <h2>Placa de Vehículo</h2>
+        <table>
+            <tr>
+                <th>Número de Placa</th>
+                <td>XYZ-1234</td>
+            </tr>
+            <tr>
+                <th>Seleccionar Conductor</th>
+                <td>Juan Carlos Gómez Martínez</td>
+            </tr>
+        </table>
+
+        <h2>Asignación de Rutas</h2>
+        <table>
+            <tr>
+                <th>Número de Factura</th>
+                <td>56789</td>
+            </tr>
+            <tr>
+                <th>Provincia</th>
+                <td>San José</td>
+            </tr>
+            <tr>
+                <th>Cantón</th>
+                <td>Central</td>
+            </tr>
+            <tr>
+                <th>Distrito</th>
+                <td>Carmen</td>
+            </tr>
+            <tr>
+                <th>Dirección Exacta</th>
+                <td>Avenida Central, Calle 5</td>
+            </tr>
+        </table>
+
+        <h2>Rutas del Día Registradas</h2>
+        <table>
+            <tr>
+                <th>Número de Factura</th>
+                <th>Placa</th>
+                <th>Conductor</th>
+                <th>Fecha</th>
+                <th>Provincia</th>
+                <th>Cantón</th>
+                <th>Distrito</th>
+                <th>Dirección Exacta</th>
+                <th>Transporte</th> <!-- Nueva columna para el botón -->
+            </tr>
+            <tr>
+                <td>56789</td>
+                <td>XYZ-1234</td>
+                <td>Juan Carlos Gómez Martínez</td>
+                <td>2024-08-11</td>
+                <td>San José</td>
+                <td>Central</td>
+                <td>Carmen</td>
+                <td>Avenida Central, Calle 5</td>
+                <td><a href="#" class="ver-transporte-btn">Ver Transporte</a></td> <!-- Botón "Ver Transporte" -->
+            </tr>
+            <tr>
+                <td>67890</td>
+                <td>ABC-5678</td>
+                <td>María Fernández Ruiz</td>
+                <td>2024-08-11</td>
+                <td>Alajuela</td>
+                <td>Central</td>
+                <td>San Rafael</td>
+                <td>Calle 7, Avenida 3</td>
+                <td><a href="#" class="ver-transporte-btn">Ver Transporte</a></td> <!-- Botón "Ver Transporte" -->
+            </tr>
+        </table>
+
+        <div class="chart-container">
+            <canvas id="rutaChart"></canvas>
+        </div>
+
+        <a href="#" class="generate-report-btn">Generar Reporte</a>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('rutaChart').getContext('2d');
+        var rutaChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['San José', 'Alajuela', 'Cartago', 'Heredia', 'Guanacaste', 'Puntarenas', 'Limón'],
+                datasets: [{
+                    label: 'Rutas por Provincia',
+                    data: [5, 3, 2, 4, 1, 2, 1],
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+{% endblock %}

@@ -1,8 +1,158 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Proformas</title>
+    <style>
+        .reporte-proforma {
+            width: 80%;
+            margin: 0 auto; /* Centra el reporte horizontalmente */
+            padding: 20px;
+            background-color: #f9f9f9; /* Fondo personalizado */
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+        }
 
+        h1 {
+            text-align: center;
+            color: #f90; /* Color anaranjado */
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif; /* Fuente personalizada */
+        }
 
+        .header {
+            background-color: #d6e9f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .header div {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .header div:last-child {
+            margin-right: 0;
+        }
+
+        .header span {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        .summary {
+            margin-top: 20px;
+            width: 50%;
+            float: right;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .summary div {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+
+        .summary div span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="reporte-proforma">
+    <h1>Reporte de Proformas</h1>
+
+    <div class="header">
+        <div>
+            <span>Fecha:</span> 2024-07-18
+        </div>
+        <div>
+            <span>Moneda:</span> CRC
+        </div>
+        <div>
+            <span>Venta:</span> Venta al por menor de artículos de ferretería, pinturas, madera y materiales para la construcción
+        </div>
+    </div>
+
+    <div>
+        <span>Cliente:</span> 
+        <input type="text" placeholder="Busca por nombre, cédula o teléfono" style="width: 100%; padding: 8px; margin: 10px 0;">
+    </div>
+
+    <div>
+        <span>Código de actividad económica:</span> regular
+    </div>
+
+    <div>
+        <span>Medio de pago:</span> Efectivo
+    </div>
+
+    <div>
+        <span>Condición de venta:</span> Contado
+    </div>
+
+    <h2>Detalles de línea</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Cantidad</th>
+                <th>Unidad</th>
+                <th>Precio Unitario</th>
+                <th>Descuento</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>001</td>
+                <td>Producto 1</td>
+                <td>1</td>
+                <td>unidad</td>
+                <td>1000</td>
+                <td>0</td>
+                <td>1000</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="summary">
+        <div><span>Sub Total:</span> <span>1000 CRC</span></div>
+        <div><span>Descuento:</span> <span>0 CRC</span></div>
+        <div><span>IVA:</span> <span>130 CRC</span></div>
+        <div><span>Total:</span> <span>1130 CRC</span></div>
+    </div>
+</div>
+
+</body>
+</html>
 
 {% endblock %}
-

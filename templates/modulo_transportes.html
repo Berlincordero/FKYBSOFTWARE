@@ -3,9 +3,17 @@
 {% load custom_filters %} 
 {% block content %}
 
-<div class="container mt-4">
-    <h2>Módulo de Transportes</h2>
-
+<style>
+    .text-center.mb-4 {
+      margin-top: 20px;
+      color: orange; /* Cambia el color del texto a anaranjado */
+  }
+  </style>
+<div class="container">
+    <h1 class="text-center mb-4">
+        <i class="fas fa-truck"></i>  Transportes
+    </h1>
+    
     <!-- Aviso de éxito -->
     <div class="alert alert-success text-center" id="success-alert" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1050;">
         <strong>¡Éxito!</strong> <span id="success-message"></span>
