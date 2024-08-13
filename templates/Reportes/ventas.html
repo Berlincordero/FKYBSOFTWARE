@@ -113,17 +113,16 @@
         });
 
         $('#filter-button').on('click', function() {
-            // Funcionalidad de filtrado por fechas
             var startDate = $('#start-date').val();
             var endDate = $('#end-date').val();
-            $('#DTable').DataTable().draw(); // Redibujamos la tabla
+            $('#DTable').DataTable().draw(); 
         });
 
         $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
                 var startDate = $('#start-date').val();
                 var endDate = $('#end-date').val();
-                var date = data[0]; // La fecha está en la primera columna
+                var date = data[0]; 
 
                 if ((startDate === "" && endDate === "") ||
                     (startDate === "" && date <= endDate) ||
@@ -144,7 +143,6 @@
     });
 
     function viewInvoice(invoiceId) {
-        //Aquí debemos implementar la lógica para obtener y mostrar los detalles de la factura, datos de ejemplo.
         document.getElementById('invoiceDetails').innerHTML = `
             <p><strong>Factura ID:</strong> ${invoiceId}</p>
             <p><strong>Detalles de la factura</strong>: Ejemplo de detalles para ${invoiceId}.</p>

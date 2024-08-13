@@ -1133,3 +1133,26 @@ label {
     font-size: 12px;
     margin-top: 5px;
 }
+
+/*imagne*/
+
+.body-fkyb {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    backgroun;
+}
+.contact-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+.contact-image img {
+    border-radius: 20px;
+    max-width: 90%;
+    max-height: 85%;
+}

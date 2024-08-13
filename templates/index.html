@@ -1,40 +1,13 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imagen Grande</title>
-    <style>
-        .body-fkyb {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #000;
-        }
-        .contact-image {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-        }
-        .contact-image img {
-            border-radius: 20px;
-            max-width: 90%;
-            max-height: 85%;
-        }
-    </style>
-</head>
-<body class="body-fkyb">
+
+
+<div class="body-fkyb">
     <div class="contact-image">
         {% load static %}
         <img src="{% static 'img/FKYB.jpg' %}" alt="Question Image" />
     </div>
-</body>
-</html>
+</div>
+
 {% endblock %}
