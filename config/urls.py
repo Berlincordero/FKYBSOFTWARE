@@ -22,4 +22,5 @@ urlpatterns = [
     path('proveedores/', include('Proveedores.urls')),  # Ruta para las URLs de la app Proveedores
     
     path('modulo_cliente/', views.modulo_cliente, name='modulo_cliente'),
+    path('Orden_de_compra/', include('Orden_de_compra.urls')),  # Ruta para las URLs de la app Orden_de_compra
 ]
