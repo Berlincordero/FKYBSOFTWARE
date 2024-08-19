@@ -1,157 +1,12 @@
 {% extends 'base.html' %} {% block content %}
-
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Comprobantes</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <style>
-      .container {
-        width: 80%;
-        margin: 20px auto;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #fff;
-        border-radius: 10px;
-        padding: 10px 20px;
-        margin-bottom: 20px;
-      }
-      .header h1 {
-        color: #f90;
-        margin: 0;
-        font-size: 24px;
-        display: flex;
-        align-items: center;
-      }
-      .header .icon {
-        font-size: 36px;
-        margin-right: 15px;
-      }
-      .header .search-box {
-        display: flex;
-        align-items: center;
-      }
-      .header input[type="text"] {
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        margin-right: 10px;
-      }
-      .header button {
-        padding: 10px 15px;
-        background-color: #28a745;
-        border: none;
-        border-radius: 5px;
-        color: #fff;
-        cursor: pointer;
-        margin-right: 5px;
-      }
-
-      .pagination {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        margin: 10px 190px;
-      }
-      .pagination-button {
-        background-color: #ffffff;
-        border: 1px solid #ddd;
-        color: #3163f9;
-        padding: 8px;
-        border-radius: 50%;
-        margin: 0 5px;
-        cursor: pointer;
-        font-size: 1.2em;
-      }
-      .page-number {
-        font-size: 16px;
-        margin: 0 10px;
-      }
-
-      table {
-        width: 80%;
-        margin: 20px auto;
-        border-collapse: collapse;
-      }
-      th,
-      td {
-        border: 1px solid #95defd;
-        padding: 8px;
-        text-align: left;
-      }
-      th {
-        background-color: #95defd;
-      }
-      tr:hover {
-        background-color: hsl(
-          180,
-          1%,
-          83%
-        ); /* Cambia el fondo de la fila al pasar el ratón */
-        transition: background-color 0.3s; /* Para una transición suave */
-      }
-      td:hover {
-        background-color: #efc737; /* Cambia el fondo de la celda al pasar el ratón */
-        transition: background-color 0.3s; /* Para una transición suave */
-      }
-
-      .fixed-icons {
-        display: flex;
-      }
-      .fixed-icons button {
-        background-color: #ffffff;
-        border: 1px solid #ddd;
-        color: #3163f9;
-        padding: 8px;
-        border-radius: 50%;
-        margin-left: 10px;
-        cursor: pointer;
-        font-size: 1.5em;
-      }
-      .fixed-icons button img {
-        width: 20px;
-        height: 20px;
-      }
-      .status-icon {
-        font-size: 1.2em;
-        margin-left: 5px;
-      }
-      .status-paid {
-        color: #28a745;
-      }
-      .status-pending {
-        color: #dc3545;
-      }
-      .archive-button {
-        background-color: #96c4f5;
-        color: blue;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-size: 16px;
-        border-radius: 5px;
-      }
-    </style>
-  </head>
   <body>
-    <div class="container">
-      <div class="header">
+    <div class="facturacion-caja-kike-container">
+      <div class="facturacion-caja-kike-header">
         <h1>
-          <i class="fa-solid fa-circle-dollar-to-slot icon"></i>Facturación
+          <i class="fa-solid fa-circle-dollar-to-slot facturacion-caja-kike-icon"></i
+          >Facturación
         </h1>
-        <div class="fixed-icons">
+        <div class="facturacion-caja-kike-fixed-icons">
           <button title="Descargar">
             <i class="fa fa-download"></i>
           </button>
@@ -159,29 +14,27 @@
             <i class="fa fa-print"></i>
           </button>
         </div>
-        <div class="search-box">
+        <div class="facturacion-caja-kike-search-box">
           <input type="text" placeholder="Buscar proforma..." />
-          <button type="button" class="search-button">
+          <button type="button" class="facturacion-caja-search-button">
             <i class="fas fa-search"></i>
           </button>
-          <button type="button" class="filter-button">
-            <i class="fas fa-filter"></i>
-          </button>
+
         </div>
       </div>
     </div>
 
-    <div class="pagination">
-      <button class="pagination-button">
+    <div class="facturacion-caja-kike-pagination">
+      <button class="facturacion-caja-kike-pagination-button">
         <i class="fas fa-chevron-left"></i>
       </button>
-      <div class="page-number">Página 1 de 10</div>
-      <button class="pagination-button">
+      <div class="facturacion-caja-kike-page-number">Página 1 de 10</div>
+      <button class="facturacion-caja-kike-pagination-button">
         <i class="fas fa-chevron-right"></i>
       </button>
     </div>
 
-    <table>
+    <table class="facturacion-caja-kike-table">
       <thead>
         <tr>
           <th>N° ID</th>
@@ -189,6 +42,7 @@
           <th>Cliente</th>
           <th>Tipo</th>
           <th>Moneda</th>
+          <th>I.V.A</th>
           <th>Total</th>
           <th>Estado de La Factura</th>
           <th>Tipo de Pago</th>
@@ -202,14 +56,18 @@
           <td>JESSICA SOLANO GONZALEZ</td>
           <td>Tiquete</td>
           <td>CRC</td>
+          <td>799.50</td>
           <td>6150.00</td>
           <td>
             Pago Pendiente
-            <i class="fa fa-times-circle status-icon status-pending"></i>
+            <i class="fa fa-times-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-pending"></i>
           </td>
           <td>A crédito</td>
           <td>
-            <button class="archive-button" title="Archivar">
+            <button
+              class="facturacion-caja-kike-archive-button"
+              title="Archivar"
+            >
               <i class="fa fa-archive"></i>
             </button>
           </td>
@@ -220,13 +78,18 @@
           <td>Humberto Antonio Martínez Umaña</td>
           <td>Factura</td>
           <td>CRC</td>
+          <td>577.20</td>
           <td>4440.00</td>
           <td>
-            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+            Pagada
+            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
           </td>
           <td>A contado</td>
           <td>
-            <button class="archive-button" title="Archivar">
+            <button
+              class="facturacion-caja-kike-archive-button"
+              title="Archivar"
+            >
               <i class="fa fa-archive"></i>
             </button>
           </td>
@@ -237,13 +100,18 @@
           <td></td>
           <td>Tiquete</td>
           <td>CRC</td>
+          <td>52.00</td>
           <td>400.00</td>
           <td>
-            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+            Pagada
+            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
           </td>
           <td>A contado</td>
           <td>
-            <button class="archive-button" title="Archivar">
+            <button
+              class="facturacion-caja-kike-archive-button"
+              title="Archivar"
+            >
               <i class="fa fa-archive"></i>
             </button>
           </td>
@@ -254,13 +122,18 @@
           <td></td>
           <td>Tiquete</td>
           <td>CRC</td>
+          <td>1085.50</td>
           <td>8350.00</td>
           <td>
-            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+            Pagada
+            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
           </td>
           <td>A contado</td>
           <td>
-            <button class="archive-button" title="Archivar">
+            <button
+              class="facturacion-caja-kike-archive-button"
+              title="Archivar"
+            >
               <i class="fa fa-archive"></i>
             </button>
           </td>
@@ -271,13 +144,18 @@
           <td></td>
           <td>Tiquete</td>
           <td>CRC</td>
+          <td>611.00</td>
           <td>4700.00</td>
           <td>
-            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+            Pagada
+            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
           </td>
           <td>A contado</td>
           <td>
-            <button class="archive-button" title="Archivar">
+            <button
+              class="facturacion-caja-kike-archive-button"
+              title="Archivar"
+            >
               <i class="fa fa-archive"></i>
             </button>
           </td>
@@ -288,13 +166,18 @@
           <td></td>
           <td>Tiquete</td>
           <td>CRC</td>
+          <td>572.00</td>
           <td>4400.00</td>
           <td>
-            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+            Pagada
+            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
           </td>
           <td>A contado</td>
           <td>
-            <button class="archive-button" title="Archivar">
+            <button
+              class="facturacion-caja-kike-archive-button"
+              title="Archivar"
+            >
               <i class="fa fa-archive"></i>
             </button>
           </td>
@@ -305,13 +188,18 @@
           <td></td>
           <td>Tiquete</td>
           <td>CRC</td>
+          <td>552.50</td>
           <td>4250.00</td>
           <td>
-            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+            Pagada
+            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
           </td>
           <td>A contado</td>
           <td>
-            <button class="archive-button" title="Archivar">
+            <button
+              class="facturacion-caja-kike-archive-button"
+              title="Archivar"
+            >
               <i class="fa fa-archive"></i>
             </button>
           </td>
@@ -322,13 +210,18 @@
           <td></td>
           <td>Tiquete</td>
           <td>CRC</td>
+          <td>1547.00</td>
           <td>11900.00</td>
           <td>
-            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+            Pagada
+            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
           </td>
           <td>A contado</td>
           <td>
-            <button class="archive-button" title="Archivar">
+            <button
+              class="facturacion-caja-kike-archive-button"
+              title="Archivar"
+            >
               <i class="fa fa-archive"></i>
             </button>
           </td>
@@ -339,13 +232,18 @@
           <td></td>
           <td>Tiquete</td>
           <td>CRC</td>
+          <td>598.00</td>
           <td>4600.00</td>
           <td>
-            Pagada <i class="fa fa-check-circle status-icon status-paid"></i>
+            Pagada
+            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
           </td>
           <td>A contado</td>
           <td>
-            <button class="archive-button" title="Archivar">
+            <button
+              class="facturacion-caja-kike-archive-button"
+              title="Archivar"
+            >
               <i class="fa fa-archive"></i>
             </button>
           </td>
@@ -357,7 +255,7 @@
 
 <script>
   // Agregar un evento de clic a todos los botones de archivar
-  document.querySelectorAll(".archive-button").forEach(function (button) {
+  document.querySelectorAll(".facturacion-caja-kike-archive-button").forEach(function (button) {
     button.addEventListener("click", function () {
       // Encontrar la fila padre de este botón y ocultarla
       var row = button.closest("tr");

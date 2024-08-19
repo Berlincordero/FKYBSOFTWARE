@@ -123,7 +123,7 @@ a.sidebar-link {
 /* Estilos para el pie de página en la barra lateral */
 
 .sidebar .footer {
-    padding: 10px 15px;
+    padding: 20px 15px;
     text-align: center;
     font-size: 12px;
     margin-bottom: 0px;
@@ -290,7 +290,7 @@ a.sidebar-link {
     padding: 10px 20px;
     border: none;
     background-color: #00a2e8;
-    color: #fff;
+    color: #f3edea;
     border-radius: 4px;
     margin-left: 10px;
     cursor: pointer;
@@ -690,7 +690,7 @@ h2 {
 }
 
 .product-table th, .product-table td {
-    border: 1px solid #ebecee;
+    border: 1px solid #95defd;;
     padding: 10px;
     text-align: left;
 }
@@ -960,6 +960,8 @@ h2 {
 .modal-dialog{
     
 }
+/**********************************************************************************************************************/
+/**********************************************************************************************************************/
 
 /*estilos proveedores*/
 
@@ -972,8 +974,10 @@ h2 {
 }
 
 .header-proveedores h1 {
+    color: orange;
     margin: 0;
-    font-size: 1.5rem;
+    margin-top: 20px;
+    font-size: 2rem;
 }
 
 .table-form th,
@@ -1045,6 +1049,10 @@ h2 {
     /* Espaciado entre párrafos */
 }
 
+.modal-header-formulario-provedor h5 {
+    margin: auto;
+    font-size: 1.5rem;
+}
 
 /* Estilos para ver formulario proveedores  */
 
@@ -1076,7 +1084,7 @@ h2 {
 }
 
 .table-form th {
-    background-color: #f2f2f2;
+    background-color: #f9f4f4;
 }
 
 .form-label {
@@ -1129,3 +1137,30 @@ label {
     font-size: 12px;
     margin-top: 5px;
 }
+
+/******************************index************************************/
+
+.body-fkyb {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+}
+.contact-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+.contact-image img {
+    border-radius: 20px;
+    max-width: 80%;
+    max-height: 80%;
+}
+
+
+
+/****************************termina index************************************/

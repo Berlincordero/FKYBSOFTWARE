@@ -416,17 +416,7 @@ a.sidebar-link {
 
 
 /*********************************FIN DE ESTILOS DE TERMINAL*******************************************/
-
-
-/***************************************************************************************************/
-
-
-/******************************************************************************************************/
-
-
 /********************************AQUI EMPIEZA PRODUCTOS************************************************/
-
-
 /************************formulario de crear producto*************************************************/
 
 .container-producto-formuario {
@@ -462,7 +452,14 @@ a.sidebar-link {
 }
 
 h2 {
+    color:#2d9dede7;
     margin-top: 0;
+}
+
+.modal-header h5 {
+    margin: auto;
+    color: orange;
+    font-size: 1.5rem;
 }
 
 .form-group {
@@ -589,8 +586,6 @@ h2 {
 .save-button button:hover {
     background-color: #218838;
 }
-
-
 /************************************************************************/
 /***********************pagina principal productos**************************/
 .header {
@@ -861,14 +856,143 @@ h2 {
     display: none;
 }
 
-
 /********************************************aqui termina producto**************************************************************/
-
-
 /*****************************************************************************************************************************/
-/**************************************** aqui empieza proformas*************************************************************/
+/**************************************** aqui empieza facturacion*************************************************************/
 /***************************************************************************************************************************/
+.facturacion-caja-kike-container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .facturacion-caja-kike-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+  }
+  .facturacion-caja-kike-header h1 {
+    color: #f90;
+    margin: 0;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+  }
+  .facturacion-caja-kike-header .facturacion-caja-kike-icon {
+    font-size: 36px;
+    margin-right: 15px;
+  }
+  .facturacion-caja-kike-header .facturacion-caja-kike-search-box {
+    display: flex;
+    align-items: center;
+  }
+  .facturacion-caja-kike-header input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  .facturacion-caja-kike-header button {
+    padding: 10px 15px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    margin-right: 5px;
+  }
 
+  .facturacion-caja-kike-pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 10px 190px;
+  }
+  .facturacion-caja-kike-pagination-button {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    color: #3163f9;
+    padding: 8px;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+  }
+  .facturacion-caja-kike-page-number {
+    font-size: 16px;
+    margin: 0 10px;
+  }
+
+  .facturacion-caja-kike-table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+  }
+  .facturacion-caja-kike-table th,
+  .facturacion-caja-kike-table td {
+    border: 1px solid #95defd;
+    padding: 8px;
+    text-align: left;
+  }
+  .facturacion-caja-kike-table th {
+    background-color: #95defd;
+  }
+  .facturacion-caja-kike-table tr:hover {
+    background-color: hsl(
+      180,
+      1%,
+      83%
+    ); /* Cambia el fondo de la fila al pasar el ratón */
+    transition: background-color 0.3s; /* Para una transición suave */
+  }
+  .facturacion-caja-kike-table td:hover {
+    background-color: #efc737; /* Cambia el fondo de la celda al pasar el ratón */
+    transition: background-color 0.3s; /* Para una transición suave */
+  }
+
+  .facturacion-caja-kike-fixed-icons {
+    display: flex;
+  }
+  .facturacion-caja-kike-fixed-icons button {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    color: #3163f9;
+    padding: 8px;
+    border-radius: 50%;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 1.5em;
+  }
+  .facturacion-caja-kike-fixed-icons button img {
+    width: 20px;
+    height: 20px;
+  }
+  .facturacion-caja-kike-status-icon {
+    font-size: 1.2em;
+    margin-left: 5px;
+  }
+  .facturacion-caja-kike-status-paid {
+    color: #28a745;
+  }
+  .facturacion-caja-kike-status-pending {
+    color: #dc3545;
+  }
+  .facturacion-caja-kike-archive-button {
+    background-color: #96c4f5;
+    color: blue;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+/**********************************************************************************************************************/
 
 /* Estilo modulo Usuarios */
 
@@ -960,10 +1084,11 @@ h2 {
 .modal-dialog{
     
 }
-/**********************************************************************************************************************/
+
+
 /**********************************************************************************************************************/
 
-/*estilos proveedores*/
+/*aqui empiza los estilos de  proveedores*/
 
 .header-proveedores {
     display: flex;
@@ -1070,7 +1195,7 @@ h2 {
     text-align: center;
     font-family: emoji;
     width: 58%;
-    margin: 40px auto;
+    margin-left: 245px;
 }
 
 .table-form th,
@@ -1133,16 +1258,17 @@ label {
     font-size: 12px;
     margin-top: 5px;
 }
-
-/*imagne*/
+/**************aqui termina los estilos de proveedores**********************/
+/***********************************************************************/
+/******************************aqui empieza los estilos de index************************************/
 
 .body-fkyb {
-    margin: 0;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    backgroun;
+    background-color: #ffffff;
 }
 .contact-image {
     display: flex;
@@ -1153,6 +1279,90 @@ label {
 }
 .contact-image img {
     border-radius: 20px;
-    max-width: 90%;
-    max-height: 85%;
+    max-width: 80%;
+    max-height: 80%;
 }
+
+/****************************termina index************************************/
+/*****************************************************************************/
+/***************************aqui empieza los estilos de informacion*******************/
+/***********************************************************************************/
+.informacion-empresa-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .informacion-empresa-content-contact {
+    flex: 3;
+    padding: 20px 40px;
+    margin-right: 70px;
+  }
+
+  .informacion-empresa-image img {
+    border-radius: 25px;
+    margin-top: 35px;
+    width: 70%;
+    max-width: 500px;
+  }
+
+  .informacion-empresa-sidebar {
+    flex: 2;
+    padding: 20px 40px;
+    border-left: 1px solid #ccc;
+  }
+
+  .informacion-empresa-sidebar .informacion-empresa-card {
+    background: #f6d079;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid orange;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .informacion-empresa-sidebar .informacion-empresa-card img {
+    width: 100%;
+    border-radius: 15px;
+  }
+
+  .informacion-empresa-sidebar .informacion-empresa-card a {
+    font-size: 18px;
+    display: block;
+    text-decoration: none;
+    color: black;
+    margin-top: 10px;
+  }
+
+  .informacion-empresa-title {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+
+  .informacion-empresa-subtitle {
+    color: orange;
+    font-size: 2em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .informacion-empresa-paragraph {
+    margin-bottom: 10px;
+  }
+
+  .informacion-empresa-contact-info {
+    margin-top: 50px;
+    margin-bottom: 40px;
+  }
+
+  .informacion-empresa-contact-info p {
+    font-size: 1.3em;
+    margin: 0;
+    margin-bottom: 10px;
+  }
+
+  .informacion-empresa-contact-info a {
+    color: #007bff;
+    text-decoration: none;
+  }
