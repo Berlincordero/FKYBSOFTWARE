@@ -685,9 +685,17 @@ h2 {
     /* Cambia el fondo de la fila al pasar el ratón */
     transition: background-color 0.3s;
     /* Para una transición suave */
+    background-color: hsl(180, 1%, 83%);
+    /* Cambia el fondo de la fila al pasar el ratón */
+    transition: background-color 0.3s;
+    /* Para una transición suave */
 }
 
 .product-table table td:hover {
+    background-color: #efc737;
+    /* Cambia el fondo de la celda al pasar el ratón */
+    transition: background-color 0.3s;
+    /* Para una transición suave */
     background-color: #efc737;
     /* Cambia el fondo de la celda al pasar el ratón */
     transition: background-color 0.3s;
@@ -1297,6 +1305,82 @@ label {
     color: #dc3545;
     font-size: 12px;
     margin-top: 5px;
+}
+
+
+/* Estilos para ordenes de compra */
+
+
+/*icono de eliminar orden de compra */
+
+.eliminar {
+    font-size: 24px;
+    color: red;
+    /* Color del ícono */
+    .mdi-delete-empty {
+        display: none;
+        /* Oculta el ícono de tapa de basurero inicialmente */
+    }
+    &:hover {
+        background-color: rgba(255, 0, 0, 0.2);
+        /* Cambia el fondo al pasar el cursor */
+        .mdi-delete-empty {
+            display: block;
+            /* Muestra el ícono de tapa de basurero al pasar el cursor */
+        }
+        .mdi-delete {
+            display: none;
+            /* Oculta el ícono del basurero cerrado al pasar el cursor */
+        }
+    }
+    &:focus {
+        box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.4);
+    }
+}
+
+.btn-info {
+    font-size: 16px;
+    color: purple;
+    /* Color del ícono */
+    background: none;
+    /* Elimina el color de fondo */
+    border: none;
+    /* Elimina el borde predeterminado */
+    .mdi-info-empty {
+        display: none;
+        /* Oculta el ícono de tapa de basurero inicialmente */
+    }
+    &:hover {
+        background-color: rgba(238, 245, 39, 0.8);
+        /* Cambia el fondo al pasar el cursor */
+        .mdi-delete-empty {
+            display: block;
+            /* Muestra el ícono de tapa de basurero al pasar el cursor */
+        }
+        .mdi-delete {
+            display: none;
+            /* Oculta el ícono del basurero cerrado al pasar el cursor */
+        }
+    }
+    &:focus {
+        box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.4);
+    }
+}
+
+.texto-centrado {
+    font-family: fantasy;
+    text-align: center;
+    /* Centra el texto y cambia letra titulo orden de compra */
+}
+
+.icono-verde {
+    color: green;
+}
+
+.tabla-orden {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 

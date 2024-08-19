@@ -223,7 +223,7 @@
               </div>
           </button>
           
-          <button type="button" class="nav-button" onclick="generarReportePDF()">
+          <button type="button" class="nav-button" onclick="generarReportePDF()" onclick="event.preventDefault(); window.open(this.href, '_blank');">
             <span class="icon"><i class="fas fa-file-pdf"></i></span>
             <span class="text">REPORTES</span>
           </button>
@@ -671,12 +671,16 @@
     function generarReportePDF() {
       // Importar jsPDF
       const { jsPDF } = window.jspdf;
+
+      
+      
       
       // Crear una instancia de jsPDF
       const doc = new jsPDF();
 
       // Título del documento
       doc.setFontSize(20);
+
       doc.text('Reporte de Productos', 20, 20);
 
       // Agregar el contenido de la tabla
@@ -698,6 +702,8 @@
       
       
       // Descargar el PDF
+      event.preventDefault(); 
+      window.open(this.href, '_blank');
       doc.save('reporte_productos.pdf');
     }
 
