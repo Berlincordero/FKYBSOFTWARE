@@ -1,96 +1,15 @@
 {% extends 'base.html' %} {% block content %}
 
-    <style>
-      .container-informacion {
-        display: flex;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px; /* Añadimos relleno lateral para dar más espacio */
-      }
-
-      .content-informacion-contact {
-        flex: 3;
-        padding: 20px 40px; /* Añadimos relleno lateral para dar más espacio */
-        margin-right: 70px; /* Añadimos margen derecho para separar el contenido de la barra lateral */
-      }
-
-      .contact-image img {
-        border-radius: 25px;
-        margin-top: 35px; /* Puedes aumentar este valor para dar más espacio arriba de la imagen */
-        width: 70%;
-        max-width: 500px; /* Puedes ajustar este valor según sea necesario */
-      }
-
-      .sidebar-informacion {
-        flex: 2;
-        padding: 20px 40px; /* Añadimos relleno lateral para dar más espacio */
-        border-left: 1px solid #ccc;
-      }
-
-      .sidebar-informacion .card-informacion {
-        background: #f6d079;
-        margin-bottom: 20px; /* Puedes aumentar este valor para dar más espacio entre las tarjetas */
-        padding: 15px; /* Puedes aumentar este valor para dar más espacio dentro de cada tarjeta */
-        border: 1px solid orange;
-        border-radius: 5px;
-        text-align: center;
-      }
-
-      .sidebar-informacion .card-informacion img {
-        width: 100%;
-        border-radius: 15px;
-      }
-
-      .sidebar-informacion .card-informacion a {
-        font-size: 18px;
-        display: block;
-        text-decoration: none;
-        color: black;
-        margin-top: 10px; 
-      }
-
-      h1 {
-        font-size: 2em;
-        margin-bottom: 10px; 
-      }
-
-      h2 {
-        color: orange;
-        font-size: 2em;
-        margin-top: 5px; 
-        margin-bottom: 5px; 
-      }
-
-      p {
-        margin-bottom: 10px; 
-      }
-
-      .contact-info {
-        margin-top: 50px; 
-        margin-bottom: 40px; 
-      }
-
-      .contact-info p {
-        font-size: 1.3em;
-        margin: 0;
-        margin-bottom: 10px; 
-      }
-
-      .contact-info a {
-        color: #007bff;
-        text-decoration: none;
-      }
-    </style>
   </head>
   <body>
-    <div class="container-informacion">
-      <div class="content-informacion-contact">
+    <div class="informacion-empresa-container">
+      <div class="informacion-empresa-content-contact">
         <header>
-          <h2>
+          <h2 class="informacion-empresa-subtitle">
             <i class="fas fa-book-open"></i> INFORMACION
           </h2>
         </header>
-        <div class="contact-info">
+        <div class="informacion-empresa-contact-info">
           <p>
             La Ferreteria de San Jerónimo es una empresa fundada en 1996
             dedicada a la venta de productos de ferretería, plomería,
@@ -106,28 +25,28 @@
             <strong>DIRECCION :</strong> San Jerónimo de moravia centro a un
             costado del parque(<a href="#">View map</a>)
           </p>
-          <div class="contact-image">
+          <div class="informacion-empresa-image">
             {% load static %}
             <img src="{% static 'img/logo.jpg' %}" alt="Question Image" />
           </div>
         </div>
       </div>
 
-      <div class="sidebar-informacion">
-        <div class="card-informacion">
-          <h1>MISION</h1>
+      <div class="informacion-empresa-sidebar">
+        <div class="informacion-empresa-card">
+          <h1 class="informacion-empresa-title">MISION</h1>
           <a>
             NUESTRA MISION ES BRINDAR UN SERVICIO EXCEPCIONAL A LA COMUNIDAD DE
             LA MANO CON CALIDAD DE NUESTROS SERVICIOS Y PRODUCTOS.
           </a>
         </div>
-        <div class="card-informacion">
+        <div class="informacion-empresa-card">
           {% load static %}
           <img src="{% static 'img/parque.jpg' %}" alt="Question Image" />
         </div>
-        <div class="card-informacion">
-          <h1>VALORES</h1>
-          <a href="#">HONESTIDAD , COMPROMISO, RESPONSABILIDAD</a>
+        <div class="informacion-empresa-card">
+          <h1 class="informacion-empresa-title">VALORES</h1>
+          <a href="#">HONESTIDAD, COMPROMISO, RESPONSABILIDAD</a>
         </div>
       </div>
     </div>

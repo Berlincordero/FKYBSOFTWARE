@@ -253,6 +253,16 @@
 }
 
 
+.invoice-details .fa-trash {
+    background-color: #96c4f5;
+    color: red;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
      </style>
  </head>
  <body>
@@ -269,7 +279,7 @@
                  <i class="fas fa-user" title="Clientes" onclick="toggleUserMenu()"></i>
              </div>
          </div><br></br>
-         <h2>PARA USAR EFICIENTEMENTE ESTA CAJA REGISTRADORA CONSULTE (?) </h2><br></br>
+         <h2>PARA COMENZAR A USAR ESTA CAJA REGISTRADORA CONSULTE (?) </h2><br></br>
          <div class="barra-busqueda">
             <input type="text" id="buscar" placeholder="Buscar...">
             <button type="submit" onclick="mostrarContenido()">Buscar</button>
@@ -315,7 +325,7 @@
                         <td>Artículo 1<br /><small>Concepto: IT1</small></td>
                         <td>10</td>
                         <td>2200</td>
-                        <td>13%</td>
+                        <td>285</td>
                         <td>2600</td>
                         <td><i class="fas fa-trash" onclick="deleteRow(this)"></i></td>
                     </tr>
@@ -324,7 +334,7 @@
                         <td>Artículo 2<br /><small>Concepto: IT2</small></td>
                         <td>10</td>
                         <td>3100</td>
-                        <td>13%</td>
+                        <td>385</td>
                         <td>3625</td>
                         <td><i class="fas fa-trash"onclick="eliminarFila(this)"></i></td>
                     </tr>
@@ -416,6 +426,12 @@
             </div>
             <div class="menu-item">
                 <span>2. Presione abrir caja para activarla</span>
+            </div>
+            <div class="menu-item">
+                <span>3. Busque un producto para agregarlo</span>
+            </div>
+            <div class="menu-item">
+                <span>4. si aplicas el precierre este generara el cierre en fisico y el cierre automatico de la caja registradore</span>
             </div>
         </div>
      <!-- Modal de Pago -->

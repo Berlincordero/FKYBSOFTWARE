@@ -1,93 +1,150 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de Proformas</title>
-    <style>
-        .reporte-proforma {
-            width: 80%;
-            margin: 0 auto; /* Centra el reporte horizontalmente */
-            padding: 20px;
-            background-color: #f9f9f9; /* Fondo personalizado */
-            border-radius: 10px; /* Bordes redondeados */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-        }
+<title>Reporte de Proformas</title>
+<style>
+    .reporte-proforma {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-        h1 {
-            text-align: center;
-            color: #f90; /* Color anaranjado */
-            margin-bottom: 20px;
-            font-family: 'Poppins', sans-serif; /* Fuente personalizada */
-        }
+    h1 {
+        text-align: center;
+        color: #f90;
+        margin-bottom: 20px;
+        font-family: 'Poppins', sans-serif;
+    }
 
-        .header {
-            background-color: #d6e9f8;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-        }
+    .search-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
 
-        .header div {
-            flex: 1;
-            margin-right: 10px;
-        }
+    .search-container input[type="text"] {
+        width: 30%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        font-size: 12px;
+    }
 
-        .header div:last-child {
-            margin-right: 0;
-        }
+    .search-container .fa-search {
+        margin-left: 10px;
+        color: #333;
+        cursor: pointer;
+    }
 
-        .header span {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
+    .header {
+        background-color: #d6e9f8;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    .header div {
+        flex: 1;
+        margin-right: 10px;
+    }
 
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
+    .header div:last-child {
+        margin-right: 0;
+    }
 
-        th {
-            background-color: #f2f2f2;
-            color: #333;
-        }
+    .header span {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
 
-        .summary {
-            margin-top: 20px;
-            width: 50%;
-            float: right;
-            font-family: 'Poppins', sans-serif;
-            font-size: 16px;
-            color: #333;
-        }
+    .generate-report-btn {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 5px 10px;
+        background-color: #f90;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-family: 'Poppins', sans-serif;
+        text-align: center;
+        text-decoration: none;
+    }
 
-        .summary div {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-        }
+    .generate-report-btn:hover {
+        background-color: #e07d00;
+    }
 
-        .summary div span {
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    .summary {
+        margin-top: 20px;
+        width: 50%;
+        float: right;
+        font-family: 'Poppins', sans-serif;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .summary div {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+    }
+
+    .summary div span {
+        font-weight: bold;
+    }
+
+    /* New Styles for the Action Button */
+    .action-btn {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-family: 'Poppins', sans-serif;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .action-btn:hover {
+        background-color: #0056b3;
+    }
+</style>
 
 <div class="reporte-proforma">
     <h1>Reporte de Proformas</h1>
+
+    <!-- Barra de búsqueda arriba del header -->
+    <div class="search-container">
+        <input type="text" placeholder="Busca por nombre, cédula o teléfono">
+        <i class="fa fa-search"></i>
+    </div>
 
     <div class="header">
         <div>
@@ -99,11 +156,6 @@
         <div>
             <span>Venta:</span> Venta al por menor de artículos de ferretería, pinturas, madera y materiales para la construcción
         </div>
-    </div>
-
-    <div>
-        <span>Cliente:</span> 
-        <input type="text" placeholder="Busca por nombre, cédula o teléfono" style="width: 100%; padding: 8px; margin: 10px 0;">
     </div>
 
     <div>
@@ -129,6 +181,7 @@
                 <th>Precio Unitario</th>
                 <th>Descuento</th>
                 <th>Total</th>
+                <th>Acción</th> <!-- Nueva columna para el botón de acción -->
             </tr>
         </thead>
         <tbody>
@@ -140,6 +193,7 @@
                 <td>1000</td>
                 <td>0</td>
                 <td>1000</td>
+                <td><a href="#" class="action-btn">Ver Reporte</a></td> <!-- Botón de acción -->
             </tr>
         </tbody>
     </table>
@@ -149,10 +203,10 @@
         <div><span>Descuento:</span> <span>0 CRC</span></div>
         <div><span>IVA:</span> <span>130 CRC</span></div>
         <div><span>Total:</span> <span>1130 CRC</span></div>
+        
+        <!-- Botón pequeño para generar reportes debajo del total -->
+        <a href="#" class="generate-report-btn">Generar Reporte</a>
     </div>
 </div>
-
-</body>
-</html>
 
 {% endblock %}

@@ -8,9 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte de Cierre de Caja</title>
     <style>
-        
-
-        .main-container {
+        .reportecierrecaja-main-container {
             width: 80%;
             margin: 0 auto;
             background-color: #ffffff;
@@ -19,12 +17,40 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        h1 {
-            text-align: center;
-            color: #f90;
+        .reportecierrecaja-search-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
         }
 
-        .info, .transacciones, .movimientos, .arqueo, .chart-container {
+        .reportecierrecaja-search-container input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            width: 300px;
+        }
+
+        .reportecierrecaja-search-container button {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-left: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .reportecierrecaja-title {
+            text-align: center;
+            color: #f90;
+            margin-bottom: 10px;
+        }
+
+        .reportecierrecaja-info, 
+        .reportecierrecaja-transacciones, 
+        .reportecierrecaja-movimientos, 
+        .reportecierrecaja-arqueo, 
+        .reportecierrecaja-chart-container {
             margin-bottom: 20px;
             padding: 10px;
             background-color: #ffffff;
@@ -32,32 +58,35 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .info div, .arqueo div {
+        .reportecierrecaja-info div, 
+        .reportecierrecaja-arqueo div {
             margin-bottom: 10px;
         }
 
-        .info span, .arqueo span {
+        .reportecierrecaja-info span, 
+        .reportecierrecaja-arqueo span {
             font-weight: bold;
         }
 
-        table {
+        .reportecierrecaja-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
 
-        th, td {
+        .reportecierrecaja-table th, 
+        .reportecierrecaja-table td {
             padding: 8px;
             text-align: left;
             border: 1px solid #ddd;
         }
 
-        th {
+        .reportecierrecaja-table th {
             background-color: #4CAF50;
             color: white;
         }
 
-        input[type="text"] {
+        .reportecierrecaja-input {
             width: 100%;
             padding: 8px;
             margin: 5px 0;
@@ -66,21 +95,42 @@
             border-radius: 4px;
         }
 
-        .chart-container {
+        .reportecierrecaja-chart-container {
             margin-top: 20px;
             background-color: #ffffff;
             border-radius: 5px;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
+        .reportecierrecaja-generate-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .reportecierrecaja-generate-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
 
-<div class="main-container">
-    <h1>Reporte de Cierre de Caja</h1>
+<div class="reportecierrecaja-main-container">
 
-    <div class="info">
+    <h1 class="reportecierrecaja-title">Reporte de Cierre de Caja</h1>
+
+    <div class="reportecierrecaja-search-container">
+        <input type="text" placeholder="Buscar...">
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </div>
+
+    <div class="reportecierrecaja-info">
         <div><span>Sucursal:</span> #1</div>
         <div><span>Caja Registradora:</span> #1</div>
         <div><span>Fecha Apertura:</span> 24 / 07 / 2024</div>
@@ -90,7 +140,7 @@
         <div><span>Monto inicial en la caja:</span> 100000 CRC</div>
     </div>
 
-    <div class="transacciones">
+    <div class="reportecierrecaja-transacciones">
         <h2>Transacciones del Día</h2>
         <div><span>Impuestos:</span> 135 652 CRC</div>
         <div><span>Facturas Proveedor:</span> 5.00</div>
@@ -103,9 +153,9 @@
         <div><span>Total de la Venta:</span> 480 000.00 CRC</div>
     </div>
 
-    <div class="movimientos">
+    <div class="reportecierrecaja-movimientos">
         <h2>Movimiento de Dineros Reportados</h2>
-        <table>
+        <table class="reportecierrecaja-table">
             <thead>
                 <tr>
                     <th>Fecha</th>
@@ -126,23 +176,25 @@
         <div><span>Total Movimientos:</span> 0.00 CRC</div>
     </div>
 
-    <div class="arqueo">
+    <div class="reportecierrecaja-arqueo">
         <h2>Arqueo de Caja</h2>
         <div>
             <span>Conteo Actual de Monto Efectivo:</span>
-            <input type="text" value="0" readonly>
+            <input class="reportecierrecaja-input" type="text" value="0" readonly>
         </div>
         <div>
             <span>Monto Contado en Efectivo:</span>
-            <input type="text" value="">
+            <input class="reportecierrecaja-input" type="text" value="">
         </div>
         <div>
             <span>Conteo Actual de Monto Tarjeta:</span>
-            <input type="text" value="0" readonly>
+            <input class="reportecierrecaja-input" type="text" value="0" readonly>
         </div>
     </div>
 
-    <div class="chart-container">
+    <button class="reportecierrecaja-generate-button">Generar Reporte</button>
+
+    <div class="reportecierrecaja-chart-container">
         <canvas id="ventasChart"></canvas>
     </div>
 </div>

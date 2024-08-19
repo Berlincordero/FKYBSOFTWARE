@@ -181,6 +181,17 @@
   }
 }
 
+.hidden {
+  display: none;
+}
+
+.icono-caja-abierta {
+  font-size: 36px; /* Tamaño del ícono */
+  color: #865a27e7; /* Color del ícono */
+  margin-right: 10px; /* Espacio entre el ícono y el texto */
+  vertical-align: middle; /* Alineación vertical con el texto */
+}
+
     </style>
   </head>
   <body>
@@ -256,8 +267,8 @@
             <td data-inventory="20.00">20.00</td>
             <td class="alert-cell"></td>
             <td>
-              <div>Regular: 174,497.00</div>
-              <div>Costo: 66,160.00</div>
+              <div>Venta Regular al publico: <strong>174,497.00</strong></div>
+              <div>Costo del producto: <strong>66,160.00</strong></div>
             </td>
             <td>
               <button class="btn-action">
@@ -286,8 +297,8 @@
             <td data-inventory="1.00">1.00</td>
             <td class="alert-cell"></td>
             <td>
-              <div>Regular: 67,950.00</div>
-              <div>Costo: 40,879.00</div>
+              <div>Venta Regular al publico: <strong>67,950.00</strong></div>
+              <div>Costo del producto: <strong>40,879.00</strong></div>
             </td>
             <td>
               <button class="btn-action">
@@ -322,8 +333,8 @@
             <td data-inventory="150.00">150.00</td>
             <td class="alert-cell"></td>
             <td>
-              <div>Regular: 67,950.00</div>
-              <div>Costo: 40,879.00</div>
+              <div>Venta Regular al publico: <strong>67,950.00</strong></div>
+              <div>Costo del producto: <strong> 40,879.00</strong></div>
             </td>
             <td>
               <button class="btn-action">
@@ -380,7 +391,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="productModalLabel">
-              Formulario de Producto
+              <i class="fas fa-box-open icono-caja-abierta"></i>Formulario de Producto
             </h5>
             
           </div>
@@ -435,9 +446,21 @@
                 />
                 <span class="error text-danger">Código CABYS es requerido</span>
               </div>
-              <button type="button" class="btn btn-secondary">
-                Agregar Otro Código
-              </button>
+              <button type="button" class="btn" onclick="showSelect()">Agregar Otro Código</button>
+              <div class="select-container" id="codeSelect">
+                <label for="codigo-select">Seleccione un código:</label>
+                <select id="codigo-select" onchange="mostrarCampoCodigo()">
+                  <option value="Ninguno">Ninguno</option>
+                  <option value="codigo-barra">Código de Barra</option>
+                  <option value="otro-codigo">Otro Código</option>
+                </select>
+              </div>
+              
+              <div class="codigo-input-container hidden" id="codigoInputContainer">
+                <label for="codigo-input">Ingrese el código:</label>
+                <input type="text" id="codigo-input">
+              </div>
+ 
               <br />
               <div class="form-group">
                 <label for="imagenes">Imágenes del Producto</label>
@@ -703,7 +726,16 @@
       });
     });
 
-
+    function mostrarCampoCodigo() {
+      var select = document.getElementById("codigo-select");
+      var inputContainer = document.getElementById("codigoInputContainer");
+      
+      if (select.value === "codigo-barra" || select.value === "otro-codigo") {
+        inputContainer.classList.remove("hidden");
+      } else {
+        inputContainer.classList.add("hidden");
+      }
+    }
     </script>
   </body>
 </html>

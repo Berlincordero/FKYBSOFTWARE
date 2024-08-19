@@ -8,103 +8,168 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte de Utilidades</title>
     <style>
-        .main {
+        .reporteUtilidades-main {
             margin: 0 auto;
             width: 80%;
+            font-family: 'Arial', sans-serif;
         }
-        h1 {
+        .reporteUtilidades-h1 {
             color: #f90;
+            text-align: center;
+            margin-bottom: 30px;
         }
-        h2, p, td, th {
-            color: #000000;
+        .reporteUtilidades-h2 {
+            color: #333333;
+            margin-bottom: 10px;
         }
-        table {
+        .reporteUtilidades-p {
+            color: #555555;
+            font-size: 14px;
+        }
+        .reporteUtilidades-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            background-color: #f9f9f9;
         }
-        table, th, td {
-            border: 1px solid #ccc;
+        .reporteUtilidades-table, .reporteUtilidades-th, .reporteUtilidades-td {
+            border: 1px solid #dddddd;
         }
-        th, td {
-            padding: 10px;
+        .reporteUtilidades-th {
+            padding: 12px;
             text-align: left;
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
         }
-        th {
-            background-color: #f2f2f2;
+        .reporteUtilidades-td {
+            padding: 12px;
+            text-align: left;
+            color: #333333;
         }
-        .summary {
+        .reporteUtilidades-summary {
             margin-top: 20px;
+            background-color: #f2f2f2;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #cccccc;
         }
-        .chart-container {
+        .reporteUtilidades-chart-container {
             margin-top: 40px;
             background-color: #ffffff;
             border-radius: 5px;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center; /* Center the chart within the container */
+            text-align: center;
+            position: relative;
         }
-        canvas {
-            margin: 0 auto; /* Center the canvas within the container */
-            width: 350px !important; /* Set a specific width */
-            height: 350px !important; /* Set a specific height */
+        .reporteUtilidades-generate-report-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            padding: 8px 16px;
+            background-color: #FF6347;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .reporteUtilidades-canvas {
+            margin: 0 auto;
+            width: 350px !important;
+            height: 350px !important;
+        }
+        .reporteUtilidades-search-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+        .reporteUtilidades-search-container input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            width: 300px;
+        }
+        .reporteUtilidades-search-container button {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-left: none;
+            background-color: orange;
+            color: white;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="main">
-        <h1>Reporte de Utilidades</h1>
-        <h2>Periodo: 01/01/2023 - 31/12/2023</h2>
-        <table>
-            <tr>
-                <th>Concepto</th>
-                <th>Monto (COLONES)</th>
-            </tr>
-            <tr>
-                <td>Ingresos Totales</td>
-                <td>100,000 colones</td>
-            </tr>
-            <tr>
-                <td>Costos de Bienes Vendidos (COGS)</td>
-                <td>40,000 colones</td>
-            </tr>
-            <tr>
-                <td>Gastos Operativos</td>
-                <td>30,000 colones</td>
-            </tr>
-            <tr>
-                <td>Utilidades Brutas</td>
-                <td>60,000 colones</td>
-            </tr>
-            <tr>
-                <td>Utilidades Operativas</td>
-                <td>30,000 colones</td>
-            </tr>
-            <tr>
-                <td>Gastos Adicionales</td>
-                <td>5,000 colones</td>
-            </tr>
-            <tr>
-                <td>Utilidades Netas</td>
-                <td>25,000 colones</td>
-            </tr>
+    <div class="reporteUtilidades-main">
+        <h1 class="reporteUtilidades-h1">Reporte de Utilidades</h1>
+
+        <!-- Barra de búsqueda -->
+        <div class="reporteUtilidades-search-container">
+            <input type="text" placeholder="Buscar...">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
+
+        <h2 class="reporteUtilidades-h2">Periodo: 01/01/2023 - 31/12/2023</h2>
+        <table class="reporteUtilidades-table">
+            <thead>
+                <tr>
+                    <th class="reporteUtilidades-th">Concepto</th>
+                    <th class="reporteUtilidades-th">Monto (COLONES)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="reporteUtilidades-td">Ingresos Totales</td>
+                    <td class="reporteUtilidades-td">100,000 colones</td>
+                </tr>
+                <tr>
+                    <td class="reporteUtilidades-td">Costos de Bienes Vendidos (COGS)</td>
+                    <td class="reporteUtilidades-td">40,000 colones</td>
+                </tr>
+                <tr>
+                    <td class="reporteUtilidades-td">Gastos Operativos</td>
+                    <td class="reporteUtilidades-td">30,000 colones</td>
+                </tr>
+                <tr>
+                    <td class="reporteUtilidades-td">Utilidades Brutas</td>
+                    <td class="reporteUtilidades-td">60,000 colones</td>
+                </tr>
+                <tr>
+                    <td class="reporteUtilidades-td">Utilidades Operativas</td>
+                    <td class="reporteUtilidades-td">30,000 colones</td>
+                </tr>
+                <tr>
+                    <td class="reporteUtilidades-td">Gastos Adicionales</td>
+                    <td class="reporteUtilidades-td">5,000 colones</td>
+                </tr>
+                <tr>
+                    <td class="reporteUtilidades-td"><strong>Utilidades Netas</strong></td>
+                    <td class="reporteUtilidades-td"><strong>25,000 colones</strong></td>
+                </tr>
+            </tbody>
         </table>
-        <div class="summary">
-            <h2>Resumen</h2>
-            <p>Las utilidades netas para el periodo especificado son de <strong>190,000 colones netos</strong>.</p>
+        
+        <div class="reporteUtilidades-summary">
+            <h2 class="reporteUtilidades-h2">Resumen</h2>
+            <p class="reporteUtilidades-p">Las utilidades netas para el periodo especificado son de <strong>190,000 colones netos</strong>.</p>
         </div>
         
-        <div class="summary">
-            <h2>TOTAL DE IMPUESTOS</h2>
-            <p>Los impuestos recaudados del periodo especificado son de <strong>19,280 colones netos</strong>.</p>
-            <p>Este monto se debe pagar antes del 15 de enero del 2024.</p>
+        <div class="reporteUtilidades-summary">
+            <h2 class="reporteUtilidades-h2">TOTAL DE IMPUESTOS</h2>
+            <p class="reporteUtilidades-p">Los impuestos recaudados del periodo especificado son de <strong>19,280 colones netos</strong>.</p>
+            <p class="reporteUtilidades-p">Este monto se debe pagar antes del 15 de enero del 2024.</p>
         </div>
 
-        <div class="chart-container">
-            <h2>Distribución de Ingresos y Gastos</h2>
-            <canvas id="distribucionChart"></canvas>
-        </div>
+        <div class="reporteUtilidades-chart-container">
+            <!-- Botón para generar reporte -->
+            <button class="reporteUtilidades-generate-report-btn">Generar Reporte</button>
 
+            <h2 class="reporteUtilidades-h2">Distribución de Ingresos y Gastos</h2>
+            <canvas id="distribucionChart" class="reporteUtilidades-canvas"></canvas>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
