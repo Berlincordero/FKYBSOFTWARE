@@ -10,17 +10,17 @@ urlpatterns = [
     path('index/', views.index, name="index"),
     path('admin/', admin.site.urls),
     path('transportes/', views.modulo_transportes, name='modulo_transportes'),
-    path('terminal/', views.pos_view, name='pos_view'),
+    path('Cajaregistradora/', include('Cajaregistradora.urls')), 
+    path('Inventario/', include('Inventario.urls')),  # Ruta para las URLs de la app Inventario
     path('accounts/', include("django.contrib.auth.urls")),
     path('usuarios/', include('Usuarios.urls')),
-    path('producto/', views.producto_view, name='producto_view'),
-    path('proforma/', views.proforma_view, name='proforma_view'),
-    path('facturacion/', views.facturacion_view, name='facturacion_view'),
-    path('informacion/', views.informacion_view, name='informacion_view'),
+    path('Proforma/', include('Proforma.urls')),  # Ruta para las URLs de la app Proforma
+    path('Facturacion/', include('Facturacion.urls')),  # Ruta para las URLs de la app Facturacion
+   path('Informacion/', include('Informacion.urls')),  # Ruta para las URLs de la app Informacion
     path('', include("django.contrib.auth.urls")),
     path('Reportes/', include('Reportes.urls')),
     path('proveedores/', include('Proveedores.urls')),  # Ruta para las URLs de la app Proveedores
     
-    path('modulo_cliente/', views.modulo_cliente, name='modulo_cliente'),
+   path('Clientes/', include('Clientes.urls')),  # Ruta para las URLs de la app Clientes
     path('Orden_de_compra/', include('Orden_de_compra.urls')),  # Ruta para las URLs de la app Orden_de_compra
 ]
