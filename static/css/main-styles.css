@@ -140,6 +140,39 @@ a.sidebar-link {
     vertical-align: middle;
 }
 
+.social-icons-base {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-icon i {
+    transition: color 0.3s ease;
+}
+
+/* Estilos específicos para cada red social */
+.social-icon.whatsapp i {
+    color: #25d366;
+}
+
+.social-icon.twitter i {
+    color: #1da1f2;
+}
+
+.social-icon.instagram i {
+    color: #e4405f;
+}
+
+.social-icon.facebook i {
+    color: #1877f2;
+}
+
+/* Cambios de color al pasar el cursor */
+.social-icon i:hover {
+    color: #0056b3; /* Cambia el color a un azul más oscuro al hacer hover */
+}
+
 .sidebar-item {
     padding-left: 10px;
     padding-right: 10px;
@@ -1476,7 +1509,7 @@ label {
 }
 
 .informacion-empresa-title {
-    font-size: 2em;
+    font-size: 1.5em;
     margin-bottom: 10px;
 }
 
@@ -1505,4 +1538,39 @@ label {
 .informacion-empresa-contact-info a {
     color: #007bff;
     text-decoration: none;
+}
+
+/* Estilos únicos para el nuevo conjunto de iconos */
+.social-icons-unique {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-icon-unique i {
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+/* Estilos específicos para cada red social */
+.social-icon-unique.whatsapp i {
+    color: #25d366;
+}
+
+.social-icon-unique.twitter i {
+    color: #1da1f2;
+}
+
+.social-icon-unique.instagram i {
+    color: #e4405f;
+}
+
+.social-icon-unique.facebook i {
+    color: #1877f2;
+}
+
+/* Cambios de color al pasar el cursor */
+.social-icon-unique i:hover {
+    color: #0056b3; /* Cambia el color a un azul más oscuro al hacer hover */
 }

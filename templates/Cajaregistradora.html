@@ -263,6 +263,38 @@
     border-radius: 5px;
 }
 
+.thanks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    padding: 10px;
+}
+.thanks p {
+    margin: 0 10px;
+}
+.thanks .icons {
+    display: flex;
+    gap: 10px;
+}
+.thanks .icons i {
+    color: gray;
+    font-size: 24px;
+}
+
+/* Para la celda de "Cantidad" */
+.invoice-table .invoice-details th:nth-child(3),
+.invoice-table .invoice-details td:nth-child(3) {
+    width: 80px; /* Ajusta este valor según lo necesites */
+    text-align: center;
+}
+
+/* Para el campo de entrada dentro de la celda de "Cantidad" */
+.invoice-table .invoice-details td:nth-child(3) input[type="number"] {
+    width: 60px; /* Ajusta este valor según lo necesites */
+    padding: 5px; /* Ajusta el espacio interno si es necesario */
+    text-align: center; /* Centra el texto en el input */
+}
      </style>
  </head>
  <body>
@@ -312,7 +344,7 @@
             <div class="invoice-table">
                 <table class="invoice-details" id="invoiceTable">
                     <tr>
-                        <th>Codigo</th>
+                        <th>Código</th>
                         <th>Descripción</th>
                         <th>Cantidad</th>
                         <th>Precio Base</th>
@@ -323,7 +355,7 @@
                     <tr>
                         <td>00001</td>
                         <td>Artículo 1<br /><small>Concepto: IT1</small></td>
-                        <td>10</td>
+                        <td><input type="number" value="10" min="1" onchange="updateTotal(this)"></td>
                         <td>2200</td>
                         <td>285</td>
                         <td>2600</td>
@@ -332,15 +364,15 @@
                     <tr>
                         <td>0002</td>
                         <td>Artículo 2<br /><small>Concepto: IT2</small></td>
-                        <td>10</td>
+                        <td><input type="number" value="10" min="1" onchange="updateTotal(this)"></td>
                         <td>3100</td>
                         <td>385</td>
                         <td>3625</td>
-                        <td><i class="fas fa-trash"onclick="eliminarFila(this)"></i></td>
+                        <td><i class="fas fa-trash" onclick="eliminarFila(this)"></i></td>
                     </tr>
                 </table>
             </div>
-
+            
             <div class="tabla-subtotal">
                 <table class="tabla-subtotal" id="summaryTable">
                     <tr>
@@ -364,6 +396,7 @@
                         <td>2300.00</td>
                     </tr>
                 </table>
+            </div>
                 <div class="observations">
                     <p>Observaciones :</p>
                     <p><strong>COLOCAR A NOMBRE DE LUIS RAMIREZ ARIAS EN FORMA DE CREDITO</strong></p>
@@ -375,6 +408,10 @@
                 </div>
                 <br>
                 <div class="thanks">
+                    <div class="icons">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                    </div>
                     <p>GRACIAS POR SU COMPRA</p>
                 </div>
             </div>
@@ -709,7 +746,21 @@
             var row = btn.parentNode.parentNode;
             row.parentNode.removeChild(row);
         }
-
+       
+        function updateTotal(element) {
+            // Encuentra la fila que contiene el input
+            var row = element.closest('tr');
+        
+            // Obtiene el valor de la cantidad y el precio base
+            var quantity = parseInt(element.value);
+            var price = parseInt(row.cells[3].textContent);
+        
+            // Recalcula el total para esa fila
+            var total = quantity * price;
+            row.cells[5].textContent = total;
+        
+            // Aquí también puedes actualizar el resumen general, como el subtotal, IVA y total.
+        }
      </script>
  </body>
  </html>

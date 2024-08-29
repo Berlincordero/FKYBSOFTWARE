@@ -1,56 +1,76 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+{% block content %}
 
-  </head>
-  <body>
-    <div class="informacion-empresa-container">
-      <div class="informacion-empresa-content-contact">
-        <header>
-          <h2 class="informacion-empresa-subtitle">
-            <i class="fas fa-book-open"></i> INFORMACION
-          </h2>
-        </header>
-        <div class="informacion-empresa-contact-info">
-          <p>
-            La Ferreteria de San Jerónimo es una empresa fundada en 1996
-            dedicada a la venta de productos de ferretería, plomería,
-            electricidad, pinturas, jardinería y herramientas. Contamos con una
-            amplia variedad de productos de excelente calidad y a precios
-            competitivos.
-          </p>
-          <p><strong>EMAIL:</strong> ferreteriaSanjerónimo@gmail.com</p>
-          <p><strong>TELEFONO:</strong> 2225 5602</p>
-          <p><strong>CELULAR:</strong> 8563 5896</p>
-          <p><strong>FAX:</strong> 1-850-201-6911</p>
-          <p>
-            <strong>DIRECCION :</strong> San Jerónimo de moravia centro a un
-            costado del parque(<a href="#">View map</a>)
-          </p>
-          <div class="informacion-empresa-image">
-            {% load static %}
-            <img src="{% static 'img/logo.jpg' %}" alt="Question Image" />
-          </div>
-        </div>
-      </div>
-
-      <div class="informacion-empresa-sidebar">
-        <div class="informacion-empresa-card">
-          <h1 class="informacion-empresa-title">MISION</h1>
-          <a>
-            NUESTRA MISION ES BRINDAR UN SERVICIO EXCEPCIONAL A LA COMUNIDAD DE
-            LA MANO CON CALIDAD DE NUESTROS SERVICIOS Y PRODUCTOS.
-          </a>
-        </div>
-        <div class="informacion-empresa-card">
+</head>
+<body>
+  <div class="informacion-empresa-container">
+    <div class="informacion-empresa-content-contact">
+      <header>
+        <h2 class="informacion-empresa-subtitle">
+          <i class="fas fa-book-open"></i> INFORMACION
+        </h2>
+      </header>
+      <div class="informacion-empresa-contact-info">
+        <p>
+          La Ferreteria de San Jerónimo es una empresa fundada en 1996
+          dedicada a la venta de productos de ferretería, plomería,
+          electricidad, pinturas, jardinería y herramientas. Contamos con una
+          amplia variedad de productos de excelente calidad y a precios
+          competitivos.
+        </p>
+        <p><strong>EMAIL:</strong> ferreteriaSanjerónimo@gmail.com</p>
+        <p><strong>TELEFONO:</strong> 2225 5602</p>
+        <p><strong>CELULAR:</strong> 8563 5896</p>
+        <p><strong>FAX:</strong> 1-850-201-6911</p>
+        <p>
+          <strong>DIRECCION :</strong> San Jerónimo de moravia centro a un
+          costado del parque(<a href="#">View map</a>)
+        </p>
+        <div class="informacion-empresa-image">
           {% load static %}
-          <img src="{% static 'img/parque.jpg' %}" alt="Question Image" />
-        </div>
-        <div class="informacion-empresa-card">
-          <h1 class="informacion-empresa-title">VALORES</h1>
-          <a href="#">HONESTIDAD, COMPROMISO, RESPONSABILIDAD</a>
+          <img src="{% static 'img/logo.jpg' %}" alt="Question Image" />
         </div>
       </div>
     </div>
-  </body>
+
+    <div class="informacion-empresa-sidebar">
+      <div class="informacion-empresa-card">
+        <h1 class="informacion-empresa-title">MISION</h1>
+        <a>
+          NUESTRA MISION ES BRINDAR UN SERVICIO EXCEPCIONAL A LA COMUNIDAD DE
+          LA MANO CON CALIDAD DE NUESTROS SERVICIOS Y PRODUCTOS.
+        </a>
+      </div>
+      <div class="informacion-empresa-card">
+        {% load static %}
+        <img src="{% static 'img/parque.jpg' %}" alt="Question Image" />
+      </div>
+      <div class="informacion-empresa-card">
+        <h1 class="informacion-empresa-title">VALORES</h1>
+        <a href="#">HONESTIDAD, COMPROMISO, RESPONSABILIDAD</a>
+      </div>
+      <div class="informacion-empresa-card">
+        <h1 class="informacion-empresa-title">Cuentas Sociales de Ferreteria San Jerónimo</h1>
+        <div class="social-icons-unique" style="display: flex; justify-content: center; gap: 15px;">
+          <a href="https://wa.me/85635896" target="_blank" class="social-icon-unique whatsapp">
+              <i class="fab fa-whatsapp fa-2x"></i>
+          </a>
+          <a href="https://twitter.com/tuusuario" target="_blank" class="social-icon-unique twitter">
+              <i class="fab fa-twitter fa-2x"></i>
+          </a>
+          <a href="https://instagram.com/tuusuario" target="_blank" class="social-icon-unique instagram">
+              <i class="fab fa-instagram fa-2x"></i>
+          </a>
+          <a href="https://facebook.com/tuusuario" target="_blank" class="social-icon-unique facebook">
+              <i class="fab fa-facebook fa-2x"></i>
+          </a>
+      </div>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
 
 {% endblock %}
