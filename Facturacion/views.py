@@ -1,4 +1,12 @@
 from django.shortcuts import render
 
-def facturacion_view(request):
-    return render(request, 'facturacion.html')
+def facturacion(request):
+    return render(request, 'Facturacion/facturacion.html')
+
+def FormularioATV(request):
+    return render(request, 'Facturacion/FormularioATV.html')
+
+from django.http import HttpResponse
+
+def enviar_factura(request):
+    return HttpResponse("Factura enviada.")

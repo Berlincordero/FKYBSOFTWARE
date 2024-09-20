@@ -71,11 +71,18 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="{% url 'facturacion_view' %}" class="sidebar-link">
-                                <i class="fa-solid fa-file-invoice-dollar pe-2"></i>
+                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#Facturacion" aria-expanded="false">
+                                <i class="fa-solid fa-chart-line pe-2"></i>
                                 Facturación
                             </a>
+                            <ul id="Facturacion" class="sidebar-dropdown list-unstyled collapse">
+                                <li>
+                                    <a href="{% url 'facturacion' %}" class="sidebar-link">Facturación</a>
+                                    <a href="{% url 'FormularioATV' %}" class="sidebar-link">FormularioATV</a>
+                                </li>
+                            </ul>
                         </li>
+                        
                         <li class="sidebar-item">
                             <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#Reportes" aria-expanded="false">
                                 <i class="fa-solid fa-chart-line pe-2"></i>

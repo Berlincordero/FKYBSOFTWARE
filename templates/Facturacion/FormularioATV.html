@@ -1,0 +1,143 @@
+{% extends 'base.html' %} 
+{% load static %} <!-- Carga de archivos estáticos -->
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura Electrónica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .header {
+            text-align: center; /* Centrar las imágenes */
+            margin-bottom: 20px;
+        }
+    
+        .header img {
+            display: block; /* Mostrar las imágenes en bloque (una debajo de la otra) */
+            width: 80%; /* Ajusta el ancho al 100% del contenedor */
+            max-width: 300px; /* Limita el tamaño máximo */
+            margin: 5px auto; /* Centra las imágenes con márgenes */
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Encabezado con las imágenes -->
+    <div class="header">
+        <img src="{% static 'img/hacienda.png' %}" alt="Ministerio de Hacienda Costa Rica">
+        <img src="{% static 'img/ATV.png' %}" alt="ATV - Administración Tributaria Virtual">
+    </div>
+    
+    <h2>Formulario de Factura Electrónica</h2>
+    
+    <form id="facturaForm" method="POST" action="{% url 'enviar_factura' %}">
+        {% csrf_token %}
+        
+        <!-- Cliente -->
+        <label for="cliente">Cliente:</label>
+        <input type="text" id="cliente" name="cliente" required>
+        
+        <!-- Fecha -->
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" name="fecha" required>
+        
+        <!-- Producto -->
+        <label for="producto">Producto:</label>
+        <input type="text" id="producto" name="producto" required>
+        
+        <!-- Precio Unitario -->
+        <label for="precio">Precio Unitario:</label>
+        <input type="number" step="0.01" id="precio" name="precio" required>
+        
+        <!-- Cantidad -->
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" name="cantidad" required>
+        
+        <!-- Impuesto -->
+        <label for="impuesto">Impuesto (%)</label>
+        <input type="number" step="0.01" id="impuesto" name="impuesto" required>
+        
+        <!-- Descripción -->
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" rows="4" placeholder="Descripción del producto o servicio" required></textarea>
+        
+        <!-- Botón de Enviar -->
+        <button type="submit">Enviar Factura</button>
+    </form>
+</div>
+
+<script>
+    // Aquí puedes agregar la lógica para enviar los datos a la API usando JavaScript (opcional)
+    document.getElementById('facturaForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        let formData = new FormData(this);
+        
+        fetch('{% url "enviar_factura" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.success || data.error);
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+
+</body>
+</html>
+
+
+{% endblock %}

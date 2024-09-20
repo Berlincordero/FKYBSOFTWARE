@@ -319,6 +319,24 @@
     height: auto;
 }
 
+.unique-observations {
+    margin-left: 25px;
+    background-color: #f0f8ff; /* Color de fondo personalizado */
+    border: 2px solid #4CAF50; /* Borde personalizado */
+    color: #333333; /* Color del texto */
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
+    resize: none; /* Desactiva el redimensionamiento */
+}
+
+.unique-observations:focus {
+    border-color: #2E8B57; /* Cambia el color del borde al enfocar */
+    outline: none;
+    box-shadow: 0 0 5px rgba(46, 139, 87, 0.5); /* Sombra al enfocar */
+}
+
+
      </style>
  </head>
  <body>
@@ -334,6 +352,7 @@
                  <i class="fas fa-cog" title="Configuración" onclick="toggleConfigMenu()"></i>
                  <i class="fas fa-user" title="Clientes" onclick="toggleUserMenu()"></i>
              </div>
+            
          </div><br></br>
          <h2>PARA COMENZAR A USAR ESTA CAJA REGISTRADORA CONSULTE (?) </h2><br></br>
          <div class="barra-busqueda">
@@ -355,8 +374,8 @@
                 <table class="invoice-details">
                     <tr>
                         <th>FECHA</th>
-                        <th>FACTURA NO</th>
-                        <th>CLIENTE NO</th>
+                        <th>ID FACTURA</th>
+                        <th>ID CLIENTE</th>
                     </tr>
                     <tr>
                         <td>01-07-2011</td>
@@ -421,10 +440,10 @@
                     </tr>
                 </table>
             </div>
-                <div class="observations">
-                    <p>Observaciones :</p>
-                    <p><strong>COLOCAR A NOMBRE DE LUIS RAMIREZ ARIAS EN FORMA DE CREDITO</strong></p>
-                </div>
+            <div class="observations">
+                <label for="observations-input">Observaciones:</label>
+                <textarea id="observations-input" name="observations" class="unique-observations" rows="4" cols="50" placeholder="Escriba sus observaciones aquí..."></textarea>
+            </div>
                 <br>
                 <div class="button-container">
                     <button class="button-pagar" onclick="openPaymentModal()">Pagar</button>
@@ -793,6 +812,132 @@
             row.cells[5].textContent = total;
         
             // Aquí también puedes actualizar el resumen general, como el subtotal, IVA y total.
+        }
+   
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('http://localhost:8001/api/facturas/')
+                .then(response => response.json())
+                .then(data => {
+                    const invoiceTable = document.getElementById('invoiceTable');
+                    data.forEach(factura => {
+                        const nuevaFila = document.createElement('tr');
+                        nuevaFila.innerHTML = `
+                            <td>${factura.id}</td>
+                            <td>${factura.cliente.nombre}</td>
+                            <td>${factura.fecha}</td>
+                            <td>${factura.total}</td>
+                            <td>${factura.estado}</td>
+                            <td><button onclick="verDetalles(${factura.id})">Ver Detalles</button></td>
+                        `;
+                        invoiceTable.appendChild(nuevaFila);
+                    });
+                })
+                .catch(error => console.error('Error fetching facturas:', error));
+        });
+
+        function verDetalles(facturaId) {
+            fetch(`/api/facturas/${facturaId}/detalles/`)
+                .then(response => response.json())
+                .then(data => {
+                    const detallesTable = document.getElementById('detallesTable');
+                    detallesTable.innerHTML = '';
+                    data.forEach(detalle => {
+                        const nuevaFila = document.createElement('tr');
+                        nuevaFila.innerHTML = `
+                            <td>${detalle.producto.nombre}</td>
+                            <td>${detalle.cantidad}</td>
+                            <td>${detalle.precio_base}</td>
+                            <td>${detalle.iva}</td>
+                            <td>${detalle.total}</td>
+                        `;
+                        detallesTable.appendChild(nuevaFila);
+                    });
+                })
+                .catch(error => console.error('Error fetching detalles:', error));
+        }
+
+        function crearFactura(event) {
+            event.preventDefault();
+            const clienteId = document.getElementById('clienteId').value;
+            const total = document.getElementById('totalFactura').value;
+            const estado = document.getElementById('estadoFactura').value;
+
+            fetch('/api/facturas/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cliente: clienteId,
+                    total: total,
+                    estado: estado,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Factura creada:', data);
+                agregarDetallesFactura(data.id);
+            })
+            .catch(error => console.error('Error creando factura:', error));
+        }
+
+        function agregarDetallesFactura(facturaId) {
+            const detalles = [];
+            document.querySelectorAll('.detalle-factura').forEach((row) => {
+                const productoId = row.querySelector('.productoId').value;
+                const cantidad = row.querySelector('.cantidad').value;
+                const precioBase = row.querySelector('.precioBase').value;
+                const iva = row.querySelector('.iva').value;
+
+                detalles.push({
+                    factura: facturaId,
+                    producto: productoId,
+                    cantidad: cantidad,
+                    precio_base: precioBase,
+                    iva: iva,
+                    total: (precioBase * cantidad * (1 + iva / 100)).toFixed(2),
+                });
+            });
+
+            detalles.forEach(detalle => {
+                fetch('/api/detallesfactura/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(detalle),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Detalle agregado:', data);
+                })
+                .catch(error => console.error('Error agregando detalle:', error));
+            });
+        }
+
+        function registrarPago(event) {
+            event.preventDefault();
+            const facturaId = document.getElementById('facturaId').value;
+            const metodoPago = document.getElementById('metodoPago').value;
+            const montoPago = document.getElementById('montoPago').value;
+
+            fetch('/api/pagos/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    factura: facturaId,
+                    metodo: metodoPago,
+                    monto: montoPago,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Pago registrado:', data);
+            })
+            .catch(error => console.error('Error registrando pago:', error));
         }
      </script>
  </body>

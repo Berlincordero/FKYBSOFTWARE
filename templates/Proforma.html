@@ -259,6 +259,24 @@
   .icono-proforma-formulario {
       color: #826119e7
   }
+  .moneda-unica {
+    background-color: #e0f7fa; /* Color de fondo personalizado */
+    border: 2px solid #00796b; /* Borde personalizado */
+    color: #004d40; /* Color del texto */
+    padding: 5px;
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
+    width: 150px; /* Ancho fijo */
+    cursor: pointer;
+}
+
+.moneda-unica:focus {
+    border-color: #004d40; /* Cambia el color del borde al enfocar */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 77, 64, 0.5); /* Sombra al enfocar */
+}
+
+
  
     </style>
   </head>
@@ -318,8 +336,11 @@
         <h1><i class="fas fa-file-invoice  icono-proforma-formulario"></i> Proforma</h1>
         <div class="header">
           <div class="header-left">
-            <p>Fecha: <span id="fecha-proforma">2024-07-18</span></p>
-            <p>Moneda: CRC</p>
+            <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso">
+            <select id="currency-select" name="currency" class="moneda-unica">
+              <option value="CRC">CRC</option>
+              <option value="USD">Dólares</option>
+          </select>
           </div>
           <div class="header-right">
             <p>

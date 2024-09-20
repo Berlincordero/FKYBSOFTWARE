@@ -140,6 +140,39 @@ a.sidebar-link {
     vertical-align: middle;
 }
 
+.social-icons-base {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-icon i {
+    transition: color 0.3s ease;
+}
+
+/* Estilos específicos para cada red social */
+.social-icon.whatsapp i {
+    color: #25d366;
+}
+
+.social-icon.twitter i {
+    color: #1da1f2;
+}
+
+.social-icon.instagram i {
+    color: #e4405f;
+}
+
+.social-icon.facebook i {
+    color: #1877f2;
+}
+
+/* Cambios de color al pasar el cursor */
+.social-icon i:hover {
+    color: #0056b3; /* Cambia el color a un azul más oscuro al hacer hover */
+}
+
 .sidebar-item {
     padding-left: 10px;
     padding-right: 10px;
@@ -332,7 +365,6 @@ a.sidebar-link {
     color: #060607;
 }
 
-
 #summaryTable {
     width: 60%;
     border-collapse: collapse;
@@ -418,12 +450,6 @@ a.sidebar-link {
 /*********************************FIN DE ESTILOS DE TERMINAL*******************************************/
 
 
-/***************************************************************************************************/
-
-
-/******************************************************************************************************/
-
-
 /********************************AQUI EMPIEZA PRODUCTOS************************************************/
 
 
@@ -462,7 +488,14 @@ a.sidebar-link {
 }
 
 h2 {
+    color: #2d9dede7;
     margin-top: 0;
+}
+
+.modal-header h5 {
+    margin: auto;
+    color: orange;
+    font-size: 1.5rem;
 }
 
 .form-group {
@@ -592,7 +625,10 @@ h2 {
 
 
 /************************************************************************/
+
+
 /***********************pagina principal productos**************************/
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -671,26 +707,38 @@ h2 {
 }
 
 .product-table table {
-   
     width: 85%;
     margin: 0 auto;
     align-content: center;
     border-collapse: collapse;
-    
 }
 
 .product-table table tr:hover {
-    background-color: hsl(180, 1%, 83%); /* Cambia el fondo de la fila al pasar el ratón */
-    transition: background-color 0.3s; /* Para una transición suave */
+    background-color: hsl(180, 1%, 83%);
+    /* Cambia el fondo de la fila al pasar el ratón */
+    transition: background-color 0.3s;
+    /* Para una transición suave */
+    background-color: hsl(180, 1%, 83%);
+    /* Cambia el fondo de la fila al pasar el ratón */
+    transition: background-color 0.3s;
+    /* Para una transición suave */
 }
 
 .product-table table td:hover {
-    background-color: #efc737; /* Cambia el fondo de la celda al pasar el ratón */
-    transition: background-color 0.3s; /* Para una transición suave */
+    background-color: #efc737;
+    /* Cambia el fondo de la celda al pasar el ratón */
+    transition: background-color 0.3s;
+    /* Para una transición suave */
+    background-color: #efc737;
+    /* Cambia el fondo de la celda al pasar el ratón */
+    transition: background-color 0.3s;
+    /* Para una transición suave */
 }
 
-.product-table th, .product-table td {
-    border: 1px solid #95defd;;
+.product-table th,
+.product-table td {
+    border: 1px solid #95defd;
+    ;
     padding: 10px;
     text-align: left;
 }
@@ -775,7 +823,6 @@ h2 {
 }
 
 .pagination-button {
-    
     background: none;
     border: none;
     font-size: 25px;
@@ -866,8 +913,166 @@ h2 {
 
 
 /*****************************************************************************************************************************/
-/**************************************** aqui empieza proformas*************************************************************/
+
+
+/**************************************** aqui empieza facturacion*************************************************************/
+
+
 /***************************************************************************************************************************/
+
+.facturacion-caja-kike-container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.facturacion-caja-kike-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.facturacion-caja-kike-header h1 {
+    color: #f90;
+    margin: 0;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.facturacion-caja-kike-header .facturacion-caja-kike-icon {
+    font-size: 36px;
+    margin-right: 15px;
+}
+
+.facturacion-caja-kike-header .facturacion-caja-kike-search-box {
+    display: flex;
+    align-items: center;
+}
+
+.facturacion-caja-kike-header input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.facturacion-caja-kike-header button {
+    padding: 10px 15px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.facturacion-caja-kike-pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 10px 190px;
+}
+
+.facturacion-caja-kike-pagination-button {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    color: #3163f9;
+    padding: 8px;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.facturacion-caja-kike-page-number {
+    font-size: 16px;
+    margin: 0 10px;
+}
+
+.facturacion-caja-kike-table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+.facturacion-caja-kike-table th,
+.facturacion-caja-kike-table td {
+    border: 1px solid #95defd;
+    padding: 8px;
+    text-align: left;
+}
+
+.facturacion-caja-kike-table th {
+    background-color: #95defd;
+}
+
+.facturacion-caja-kike-table tr:hover {
+    background-color: hsl( 180, 1%, 83%);
+    /* Cambia el fondo de la fila al pasar el ratón */
+    transition: background-color 0.3s;
+    /* Para una transición suave */
+}
+
+.facturacion-caja-kike-table td:hover {
+    background-color: #efc737;
+    /* Cambia el fondo de la celda al pasar el ratón */
+    transition: background-color 0.3s;
+    /* Para una transición suave */
+}
+
+.facturacion-caja-kike-fixed-icons {
+    display: flex;
+}
+
+.facturacion-caja-kike-fixed-icons button {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    color: #3163f9;
+    padding: 8px;
+    border-radius: 50%;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 1.5em;
+}
+
+.facturacion-caja-kike-fixed-icons button img {
+    width: 20px;
+    height: 20px;
+}
+
+.facturacion-caja-kike-status-icon {
+    font-size: 1.2em;
+    margin-left: 5px;
+}
+
+.facturacion-caja-kike-status-paid {
+    color: #28a745;
+}
+
+.facturacion-caja-kike-status-pending {
+    color: #dc3545;
+}
+
+.facturacion-caja-kike-archive-button {
+    background-color: #96c4f5;
+    color: blue;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+
+/**********************************************************************************************************************/
 
 
 /* Estilo modulo Usuarios */
@@ -957,13 +1162,14 @@ h2 {
 .modal {
     z-index: 1050;
 }
-.modal-dialog{
-    
-}
-/**********************************************************************************************************************/
+
+.modal-dialog {}
+
+
 /**********************************************************************************************************************/
 
-/*estilos proveedores*/
+
+/*aqui empiza los estilos de  proveedores*/
 
 .header-proveedores {
     display: flex;
@@ -1049,10 +1255,6 @@ h2 {
     /* Espaciado entre párrafos */
 }
 
-.modal-header-formulario-provedor h5 {
-    margin: auto;
-    font-size: 1.5rem;
-}
 
 /* Estilos para ver formulario proveedores  */
 
@@ -1074,7 +1276,7 @@ h2 {
     text-align: center;
     font-family: emoji;
     width: 58%;
-    margin: 40px auto;
+    margin-left: 245px;
 }
 
 .table-form th,
@@ -1138,7 +1340,90 @@ label {
     margin-top: 5px;
 }
 
-/******************************index************************************/
+
+/* Estilos para ordenes de compra */
+
+
+/*icono de eliminar orden de compra */
+
+.eliminar {
+    font-size: 24px;
+    color: red;
+    /* Color del ícono */
+    .mdi-delete-empty {
+        display: none;
+        /* Oculta el ícono de tapa de basurero inicialmente */
+    }
+    &:hover {
+        background-color: rgba(255, 0, 0, 0.2);
+        /* Cambia el fondo al pasar el cursor */
+        .mdi-delete-empty {
+            display: block;
+            /* Muestra el ícono de tapa de basurero al pasar el cursor */
+        }
+        .mdi-delete {
+            display: none;
+            /* Oculta el ícono del basurero cerrado al pasar el cursor */
+        }
+    }
+    &:focus {
+        box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.4);
+    }
+}
+
+.btn-info {
+    font-size: 16px;
+    color: purple;
+    /* Color del ícono */
+    background: none;
+    /* Elimina el color de fondo */
+    border: none;
+    /* Elimina el borde predeterminado */
+    .mdi-info-empty {
+        display: none;
+        /* Oculta el ícono de tapa de basurero inicialmente */
+    }
+    &:hover {
+        background-color: rgba(238, 245, 39, 0.8);
+        /* Cambia el fondo al pasar el cursor */
+        .mdi-delete-empty {
+            display: block;
+            /* Muestra el ícono de tapa de basurero al pasar el cursor */
+        }
+        .mdi-delete {
+            display: none;
+            /* Oculta el ícono del basurero cerrado al pasar el cursor */
+        }
+    }
+    &:focus {
+        box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.4);
+    }
+}
+
+.texto-centrado {
+    font-family: fantasy;
+    text-align: center;
+    /* Centra el texto y cambia letra titulo orden de compra */
+}
+
+.icono-verde {
+    color: green;
+}
+
+.tabla-orden {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/**************aqui termina los estilos de proveedores**********************/
+
+
+/***********************************************************************/
+
+
+/******************************aqui empieza los estilos de index************************************/
 
 .body-fkyb {
     margin: 0 auto;
@@ -1148,6 +1433,7 @@ label {
     height: 100vh;
     background-color: #ffffff;
 }
+
 .contact-image {
     display: flex;
     justify-content: center;
@@ -1155,6 +1441,7 @@ label {
     width: 100%;
     height: 100%;
 }
+
 .contact-image img {
     border-radius: 20px;
     max-width: 80%;
@@ -1162,5 +1449,128 @@ label {
 }
 
 
-
 /****************************termina index************************************/
+
+
+/*****************************************************************************/
+
+
+/***************************aqui empieza los estilos de informacion*******************/
+
+
+/***********************************************************************************/
+
+.informacion-empresa-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.informacion-empresa-content-contact {
+    flex: 3;
+    padding: 20px 40px;
+    margin-right: 70px;
+}
+
+.informacion-empresa-image img {
+    border-radius: 25px;
+    margin-top: 35px;
+    width: 70%;
+    max-width: 500px;
+}
+
+.informacion-empresa-sidebar {
+    flex: 2;
+    padding: 20px 40px;
+    border-left: 1px solid #ccc;
+}
+
+.informacion-empresa-sidebar .informacion-empresa-card {
+    background: #f6d079;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid orange;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.informacion-empresa-sidebar .informacion-empresa-card img {
+    width: 100%;
+    border-radius: 15px;
+}
+
+.informacion-empresa-sidebar .informacion-empresa-card a {
+    font-size: 18px;
+    display: block;
+    text-decoration: none;
+    color: black;
+    margin-top: 10px;
+}
+
+.informacion-empresa-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.informacion-empresa-subtitle {
+    color: orange;
+    font-size: 2em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.informacion-empresa-paragraph {
+    margin-bottom: 10px;
+}
+
+.informacion-empresa-contact-info {
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+
+.informacion-empresa-contact-info p {
+    font-size: 1.3em;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.informacion-empresa-contact-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Estilos únicos para el nuevo conjunto de iconos */
+.social-icons-unique {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-icon-unique i {
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+/* Estilos específicos para cada red social */
+.social-icon-unique.whatsapp i {
+    color: #25d366;
+}
+
+.social-icon-unique.twitter i {
+    color: #1da1f2;
+}
+
+.social-icon-unique.instagram i {
+    color: #e4405f;
+}
+
+.social-icon-unique.facebook i {
+    color: #1877f2;
+}
+
+/* Cambios de color al pasar el cursor */
+.social-icon-unique i:hover {
+    color: #0056b3; /* Cambia el color a un azul más oscuro al hacer hover */
+}
