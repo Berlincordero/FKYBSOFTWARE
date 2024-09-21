@@ -72,13 +72,14 @@
                         </li>
                         <li class="sidebar-item">
                             <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#Facturacion" aria-expanded="false">
-                                <i class="fa-solid fa-chart-line pe-2"></i>
+                                <i class="fa-solid fa-sack-dollar"></i>
                                 Facturación
                             </a>
                             <ul id="Facturacion" class="sidebar-dropdown list-unstyled collapse">
                                 <li>
                                     <a href="{% url 'facturacion' %}" class="sidebar-link">Facturación</a>
-                                    <a href="{% url 'FormularioATV' %}" class="sidebar-link">FormularioATV</a>
+                                    <a href="{% url 'FormularioATV' %}" class="sidebar-link">FacturaElectronica</a>
+                                    <a href="{% url 'Verificacioncomprobante' %}" class="sidebar-link">Comprobantes</a>
                                 </li>
                             </ul>
                         </li>

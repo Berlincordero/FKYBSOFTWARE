@@ -1,143 +1,591 @@
-{% extends 'base.html' %} 
-{% load static %} <!-- Carga de archivos estáticos -->
+{% extends 'base.html' %} {% load static %}
+<!-- Carga de archivos estáticos -->
 
 {% block content %}
-
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Factura Electrónica</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emisión de Comprobante Electrónico</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-        }
-        .header {
-            text-align: center; /* Centrar las imágenes */
-            margin-bottom: 20px;
-        }
-    
-        .header img {
-            display: block; /* Mostrar las imágenes en bloque (una debajo de la otra) */
-            width: 80%; /* Ajusta el ancho al 100% del contenedor */
-            max-width: 300px; /* Limita el tamaño máximo */
-            margin: 5px auto; /* Centra las imágenes con márgenes */
-        }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background-color: #0056b3;
+        color: white;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: left;
+      }
+      .form-group {
+        margin: 15px 0;
+      }
+      .form-group label {
+        font-weight: bold;
+      }
+      .form-group select,
+      .form-group input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
+      .form-group .optional {
+        color: red;
+        font-size: 12px;
+      }
+      .form-row {
+        display: flex;
+        justify-content: space-between;
+      }
+      .form-row .form-group {
+        flex: 1;
+        margin-right: 20px;
+      }
+      .form-row .form-group:last-child {
+        margin-right: 0;
+      }
+      .submit-btn {
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .section-header {
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        color: #0056b3;
+      }
+      .custom-container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .custom-header {
+        background-color: #0056b3;
+        color: white;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: left;
+      }
+      .custom-form-group {
+        margin: 15px 0;
+      }
+      .custom-form-group label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .custom-form-group select,
+      .custom-form-group input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
+      .custom-form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
 
-        label {
-            display: block;
-            margin: 10px 0 5px;
-        }
+      .custom-form-row .custom-form-group {
+        flex: 1;
+        min-width: 200px;
+      }
 
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+      .custom-form-check-group {
+        margin: 20px 0;
+      }
 
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+      .custom-form-check-group label {
+        margin-right: 15px;
+      }
 
-        button:hover {
-            background-color: #45a049;
-        }
+      .custom-submit-btn {
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+
+      .custom-submit-btn:hover {
+        background-color: #004494;
+      }
+
+      .custom-section-header {
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        color: #0056b3;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">Emisión de comprobante electrónico</div>
+      <div class="custom-container">
+        <div class="custom-header">Encabezado de factura</div>
 
-<div class="container">
-    <!-- Encabezado con las imágenes -->
-    <div class="header">
-        <img src="{% static 'img/hacienda.png' %}" alt="Ministerio de Hacienda Costa Rica">
-        <img src="{% static 'img/ATV.png' %}" alt="ATV - Administración Tributaria Virtual">
-    </div>
-    
-    <h2>Formulario de Factura Electrónica</h2>
-    
-    <form id="facturaForm" method="POST" action="{% url 'enviar_factura' %}">
-        {% csrf_token %}
-        
-        <!-- Cliente -->
-        <label for="cliente">Cliente:</label>
-        <input type="text" id="cliente" name="cliente" required>
-        
-        <!-- Fecha -->
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha" required>
-        
-        <!-- Producto -->
-        <label for="producto">Producto:</label>
-        <input type="text" id="producto" name="producto" required>
-        
-        <!-- Precio Unitario -->
-        <label for="precio">Precio Unitario:</label>
-        <input type="number" step="0.01" id="precio" name="precio" required>
-        
-        <!-- Cantidad -->
-        <label for="cantidad">Cantidad:</label>
-        <input type="number" id="cantidad" name="cantidad" required>
-        
-        <!-- Impuesto -->
-        <label for="impuesto">Impuesto (%)</label>
-        <input type="number" step="0.01" id="impuesto" name="impuesto" required>
-        
-        <!-- Descripción -->
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" rows="4" placeholder="Descripción del producto o servicio" required></textarea>
-        
-        <!-- Botón de Enviar -->
-        <button type="submit">Enviar Factura</button>
-    </form>
-</div>
+        <div class="custom-section-header">Datos Encabezado factura</div>
 
-<script>
-    // Aquí puedes agregar la lógica para enviar los datos a la API usando JavaScript (opcional)
-    document.getElementById('facturaForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        let formData = new FormData(this);
-        
-        fetch('{% url "enviar_factura" %}', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        <div class="custom-form-row">
+          <div class="custom-form-group">
+            <label for="condicion-venta">Condición de la Venta:</label>
+            <select id="condicion-venta">
+              <option value="">--- Seleccione ---</option>
+              <option value="credito">Crédito</option>
+              <option value="contado">Contado</option>
+            </select>
+          </div>
+
+          <div class="custom-form-group">
+            <label for="plazo-credito">Plazo del crédito:</label>
+            <input type="text" id="plazo-credito" disabled />
+          </div>
+
+          <div class="custom-form-group">
+            <label for="detalle-condicion-otro"
+              >Detalle condición de venta OTRO:</label
+            >
+            <input type="text" id="detalle-condicion-otro" disabled />
+          </div>
+        </div>
+
+        <div class="custom-form-row">
+          <div class="custom-form-group">
+            <label for="moneda-venta">Moneda Venta:</label>
+            <select id="moneda-venta">
+              <option value="">--- Seleccione ---</option>
+              <option value="usd">USD</option>
+              <option value="crc">CRC</option>
+            </select>
+          </div>
+
+          <div class="custom-form-group">
+            <label for="tipo-cambio">Tipo de cambio:</label>
+            <input type="text" id="tipo-cambio" />
+          </div>
+
+          <div class="custom-form-group">
+            <label for="detalle-pago-otro">Detalle forma de pago OTRO:</label>
+            <input type="text" id="detalle-pago-otro" disabled />
+          </div>
+        </div>
+
+        <div class="custom-form-check-group">
+          <label>Forma de Pago:</label>
+          <div class="custom-form-row">
+            <div class="custom-form-group">
+              <label
+                ><input type="checkbox" name="pago" value="efectivo" />
+                Efectivo</label
+              >
+            </div>
+            <div class="custom-form-group">
+              <label
+                ><input type="checkbox" name="pago" value="tarjeta" />
+                Tarjeta</label
+              >
+            </div>
+            <div class="custom-form-group">
+              <label
+                ><input type="checkbox" name="pago" value="cheque" />
+                Cheque</label
+              >
+            </div>
+            <div class="custom-form-group">
+              <label
+                ><input type="checkbox" name="pago" value="transferencia" />
+                Transferencia - depósito bancario</label
+              >
+            </div>
+            <div class="custom-form-group">
+              <label
+                ><input type="checkbox" name="pago" value="terceros" />
+                Recaudado por terceros</label
+              >
+            </div>
+            <div class="custom-form-group">
+              <label
+                ><input type="checkbox" name="pago" value="otros" />
+                Otros</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="custom-submit-btn-container">
+          <button type="submit" class="custom-submit-btn">
+            Guardar Encabezado
+          </button>
+        </div>
+      </div>
+
+      <!-- Datos del receptor -->
+      <div class="section-header">Datos del receptor</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="tipo_identificacion">Tipo de Identificación:</label>
+          <select id="tipo_identificacion">
+            <option>Físico Nacional</option>
+            <option>Dimex</option>
+            <option>NITE</option>
+            <option>Cédula Jurídica</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="numero_identificacion">Número de identificación:</label>
+          <input
+            type="text"
+            id="numero_identificacion"
+            placeholder="Ingrese el número de identificación"
+          />
+        </div>
+        <div class="form-group">
+          <label for="nombre_receptor">Nombre:</label>
+          <input
+            type="text"
+            id="nombre_receptor"
+            placeholder="Ingrese el nombre"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="correo_electronico_receptor">Correo Electrónico:</label>
+          <input
+            type="email"
+            id="correo_electronico_receptor"
+            placeholder="Ingrese el correo electrónico"
+          />
+        </div>
+        <div class="form-group">
+          <label for="provincia_receptor">Provincia:</label>
+          <select id="provincia_receptor">
+            <option>--- Seleccione Provincia ---</option>
+            <option>San José</option>
+            <option>Alajuela</option>
+            <option>Cartago</option>
+            <option>Heredia</option>
+            <option>Guanacaste</option>
+            <option>Puntarenas</option>
+            <option>Limón</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="canton_receptor">Cantón:</label>
+          <select id="canton_receptor">
+            <option>--- Seleccione ---</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="barrio_receptor">Barrio:</label>
+          <input
+            type="text"
+            id="barrio_receptor"
+            placeholder="Ingrese el barrio"
+          />
+        </div>
+        <div class="form-group">
+          <label for="distrito_receptor">Distrito:</label>
+          <select id="distrito_receptor">
+            <option>--- Seleccione ---</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="telefono_receptor">Teléfono:</label>
+          <input
+            type="text"
+            id="telefono_receptor"
+            placeholder="Ingrese el teléfono"
+          />
+        </div>
+        <div class="form-group">
+          <label for="fax_receptor">Fax:</label>
+          <input
+            type="text"
+            id="fax_receptor"
+            placeholder="Ingrese el fax (opcional)"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="otras_senias_receptor">Otras señas:</label>
+        <input
+          type="text"
+          id="otras_senias_receptor"
+          placeholder="Ingrese otras señas"
+        />
+      </div>
+      <!-- Datos del emisor -->
+      <div class="section-header">Datos del emisor</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="razon_social">Nombre o Razón Social:</label>
+          <input
+            type="text"
+            id="razon_social"
+            placeholder="Ingrese la razón social"
+          />
+        </div>
+        <div class="form-group">
+          <label for="identificacion"
+            >Identificación Física/Jurídica/Nite/Dimex:</label
+          >
+          <input
+            type="text"
+            id="identificacion"
+            placeholder="Ingrese la identificación"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nombre_comercial">Nombre Comercial:</label>
+          <input
+            type="text"
+            id="nombre_comercial"
+            placeholder="Ingrese el nombre comercial"
+          />
+        </div>
+        <div class="form-group">
+          <label for="telefono">Teléfono:</label>
+          <input type="text" id="telefono" placeholder="Ingrese el teléfono" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="provincia">Provincia:</label>
+          <input
+            type="text"
+            id="provincia"
+            placeholder="Ingrese la provincia"
+          />
+        </div>
+        <div class="form-group">
+          <label for="canton">Cantón:</label>
+          <input type="text" id="canton" placeholder="Ingrese el cantón" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="barrio">Barrio:</label>
+          <input type="text" id="barrio" placeholder="Ingrese el barrio" />
+        </div>
+        <div class="form-group">
+          <label for="distrito">Distrito:</label>
+          <input type="text" id="distrito" placeholder="Ingrese el distrito" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="correo_electronico">Correo Electrónico:</label>
+          <input
+            type="email"
+            id="correo_electronico"
+            placeholder="Ingrese el correo electrónico"
+          />
+        </div>
+        <div class="form-group">
+          <label for="fax">Fax:</label>
+          <input type="text" id="fax" placeholder="Ingrese el fax (opcional)" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="otras_senias">Otras señas:</label>
+        <input
+          type="text"
+          id="otras_senias"
+          placeholder="Ingrese otras señas"
+        />
+      </div>
+
+      <!-- Información de emisión del comprobante -->
+      <div class="section-header">Información de emisión</div>
+
+      <div class="form-group">
+        <label for="plantilla">Mis Plantillas:</label>
+        <select id="plantilla">
+          <option>--- Seleccione ---</option>
+          <option value="1">Plantilla 1</option>
+          <option value="2">Plantilla 2</option>
+        </select>
+        <span class="optional"
+          >Campo opcional, carga los datos del mantenimiento de planilla.</span
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="caja">Caja del Mantenimiento de Cajas:</label>
+        <select id="caja">
+          <option>--- Seleccione ---</option>
+          <option value="1">Caja 01</option>
+          <option value="2">Caja 02</option>
+        </select>
+        <span class="optional"
+          >Campo opcional, carga los datos del mantenimiento de caja.</span
+        >
+      </div>
+
+      <hr />
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="sucursal">Sucursal:</label>
+          <select id="sucursal">
+            <option>--- Seleccione Sucursal ---</option>
+            <option value="sin_descripcion">SIN DESCRIPCIÓN</option>
+            <option value="1">Sucursal 001</option>
+            <option value="2">Sucursal 002</option>
+          </select>
+          <span class="optional"
+            >Si no hay sucursales, seleccione SIN DESCRIPCIÓN.</span
+          >
+        </div>
+        <div class="form-group">
+          <label for="actividad">Actividad Económica:</label>
+          <select id="actividad">
+            <option>--- Seleccione ---</option>
+            <option value="1">Actividad Principal</option>
+            <option value="2">Otra Actividad Económica</option>
+          </select>
+          <span class="optional"
+            >Se debe tener actualizadas todas las actividades en el RUT.</span
+          >
+        </div>
+        <div class="form-group">
+          <label for="fecha">Fecha de Emisión:</label>
+          <input type="text" id="fecha" value="02/12/2021 14:12" disabled />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="num_sucursal">Número de sucursal:</label>
+          <input type="text" id="num_sucursal" value="001" disabled />
+          <span class="optional"
+            >Si solo hay un local, el número 001 aparecerá
+            automáticamente.</span
+          >
+        </div>
+        <div class="form-group">
+          <label for="num_caja">Número de caja:</label>
+          <input type="text" id="num_caja" value="01" disabled />
+          <span class="optional"
+            >Si solo hay una caja, el número 01 aparecerá automáticamente.</span
+          >
+        </div>
+        <div class="form-group">
+          <label for="num_consecutivo">Número Consecutivo:</label>
+          <input type="text" id="num_consecutivo" value="000123" disabled />
+          <span class="optional"
+            >Se carga automáticamente según el tipo de documento
+            seleccionado.</span
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="tipo_documento">Tipo Documento:</label>
+        <select id="tipo_documento">
+          <option>--- Seleccione ---</option>
+          <option value="factura">Factura Electrónica</option>
+          <option value="nota_credito">Nota de Crédito</option>
+        </select>
+      </div>
+
+      <!-- Script para validación y carga automática -->
+      <script>
+        // Ejemplo de datos pre-registrados de receptores
+        const receptoresRegistrados = {
+          123456789: {
+            nombre: "Receptor Ejemplo 1",
+            correo: "receptor1@example.com",
+            provincia: "San José",
+            canton: "Central",
+            distrito: "Carmen",
+            barrio: "Barrio Amón",
+            telefono: "2222-2222",
+          },
+          987654321: {
+            nombre: "Receptor Ejemplo 2",
+            correo: "receptor2@example.com",
+            provincia: "Alajuela",
+            canton: "Alajuela",
+            distrito: "San José",
+            barrio: "San José",
+            telefono: "2444-4444",
+          },
+        };
+
+        // Evento para validar identificación y cargar los datos si está registrado
+        document
+          .getElementById("identificacion")
+          .addEventListener("blur", function () {
+            const id = this.value;
+            if (receptoresRegistrados[id]) {
+              const datos = receptoresRegistrados[id];
+              document.getElementById("razon_social").value = datos.nombre;
+              document.getElementById("correo_electronico").value =
+                datos.correo;
+              document.getElementById("provincia").value = datos.provincia;
+              document.getElementById("canton").value = datos.canton;
+              document.getElementById("distrito").value = datos.distrito;
+              document.getElementById("barrio").value = datos.barrio;
+              document.getElementById("telefono").value = datos.telefono;
+              alert("Datos cargados automáticamente");
+            } else {
+              alert("Identificación no registrada");
             }
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.success || data.error);
-        })
-        .catch(error => console.error('Error:', error));
-    });
-</script>
+          });
+      </script>
 
-</body>
+      <button class="submit-btn">Enviar</button>
+    </div>
+  </body>
 </html>
-
 
 {% endblock %}

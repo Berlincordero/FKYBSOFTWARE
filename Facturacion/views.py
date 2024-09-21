@@ -10,3 +10,7 @@ from django.http import HttpResponse
 
 def enviar_factura(request):
     return HttpResponse("Factura enviada.")
+
+
+def Verificacioncomprobante(request):
+    return render(request, 'Facturacion/Verificacioncomprobante.html')

@@ -5,4 +5,5 @@ urlpatterns = [
     path('Facturacion/', views.facturacion, name='facturacion'),
     path('FormularioATV/', views.FormularioATV, name='FormularioATV'),
     path('enviar-factura/', views.enviar_factura, name='enviar_factura'),
+    path('Verificacioncomprobante/', views.Verificacioncomprobante, name='Verificacioncomprobante'),
 ]
