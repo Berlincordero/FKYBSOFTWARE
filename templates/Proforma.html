@@ -276,6 +276,28 @@
     box-shadow: 0 0 5px rgba(0, 77, 64, 0.5); /* Sombra al enfocar */
 }
 
+.convert-button {
+  background-color: #4caf50;  /* Color de fondo verde */
+  color: white;               /* Texto en blanco */
+  border: none;               /* Sin borde */
+  padding: 8px 16px;          /* Espaciado interno */
+  font-size: 14px;            /* Tamaño de letra */
+  cursor: pointer;            /* Cambia el cursor al pasar sobre el botón */
+  border-radius: 5px;         /* Bordes redondeados */
+  transition: background-color 0.3s ease; /* Transición suave */
+}
+
+.convert-button:hover {
+  background-color: #218838;  /* Color más oscuro al pasar el cursor */
+}
+
+.convert-button:active {
+  background-color: #1e7e34;  /* Color cuando el botón está activo (al hacer clic) */
+}
+
+.convert-button:focus {
+  outline: none;              /* Elimina el contorno al enfocar el botón */
+}
 
  
     </style>
@@ -491,11 +513,11 @@
         var codigoActividad = document.getElementById('Código-actividad-económica').value;
         var medioPago = document.getElementById('medio-pago').value;
         var condicionVenta = document.getElementById('condición-venta').value;
-        var fecha = document.getElementById('fecha-proforma').innerText;
-        var detalles = document.getElementById('detalles').value; // Nuevo campo
-        var nota = document.getElementById('nota').value; // Nuevo campo
+        var fecha = document.getElementById('fecha_ingreso').value; // Cambié el id a 'fecha_ingreso'
+        var detalles = document.getElementById('detalles').value;
+        var nota = document.getElementById('nota').value;
         var total = document.getElementById('total').innerText;
-
+    
         var tableBody = document.getElementById('proforma-table-body');
         var newRow = tableBody.insertRow();
         newRow.innerHTML = `
@@ -510,17 +532,25 @@
           <td class="action-icons">
             <i class="fa fa-edit"></i>
             <i class="fa fa-trash" onclick="deleteRow(this)"></i>
+            <button class="convert-button" onclick="convertToInvoice(this)">Convertir a Factura</button>
           </td>
         `;
-
+    
         var modal = document.getElementById('proformaModal');
         modal.style.display = 'none';
-      }
+    }
 
       function deleteRow(icon) {
         var row = icon.closest('tr');
         row.remove();
       }
+
+      function convertToInvoice(button) {
+        var row = button.closest('tr');
+        var cliente = row.cells[1].innerText;
+        alert(`Convirtiendo la proforma de ${cliente} en factura.`);
+        // Aquí podrías agregar el código para redirigir a otra página o ejecutar otra acción
+    }
     </script>
   </body>
 </html>
