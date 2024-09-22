@@ -251,6 +251,575 @@
         </div>
       </div>
 
+      <!-- Nueva sección - Datos Detalle factura -->
+      <div class="custom-section-header">Datos Detalle factura</div>
+
+      <div class="custom-form-row">
+        <!-- Código CAByS -->
+        <div class="custom-form-group">
+          <label for="codigo-cabys"
+            >Código Bien / Servicio CABYS (Opcional):</label
+          >
+          <input
+            type="text"
+            id="codigo-cabys"
+            placeholder="Código Bien / Servicio CABYS"
+          />
+        </div>
+
+        <!-- Buscar Bien/Servicio -->
+        <div class="custom-form-group">
+          <label for="tipo-busqueda"
+            >Buscar Bien / Servicio CAByS (Obligatorio):</label
+          >
+          <div style="display: flex; align-items: center">
+            <input
+              type="text"
+              id="detalle-busqueda"
+              placeholder="Ingrese el detalle o código de búsqueda"
+            />
+            <button
+              id="buscar-bien-servicio"
+              type="button"
+              style="margin-left: 5px"
+            >
+              <i class="fas fa-search"></i>
+              <!-- Icono de lupa -->
+            </button>
+          </div>
+        </div>
+
+        <!-- Tipo de búsqueda -->
+        <div class="custom-form-group">
+          <label for="tipo-busqueda">Tipo de búsqueda:</label>
+          <select id="tipo-busqueda">
+            <option value="descripcion">Por descripción</option>
+            <option value="codigo">Por código</option>
+          </select>
+        </div>
+
+        <!-- Detalle de búsqueda (Por descripción o código) -->
+        <div class="custom-form-group">
+          <label for="detalle-busqueda"
+            >Detalle de búsqueda (al menos 5 caracteres):</label
+          >
+          <input
+            type="text"
+            id="detalle-busqueda"
+            placeholder="Detalle de búsqueda (5 caracteres mínimo)"
+            minlength="5"
+            required
+          />
+        </div>
+
+        <!-- Bien o Servicios -->
+        <div class="custom-form-group">
+          <label for="bien-servicio">Bien o Servicios:</label>
+          <select id="bien-servicio">
+            <option>--- Seleccione ---</option>
+            <!-- Los elementos se generarán dinámicamente en función de la búsqueda -->
+          </select>
+        </div>
+
+        <!-- Descripción de la Línea -->
+        <div class="custom-form-group">
+          <label for="descripcion-linea"
+            >Descripción de la Línea (Obligatorio):</label
+          >
+          <textarea
+            id="descripcion-linea"
+            placeholder="Descripción del bien o servicio"
+            required
+          ></textarea>
+        </div>
+
+        <!-- Tipo de Código, Código y Medida Comercial (Opcional) -->
+        <div class="custom-form-group">
+          <label for="tipo-codigo">Tipo de Código (Opcional):</label>
+          <input type="text" id="tipo-codigo" placeholder="Tipo de Código" />
+        </div>
+
+        <div class="custom-form-group">
+          <label for="codigo">Código (Opcional):</label>
+          <input type="text" id="codigo" placeholder="Código" />
+        </div>
+
+        <div class="custom-form-group">
+          <label for="medida-comercial">Medida Comercial (Opcional):</label>
+          <input
+            type="text"
+            id="medida-comercial"
+            placeholder="Medida Comercial"
+          />
+        </div>
+
+        <!-- Unidad de Medida -->
+        <div class="custom-form-group">
+          <label for="unidad-medida">Unidad de Medida (Obligatorio):</label>
+          <select id="unidad-medida" required>
+            <option value="">--- Seleccione ---</option>
+            <option value="unidad">Unidad</option>
+            <option value="dia">Día</option>
+            <option value="hora">Hora</option>
+            <option value="servicios-profesionales">
+              Servicios Profesionales
+            </option>
+            <!-- Agregar más unidades según sea necesario -->
+          </select>
+        </div>
+
+        <!-- Cantidad -->
+        <div class="custom-form-group">
+          <label for="cantidad">Cantidad (Obligatorio):</label>
+          <input
+            type="number"
+            id="cantidad"
+            min="1"
+            placeholder="Cantidad"
+            required
+          />
+        </div>
+
+        <!-- Precio Unitario -->
+        <div class="custom-form-group">
+          <label for="precio-unitario">Precio Unitario (Obligatorio):</label>
+          <input
+            type="number"
+            id="precio-unitario"
+            step="0.01"
+            placeholder="Precio Unitario"
+            required
+          />
+        </div>
+
+        <!-- Monto Descuento y Naturaleza del Descuento (Opcional) -->
+        <div class="custom-form-group">
+          <label for="monto-descuento">Monto Descuento (Opcional):</label>
+          <input
+            type="number"
+            id="monto-descuento"
+            step="0.01"
+            placeholder="Monto Descuento"
+          />
+        </div>
+
+        <div class="custom-form-group">
+          <label for="naturaleza-descuento"
+            >Naturaleza del Descuento (Opcional):</label
+          >
+          <input
+            type="text"
+            id="naturaleza-descuento"
+            placeholder="Naturaleza del Descuento"
+          />
+        </div>
+
+        <!-- Base Imponible (Opcional) -->
+        <div class="custom-form-group">
+          <label for="base-imponible">Base Imponible (Opcional):</label>
+          <input
+            type="number"
+            id="base-imponible"
+            step="0.01"
+            placeholder="Base Imponible"
+          />
+        </div>
+      </div>
+<!-- Nueva sección - Otros Cargos -->
+<div class="custom-section-header">Otros Cargos</div>
+
+<div class="custom-form-row">
+  <!-- Tipo de Documento -->
+  <div class="custom-form-group">
+    <label for="tipo-documento">Tipo Documento:</label>
+    <select id="tipo-documento" required>
+      <option value="" disabled selected>--- Seleccione ---</option>
+      <option value="cargo_adicional">Cargo Adicional</option>
+      <option value="cobro_tercero">Cobro de un Tercero</option>
+    </select>
+  </div>
+
+  <!-- Tipo de Identificación -->
+  <div class="custom-form-group">
+    <label for="tipo-identificacion">Tipo de Identificación:</label>
+    <select id="tipo-identificacion" required>
+      <option value="" disabled selected>--- Seleccione ---</option>
+      <option value="fisica">Cédula Física</option>
+      <option value="juridica">Cédula Jurídica</option>
+      <option value="dimex">DIMEX</option>
+    </select>
+  </div>
+
+  <!-- Detalle -->
+  <div class="custom-form-group">
+    <label for="detalle">Detalle:</label>
+    <input type="text" id="detalle" placeholder="Ingrese el detalle" />
+  </div>
+
+  <!-- Número de Identificación -->
+  <div class="custom-form-group">
+    <label for="numero-identificacion">Número de Identificación:</label>
+    <input type="text" id="numero-identificacion" placeholder="Ingrese el número de identificación" />
+  </div>
+
+  <!-- Porcentaje % -->
+  <div class="custom-form-group">
+    <label for="porcentaje-cargo">Porcentaje %:</label>
+    <input type="number" id="porcentaje-cargo" placeholder="%" step="0.01" min="0" />
+  </div>
+
+  <!-- Monto del Cargo -->
+  <div class="custom-form-group">
+    <label for="monto-cargo">Monto del Cargo:</label>
+    <input type="text" id="monto-cargo" placeholder="Ingrese el monto" />
+  </div>
+
+  <!-- Nombre del Tercero -->
+  <div class="custom-form-group">
+    <label for="nombre-tercero">Nombre del Tercero:</label>
+    <input type="text" id="nombre-tercero" placeholder="Nombre del tercero" />
+  </div>
+</div>
+
+
+
+
+
+
+      <!-- Nueva sección - Impuestos y Exoneraciones -->
+      <div class="custom-section-header">Impuestos y Exoneraciones</div>
+
+      <div class="custom-form-row">
+        <!-- Tipo Impuesto - Obligatorio -->
+        <div class="custom-form-group">
+          <label for="tipo-impuesto">Tipo Impuesto: *</label>
+          <select id="tipo-impuesto" required>
+            <option value="" disabled selected>
+              --- Seleccione Tipo Impuesto ---
+            </option>
+            <option value="iva">Impuesto al Valor Agregado</option>
+            <option value="otro">Otro Impuesto</option>
+          </select>
+        </div>
+
+        <!-- Código Tarifa - Obligatorio al seleccionar un Tipo de Impuesto -->
+        <div class="custom-form-group">
+          <label for="codigo-tarifa">Código Tarifa: *</label>
+          <select id="codigo-tarifa" required>
+            <option value="" disabled selected>
+              --- Seleccione Código Tarifa ---
+            </option>
+            <option value="codigo1">Código 1</option>
+            <option value="codigo2">Código 2</option>
+          </select>
+        </div>
+
+        <!-- Tarifa % -->
+        <div class="custom-form-group">
+          <label for="tarifa">Tarifa %:</label>
+          <input type="text" id="tarifa" placeholder="Tarifa %" disabled />
+        </div>
+
+        <!-- Monto -->
+        <div class="custom-form-group">
+          <label for="monto">Monto:</label>
+          <input type="text" id="monto" placeholder="Monto" disabled />
+        </div>
+
+        <!-- Impuesto Neto -->
+        <div class="custom-form-group">
+          <label for="impuesto-neto">Impuesto Neto:</label>
+          <input
+            type="text"
+            id="impuesto-neto"
+            placeholder="Impuesto Neto"
+            disabled
+          />
+        </div>
+      </div>
+
+      <!-- Exoneración -->
+      <div class="custom-section-header">Exoneraciones</div>
+
+      <div class="custom-form-row">
+        <!-- Tipo Documento Exonera - Obligatorio si se aplica exoneración -->
+        <div class="custom-form-group">
+          <label for="tipo-doc-exonera">Tipo Doc Exonera: *</label>
+          <select id="tipo-doc-exonera" required>
+            <option value="" disabled selected>
+              --- Seleccione Tipo de Documento ---
+            </option>
+            <option value="doc1">Documento 1</option>
+            <option value="doc2">Documento 2</option>
+          </select>
+        </div>
+
+        <!-- Número Documento - Obligatorio si se aplica exoneración -->
+        <div class="custom-form-group">
+          <label for="numero-documento">Número Documento: *</label>
+          <input
+            type="text"
+            id="numero-documento"
+            placeholder="Número Documento"
+            required
+          />
+        </div>
+
+        <!-- Nombre Institución - Obligatorio si se aplica exoneración -->
+        <div class="custom-form-group">
+          <label for="nombre-institucion">Nombre Institución: *</label>
+          <input
+            type="text"
+            id="nombre-institucion"
+            placeholder="Nombre Institución"
+            required
+          />
+        </div>
+
+        <!-- Fecha Autorización - Obligatorio si se aplica exoneración -->
+        <div class="custom-form-group">
+          <label for="fecha-autorizacion">Fecha Autorización: *</label>
+          <input type="date" id="fecha-autorizacion" required />
+        </div>
+
+        <!-- Porcentaje Exonerado - Obligatorio si se aplica exoneración -->
+        <div class="custom-form-group">
+          <label for="porcentaje-exonerado">Porcentaje Exonerado: *</label>
+          <input
+            type="number"
+            id="porcentaje-exonerado"
+            placeholder="%"
+            step="0.01"
+            min="0"
+            required
+          />
+        </div>
+
+        <!-- Monto Exonerado -->
+        <div class="custom-form-group">
+          <label for="monto-exonerado">Monto Exonerado:</label>
+          <input
+            type="text"
+            id="monto-exonerado"
+            placeholder="Monto Exonerado"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="informacion-empresa">
+        <!-- Título de la sección con funcionalidad de colapsar/expandir -->
+        <h3>Otros Cargos</h3>
+        
+        <div class="custom-form-row">
+          <!-- Tipo de Documento -->
+          <div class="custom-form-group">
+            <label for="tipo-documento">Tipo documento:</label>
+            <select id="tipo-documento">
+              <option value="" disabled selected>--- Seleccione ---</option>
+              <option value="cargo_adicional">Cargo Adicional</option>
+              <option value="cobro_tercero">Cobro de un Tercero</option>
+            </select>
+          </div>
+      
+          <!-- Detalle -->
+          <div class="custom-form-group">
+            <label for="detalle">Detalle:</label>
+            <input type="text" id="detalle" placeholder="Ingrese el detalle" />
+            <span class="tooltip">?</span> <!-- Indicador de ayuda -->
+          </div>
+      
+          <!-- Porcentaje % -->
+          <div class="custom-form-group">
+            <label for="porcentaje-cargo">Porcentaje %:</label>
+            <input type="number" id="porcentaje-cargo" placeholder="%" step="0.01" min="0" />
+          </div>
+      
+          <!-- Monto del Cargo -->
+          <div class="custom-form-group">
+            <label for="monto-cargo">Monto del Cargo:</label>
+            <input type="text" id="monto-cargo" placeholder="Ingrese el monto" />
+          </div>
+      
+          <!-- Tipo de Identificación -->
+          <div class="custom-form-group">
+            <label for="tipo-identificacion">Tipo de Identificación:</label>
+            <select id="tipo-identificacion">
+              <option value="" disabled selected>--- Seleccione ---</option>
+              <option value="fisica">Cédula Física</option>
+              <option value="juridica">Cédula Jurídica</option>
+              <option value="dimex">DIMEX</option>
+            </select>
+          </div>
+      
+          <!-- Número de Identificación -->
+          <div class="custom-form-group">
+            <label for="numero-identificacion">Número de Identificación:</label>
+            <input type="text" id="numero-identificacion" placeholder="Ingrese el número de identificación" />
+          </div>
+      
+          <!-- Nombre del Tercero -->
+          <div class="custom-form-group">
+            <label for="nombre-tercero">Nombre del Tercero:</label>
+            <input type="text" id="nombre-tercero" placeholder="Nombre del tercero" />
+          </div>
+        </div>
+      </div>
+      
+      <div class="informacion-empresa">
+        <!-- Título de la sección -->
+        <h2>Totales factura</h2>
+      
+        <div class="custom-form-row">
+          <!-- Total Servicios Gravados -->
+          <div class="custom-form-group">
+            <label for="servicios-gravados">Total Servicios Gravados:</label>
+            <input type="number" id="servicios-gravados" value="0.00" readonly />
+          </div>
+      
+          <!-- Total Servicios Exentos -->
+          <div class="custom-form-group">
+            <label for="servicios-exentos">Total Servicios Exentos:</label>
+            <input type="number" id="servicios-exentos" value="0.00" readonly />
+          </div>
+      
+          <!-- Total Servicios Exonerados -->
+          <div class="custom-form-group">
+            <label for="servicios-exonerados">Total Servicios Exonerados:</label>
+            <input type="number" id="servicios-exonerados" value="0.00" readonly />
+          </div>
+      
+          <!-- Total Mercancías Gravadas -->
+          <div class="custom-form-group">
+            <label for="mercancias-gravadas">Total Mercancías Gravadas:</label>
+            <input type="number" id="mercancias-gravadas" value="5000.00" readonly />
+          </div>
+      
+          <!-- Total Mercancías Exentas -->
+          <div class="custom-form-group">
+            <label for="mercancias-exentas">Total Mercancías Exentas:</label>
+            <input type="number" id="mercancias-exentas" value="0.00" readonly />
+          </div>
+      
+          <!-- Total Mercancías Exoneradas -->
+          <div class="custom-form-group">
+            <label for="mercancias-exoneradas">Total Mercancías Exoneradas:</label>
+            <input type="number" id="mercancias-exoneradas" value="0.00" readonly />
+          </div>
+      
+          <!-- Total Gravado -->
+          <div class="custom-form-group">
+            <label for="total-gravado">Total Gravado:</label>
+            <input type="number" id="total-gravado" value="5000.00" readonly />
+          </div>
+      
+          <!-- Total Exento -->
+          <div class="custom-form-group">
+            <label for="total-exento">Total Exento:</label>
+            <input type="number" id="total-exento" value="0.00" readonly />
+          </div>
+      
+          <!-- Total Venta -->
+          <div class="custom-form-group">
+            <label for="total-venta">Total Venta:</label>
+            <input type="number" id="total-venta" value="5000.00" readonly />
+          </div>
+      
+          <!-- Total Descuentos -->
+          <div class="custom-form-group">
+            <label for="total-descuentos">Total Descuentos:</label>
+            <input type="number" id="total-descuentos" value="0.00" readonly />
+          </div>
+      
+          <!-- Total Otros Cargos -->
+          <div class="custom-form-group">
+            <label for="total-otros-cargos">Total Otros Cargos:</label>
+            <input type="number" id="total-otros-cargos" value="0.00" readonly />
+          </div>
+      
+          <!-- Total Venta Neta -->
+          <div class="custom-form-group">
+            <label for="total-venta-neta">Total Venta Neta:</label>
+            <input type="number" id="total-venta-neta" value="5000.00" readonly />
+          </div>
+      
+          <!-- Total Impuesto -->
+          <div class="custom-form-group">
+            <label for="total-impuesto">Total Impuesto:</label>
+            <input type="number" id="total-impuesto" value="50.00" readonly />
+          </div>
+      
+          <!-- Total Comprobante -->
+          <div class="custom-form-group">
+            <label for="total-comprobante">Total Comprobante:</label>
+            <input type="number" id="total-comprobante" value="5050.00" readonly />
+          </div>
+      
+          <!-- Total IVA Devuelto -->
+          <div class="custom-form-group">
+            <label for="total-iva-devuelto">Total IVA Devuelto:</label>
+            <input type="number" id="total-iva-devuelto" value="0" readonly />
+          </div>
+        </div>
+      
+        <!-- Nota sobre devolución del IVA -->
+        <p style="color: red; font-size: 12px;">
+          En caso de ser un servicio de salud y el pago del mismo se realice en tarjeta, se puede hacer uso de este campo, con el fin de hacer la devolución del IVA conforme a la ley N° 9635 Fortalecimiento de las Finanzas Públicas
+        </p>
+      </div>
+      <div class="informacion-empresa">
+        <!-- Título de la sección con funcionalidad de colapsar/expandir -->
+        <h3>Documentos de referencia</h3>
+        <p>Para abrir o cerrar esta sección de click sobre el texto DOCUMENTOS DE REFERENCIA,</p>
+      
+        <!-- Explicación sobre el uso de la sección -->
+        <p>
+          Este apartado se debe completar cuando se requiera hacer referencia sobre algún otro documento. 
+          Se debe proceder a seleccionar primeramente el tipo de documento y completar las demás casillas.
+          Por ejemplo, cuando se registran los comprobantes provisionales de contingencia emitidos de forma física.
+        </p>
+      
+        <div class="custom-form-row">
+          <!-- Tipo de Documento -->
+          <div class="custom-form-group">
+            <label for="tipo-documento-referencia">Tipo Documento:</label>
+            <select id="tipo-documento-referencia">
+              <option value="" disabled selected>--- Seleccione ---</option>
+              <option value="contingencia">Comprobante emitido en contingencia</option>
+              <option value="otros">Otros</option>
+            </select>
+          </div>
+      
+          <!-- Número Documento -->
+          <div class="custom-form-group">
+            <label for="numero-documento">Número Documento:</label>
+            <input type="text" id="numero-documento" placeholder="001" />
+          </div>
+      
+          <!-- Fecha Emisión -->
+          <div class="custom-form-group">
+            <label for="fecha-emision">Fecha Emisión:</label>
+            <input type="date" id="fecha-emision" value="2022-04-26" />
+          </div>
+      
+          <!-- Código Referencia -->
+          <div class="custom-form-group">
+            <label for="codigo-referencia">Código Referencia:</label>
+            <select id="codigo-referencia">
+              <option value="" disabled selected>--- Seleccione ---</option>
+              <option value="sustituye">Sustituye comprobante provisional por contingencia</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+      
+          <!-- Razón -->
+          <div class="custom-form-group">
+            <label for="razon">Razón:</label>
+            <input type="text" id="razon" placeholder="Registro de factura emitida durante caída del portal" />
+          </div>
+        </div>
+      </div>
+      
       <!-- Datos del receptor -->
       <div class="section-header">Datos del receptor</div>
       <div class="form-row">

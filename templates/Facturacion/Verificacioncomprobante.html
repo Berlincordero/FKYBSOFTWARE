@@ -1,8 +1,164 @@
-{% extends 'base.html' %} {% load static %}
+{% extends 'base.html' %} 
+{% load static %}
 <!-- Carga de archivos estáticos -->
 
 {% block content %}
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Comprobantes</title>
+    <style>
+        .comprobantekike-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ccc;
+        }
+
+        .comprobantekike-h1 {
+            font-size: 24px;
+            color: #2f4f7f;
+            margin-bottom: 20px;
+        }
+
+        .comprobantekike-label {
+            font-weight: bold;
+            color: #2f4f7f;
+        }
+
+        .comprobantekike-select, 
+        .comprobantekike-input, 
+        .comprobantekike-button {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .comprobantekike-form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .comprobantekike-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .comprobantekike-button:hover {
+            background-color: #45a049;
+        }
+
+        .comprobantekike-btn-secondary {
+            background-color: #f1f1f1;
+            color: black;
+        }
+
+        .comprobantekike-btn-secondary:hover {
+            background-color: #ddd;
+        }
+
+        .comprobantekike-btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .comprobantekike-help-icon {
+            font-size: 12px;
+            color: gray;
+            margin-left: 5px;
+        }
+
+        .comprobantekike-date-time-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .comprobantekike-date-time-group input {
+            width: 48%;
+        }
+    </style>
+</head>
+<body>
+    <div class="comprobantekike-container">
+        <h1 class="comprobantekike-h1">Verificación de Comprobantes</h1>
+
+        <div class="comprobantekike-form-group">
+            <label class="comprobantekike-label" for="criterio">Criterio de búsqueda:</label>
+            <select class="comprobantekike-select" id="criterio">
+                <option>Emisor</option>
+                <option>Receptor</option>
+            </select>
+            <span class="comprobantekike-help-icon">?</span>
+        </div>
+
+        <h3>Receptor del Documento Electrónico</h3>
+
+        <div class="comprobantekike-form-group">
+            <label class="comprobantekike-label" for="tipo-id">Tipo de identificación:</label>
+            <select class="comprobantekike-select" id="tipo-id">
+                <option>Seleccione</option>
+                <option>Cédula</option>
+                <option>Pasaporte</option>
+            </select>
+            <span class="comprobantekike-help-icon">?</span>
+        </div>
+
+        <div class="comprobantekike-form-group">
+            <label class="comprobantekike-label" for="num-id">N° Identificación:</label>
+            <input type="text" class="comprobantekike-input" id="num-id">
+            <span class="comprobantekike-help-icon">?</span>
+        </div>
+
+        <div class="comprobantekike-btn-group">
+            <button type="button" class="comprobantekike-button">Consultar Cliente</button>
+            <button type="button" class="comprobantekike-button comprobantekike-btn-secondary">Limpiar Cliente</button>
+        </div>
+
+        <div class="comprobantekike-form-group">
+            <label class="comprobantekike-label" for="nombre-cliente">Nombre de Cliente:</label>
+            <input type="text" class="comprobantekike-input" id="nombre-cliente" disabled>
+        </div>
+
+        <div class="comprobantekike-form-group">
+            <label class="comprobantekike-label" for="tipo-doc">Tipo de Documento:</label>
+            <select class="comprobantekike-select" id="tipo-doc">
+                <option>--Todos--</option>
+                <option>Factura</option>
+                <option>Nota de Crédito</option>
+            </select>
+            <span class="comprobantekike-help-icon">?</span>
+        </div>
+
+        <div class="comprobantekike-form-group">
+            <label class="comprobantekike-label">Rango de Fechas:</label>
+            <div class="comprobantekike-date-time-group">
+                <input type="date" class="comprobantekike-input" placeholder="Desde">
+                <input type="time" class="comprobantekike-input" value="00:00">
+            </div>
+            <div class="comprobantekike-date-time-group">
+                <input type="date" class="comprobantekike-input" placeholder="Hasta">
+                <input type="time" class="comprobantekike-input" value="23:59">
+            </div>
+        </div>
+
+        <div class="comprobantekike-btn-group">
+            <button type="button" class="comprobantekike-button">Consultar</button>
+            <button type="button" class="comprobantekike-button comprobantekike-btn-secondary">Limpiar</button>
+        </div>
+    </div>
+</body>
+</html>
 
 
 
