@@ -1,36 +1,76 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantalla en Reposo</title>
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-  .container,
-  .container-fluid,
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container-xl,
-  .container-xxl {
-    width: 100%;
-    background-color: black;
-    padding-right: var(--bs-gutter-x, 0.75rem);
-    padding-left: var(--bs-gutter-x, 0.75rem);
-    margin-right: auto;
-    margin-left: auto;
-  }
+        body, html {
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+        }
 
-  .contact-image {
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-  }
-</style>
+        .dinamico-unico-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74ebd5 0%, #acb6e5 100%);
+            animation: dinamico-unico-gradient 10s ease infinite;
+        }
 
-<div class="body-fkyb">
-  <div class="contact-image">
-    {% load static %}
-    <img src="{% static 'img/FKYB.jpg' %}" alt="Question Image" />
-  </div>
-</div>
+        .dinamico-unico-logo-container {
+            text-align: center;
+            color: white;
+        }
+
+        .dinamico-unico-logo {
+            font-size: 4rem;
+            animation: dinamico-unico-fadeIn 4s;
+        }
+
+        .dinamico-unico-slogan {
+            font-size: 1.5rem;
+            animation: dinamico-unico-fadeIn 6s;
+        }
+
+        /* Animaciones */
+        @keyframes dinamico-unico-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes dinamico-unico-fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dinamico-unico-screen">
+        <div class="dinamico-unico-logo-container">
+            <h1 class="dinamico-unico-logo">Ferretería San Jerónimo</h1>
+            <p class="dinamico-unico-slogan">Soluciones para tu hogar</p>
+            <p class="dinamico-unico-slogan">FKYB SOFTWARE SOLUTIONS S.A ENTERPRISE SINCE 2024</p>
+        </div>
+    </div>
+
+    <script>
+        // Javascript para agregar posibles funcionalidades dinámicas en el futuro
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("Pantalla de reposo cargada");
+        });
+    </script>
+</body>
+</html>
 
 {% endblock %}
