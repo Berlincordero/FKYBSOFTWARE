@@ -77,9 +77,17 @@
                             </a>
                             <ul id="Facturacion" class="sidebar-dropdown list-unstyled collapse">
                                 <li>
-                                    <a href="{% url 'facturacion' %}" class="sidebar-link">Facturación</a>
-                                    <a href="{% url 'FormularioATV' %}" class="sidebar-link">FacturaElectronica</a>
-                                    <a href="{% url 'Verificacioncomprobante' %}" class="sidebar-link">Comprobantes</a>
+                                    <a href="{% url 'facturacion' %}" class="sidebar-link">
+                                        <i class="fa-solid fa-circle-dollar-to-slot"></i> Facturación
+                                    </a>
+                                    
+                                    <a href="{% url 'FormularioATV' %}" class="sidebar-link">
+                                        <i class="fa-solid fa-money-bill-transfer"></i></i> Factura Electrónica
+                                    </a>
+                                    <a href="{% url 'Verificacioncomprobante' %}" class="sidebar-link">
+                                        <i class="fa-solid fa-money-check"></i></i> Comprobantes
+                                    </a>
+                                    
                                 </li>
                             </ul>
                         </li>
@@ -90,13 +98,15 @@
                                 Reportes
                             </a>
                             <ul id="Reportes" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#Reportes">
-                                <a href="{% url 'ventas' %}" class="sidebar-link"> Reporte de ventas</a>
-                                <a href="{% url 'cuentasCobrar' %}" class="sidebar-link"> Cuentas por cobrar</a>
-                                <a href="{% url 'pagosFacturas' %}" class="sidebar-link"> Pagos a facturas</a>
-                                <a href="{% url 'reporteUtilidades' %}" class="sidebar-link"> Reporte de Utilidades</a>
-                                <a href="{% url 'cierreCaja' %}" class="sidebar-link"> Reporte de Cierre de Caja</a>
-                                <a href="{% url 'reporteProformas' %}" class="sidebar-link"> Reporte de Proformas</a>
-                                <a href="{% url 'reportetransportes' %}" class="sidebar-link"> Reporte de transportes</a>
+                                <a href="{% url 'ventas' %}" class="sidebar-link">
+                                    <i class="fas fa-chart-line"></i> Reporte de ventas
+                                </a>
+                                <a href="{% url 'cuentasCobrar' %}" class="sidebar-link"> <i class="fas fa-chart-line"></i> Cuentas por cobrar</a>
+                                <a href="{% url 'pagosFacturas' %}" class="sidebar-link"> <i class="fas fa-chart-line"></i> Pagos a facturas</a>
+                                <a href="{% url 'reporteUtilidades' %}" class="sidebar-link"> <i class="fas fa-chart-line"></i> Reporte de Utilidades</a>
+                                <a href="{% url 'cierreCaja' %}" class="sidebar-link"> <i class="fas fa-chart-line"></i> Reporte de Cierre de Caja</a>
+                                <a href="{% url 'reporteProformas' %}" class="sidebar-link"> <i class="fas fa-chart-line"></i> Reporte de Proformas</a>
+                                <a href="{% url 'reportetransportes' %}" class="sidebar-link"> <i class="fas fa-chart-line"></i> Reporte de transportes</a>
                          
                                 
                                
