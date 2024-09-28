@@ -79,10 +79,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'fkybsoftware',
+        'USER': 'postgres',
+        'PASSWORD': 'kik301',
+        'HOST': 'localhost',  # o la dirección de tu servidor PostgreSQL
+        'PORT': '5432',  # el puerto por defecto de PostgreSQL es 5432
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

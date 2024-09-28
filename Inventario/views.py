@@ -7,4 +7,3 @@ def Inventario_view(request):
     return render(request, 'Inventario.html')
 
 
-

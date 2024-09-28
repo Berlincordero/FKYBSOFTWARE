@@ -313,11 +313,9 @@
               <button class="btn-action">
                 <i class="fas fa-eye"></i> <!-- Nuevo botón para "Ver detalles" -->
               </button>
-              
-              <div id="modal-imagen-tabla" class="modal-imagen-tabla">
+              <div id="modal-imagen-tabla" class="modal-imagen-tabla" style="display:none;">
                 <span class="close" onclick="closeModal()">&times;</span>
-                {% load static %}
-               <img src="{% static 'img/pintura.jpg' %}" alt="Question Image" />
+                <img id="modal-image" src="" alt="Imagen del producto" />
               </div>
             </td>
           </tr>
@@ -462,17 +460,19 @@
               </div>
  
               <br />
-              <div class="form-group">
-                <label for="imagenes">Imágenes del Producto</label>
-                <label class="file-label" for="imagenes"
-                  >Subir archivos...</label
-                >
-                <input
-                  type="file"
-                  id="imagenes"
-                  name="imagenes"
-                  class="file-input"
-                />
+                <div class="form-group">
+                  <label for="imagenes">Imágenes del Producto</label>
+                  <input
+                    type="file"
+                    id="imagenes"
+                    name="imagenes"
+                    class="file-input"
+                    accept="image/*"
+                  />
+                </div>
+                <div class="save-button">
+                  <button type="button" class="btn btn-primary" onclick="showImage()">GUARDAR</button>
+                </div>
               </div>
               <div class="form-group">
                 <label for="moneda">Moneda de precios</label>
@@ -496,7 +496,7 @@
               </div>
               <h2>Precios de Venta</h2>
               <div class="form-group">
-                <label for="Preios-regular">Precio Venta Regular</label>
+                <label for="Preios-regular">Precio compra del producto</label>
                 <input
                   type="text"
                   id="Precios-regular"
@@ -504,36 +504,7 @@
                   class="form-control"
                 />
               </div>
-              <div class="form-group">
-                <label for="Precios">calculo</label>
-                <input
-                  type="number"
-                  id="calculo"
-                  name="Precios"
-                  value="0"
-                  class="form-control"
-                />
-              </div>
-              <div class="form-group">
-                <label for="Preios-regular">Precio Venta Especial</label>
-                <input
-                  type="text"
-                  id="Precios-regular"
-                  name="Precios-regular"
-                  class="form-control"
-                />
-              </div>
-              <div class="form-group">
-                <label for="Precios">calculo</label>
-                <input
-                  type="number"
-                  id="calculo"
-                  name="Precios"
-                  value="0"
-                  class="form-control"
-                />
-              </div>
-
+             
               <div class="form-group">
                 <label for="descuento">Descuento por defecto</label>
                 <input
@@ -544,6 +515,19 @@
                   class="form-control"
                 />
               </div>
+
+              <div class="form-group">
+                <label for="Precios">venta regular al publico</label>
+                <input
+                  type="number"
+                  id="Precios"
+                  name="Precios"
+                  value="0"
+                  class="form-control"
+                />
+              </div>
+              
+
               <div class="form-group">
                 <label>Tipo de Producto/Servicio</label>
                 <div class="btn-group">
@@ -742,6 +726,30 @@
         inputContainer.classList.add("hidden");
       }
     }
+
+    function showImage() {
+      const input = document.getElementById('imagenes');
+      const modal = document.getElementById('modal-imagen-tabla');
+      const modalImage = document.getElementById('modal-image');
+    
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          modalImage.src = e.target.result; // Establece la fuente de la imagen en el modal
+          modal.style.display = 'block'; // Muestra el modal
+        }
+        reader.readAsDataURL(input.files[0]); // Lee la imagen como una URL de datos
+      } else {
+        alert("Por favor, sube una imagen antes de guardar.");
+      }
+    }
+    
+    function closeModal() {
+      const modal = document.getElementById('modal-imagen-tabla');
+      modal.style.display = 'none'; // Cierra el modal
+    }
+    
+
     </script>
   </body>
 </html>
