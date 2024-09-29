@@ -701,51 +701,7 @@ h2 {
     cursor: pointer;
 }
 
-.product-table {
-    flex-grow: 1;
-    padding: 20px;
-}
 
-.product-table table {
-    width: 85%;
-    margin: 0 auto;
-    align-content: center;
-    border-collapse: collapse;
-}
-
-.product-table table tr:hover {
-    background-color: hsl(180, 1%, 83%);
-    /* Cambia el fondo de la fila al pasar el ratón */
-    transition: background-color 0.3s;
-    /* Para una transición suave */
-    background-color: hsl(180, 1%, 83%);
-    /* Cambia el fondo de la fila al pasar el ratón */
-    transition: background-color 0.3s;
-    /* Para una transición suave */
-}
-
-.product-table table td:hover {
-    background-color: #efc737;
-    /* Cambia el fondo de la celda al pasar el ratón */
-    transition: background-color 0.3s;
-    /* Para una transición suave */
-    background-color: #efc737;
-    /* Cambia el fondo de la celda al pasar el ratón */
-    transition: background-color 0.3s;
-    /* Para una transición suave */
-}
-
-.product-table th,
-.product-table td {
-    border: 1px solid #95defd;
-    ;
-    padding: 10px;
-    text-align: left;
-}
-
-.product-table th {
-    background-color: #95defd;
-}
 
 .add-button {
     position: fixed;

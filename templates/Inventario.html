@@ -9,6 +9,9 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
     <style>
+     
+      
+     
       .btn-action {
         border: none;
         background: none;
@@ -17,24 +20,7 @@
         margin-right: 10px; /* Adjust the spacing here */
       }
 
-      .btn-action i.fa-trash {
-        color: red;
-      }
-
-      .btn-action i.fa-edit {
-        color: blue;
-      }
-
-      .btn-action i.fa-image {
-        color: purple;
-      }
-
-      .code-list {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-      }
-
+      
       .code-list li {
         display: flex;
         align-items: center;
@@ -92,39 +78,6 @@
         color: #fff; /* Cambia el color del texto a blanco para mejor legibilidad */
     }
 
-      .btn-action {
-        background-color: #b6d1ee;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-size: 16px;
-        border-radius: 5px;
-      }
-     
-      /* Estilos para el modal */
-.modal-imagen-tabla {
-  display: none;
-  position: fixed; /* Posicionar el modal en la pantalla */
-  z-index: 1; /* Mostrar el modal encima de otros elementos */
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
-  display: flex; /* Utilizar flexbox para centrar el contenido */
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
-}
-
-/* Estilos para el contenido del modal */
-.modal-imagen-tabla .modal-content {
-  display: block;
-  width: 80%;
-  max-width: 700px;
-  margin: auto; /* Centrar el contenido dentro del contenedor */
-}
-
 /* Estilos para el botón de cerrar */
 .modal-imagen-tabla .close {
   position: absolute;
@@ -136,43 +89,6 @@
   cursor: pointer;
 }
 
-.modal-ojo-producto {
-  display: none; 
-  position: fixed; 
-  z-index: 1; 
-  left: 0;
-  top: 0;
-  width: 100%; 
-  height: 100%; 
-  overflow: auto; 
-  background-color: rgba(0, 0, 0, 0.5); 
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-ojo-producto .modal-content {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 600px;
-  border-radius: 10px;
-}
-
-.modal-ojo-producto .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.modal-ojo-producto .close:hover,
-.modal-ojo-producto .close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
 
 @media (min-width: 1200px) {
   .h2, h2 {
@@ -192,6 +108,85 @@
   vertical-align: middle; /* Alineación vertical con el texto */
 }
 
+
+
+
+/* Estilos adicionales para la tabla */
+.producto-tabla {
+  width: 100%; /* Ajusta el ancho de la tabla */
+  margin: 20px auto;
+  border-collapse: collapse;
+  font-size: 16px;
+  text-align: center; /* Centrar el texto dentro de las celdas */
+}
+
+/* Estilo para los encabezados de la tabla */
+.producto-tabla thead {
+    
+    background-color: #97e89f;
+  color: white;
+}
+
+.producto-tabla th, 
+.producto-tabla td {
+  
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background-color: #95defd;
+}
+
+tbody tr:hover {
+  background-color: hsl(180, 1%, 83%); /* Cambia el fondo de la fila al pasar el ratón */
+  transition: background-color 0.3s; /* Para una transición suave */
+}
+
+tbody td:hover {
+  background-color: #efc737; /* Cambia el fondo de la celda al pasar el ratón */
+  transition: background-color 0.3s; /* Para una transición suave */
+}
+
+
+
+/* Alternar color de fondo para las filas */
+.producto-tabla tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Cambiar el color al pasar el cursor sobre una fila */
+.producto-tabla tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Alinear texto dentro de las celdas */
+.producto-tabla th, 
+.producto-tabla td {
+  vertical-align: middle; /* Alinear verticalmente */
+}
+
+.image-upload {
+  position: relative;
+  display: inline-block;
+}
+
+.image-upload-label {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #007bff; /* Color de fondo */
+  color: white; /* Color del texto */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s; /* Efecto de transición */
+}
+
+.image-upload-label:hover {
+  background-color: #0056b3; /* Color al pasar el mouse */
+}
+
+.file-input {
+  display: none; /* Ocultar el input original */
+}
     </style>
   </head>
   <body>
@@ -242,515 +237,244 @@
         <button type="button" class="pagination-button">&#9654;</button>
       </div>
     </div>
-    <div class="product-table">
-      <table>
-        <thead>
-          <tr>
-            <th>Códigos</th>
-            <th>Nombre</th>
-            <th>Cantidad</th>
-            <th>Estado</th>
-            <th>Precio(s)</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <ul class="code-list">
-                <li><i class="fas fa-box"></i> SC3497-4</li>
-                <li><i class="fas fa-barcode"></i> SC3748-2</li>
-                <li><i class="fas fa-save"></i> SC9101-1</li>
-              </ul>
-            </td>
-            <td>PINTURA SEAL COAT SATIN ACCENT 1 GL LANCO</td>
-            <td data-inventory="20.00">20.00</td>
-            <td class="alert-cell"></td>
-            <td>
-              <div>Venta Regular al publico: <strong>174,497.00</strong></div>
-              <div>Costo del producto: <strong>66,160.00</strong></div>
-            </td>
-            <td>
-              <button class="btn-action">
-                <i class="fas fa-trash"></i>
-              </button>
-              <button class="btn-action">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn-action btn-image">
-                <i class="fas fa-image"></i>
-              </button>
-              <button class="btn-action">
-                <i class="fas fa-eye"></i> <!-- Nuevo botón para "Ver detalles" -->
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <ul class="code-list">
-                <li><i class="fas fa-box"></i> SC3497-4</li>
-                <li><i class="fas fa-barcode"></i> SC3748-2</li>
-                <li><i class="fas fa-save"></i> SC9101-1</li>
-              </ul>
-            </td>
-            <td>PINTURA SUPER COAT SATIN BLANCO 1 CUB</td>
-            <td data-inventory="1.00">1.00</td>
-            <td class="alert-cell"></td>
-            <td>
-              <div>Venta Regular al publico: <strong>67,950.00</strong></div>
-              <div>Costo del producto: <strong>40,879.00</strong></div>
-            </td>
-            <td>
-              <button class="btn-action">
-                <i class="fas fa-trash"></i>
-              </button>
-              <button class="btn-action">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn-action" onclick="openModal()">
-                <i class="fas fa-image"></i>
-              </button>
-              <button class="btn-action">
-                <i class="fas fa-eye"></i> <!-- Nuevo botón para "Ver detalles" -->
-              </button>
-              <div id="modal-imagen-tabla" class="modal-imagen-tabla" style="display:none;">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <img id="modal-image" src="" alt="Imagen del producto" />
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <ul class="code-list">
-                <li><i class="fas fa-box"></i> SC3497-4</li>
-                <li><i class="fas fa-barcode"></i> SC3748-2</li>
-                <li><i class="fas fa-save"></i> SC9101-1</li>
-              </ul>
-            </td>
-            <td>PINTURA SUPER COAT SATIN BLANCO 1 CUB</td>
-            <td data-inventory="150.00">150.00</td>
-            <td class="alert-cell"></td>
-            <td>
-              <div>Venta Regular al publico: <strong>67,950.00</strong></div>
-              <div>Costo del producto: <strong> 40,879.00</strong></div>
-            </td>
-            <td>
-              <button class="btn-action">
-                <i class="fas fa-trash"></i>
-              </button>
-              <button class="btn-action">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn-action">
-                <i class="fas fa-image"></i>
-              </button>
-              <button class="btn-action" onclick="openDetailsModal('PINTURA SEAL COAT SATIN ACCENT 1 GL LANCO', '20.00', 'Litros', 'Pintura satinada de alta calidad')">
-              <i class="fas fa-eye"></i>
-            </button> 
-            </td>
-          </tr>
           <!-- Add more rows as needed -->
-        </tbody>
-      </table>
-    </div>
-    <button
-      class="add-button btn btn-success"
-      data-toggle="modal"
-      data-target="#productModal"><i class="fa fa-plus"></i></button>
-
-   
-      <div id="modal-ojo-producto" class="modal-ojo-producto">
-        <div class="modal-content">
-          <span class="close" onclick="closeDetailsModal()">&times;</span>
-          <h2>Detalles del Producto</h2>
-          <p id="detalle-nombre"><strong>Nombre:</strong> <span id="detalle-nombre-text"></span></p>
-          <p id="detalle-cantidad"><strong>Cantidad:</strong> <span id="detalle-cantidad-text"></span></p>
-          <p id="detalle-unidad-medida"><strong>Unidad de Medida:</strong> <span id="detalle-unidad-medida-text"></span></p>
-          <p id="detalle-descripcion"><strong>Descripción:</strong> <span id="detalle-descripcion-text"></span></p>
-          <p id="detalle-Moneda-Precio"><strong>Moneda de Precio: </strong><p> COLONES </p> <span id="detalle-descripcion-text"></span></p>
-          <p id="detalle-Moneda-Precio"><strong>Precio de Venta Regular:</strong><p> 14 500 </p> <span id="detalle-descripcion-text"></span></p>
-          <p id="detalle-Moneda-Precio"><strong>Calculo : </strong> <p> 18 500 </p> <span id="detalle-descripcion-text"></span></p>
-          <p id="detalle-Moneda-Precio"><strong>Tipo de producto/servicio: </strong><p> Simple </p> <span id="detalle-descripcion-text"></span></p>
-          <p id="detalle-Moneda-Precio"><strong>Impuestos: </strong> <p> Gravado </p> <span id="detalle-descripcion-text"></span></p>
-        </div>
-      </div>
-
-
-  </div>
-     <div
-      class="modal fade"
-      id="productModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="productModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="productModalLabel">
-              <i class="fas fa-box-open icono-caja-abierta"></i>Formulario de Producto
-            </h5>
-            
+          <div>
+            <h2>Lista de Productos</h2>
+            <table class="table table-striped producto-tabla">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Cantidad</th>
+                  <th>Unidad de Medida</th>
+                  <th>Descripción</th>
+                  <th>Código CABYS</th>
+                  <th>Moneda</th>
+                  <th>Precio del Costo</th>
+                  <th>Precio de Venta</th>
+                  <th>Descuento</th>
+                  <th>Clasificación</th>
+                  <th>Impuesto</th>
+                  <th>Inventario</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="productTableBody">
+                <!-- Aquí se agregarán las filas dinámicamente -->
+              </tbody>
+            </table>
+      
+            <button
+              class="add-button btn btn-success"
+              data-toggle="modal"
+              data-target="#productModal"><i class="fa fa-plus"></i></button>
           </div>
-          <div class="modal-body">
-            <!-- Formulario de Producto -->
-            <div class="container">
-              <h2>Información Básica</h2>
-              <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input
-                  type="text"
-                  id="nombre"
-                  name="nombre"
-                  class="form-control"
-                />
-                <div class="form-group">
-                  <label for="nombre">Cantidad</label>
-                  <input
-                    type="text"
-                    id="nombre"
-                    name="nombre"
-                    class="form-control"
-                  />
-                <div class="form-group">
-                  <label for="unidad-medida">Unidad de medida</label>
-                  <input
-                    type="text"
-                    id="unidad-medida"
-                    name="unidad-medida"
-                    class="form-control"
-                  />
+         
+          <!-- Modal del Formulario - imagen -->
+          <div class="modal" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">Imagen del Producto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrarModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img id="modalImage" src="" alt="Imagen del Producto" style="width: 100%; height: auto;" />
+                    </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <label for="descripcion">Descripción (opcional)</label>
-                <input
-                  type="text"
-                  id="descripcion"
-                  name="descripcion"
-                  class="form-control"
-                />
-              </div>
-              <div class="form-group">
-                <label for="codigo"
-                  >Código CABYS del Catálogo de Bienes y Servicios</label
-                >
-                <input
-                  type="text"
-                  id="codigo"
-                  name="codigo"
-                  class="form-control"
-                />
-                <span class="error text-danger">Código CABYS es requerido</span>
-              </div>
-              <button type="button" class="btn" onclick="showSelect()">Agregar Otro Código</button>
-              <div class="select-container" id="codeSelect">
-                <label for="codigo-select">Seleccione un código:</label>
-                <select id="codigo-select" onchange="mostrarCampoCodigo()">
-                  <option value="Ninguno">Ninguno</option>
-                  <option value="codigo-barra">Código de Barra</option>
-                  <option value="otro-codigo">Otro Código</option>
-                </select>
-              </div>
-              
-              <div class="codigo-input-container hidden" id="codigoInputContainer">
-                <label for="codigo-input">Ingrese el código:</label>
-                <input type="text" id="codigo-input">
-              </div>
- 
-              <br />
-                <div class="form-group">
-                  <label for="imagenes">Imágenes del Producto</label>
-                  <input
-                    type="file"
-                    id="imagenes"
-                    name="imagenes"
-                    class="file-input"
-                    accept="image/*"
-                  />
-                </div>
-                <div class="save-button">
-                  <button type="button" class="btn btn-primary" onclick="showImage()">GUARDAR</button>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="moneda">Moneda de precios</label>
-                <input
-                  type="text"
-                  id="moneda"
-                  name="moneda"
-                  class="form-control"
-                />
-              </div>
-              <div class="form-group">
-                <p>Costo</p>
-                <label for="precio">Precio del Costo</label>
-                <input
-                  type="number"
-                  id="precio"
-                  name="precio"
-                  value="0"
-                  class="form-control"
-                />
-              </div>
-              <h2>Precios de Venta</h2>
-              <div class="form-group">
-                <label for="Preios-regular">Precio compra del producto</label>
-                <input
-                  type="text"
-                  id="Precios-regular"
-                  name="Precios-regular"
-                  class="form-control"
-                />
-              </div>
-             
-              <div class="form-group">
-                <label for="descuento">Descuento por defecto</label>
-                <input
-                  type="number"
-                  id="descuento"
-                  name="descuento"
-                  value="0"
-                  class="form-control"
-                />
-              </div>
+            </div>
+        </div>
 
-              <div class="form-group">
-                <label for="Precios">venta regular al publico</label>
-                <input
-                  type="number"
-                  id="Precios"
-                  name="Precios"
-                  value="0"
-                  class="form-control"
-                />
-              </div>
-              
-
-              <div class="form-group">
-                <label>Tipo de Producto/Servicio</label>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-secondary selected">
-                    Simple
-                  </button>
-                  <button type="button" class="btn btn-secondary">
-                    Compuesto
-                  </button>
+      
+          <!-- Modal del Formulario -->
+          <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="productModalLabel">
+                    <i class="fas fa-box-open icono-caja-abierta"></i> Formulario de Producto
+                  </h5>
                 </div>
-                <div class="form-group">
-                  <span
-                    >Simple: *Productos individuales que tienen su propio
-                    inventario*</span
-                  ><br />
-                  <span
-                    >Compuesto: *Este producto agrupa varios productos simples
-                    bajo un solo ítem.*</span
-                  >
+                <div class="modal-body">
+                  <div class="container">
+                    <form id="formProducto">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="nombreProducto">Nombre</label>
+                            <input type="text" id="nombreProducto" class="form-control"/>
+                          </div>
+                          <div class="form-group">
+                            <label for="cantidadProducto">Cantidad</label>
+                            <input type="number" id="cantidadProducto" class="form-control"/>
+                          </div>
+                          <div class="form-group">
+                            <label for="unidadProducto">Unidad de Medida</label>
+                            <input type="text" id="unidadProducto" class="form-control"/>
+                          </div>
+                          <div class="form-group">
+                            <label for="descripcionProducto">Descripción</label>
+                            <input type="text" id="descripcionProducto" class="form-control"/>
+                          </div>
+                          <div class="form-group">
+                            <label for="codigoCABYS">Código CABYS</label>
+                            <input type="text" id="codigoCABYS" class="form-control"/>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="monedaProducto">Moneda</label>
+                            <input type="text" id="monedaProducto" class="form-control"/>
+                          </div>
+                          <div class="form-group">
+                            <label for="costoProducto">Precio del Costo</label>
+                            <input type="number" id="costoProducto" class="form-control"/>
+                          </div>
+                          <div class="form-group">
+                            <label for="ventaProducto">Precio de Venta</label>
+                            <input type="number" id="ventaProducto" class="form-control"/>
+                          </div>
+                          <div class="form-group">
+                            <label for="descuentoProducto">Descuento</label>
+                            <input type="number" id="descuentoProducto" class="form-control"/>
+                          </div>
+                          <div class="form-group">
+                            <label for="clasificacionProducto">Clasificación</label>
+                            <input type="text" id="clasificacionProducto" class="form-control"/>
+                          </div>
+                          <div class="form-group">
+                            <label for="impuestoProducto">Impuesto</label>
+                            <select id="impuestoProducto" class="form-control">
+                              <option value="Exento">Exento</option>
+                              <option value="Gravado">Gravado</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="imagenes">Imágenes del Producto</label>
+                            <div class="image-upload">
+                                <label for="imagenes" class="image-upload-label">
+                                    <i class="fas fa-cloud-upload-alt"></i> Subir Imagen
+                                </label>
+                                <input
+                                    type="file"
+                                    id="imagenes"
+                                    name="imagenes"
+                                    class="file-input"
+                                    accept="image/*"
+                                />
+                            </div>
+                        </div>
+                          <div class="form-group form-check">
+                            <input type="checkbox" id="inventarioProducto" class="form-check-input"/>
+                            <label for="inventarioProducto" class="form-check-label">Seguimiento de inventario</label>
+                          </div>
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-primary" onclick="agregarProducto()">Guardar</button>
+                    </form>
+                  </div>
                 </div>
-              </div>
-              <label>INVENTARIO : </label>
-              <div class="form-group form-check">
-                <input
-                  type="checkbox"
-                  id="inventario"
-                  name="inventario"
-                  class="form-check-input"
-                />
-                <label for="inventario" class="form-check-label"
-                  >Seguimiento de inventario</label
-                >
-              </div>
-
-              <div class="form-group">
-                <label for="Clasificacion-etiqueta">Clasificacion</label>
-                <input
-                  type="text"
-                  id="Clasificacion-etiqueta"
-                  name="Clasificacion-etiqueta"
-                  class="form-control"
-                />
-                <p>Utiliza las etiquetas para clasificar este producto.</p>
-              </div>
-              <div class="form-group">
-                <label>Impuestos</label>
-                <p>Este Productio Esta</p>
-                <div class="btn-impuestos-group">
-                  <button type="button" class="btn btn-secondary selected">
-                    Exento
-                  </button>
-                  <button type="button" class="btn btn-secondary">
-                    Gravado
-                  </button>
-                </div>
-              </div>
-              <div class="save-button">
-                <button type="button" class="btn btn-primary">GUARDAR</button>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    </div>
-
-
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
       
+          <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+          <script>
+            function agregarProducto() {
+              const nombre = document.getElementById('nombreProducto').value;
+              const cantidad = document.getElementById('cantidadProducto').value;
+              const unidad = document.getElementById('unidadProducto').value;
+              const descripcion = document.getElementById('descripcionProducto').value;
+              const codigoCABYS = document.getElementById('codigoCABYS').value;
+              const moneda = document.getElementById('monedaProducto').value;
+              const costo = document.getElementById('costoProducto').value;
+              const venta = document.getElementById('ventaProducto').value;
+              const descuento = document.getElementById('descuentoProducto').value;
+              const clasificacion = document.getElementById('clasificacionProducto').value;
+              const impuesto = document.getElementById('impuestoProducto').value;
+              const inventario = document.getElementById('inventarioProducto').checked ? 'Sí' : 'No';
+      
+              const tableBody = document.getElementById('productTableBody');
+              const newRow = tableBody.insertRow();
+      
+              newRow.innerHTML = `
+                <td>${nombre}</td>
+                <td>${cantidad}</td>
+                <td>${unidad}</td>
+                <td>${descripcion}</td>
+                <td>${codigoCABYS}</td>
+                <td>${moneda}</td>
+                <td>${costo}</td>
+                <td>${venta}</td>
+                <td>${descuento}</td>
+                <td>${clasificacion}</td>
+                <td>${impuesto}</td>
+                <td>${inventario}</td>
+                <td>
+                <button class="btn btn-sm btn-warning" onclick="editarProducto(this)">
+  <i class="fas fa-edit"></i> <!-- Icono de editar -->
+</button>
+<button class="btn btn-sm btn-danger" onclick="eliminarProducto(this)">
+  <i class="fas fa-trash-alt"></i> <!-- Icono de eliminar -->
+</button>
+    <button class="btn btn-info" data-toggle="modal" data-target="#imageModal" onclick="showImage('ruta/de/la/imagen.jpg')">
+        <i class="fas fa-eye"></i>
+    </button>
 
-      document.querySelectorAll(".btn-group button").forEach((button) => {
-        button.addEventListener("click", () => {
-          document
-            .querySelectorAll(".btn-group button")
-            .forEach((btn) => btn.classList.remove("selected"));
-          button.classList.add("selected");
-        });
-      });
-      document
-        .querySelectorAll(".btn-impuestos-group button")
-        .forEach((button) => {
-          button.addEventListener("click", () => {
-            document
-              .querySelectorAll(".btn-impuestos-group button")
-              .forEach((btn) => btn.classList.remove("selected"));
-            button.classList.add("selected");
-          });
-        });
 
-      document.addEventListener('DOMContentLoaded', function () {
-        const alertCells = document.querySelectorAll('.alert-cell');
+                </td>
+              `;
+      
+              // Limpiar formulario y cerrar modal
+              $('#productModal').modal('hide');
+              document.getElementById('formProducto').reset();
+            }
+      
+            function eliminarProducto(button) {
+              const row = button.closest('tr');
+              row.remove();
+            }
+      
+            function editarProducto(button) {
+              // Lógica para editar el producto
+            }
 
-        alertCells.forEach(function (cell) {
-          const inventory = parseFloat(
-            cell.previousElementSibling.getAttribute('data-inventory')
-          );
-
-          if (inventory <= 10) {
-            cell.innerHTML = '<span style="color: red;"><i class="fas fa-exclamation-triangle"></i> Stock bajo</span>';
-          } else if (inventory > 10 && inventory <= 100) {
-            cell.innerHTML = '<span style="color: green;"><i class="fas fa-check-circle"></i> Inventario normal</span>';
-          } else if (inventory > 100) {
-            cell.innerHTML = '<span style="color: blue;"><i class="fas fa-money-bill-wave"></i> Excedente inventario</span>';
+            function mostrarImagen(imagenURL) {
+              const modalImage = document.getElementById('modalImage');
+              modalImage.src = imagenURL; // Establecer la fuente de la imagen en el modal
+              $('#imageModal').modal('show'); // Mostrar el modal
           }
-        });
-      });
-
-      
-      function openModal() {
-        document.getElementById("modal-imagen-tabla").style.display = "flex";
-      }
-      
-      function closeModal() {
-        document.getElementById("modal-imagen-tabla").style.display = "none";
-      }
-      
-      // Asegurarse de que el modal esté oculto al cargar la página
-    document.addEventListener("DOMContentLoaded", function() {
-      document.getElementById("modal-imagen-tabla").style.display = "none";
-    });
-
-    function generarReportePDF() {
-      // Importar jsPDF
-      const { jsPDF } = window.jspdf;
-
-      
-      
-      
-      // Crear una instancia de jsPDF
-      const doc = new jsPDF();
-
-      // Título del documento
-      doc.setFontSize(20);
-
-      doc.text('Reporte de Productos', 20, 20);
-
-      // Agregar el contenido de la tabla
-      let startY = 30; // Punto inicial en el eje Y
-      const margin = 10; // Margen izquierdo
-      
-      // Obtener los datos de la tabla
-      const rows = document.querySelectorAll('table tbody tr');
-      
-      rows.forEach((row, index) => {
-        const columns = row.querySelectorAll('td');
-        
-        columns.forEach((col, colIndex) => {
-          let text = col.innerText || '';
-          doc.setFontSize(12); // Tamaño de fuente para el contenido
-          doc.text(text, margin + colIndex * 50, startY + index * 10);
-        });
-      });
-      
-      
-      // Descargar el PDF
-      event.preventDefault(); 
-      window.open(this.href, '_blank');
-      doc.save('reporte_productos.pdf');
-    }
-
-    function openDetailsModal(nombre, cantidad, unidadMedida, descripcion) {
-      document.getElementById("detalle-nombre-text").innerText = nombre;
-      document.getElementById("detalle-cantidad-text").innerText = cantidad;
-      document.getElementById("detalle-unidad-medida-text").innerText = unidadMedida;
-      document.getElementById("detalle-descripcion-text").innerText = descripcion;
-      document.getElementById("modal-ojo-producto").style.display = "flex";
-    }
-  
-    function closeDetailsModal() {
-      document.getElementById("modal-ojo-producto").style.display = "none";
-    }
-  
-    // Asignar el evento a los botones de "ver detalles"
-    document.querySelectorAll(".btn-action .fa-eye").forEach(button => {
-      button.addEventListener("click", function() {
-        const row = this.closest("tr");
-        const nombre = row.querySelector("td:nth-child(2)").innerText;
-        const cantidad = row.querySelector("td:nth-child(3)").innerText;
-        const unidadMedida = row.querySelector("td:nth-child(4)").innerText;
-        const descripcion = row.querySelector("td:nth-child(5)").innerText;
-  
-        openDetailsModal(nombre, cantidad, unidadMedida, descripcion);
-      });
-    });
-
-    function mostrarCampoCodigo() {
-      var select = document.getElementById("codigo-select");
-      var inputContainer = document.getElementById("codigoInputContainer");
-      
-      if (select.value === "codigo-barra" || select.value === "otro-codigo") {
-        inputContainer.classList.remove("hidden");
-      } else {
-        inputContainer.classList.add("hidden");
-      }
-    }
-
-    function showImage() {
-      const input = document.getElementById('imagenes');
-      const modal = document.getElementById('modal-imagen-tabla');
-      const modalImage = document.getElementById('modal-image');
-    
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          modalImage.src = e.target.result; // Establece la fuente de la imagen en el modal
-          modal.style.display = 'block'; // Muestra el modal
-        }
-        reader.readAsDataURL(input.files[0]); // Lee la imagen como una URL de datos
-      } else {
-        alert("Por favor, sube una imagen antes de guardar.");
-      }
-    }
-    
-    function closeModal() {
-      const modal = document.getElementById('modal-imagen-tabla');
-      modal.style.display = 'none'; // Cierra el modal
-    }
-    
-
-    </script>
-  </body>
-</html>
-{% endblock %}
+          
+          function cerrarModal() {
+              const modalImage = document.getElementById('modalImage');
+              modalImage.src = ''; // Limpiar la fuente de la imagen al cerrar
+          }
+          function showImage() {
+            const input = document.getElementById('imagenes');
+            const modal = document.getElementById('modal-imagen-tabla');
+            const modalImage = document.getElementById('modal-image');
+          
+            if (input.files && input.files[0]) {
+              const reader = new FileReader();
+              reader.onload = function (e) {
+                modalImage.src = e.target.result; // Establece la fuente de la imagen en el modal
+                modal.style.display = 'block'; // Muestra el modal
+              }
+              reader.readAsDataURL(input.files[0]); // Lee la imagen como una URL de datos
+            } else {
+              alert("Por favor, sube una imagen antes de guardar.");
+            }
+          }
+          
+          function closeModal() {
+            const modal = document.getElementById('modal-imagen-tabla');
+            modal.style.display = 'none'; // Cierra el modal
+          }
+          
+          </script>
+        </body>
+      </html>
+      {% endblock %}
