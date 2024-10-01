@@ -4,4 +4,5 @@ django-crispy-forms
 crispy-bootstrap5
 fontawesome
 django-allauth
-
+openpyxl==3.1.5
+psycopg2==2.9.9

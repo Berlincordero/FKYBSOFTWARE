@@ -74,9 +74,36 @@
       }
 
       .submenu-item:hover {
-        background-color: #007bff; /* Color azul para el hover */
+        background-color: #9ec3eb; /* Color azul para el hover */
         color: #fff; /* Cambia el color del texto a blanco para mejor legibilidad */
     }
+   
+    #cargar-icono {
+      position: center; /* Posición relativa para el ícono */
+      margin: 0px 10px; /* Espaciado alrededor del ícono */
+      font-size: 24px; /* Tamaño específico para este ícono */
+      color: #3498db; /* Color azul único */
+      margin-left: 45px; /* Espaciado adecuado alrededor del ícono */
+      cursor: pointer; /* Indicador de que el ícono es clickeable */
+      transition: color 0.3s ease, transform 0.3s ease; /* Suavizado en hover */
+  }
+  
+  #cargar-icono:hover {
+      color: #1d6fa5; /* Cambio de color en hover */
+      transform: scale(1.2); /* Ligeramente más grande al hacer hover */
+  }
+
+    #imprimir-icono {
+      font-size: 24px; /* Tamaño del ícono */
+      cursor: pointer;
+      transition: color 0.3s, transform 0.3s; /* Transición suave para el color y la transformación */
+      margin-left: 18px; /* Espaciado derecho */
+  }
+  
+  
+  
+  
+  
 
 /* Estilos para el botón de cerrar */
 .modal-imagen-tabla .close {
@@ -187,6 +214,9 @@ tbody td:hover {
 .file-input {
   display: none; /* Ocultar el input original */
 }
+
+
+
     </style>
   </head>
   <body>
@@ -194,18 +224,23 @@ tbody td:hover {
       <div class="header">
         <div class="nav-buttons">
           <button type="button" class="nav-button">
-            <span class="icon">&#9776;</span>
+            <span class="icon"><i class="fas fa-box"></i></span>
             <span class="text">MIS PRODUCTOS</span>
           </button>
           <button type="button" class="nav-button">
             <span class="icon">&#8645;</span>
-            <span class="text">AJUSTES INVENTARIO</span>
+            <span class="text">INVENTARIO</span>
             <div class="submenu">
               <div class="submenu-item">
-                <i class="fas fa-print"></i> Imprimir
+                <i class="fas fa-print" id="imprimir-icono" style="cursor: pointer;" onclick="imprimirTabla()"></i>
+
+
               </div>
               <div class="submenu-item">
-                <i class="fas fa-download"></i> Descargar
+                <a href="{% url 'exportar_productos_excel' %}">
+                  <i class="fas fa-download"></i> Descargar Inventario
+                </a>
+                
               </div>
 
           </button>
@@ -214,8 +249,16 @@ tbody td:hover {
             <span class="text">CATÁLOGO CABYS</span>
             <div class="submenu">
               <div class="submenu-item">
-                <i class="fas fa-download"></i> Cargar archivo
+                  <i class="fa-solid fa-cloud-arrow-up" id="cargar-icono" onclick="document.getElementById('archivo-pgsql').click();"></i>
+          
+                  <!-- Input de carga de archivos (oculto) -->
+                  <form id="formulario-carga" action="{% url 'subir_bd_pgsql' %}" method="POST" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <input type="file" id="archivo-pgsql" name="archivo_pgsql" accept=".sql,.dump,.pgsql" style="display: none;" onchange="enviarFormulario()">
+                  </form>
               </div>
+          </div>
+          
           </button>
           
           <button type="button" class="nav-button" onclick="generarReportePDF()" onclick="event.preventDefault(); window.open(this.href, '_blank');">
@@ -243,6 +286,7 @@ tbody td:hover {
             <table class="table table-striped producto-tabla">
               <thead>
                 <tr>
+                  <th>Id producto</th>
                   <th>Nombre</th>
                   <th>Cantidad</th>
                   <th>Unidad de Medida</th>
@@ -301,6 +345,10 @@ tbody td:hover {
                     <form id="formProducto">
                       <div class="row">
                         <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="Idproducto">Id producto</label>
+                            <input type="text" id="Idproducto" class="form-control"/>
+                          </div>
                           <div class="form-group">
                             <label for="nombreProducto">Nombre</label>
                             <input type="text" id="nombreProducto" class="form-control"/>
@@ -384,6 +432,7 @@ tbody td:hover {
           <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
           <script>
             function agregarProducto() {
+              const Idproducto = document.getElementById('Idproducto').value;
               const nombre = document.getElementById('nombreProducto').value;
               const cantidad = document.getElementById('cantidadProducto').value;
               const unidad = document.getElementById('unidadProducto').value;
@@ -396,11 +445,24 @@ tbody td:hover {
               const clasificacion = document.getElementById('clasificacionProducto').value;
               const impuesto = document.getElementById('impuestoProducto').value;
               const inventario = document.getElementById('inventarioProducto').checked ? 'Sí' : 'No';
-      
+            
+              // Capturar la imagen subida
+              const imagenInput = document.getElementById('imagenes');
+              let imagenURL = '';
+            
+              if (imagenInput.files && imagenInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                  imagenURL = e.target.result; // Guardar la URL de la imagen para mostrarla más tarde
+                };
+                reader.readAsDataURL(imagenInput.files[0]); // Leer la imagen como una URL de datos
+              }
+            
               const tableBody = document.getElementById('productTableBody');
               const newRow = tableBody.insertRow();
-      
+            
               newRow.innerHTML = `
+                <td>${Idproducto}</td>
                 <td>${nombre}</td>
                 <td>${cantidad}</td>
                 <td>${unidad}</td>
@@ -414,65 +476,85 @@ tbody td:hover {
                 <td>${impuesto}</td>
                 <td>${inventario}</td>
                 <td>
-                <button class="btn btn-sm btn-warning" onclick="editarProducto(this)">
-  <i class="fas fa-edit"></i> <!-- Icono de editar -->
-</button>
-<button class="btn btn-sm btn-danger" onclick="eliminarProducto(this)">
-  <i class="fas fa-trash-alt"></i> <!-- Icono de eliminar -->
-</button>
-    <button class="btn btn-info" data-toggle="modal" data-target="#imageModal" onclick="showImage('ruta/de/la/imagen.jpg')">
-        <i class="fas fa-eye"></i>
-    </button>
-
-
+                  <button class="btn btn-sm btn-warning" onclick="editarProducto(this)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger" onclick="eliminarProducto(this)">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                  <button class="btn btn-info" data-toggle="modal" data-target="#imageModal" onclick="mostrarImagen('${imagenURL}')">
+                    <i class="fas fa-eye"></i>
+                  </button>
                 </td>
               `;
-      
+            
               // Limpiar formulario y cerrar modal
               $('#productModal').modal('hide');
               document.getElementById('formProducto').reset();
             }
-      
-            function eliminarProducto(button) {
-              const row = button.closest('tr');
-              row.remove();
-            }
-      
-            function editarProducto(button) {
-              // Lógica para editar el producto
-            }
-
+            
             function mostrarImagen(imagenURL) {
               const modalImage = document.getElementById('modalImage');
               modalImage.src = imagenURL; // Establecer la fuente de la imagen en el modal
               $('#imageModal').modal('show'); // Mostrar el modal
-          }
-          
-          function cerrarModal() {
+            }
+            
+            function cerrarModal() {
               const modalImage = document.getElementById('modalImage');
               modalImage.src = ''; // Limpiar la fuente de la imagen al cerrar
-          }
-          function showImage() {
-            const input = document.getElementById('imagenes');
-            const modal = document.getElementById('modal-imagen-tabla');
-            const modalImage = document.getElementById('modal-image');
-          
-            if (input.files && input.files[0]) {
-              const reader = new FileReader();
-              reader.onload = function (e) {
-                modalImage.src = e.target.result; // Establece la fuente de la imagen en el modal
-                modal.style.display = 'block'; // Muestra el modal
-              }
-              reader.readAsDataURL(input.files[0]); // Lee la imagen como una URL de datos
-            } else {
-              alert("Por favor, sube una imagen antes de guardar.");
             }
-          }
-          
-          function closeModal() {
-            const modal = document.getElementById('modal-imagen-tabla');
-            modal.style.display = 'none'; // Cierra el modal
-          }
+            
+            function imprimirTabla() {
+    // Obtener el contenido de la tabla de productos
+    const tabla = document.querySelector('.producto-tabla').outerHTML;
+    
+    // Crear una nueva ventana temporal
+    const ventanaImpresion = window.open('', '_blank', 'width=1200,height=600');
+    
+    // Escribir el contenido HTML para la impresión en la ventana temporal
+    ventanaImpresion.document.write(`
+      <html>
+        <head>
+          <title>Imprimir Inventario</title>
+          <style>
+            /* Aquí puedes incluir estilos para la tabla si deseas */
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              font-size: 16px;
+              text-align: center;
+            }
+            th, td {
+              padding: 8px;
+              border: 1px solid #000;
+            }
+            th {
+              background-color: #95defd;
+            }
+            tbody tr:nth-child(even) {
+              background-color: #f2f2f2;
+            }
+          </style>
+        </head>
+        <body>
+          <h2>Inventario de Productos</h2>
+          ${tabla}
+        </body>
+      </html>
+    `);
+
+    // Esperar a que se cargue el contenido y luego imprimir
+    ventanaImpresion.document.close();
+    ventanaImpresion.focus();
+    ventanaImpresion.print();
+
+    // Cerrar la ventana de impresión después de la impresión
+    ventanaImpresion.close();
+}
+
+function enviarFormulario() {
+  document.getElementById('formulario-carga').submit();
+}        
           
           </script>
         </body>
