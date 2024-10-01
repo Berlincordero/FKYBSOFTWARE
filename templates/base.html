@@ -53,12 +53,24 @@
                                 Inventario
                             </a>
                         </li>
+
+                
+
                         <li class="sidebar-item">
-                            <a href="{% url 'proveedor_list' %}" class="sidebar-link">
-                                <i class="fa-solid fa-truck pe-2"></i>
-                                Proveedores
+                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#Proveedor" aria-expanded="false">
+                                <i class="fa-solid fa-business-time"></i>
+                                Proveedor
                             </a>
+                            <ul id="Proveedor" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#Proveedor">
+                                <a href="{% url 'proveedor_list' %}" class="sidebar-link"><i class="fa-solid fa-business-time"></i> Proveedores </a>
+                                <a href="{% url 'orden_de_compra' %}" class="sidebar-link"><i class="fa-solid fa-business-time"></i> Facturacion proveedor</a>
+                                
+                            </ul>
                         </li>
+
+                        
+                        
+
                         <li class="sidebar-item">
                             <a href="{% url 'proforma_view' %}" class="sidebar-link">
                                 <i class="fa-solid fa-file-invoice pe-2"></i>
@@ -105,12 +117,7 @@
 
                             </ul>
                         </li>
-                        <li class="sidebar-item">
-                            <a href="{% url 'orden_de_compra' %}" class="sidebar-link">
-                                <i class="fa-solid fa-shopping-cart pe-2"></i>
-                                Orden de Compras
-                            </a>
-                        </li>
+                       
                         <li class="sidebar-item">
                             <a href="{% url 'modulo_cliente' %}" class="sidebar-link">
                                 <i class="fa-duotone fa-solid fa-person-circle-plus"></i>
