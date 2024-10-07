@@ -45,4 +45,14 @@ def eliminar_proveedor(request):
         proveedor.delete()
         return redirect('proveedor_list')
     
+def editar_proveedor(request):
+    if request.method == 'POST':
+        proveedor_id = request.POST.get('id_proveedor')
+        proveedor = get_object_or_404(Proveedor, id_proveedor=proveedor_id)
+        form = ProveedorForm(request.POST, instance=proveedor)
+        if form.is_valid():
+            form.save()
+            return redirect('proveedor_list') 
+    return redirect('proveedor_list')
+    
 

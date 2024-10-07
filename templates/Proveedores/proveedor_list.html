@@ -29,7 +29,19 @@
                     {% for proveedor in proveedores %}
                     <tr>                    
                         <td>
-                            <a href="#" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" title="Editar proveedor" data-bs-target="#AgregarProveedor">
+                            <a href="#" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" title="Editar proveedor" data-bs-target="#EditarProveedor"
+                            data-id="{{ proveedor.id_proveedor }}" 
+                            data-nombre_empresa="{{ proveedor.nombre_empresa }}"
+                            data-nombre="{{ proveedor.nombre }}"
+                            data-email="{{ proveedor.email }}"
+                            data-provincia="{{ proveedor.provincia }}"
+                            data-canton="{{ proveedor.canton }}"
+                            data-distrito="{{ proveedor.distrito }}"
+                            data-direccion="{{ proveedor.direccion_exacta }}"
+                            data-telefono1="{{ proveedor.telefono1 }}"
+                            data-telefono2="{{ proveedor.telefono2 }}"
+                            data-tipo-identificacion="{{ proveedor.tipo_identificacion }}"
+                            data-identificacion="{{ proveedor.identificacion }}">
                                 <i class="fas fa-edit"></i>
                             </a>
                         </td>
@@ -219,6 +231,89 @@
         </div>
     </div>
 
+    <div class="modal fade" id="EditarProveedor" tabindex="-1" aria-labelledby="EditarProveedorLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="EditarProveedorLabel">Editar Proveedor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Copiar el contenido del formulario aquí -->
+                    <form method="post" action="{% url 'editar_proveedor' %}">
+                        {% csrf_token %}
+                        <input type="hidden" id="editarIdProveedor" name="id_proveedor">
+                        
+                        <div class="form-section">
+                            <label for="editarNombreEmpresa" class="form-label"><strong>Nombre de la empresa</strong></label>
+                            <input type="text" class="form-control" id="editarNombreEmpresa" name="nombre_empresa" required>
+                        </div>
+                        <div class="form-section">
+                            <h4>Contacto</h4>
+                            <div class="form-group">
+                                <label for="editarTipoIdentificacion">Tipo identificación:</label>
+                                <select id="editarTipoIdentificacion" name="tipo_identificacion" class="form-control" required>
+                                    <option value="Cedula">Cédula Física</option>
+                                    <!-- Otras opciones -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarIdentificacion">Identificación:</label>
+                                <input type="text" class="form-control" id="editarIdentificacion" name="identificacion" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarNombre">Nombre:</label>
+                                <input type="text" class="form-control" id="editarNombre" name="nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarEmail">Email:</label>
+                                <input type="email" class="form-control" id="editarEmail" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h4>Direcciones</h4>
+                            <div class="form-group">
+                                <label for="editarProvincia">Provincia:</label>
+                                <select id="editarProvincia" name="provincia" class="form-control" required>
+                                    <!-- Opciones -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarCanton">Cantón:</label>
+                                <select id="editarCanton" name="canton" class="form-control" required>
+                                    <!-- Opciones -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarDistrito">Distrito:</label>
+                                <select id="editarDistrito" name="distrito" class="form-control" required>
+                                    <!-- Opciones -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarDireccion">Dirección Exacta:</label>
+                                <input type="text" class="form-control" id="editarDireccion" name="direccion" required>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h4>Teléfonos</h4>
+                            <div class="form-group">
+                                <label for="editarTelefono1">Teléfono de contacto 1:</label>
+                                <input type="text" class="form-control" id="editarTelefono1" name="telefono1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editarTelefono2">Teléfono de contacto 2:</label>
+                                <input type="text" class="form-control" id="editarTelefono2" name="telefono2">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Incluir jQuery y DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
@@ -227,11 +322,41 @@
 
     <script>
 
+        $('#EditarProveedor').on('show.bs.modal', function (event) {
+            var button = event.relatedTarget; 
+            var proveedorId = button.getAttribute('data-id');
+            var proveedorNombreEmpresa = button.getAttribute('data-nombre_empresa');
+            var proveedorNombre = button.getAttribute('data-nombre');
+            var proveedorEmail = button.getAttribute('data-email');
+            var proveedorProvincia = button.getAttribute('data-provincia');
+            var proveedorCanton = button.getAttribute('data-canton');
+            var proveedorDistrito = button.getAttribute('data-distrito');
+            var proveedorDireccion = button.getAttribute('data-direccion');
+            var proveedorTelefono1 = button.getAttribute('data-telefono1');
+            var proveedorTelefono2 = button.getAttribute('data-telefono2');
+            var proveedorTipoIdentificacion = button.getAttribute('data-tipo-identificacion');
+            var proveedorIdentificacion = button.getAttribute('data-identificacion');
+        
+            var modal = $(this);
+            modal.find('#editarIdProveedor').val(proveedorId);
+            modal.find('#editarNombreEmpresa').val(proveedorNombreEmpresa);
+            modal.find('#editarNombre').val(proveedorNombre);
+            modal.find('#editarEmail').val(proveedorEmail);
+            modal.find('#editarProvincia').val(proveedorProvincia);
+            modal.find('#editarCanton').val(proveedorCanton);
+            modal.find('#editarDistrito').val(proveedorDistrito);
+            modal.find('#editarDireccion').val(proveedorDireccion);
+            modal.find('#editarTelefono1').val(proveedorTelefono1);
+            modal.find('#editarTelefono2').val(proveedorTelefono2);
+            modal.find('#editarTipoIdentificacion').val(proveedorTipoIdentificacion);
+            modal.find('#editarIdentificacion').val(proveedorIdentificacion);
+        });
+
         $('#EliminarProveedor').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);  
             var proveedorId = button.data('id');  
             var proveedorNombre = button.data('username');  
-            // Actualizar los valores en el modal
+            
             var modal = $(this);
             modal.find('#deleteUsername').text(proveedorNombre);  
             modal.find('#deleteId').val(proveedorId);  
@@ -251,7 +376,6 @@
             var proveedorTipoIdentificacion = button.getAttribute('data-tipo-identificacion');
             var proveedorIdentificacion = button.getAttribute('data-identificacion');
         
-            // Actualizar los campos del modal con la información del proveedor
             var modal = $(this);
             modal.find('#detalleCodigoProveedor').text(proveedorId);
             modal.find('#detalleNombreEmpresa').text(proveedorNombre);

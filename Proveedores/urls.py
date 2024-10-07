@@ -6,5 +6,7 @@ urlpatterns = [
     path('', views.proveedor_list, name='proveedor_list'),
     path('agregar/', views.agregar_proveedor, name='agregar_proveedor'),
     path('eliminar/', views.eliminar_proveedor, name='eliminar_proveedor'),
+    path('editar_proveedor/', views.editar_proveedor, name='editar_proveedor'),
+
     
 ]
