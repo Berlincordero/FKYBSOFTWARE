@@ -50,8 +50,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
-    # Middleware de django-allauth
     'allauth.account.middleware.AccountMiddleware',
 ]
 
@@ -77,17 +75,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fkybsoftware',
-        'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',  # o la dirección de tu servidor PostgreSQL
-        'PORT': '5432',  # el puerto por defecto de PostgreSQL es 5432
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'fkybsoftware.db',
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {

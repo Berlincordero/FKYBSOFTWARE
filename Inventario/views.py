@@ -7,13 +7,44 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 import subprocess
-
+from django.http import JsonResponse
+from .forms import ProductoForm 
+from django.shortcuts import render, redirect
+from .models import Producto
+from .forms import ProductoForm
 
 # Create your views here.
+def inventario(request):
+    if request.method == 'POST':
+        # Obtener los datos del formulario
+        nombre = request.POST.get('nombreProducto')
+        cantidad = request.POST.get('cantidadProducto')
+        descripcion = request.POST.get('descripcionProducto')
+        codigo_cabys = request.POST.get('codigoCABYS')
+        moneda = request.POST.get('monedaProducto')
+        precio_costo = request.POST.get('precioCosto')
+        precio_venta = request.POST.get('precioVenta')
+        descuento = request.POST.get('descuentoProducto')
+        clasificacion = request.POST.get('clasificacionProducto')
+        
+        # Crear el nuevo producto
+        producto = Producto.objects.create(
+            nombre=nombre,
+            cantidad=cantidad,
+            descripcion=descripcion,
+            codigo_cabys=codigo_cabys,
+            moneda=moneda,
+            precio_costo=precio_costo,
+            precio_venta=precio_venta,
+            descuento=descuento,
+            clasificacion=clasificacion
+        )
+        producto.save()
+    
+    # Aquí se debería retornar la vista con la lista actualizada
+    productos = Producto.objects.all()
+    return render(request, 'Inventario.html', {'productos': productos})
 
-
-def Inventario_view(request):
-    return render(request, 'Inventario.html')
 
 
 def exportar_productos_excel(request):
@@ -24,9 +55,9 @@ def exportar_productos_excel(request):
 
     # Añadir encabezados
     headers = [
-        'Nombre', 'Cantidad', 'Unidad de Medida', 'Descripción', 'Código CABYS', 
+        'Nombre', 'Cantidad','Descripción', 'Código CABYS', 
         'Moneda', 'Precio del Costo', 'Precio de Venta', 'Descuento', 
-        'Clasificación', 'Impuesto', 'Inventario Seguimiento'
+        'Clasificación'
     ]
     ws.append(headers)
 
@@ -42,7 +73,6 @@ def exportar_productos_excel(request):
             ws.append([
                 producto.nombre or '',
                 producto.cantidad or 0,
-                producto.unidad_medida or '',
                 producto.descripcion or '',
                 producto.codigo_cabys or '',
                 producto.moneda or '',
@@ -50,8 +80,7 @@ def exportar_productos_excel(request):
                 producto.precio_venta or 0.0,
                 producto.descuento or 0,
                 producto.clasificacion or '',
-                producto.impuesto or '',
-                "Sí" if producto.inventario_seguimiento else "No",
+                
             ])
 
     # Definir la respuesta HTTP

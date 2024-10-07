@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+  
+<!DOCTYPE html>
+<html>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Proveedor">
+<head>
+  <title>Proveedores</title>
+</head>
+<body>
+  <h1>Proveedores</h1>
+ 
+  <table border="1">
+    <tr>
+      <th>fecha</th>
+      <th>nombreempresa</th>
+      <th>tipoIdentificacion</th>
+      <th>identificacion</th>
+      <th>nombre</th>
+      <th>email</th>
+      <th>provincia</th>
+      <th>canton</th>
+      <th>distrito</th>
+      <th>direccion</th>
+      <th>telefono1</th>
+      <th>telefono2</th>
+    </tr>
+    {% for proveedor in proveedores %}
+    <tr>
+      <td>{{ proveedor.fecha }}</td>
+      <td>{{ proveedor.nombreempresa }}</td>
+      <td>{{ proveedor.tipoIdentificacion }}</td>
+      <td>{{ proveedor.identificacion }}</td>
+      <td>{{ proveedor.nombre }}</td>
+      <td>{{ proveedor.email }}</td>
+      <td>{{ proveedor.provincia }}</td>
+      <td>{{ proveedor.canton }}</td>
+      <td>{{ proveedor.distrito }}</td>
+      <td>{{ proveedor.direccion }}</td>
+      <td>{{ proveedor.telefono1 }}</td>
+      <td>{{ proveedor.telefono2 }}</td>
+      <td><a href="{{ url_for('proveedores.edit', id=proveedor.id) }}">Editar</a></td>
+      <td><a href="{{ url_for('proveedores.delete', id=proveedor.id) }}">Eliminar</a></td>
+      
+</form>
+    {% endfor %}
+  
+{% endblock %}
+

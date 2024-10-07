@@ -48,7 +48,7 @@
                         </li>
                         
                         <li class="sidebar-item">
-                            <a href="{% url 'Inventario_view' %}" class="sidebar-link">
+                            <a href="{% url 'inventario' %}" class="sidebar-link">
                                 <i class="fa-solid fa-boxes pe-2"></i>
                                 Inventario
                             </a>
@@ -57,12 +57,12 @@
                 
 
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#Proveedor" aria-expanded="false">
+                            <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#Proveedores" aria-expanded="false">
                                 <i class="fa-solid fa-business-time"></i>
                                 Proveedor
                             </a>
-                            <ul id="Proveedor" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#Proveedor">
-                                <a href="{% url 'proveedor_list' %}" class="sidebar-link"><i class="fa-solid fa-business-time"></i> Proveedores </a>
+                            <ul id="Proveedores" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#Proveedores">
+                                <a href="{% url 'Proveedores' %}" class="sidebar-link"><i class="fa-solid fa-business-time"></i> Proveedores </a>
                                 <a href="{% url 'orden_de_compra' %}" class="sidebar-link"><i class="fa-solid fa-business-time"></i> Facturacion proveedor</a>
                                 
                             </ul>

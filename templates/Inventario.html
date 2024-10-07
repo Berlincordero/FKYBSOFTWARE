@@ -233,44 +233,31 @@ tbody td:hover {
             <div class="submenu">
               <div class="submenu-item">
                 <i class="fas fa-print" id="imprimir-icono" style="cursor: pointer;" onclick="imprimirTabla()"></i>
-
-
               </div>
               <div class="submenu-item">
                 <a href="{% url 'exportar_productos_excel' %}">
                   <i class="fas fa-download"></i> Descargar Inventario
                 </a>
-                
               </div>
-
+            </div>
           </button>
           <button type="button" class="nav-button">
             <span class="icon">&#128190;</span>
             <span class="text">CATÁLOGO CABYS</span>
             <div class="submenu">
               <div class="submenu-item">
-                  <i class="fa-solid fa-cloud-arrow-up" id="cargar-icono" onclick="document.getElementById('archivo-pgsql').click();"></i>
-          
-                  <!-- Input de carga de archivos (oculto) -->
-                  <form id="formulario-carga" action="{% url 'subir_bd_pgsql' %}" method="POST" enctype="multipart/form-data">
-                      {% csrf_token %}
-                      <input type="file" id="archivo-pgsql" name="archivo_pgsql" accept=".sql,.dump,.pgsql" style="display: none;" onchange="enviarFormulario()">
-                  </form>
+                <i class="fa-solid fa-cloud-arrow-up" id="cargar-icono" onclick="document.getElementById('archivo-pgsql').click();"></i>
+                <form id="formulario-carga" action="{% url 'subir_bd_pgsql' %}" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <input type="file" id="archivo-pgsql" name="archivo_pgsql" accept=".sql,.dump,.pgsql" style="display: none;" onchange="enviarFormulario()">
+                </form>
               </div>
-          </div>
-          
+            </div>
           </button>
-          
-          <button type="button" class="nav-button" onclick="generarReportePDF()" onclick="event.preventDefault(); window.open(this.href, '_blank');">
-            <span class="icon"><i class="fas fa-file-pdf"></i></span>
-            <span class="text">REPORTES</span>
-          </button>
-          
         </div>
         <div class="search-bar">
           <input type="text" placeholder="Busca producto por código o nombre" />
           <button type="button">&#128269;</button>
-          <!-- Icono de búsqueda -->
         </div>
       </div>
       <div class="pagination">
@@ -280,230 +267,130 @@ tbody td:hover {
         <button type="button" class="pagination-button">&#9654;</button>
       </div>
     </div>
-          <!-- Add more rows as needed -->
-          <div>
-            <h2>Lista de Productos</h2>
-            <table class="table table-striped producto-tabla">
-              <thead>
-                <tr>
-                  <th>Id producto</th>
-                  <th>Nombre</th>
-                  <th>Cantidad</th>
-                  <th>Unidad de Medida</th>
-                  <th>Descripción</th>
-                  <th>Código CABYS</th>
-                  <th>Moneda</th>
-                  <th>Precio del Costo</th>
-                  <th>Precio de Venta</th>
-                  <th>Descuento</th>
-                  <th>Clasificación</th>
-                  <th>Impuesto</th>
-                  <th>Inventario</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="productTableBody">
-                <!-- Aquí se agregarán las filas dinámicamente -->
-              </tbody>
-            </table>
-      
-            <button
-              class="add-button btn btn-success"
-              data-toggle="modal"
-              data-target="#productModal"><i class="fa fa-plus"></i></button>
-          </div>
-         
-          <!-- Modal del Formulario - imagen -->
-          <div class="modal" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="imageModalLabel">Imagen del Producto</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrarModal()">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <img id="modalImage" src="" alt="Imagen del Producto" style="width: 100%; height: auto;" />
-                    </div>
-                </div>
-            </div>
-        </div>
+    {% block body %}
+    <div>
+      <h2>Lista de Productos</h2>
+      <table class="producto-tabla">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Descripción</th>
+            <th>Código CABYS</th>
+            <th>Moneda</th>
+            <th>Precio del Costo</th>
+            <th>Precio de Venta</th>
+            <th>Descuento</th>
+            <th>Clasificación</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for producto in productos %}
+              <tr>
+                  <td>{{ producto.nombre }}</td>
+                  <td>{{ producto.cantidad }}</td>
+                  <td>{{ producto.descripcion }}</td>
+                  <td>{{ producto.codigo_cabys }}</td>
+                  <td>{{ producto.moneda }}</td>
+                  <td>{{ producto.precio_costo }}</td>
+                  <td>{{ producto.precio_venta }}</td>
+                  <td>{{ producto.descuento }}</td>
+                  <td>{{ producto.clasificacion }}</td>
+                  <td>
+                      <button  href="editarProducto/{{producto.nombre}}"  class="btn btn-sm btn-warning">
+                          <i class="fas fa-edit"></i>
+                      </button>
+                      <button href="eliminarProducto/{{producto.nombre}}" class="btn btn-sm btn-danger">
+                          <i class="fas fa-trash-alt"></i>
+                      </button>
+                  </td>
+              </tr>
+          {% endfor %}
+      </tbody>
+      </table>
 
-      
-          <!-- Modal del Formulario -->
-          <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="productModalLabel">
-                    <i class="fas fa-box-open icono-caja-abierta"></i> Formulario de Producto
-                  </h5>
-                </div>
-                <div class="modal-body">
-                  <div class="container">
-                    <form id="formProducto">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="Idproducto">Id producto</label>
-                            <input type="text" id="Idproducto" class="form-control"/>
-                          </div>
-                          <div class="form-group">
-                            <label for="nombreProducto">Nombre</label>
-                            <input type="text" id="nombreProducto" class="form-control"/>
-                          </div>
-                          <div class="form-group">
-                            <label for="cantidadProducto">Cantidad</label>
-                            <input type="number" id="cantidadProducto" class="form-control"/>
-                          </div>
-                          <div class="form-group">
-                            <label for="unidadProducto">Unidad de Medida</label>
-                            <input type="text" id="unidadProducto" class="form-control"/>
-                          </div>
-                          <div class="form-group">
-                            <label for="descripcionProducto">Descripción</label>
-                            <input type="text" id="descripcionProducto" class="form-control"/>
-                          </div>
-                          <div class="form-group">
-                            <label for="codigoCABYS">Código CABYS</label>
-                            <input type="text" id="codigoCABYS" class="form-control"/>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="monedaProducto">Moneda</label>
-                            <input type="text" id="monedaProducto" class="form-control"/>
-                          </div>
-                          <div class="form-group">
-                            <label for="costoProducto">Precio del Costo</label>
-                            <input type="number" id="costoProducto" class="form-control"/>
-                          </div>
-                          <div class="form-group">
-                            <label for="ventaProducto">Precio de Venta</label>
-                            <input type="number" id="ventaProducto" class="form-control"/>
-                          </div>
-                          <div class="form-group">
-                            <label for="descuentoProducto">Descuento</label>
-                            <input type="number" id="descuentoProducto" class="form-control"/>
-                          </div>
-                          <div class="form-group">
-                            <label for="clasificacionProducto">Clasificación</label>
-                            <input type="text" id="clasificacionProducto" class="form-control"/>
-                          </div>
-                          <div class="form-group">
-                            <label for="impuestoProducto">Impuesto</label>
-                            <select id="impuestoProducto" class="form-control">
-                              <option value="Exento">Exento</option>
-                              <option value="Gravado">Gravado</option>
-                            </select>
-                          </div>
-                          <div class="form-group">
-                            <label for="imagenes">Imágenes del Producto</label>
-                            <div class="image-upload">
-                                <label for="imagenes" class="image-upload-label">
-                                    <i class="fas fa-cloud-upload-alt"></i> Subir Imagen
-                                </label>
-                                <input
-                                    type="file"
-                                    id="imagenes"
-                                    name="imagenes"
-                                    class="file-input"
-                                    accept="image/*"
-                                />
-                            </div>
-                        </div>
-                          <div class="form-group form-check">
-                            <input type="checkbox" id="inventarioProducto" class="form-check-input"/>
-                            <label for="inventarioProducto" class="form-check-label">Seguimiento de inventario</label>
-                          </div>
-                        </div>
+      <button class="add-button btn btn-success" data-toggle="modal" data-target="#productModal">
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+    <!-- Modal del Formulario -->
+    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="productModalLabel">
+              <i class="fas fa-box-open icono-caja-abierta"></i> Formulario de Producto
+            </h5>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                  <div class="col-md-6">
+                    <form action="{% url 'inventario' %}" method="POST">
+                      {% csrf_token %}
+                      <!-- Resto de los campos del formulario -->
+                      <div class="form-group">
+                          <label for="nombreProducto">Nombre</label>
+                          <input type="text" id="nombreProducto" class="form-control" name="nombreProducto" />
                       </div>
-                      <button type="button" class="btn btn-primary" onclick="agregarProducto()">Guardar</button>
-                    </form>
+                    <div class="form-group">
+                      <label for="cantidadProducto">Cantidad</label>
+                      <input type="number" id="cantidadProducto" class="form-control" name="cantidadProducto"/>
+                    </div>
+                    <div class="form-group">
+                      <label for="descripcionProducto">Descripción</label>
+                      <input type="text" id="descripcionProducto" class="form-control" name="descripcionProducto"/>
+                    </div>
+                    <div class="form-group">
+                      <label for="codigoCABYS">Código CABYS</label>
+                      <input type="text" id="codigoCABYS" class="form-control" name="codigoCABYS"/>
+                    </div>
                   </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="monedaProducto">Moneda</label>
+                      <input type="text" id="monedaProducto" class="form-control" name="monedaProducto"/>
+                    </div>
+                    <div class="form-group">
+                      <label for="precioCosto">Precio del Costo</label>
+                      <input type="number" id="precioCosto" class="form-control" name="precioCosto"/>
+                    </div>
+                    <div class="form-group">
+                      <label for="precioVenta">Precio de Venta</label>
+                      <input type="number" id="precioVenta" class="form-control" name="precioVenta"/>
+                    </div>
+                    <div class="form-group">
+                      <label for="descuentoProducto">Descuento</label>
+                      <input type="number" id="descuentoProducto" class="form-control" name="descuentoProducto"/>
+                    </div>
+                    <div class="form-group">
+                      <label for="clasificacionProducto">Clasificación</label>
+                      <input type="text" id="clasificacionProducto" class="form-control" name="clasificacionProducto"/>
+                    </div>
                 </div>
-              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+              </form>
             </div>
           </div>
-      
-          <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-          <script>
-            function agregarProducto() {
-              const Idproducto = document.getElementById('Idproducto').value;
-              const nombre = document.getElementById('nombreProducto').value;
-              const cantidad = document.getElementById('cantidadProducto').value;
-              const unidad = document.getElementById('unidadProducto').value;
-              const descripcion = document.getElementById('descripcionProducto').value;
-              const codigoCABYS = document.getElementById('codigoCABYS').value;
-              const moneda = document.getElementById('monedaProducto').value;
-              const costo = document.getElementById('costoProducto').value;
-              const venta = document.getElementById('ventaProducto').value;
-              const descuento = document.getElementById('descuentoProducto').value;
-              const clasificacion = document.getElementById('clasificacionProducto').value;
-              const impuesto = document.getElementById('impuestoProducto').value;
-              const inventario = document.getElementById('inventarioProducto').checked ? 'Sí' : 'No';
-            
-              // Capturar la imagen subida
-              const imagenInput = document.getElementById('imagenes');
-              let imagenURL = '';
-            
-              if (imagenInput.files && imagenInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                  imagenURL = e.target.result; // Guardar la URL de la imagen para mostrarla más tarde
-                };
-                reader.readAsDataURL(imagenInput.files[0]); // Leer la imagen como una URL de datos
-              }
-            
-              const tableBody = document.getElementById('productTableBody');
-              const newRow = tableBody.insertRow();
-            
-              newRow.innerHTML = `
-                <td>${Idproducto}</td>
-                <td>${nombre}</td>
-                <td>${cantidad}</td>
-                <td>${unidad}</td>
-                <td>${descripcion}</td>
-                <td>${codigoCABYS}</td>
-                <td>${moneda}</td>
-                <td>${costo}</td>
-                <td>${venta}</td>
-                <td>${descuento}</td>
-                <td>${clasificacion}</td>
-                <td>${impuesto}</td>
-                <td>${inventario}</td>
-                <td>
-                  <button class="btn btn-sm btn-warning" onclick="editarProducto(this)">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button class="btn btn-sm btn-danger" onclick="eliminarProducto(this)">
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                  <button class="btn btn-info" data-toggle="modal" data-target="#imageModal" onclick="mostrarImagen('${imagenURL}')">
-                    <i class="fas fa-eye"></i>
-                  </button>
-                </td>
-              `;
-            
-              // Limpiar formulario y cerrar modal
-              $('#productModal').modal('hide');
-              document.getElementById('formProducto').reset();
-            }
-            
-            function mostrarImagen(imagenURL) {
-              const modalImage = document.getElementById('modalImage');
-              modalImage.src = imagenURL; // Establecer la fuente de la imagen en el modal
-              $('#imageModal').modal('show'); // Mostrar el modal
-            }
-            
-            function cerrarModal() {
-              const modalImage = document.getElementById('modalImage');
-              modalImage.src = ''; // Limpiar la fuente de la imagen al cerrar
-            }
-            
+        </div>
+      </div>
+    </div>
+      {% endblock %}
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+
+      if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+
             function imprimirTabla() {
     // Obtener el contenido de la tabla de productos
     const tabla = document.querySelector('.producto-tabla').outerHTML;
@@ -556,6 +443,18 @@ function enviarFormulario() {
   document.getElementById('formulario-carga').submit();
 }        
           
+function imprimirTabla() {
+  const tabla = document.querySelector('.producto-tabla').outerHTML;
+  const ventana = window.open('', '_blank');
+  ventana.document.write('<html><head><title>Impresión</title></head><body>' + tabla + '</body></html>');
+  ventana.document.close();
+  ventana.print();
+}
+
+function enviarFormulario() {
+  document.getElementById('formulario-carga').submit();
+}
+
           </script>
         </body>
       </html>
