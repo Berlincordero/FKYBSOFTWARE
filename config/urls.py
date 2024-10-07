@@ -16,11 +16,10 @@ urlpatterns = [
     path('usuarios/', include('Usuarios.urls')),
     path('Proforma/', include('Proforma.urls')),  # Ruta para las URLs de la app Proforma
     path('Facturacion/', include('Facturacion.urls')),  # Ruta para las URLs de la app Facturacion
-   path('Informacion/', include('Informacion.urls')),  # Ruta para las URLs de la app Informacion
+    path('Informacion/', include('Informacion.urls')),  # Ruta para las URLs de la app Informacion
     path('', include("django.contrib.auth.urls")),
     path('Reportes/', include('Reportes.urls')),
     path('Proveedores/', include('Proveedores.urls')),  # Ruta para las URLs de la app Proveedores
-    
-   path('Clientes/', include('Clientes.urls')),  # Ruta para las URLs de la app Clientes
+    path('Clientes/', include('Clientes.urls')),  # Ruta para las URLs de la app Clientes
     path('Orden_de_compra/', include('Orden_de_compra.urls')),  # Ruta para las URLs de la app Orden_de_compra
 ]
