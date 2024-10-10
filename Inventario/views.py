@@ -47,16 +47,8 @@ def crear_producto(request):
         producto.save()
         return redirect('lista_productos')
 
-def editar_producto(request, pk):
-    producto = get_object_or_404(Producto, pk=pk)
-    if request.method == 'POST':
-        form = ProductoForm(request.POST, instance=producto)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_productos')
-    else:
-        form = ProductoForm(instance=producto)
-    return render(request, 'editar_producto.html', {'form': form})
+
+
 
 
 def eliminar_producto(request, pk):

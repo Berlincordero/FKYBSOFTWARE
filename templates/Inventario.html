@@ -287,6 +287,8 @@ tbody td:hover {
             <tbody>
               {% for producto in productos %}
                 <tr>
+                  
+
                   <td>{{ producto.nombre }}</td>
                   <td>{{ producto.cantidad }}</td>
                   <td>{{ producto.descripcion }}</td>
@@ -298,9 +300,18 @@ tbody td:hover {
                   <td>{{ producto.clasificacion }}</td>
                   <td>
                     <!-- Botón para editar -->
-                    <a href="{% url 'editar_producto' producto.pk %}" class="btn btn-sm btn-warning">
-                      <i class="fas fa-edit"></i>
-                    </a>
+                    {% if producto.pk %}
+                 <form action="{% url 'editar_producto' producto.pk %}" method="POST">
+                      {% csrf_token %}
+                 <button type="button" class="btn btn-warning" onclick="cargarDatosProducto({{ producto.pk }}, '{{ producto.nombreProducto }}', {{ producto.cantidadProducto }}, '{{ producto.descripcionProducto }}', '{{ producto.codigoCABYS }}', '{{ producto.monedaProducto }}', {{ producto.precioCosto }}, {{ producto.precioVenta }}, {{ producto.descuentoProducto }}, '{{ producto.clasificacionProducto }}')" data-toggle="modal" data-target="#editarproducto">
+                  Editar
+                </button>
+                 </form>
+                 {% else %}
+                 <!-- Muestra algún mensaje o oculta el botón si el producto no tiene pk -->
+                  <p>Error: producto sin identificador.</p>
+                  {% endif %}
+                    
                     <!-- Botón para eliminar -->
                     <form action="{% url 'eliminar_producto' producto.pk %}" method="POST" style="display:inline;">
                       {% csrf_token %}
@@ -385,13 +396,95 @@ tbody td:hover {
             </div>
           </div>
         </div>
+       
+        <div class="modal fade" id="editarproducto" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editarproductoLabel">
+                  <i class="fas fa-box-open icono-caja-abierta"></i> Formulario de Producto
+                </h5>
+              </div>
+              <div class="modal-body">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <form id="form-editar-producto" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="editarnombreProducto">Nombre</label>
+                          <input type="text" id="editarnombreProducto" class="form-control" name="nombreProducto" />
+                        </div>
+                        <div class="form-group">
+                          <label for="editarcantidadProducto">Cantidad</label>
+                          <input type="number" id="editarcantidadProducto" class="form-control" name="cantidadProducto" />
+                        </div>
+                        <div class="form-group">
+                          <label for="editardescripcionProducto">Descripción</label>
+                          <input type="text" id="editardescripcionProducto" class="form-control" name="descripcionProducto" />
+                        </div>
+                        <div class="form-group">
+                          <label for="editarcodigoCABYS">Código CABYS</label>
+                          <input type="text" id="editarcodigoCABYS" class="form-control" name="codigoCABYS" />
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="editarmonedaProducto">Moneda</label>
+                          <input type="text" id="editarmonedaProducto" class="form-control" name="monedaProducto" />
+                        </div>
+                        <div class="form-group">
+                          <label for="editarprecioCosto">Precio del Costo</label>
+                          <input type="number" id="editarprecioCosto" class="form-control" name="precioCosto" />
+                        </div>
+                        <div class="form-group">
+                          <label for="editarprecioVenta">Precio de Venta</label>
+                          <input type="number" id="editarprecioVenta" class="form-control" name="precioVenta" />
+                        </div>
+                        <div class="form-group">
+                          <label for="editardescuentoProducto">Descuento</label>
+                          <input type="number" id="editardescuentoProducto" class="form-control" name="descuentoProducto" />
+                        </div>
+                        <div class="form-group">
+                          <label for="editarclasificacionProducto">Clasificación</label>
+                          <input type="text" id="editarclasificacionProducto" class="form-control" name="clasificacionProducto" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
     <script>
+      function cargarDatosProducto(pk, nombre, cantidad, descripcion, codigoCABYS, moneda, precioCosto, precioVenta, descuento, clasificacion) {
+        // Cambiar el action del formulario dinámicamente
+        document.getElementById('form-editar-producto').action = `/Inventario/editar/${pk}/`;
+    
+        // Cargar los valores en los campos del formulario
+        document.getElementById('editarnombreProducto').value = nombre;
+        document.getElementById('editarcantidadProducto').value = cantidad;
+        document.getElementById('editardescripcionProducto').value = descripcion;
+        document.getElementById('editarcodigoCABYS').value = codigoCABYS;
+        document.getElementById('editarmonedaProducto').value = moneda;
+        document.getElementById('editarprecioCosto').value = precioCosto;
+        document.getElementById('editarprecioVenta').value = precioVenta;
+        document.getElementById('editardescuentoProducto').value = descuento;
+        document.getElementById('editarclasificacionProducto').value = clasificacion;
+      }
 
+
+    
       if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
