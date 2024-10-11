@@ -2,26 +2,43 @@ from django.shortcuts import render, get_object_or_404
 import openpyxl
 from django.http import HttpResponse
 from .models import Producto
-import os
-from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 import subprocess
-from django.http import JsonResponse
-from .forms import ProductoForm 
 from django.shortcuts import render, redirect
 from .models import Producto
-from .forms import ProductoForm
 
 # Create your views here.
 def lista_productos(request):
     productos = Producto.objects.all()
+    print(productos)
     return render(request, 'Inventario.html', {'productos': productos})
+
+def editar_producto(request):
+    if request.method == 'POST':
+        # Obtén el pk del producto desde el formulario
+        pk = request.POST.get('producto_id')
+        producto = get_object_or_404(Producto, pk=pk)
+        
+        # Actualiza los campos según los datos enviados
+        producto.nombre = request.POST.get('nombreProducto')
+        producto.cantidad = request.POST.get('cantidadProducto')
+        producto.descripcion = request.POST.get('descripcionProducto') 
+        producto.codigo_cabys = request.POST.get('codigoCABYS')  
+        producto.moneda = request.POST.get('monedaProducto')  
+        producto.precio_costo = request.POST.get('precioCosto') 
+        producto.precio_venta = request.POST.get('precioVenta')  
+        producto.descuento = request.POST.get('descuentoProducto') 
+        producto.clasificacion = request.POST.get('clasificacionProducto')  
+
+        producto.save()
+        return redirect('lista_productos')
+
+    return render(request, 'Inventario.html')
 
 
 def crear_producto(request):
     if request.method == 'POST':
-        # Obtener los datos del formulario
         nombre = request.POST.get('nombreProducto')
         cantidad = request.POST.get('cantidadProducto')
         descripcion = request.POST.get('descripcionProducto')
