@@ -792,49 +792,7 @@ h2 {
     cursor: pointer;
 }
 
-.filter-button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    font-size: 16px;
-    cursor: pointer;
-}
 
-
-/* Estilos para la barra de filtros y paginación */
-
-.filter-pagination-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.pagination {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.pagination span {
-    margin: 0 5px;
-    font-size: 16px;
-}
-
-.pagination-button {
-    background: none;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    padding: 5px;
-    color: #348fff;
-}
-
-.pagination-button:disabled {
-    color: #ccc;
-    cursor: not-allowed;
-}
 
 
 /* Estilos para la tabla de productos */

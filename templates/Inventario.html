@@ -161,6 +161,7 @@
   text-align: left;
 }
 th {
+  color: black;
   background-color: #95defd;
 }
 
@@ -230,9 +231,9 @@ tbody td:hover {
           <span class="icon">&#8645;</span>
           <span class="text">INVENTARIO</span>
           <div class="submenu">
-            <div class="submenu-item">
-              <i class="fas fa-print" id="imprimir-icono" style="cursor: pointer;" onclick="imprimirTabla()"></i>
-            </div>
+              <div class="submenu-item">
+                <i class="fas fa-print" id="imprimir-icono" style="cursor: pointer;" onclick="imprimirTabla()"></i>
+              </div>
             <div class="submenu-item">
               <a href="{% url 'exportar_productos_excel' %}">
                 <i class="fas fa-download"></i> Descargar Inventario
@@ -255,21 +256,20 @@ tbody td:hover {
         </button>
       </div>
       <div class="search-bar">
-        <input type="text" placeholder="Busca producto por código o nombre" />
+        <input type="text" id="filtroGeneral" placeholder="Busca producto por código, cantidad o descripción" />
         <button type="button">&#128269;</button>
       </div>
     </div>
     <div class="pagination">
-      <span> 3 - 3 de 28</span>
-      <button type="button" class="pagination-button">&#9664;</button>
-      <span>1</span>
-      <button type="button" class="pagination-button">&#9654;</button>
+      <button onclick="prevPage()">Anterior</button>
+      <span id="paginaActual"></span>  <span id="totalPaginas"></span>
+      <button onclick="nextPage()">Siguiente</button>
     </div>
   </div>
 
   <div>
     <h2>Lista de Productos</h2>
-    <table class="producto-tabla">
+    <table id="productoTabla"  class="producto-tabla">
       <thead>
         <tr>
           <th>Nombre</th>
@@ -335,6 +335,8 @@ tbody td:hover {
       <i class="fa fa-plus"></i>
     </button>
   </div>
+
+
 
   <!-- Modal del Formulario -->
   <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
@@ -477,6 +479,74 @@ tbody td:hover {
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <script>
+    ///filtro de busqueda
+    // Asignar evento al campo de filtro general
+document.getElementById("filtroGeneral").addEventListener("input", filtrarTabla);
+
+// Función de filtrado para las 3 columnas: nombre, cantidad, descripción
+function filtrarTabla() {
+  const filtro = document.getElementById("filtroGeneral").value.toLowerCase();
+  const tabla = document.getElementById("productoTabla").getElementsByTagName("tbody")[0];
+  const filas = tabla.getElementsByTagName("tr");
+
+  for (let i = 0; i < filas.length; i++) {
+    const celdas = filas[i].getElementsByTagName("td");
+    const nombre = celdas[0].textContent.toLowerCase();
+    const cantidad = celdas[1].textContent.toLowerCase();
+    const descripcion = celdas[2].textContent.toLowerCase();
+
+    // Mostrar la fila si el filtro coincide con alguna de las tres columnas
+    if (nombre.includes(filtro) || cantidad.includes(filtro) || descripcion.includes(filtro)) {
+      filas[i].style.display = "";
+    } else {
+      filas[i].style.display = "none";
+    }
+  }
+}
+
+
+   ///paginacion funcion
+    const filasPorPagina = 8;
+    let paginaActual = 1;
+    const tabla = document.querySelector(".producto-tabla").getElementsByTagName("tbody")[0];
+    const filas = tabla.getElementsByTagName("tr");
+    const totalPaginas = Math.ceil(filas.length / filasPorPagina);
+    
+    function mostrarPagina(pagina) {
+      for (let i = 0; i < filas.length; i++) {
+        filas[i].style.display = "none";
+      }
+      const inicio = (pagina - 1) * filasPorPagina;
+      const fin = inicio + filasPorPagina;
+      for (let i = inicio; i < fin && i < filas.length; i++) {
+        filas[i].style.display = "";
+      }
+      document.getElementById("paginaActual").textContent = pagina;
+  document.getElementById("totalPaginas").textContent = totalPaginas;
+}
+    
+    
+
+
+    function nextPage() {
+      if (paginaActual < totalPaginas) {
+        paginaActual++;
+        mostrarPagina(paginaActual);
+      }
+    }
+    
+    function prevPage() {
+      if (paginaActual > 1) {
+        paginaActual--;
+        mostrarPagina(paginaActual);
+      }
+    }
+    
+    mostrarPagina(paginaActual);
+
+
+
+
     function cargarDatosProducto(id, nombre, cantidad, descripcion, codigoCABYS, moneda, precioCosto, precioVenta, descuento, clasificacion) {
       document.getElementById('producto_id').value = id; 
       document.getElementById('editarnombreProducto').value = nombre;
@@ -489,7 +559,79 @@ tbody td:hover {
       document.getElementById('editardescuentoProducto').value = descuento;
       document.getElementById('editarclasificacionProducto').value = clasificacion;
   
-  }
+
+      if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+
+            function imprimirTabla() {
+    // Obtener el contenido de la tabla de productos
+    const tabla = document.querySelector('.producto-tabla').outerHTML;
+    
+    // Crear una nueva ventana temporal
+    const ventanaImpresion = window.open('', '_blank', 'width=1200,height=600');
+    
+    // Escribir el contenido HTML para la impresión en la ventana temporal
+    ventanaImpresion.document.write(`
+      <html>
+        <head>
+          <title>Imprimir Inventario</title>
+          <style>
+            /* Aquí puedes incluir estilos para la tabla si deseas */
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              font-size: 16px;
+              text-align: center;
+            }
+            th, td {
+              padding: 8px;
+              border: 1px solid #000;
+            }
+            th {
+              background-color: #95defd;
+            }
+            tbody tr:nth-child(even) {
+              background-color: #f2f2f2;
+            }
+          </style>
+        </head>
+        <body>
+          <h2>Inventario de Productos</h2>
+          ${tabla}
+        </body>
+      </html>
+    `);
+
+    // Esperar a que se cargue el contenido y luego imprimir
+    ventanaImpresion.document.close();
+    ventanaImpresion.focus();
+    ventanaImpresion.print();
+
+    // Cerrar la ventana de impresión después de la impresión
+    ventanaImpresion.close();
+}
+
+function enviarFormulario() {
+  document.getElementById('formulario-carga').submit();
+}        
+          
+function imprimirTabla() {
+  const tabla = document.querySelector('.producto-tabla').outerHTML;
+  const ventana = window.open('', '_blank');
+  ventana.document.write('<html><head><title>Impresión</title></head><body>' + tabla + '</body></html>');
+  ventana.document.close();
+  ventana.print();
+}
+
+
+
+
+function enviarFormulario() {
+  document.getElementById('formulario-carga').submit();
+}
+    }
   </script>
 </body>
 
