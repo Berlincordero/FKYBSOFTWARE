@@ -216,6 +216,90 @@ tbody td:hover {
   display: none; /* Ocultar el input original */
 }
 
+.pagination {
+  color: blue; /* Color del texto */
+  display: flex;
+  align-items: center; /* Alinear verticalmente los elementos */
+  justify-content: center; /* Centrar horizontalmente */
+  margin: 20px 0; /* Espaciado arriba y abajo */
+  margin-top: 50px; /* Espaciado arriba */
+}
+
+/* Estilos para los botones */
+.pagination button {
+  background-color: #007bff;
+  border: none; /* Sin borde */
+  color: white; /* Color del texto */
+  padding: 8px 12px; /* Espaciado interno */
+  font-size: 14px; /* Tamaño de fuente */
+  cursor: pointer; /* Cambia el cursor al pasar el mouse */
+  border-radius: 4px; /* Esquinas redondeadas */
+  transition: background-color 0.3s ease; /* Transición de color */
+  margin: 0 5px; /* Espacio entre botones */
+  margin-top: 10px; /* Espacio arriba */
+}
+
+/* Cambiar color al pasar el mouse */
+.pagination button:hover {
+  background-color: #e0a800; /* Color de fondo al pasar el mouse */
+}
+
+/* Estilos para el texto de la página actual */
+#paginaActual,
+#totalPaginas {
+  margin: 0 10px; /* Espacio a los lados */
+  font-weight: bold; /* Negrita */
+  font-size: 16px; /* Tamaño de fuente */
+}
+
+/* Estilo para la barra inclinada */
+.pagination span {
+  margin: 0 5px; /* Espacio alrededor de la barra inclinada */
+}
+
+/* Estilos generales para el botón */
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+/* Cambiar color al pasar el mouse */
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+/* Estilos para el ícono de Font Awesome */
+.btn-warning i.fas {
+    margin-right: 5px; /* Espacio entre el ícono y el texto */
+}
+
+/* Estilos para un botón más pequeño si solo tiene el ícono */
+.btn-warning-icon-only {
+    padding: 8px;
+    width: 31px;
+    height: 31px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+/* Cambio de color del ícono cuando se pasa el mouse */
+.btn-warning-icon-only:hover i.fas {
+    color: #e0a800;
+}
+
+/* Estilos adicionales si solo hay el ícono, quitar el margen a la derecha */
+.btn-warning-icon-only i.fas {
+    margin-right: 0;
+}
+
 
 
 </style>
@@ -232,11 +316,11 @@ tbody td:hover {
           <span class="text">INVENTARIO</span>
           <div class="submenu">
               <div class="submenu-item">
-                <i class="fas fa-print" id="imprimir-icono" style="cursor: pointer;" onclick="imprimirTabla()"></i>
+                <i class="fas fa-print" id="imprimir-icono" style="cursor: pointer;" onclick="imprimirTabla()"></i> PDF
               </div>
             <div class="submenu-item">
               <a href="{% url 'exportar_productos_excel' %}">
-                <i class="fas fa-download"></i> Descargar Inventario
+                <i class="fas fa-download"></i> Descargar Excel
               </a>
             </div>
           </div>
@@ -246,7 +330,7 @@ tbody td:hover {
           <span class="text">CATÁLOGO CABYS</span>
           <div class="submenu">
             <div class="submenu-item">
-              <i class="fa-solid fa-cloud-arrow-up" id="cargar-icono" onclick="document.getElementById('archivo-pgsql').click();"></i>
+             SQL CABYS<i class="fa-solid fa-cloud-arrow-up" id="cargar-icono" onclick="document.getElementById('archivo-pgsql').click();"></i> 
               <form id="formulario-carga" action="{% url 'subir_bd_pgsql' %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="file" id="archivo-pgsql" name="archivo_pgsql" accept=".sql,.dump,.pgsql" style="display: none;" onchange="enviarFormulario()">
@@ -256,14 +340,9 @@ tbody td:hover {
         </button>
       </div>
       <div class="search-bar">
-        <input type="text" id="filtroGeneral" placeholder="Busca producto por código, cantidad o descripción" />
+        <input type="text" id="filtroGeneral" placeholder="Busca producto por Nombre, cantidad o descripción" />
         <button type="button">&#128269;</button>
       </div>
-    </div>
-    <div class="pagination">
-      <button onclick="prevPage()">Anterior</button>
-      <span id="paginaActual"></span>  <span id="totalPaginas"></span>
-      <button onclick="nextPage()">Siguiente</button>
     </div>
   </div>
 
@@ -299,21 +378,21 @@ tbody td:hover {
           <td>
             <!-- Botón para editar -->
             {% if producto.pk %}
-            <button type="button" class="btn btn-warning" 
-          onclick="cargarDatosProducto(
-              {{ producto.pk }},
-              '{{ producto.nombre }}',
-              {{ producto.cantidad }},
-              '{{ producto.descripcion }}',
-              '{{ producto.codigo_cabys }}',
-              '{{ producto.moneda }}',
-              {{ producto.precio_costo }},
-              {{ producto.precio_venta }},
-              {{ producto.descuento }},
-              '{{ producto.clasificacion }}'
-          ); $('#editarproducto').modal('show');">
-              Editar
-            </button>
+            <button type="button" class="btn btn-warning btn-warning-icon-only" 
+            onclick="cargarDatosProducto(
+                {{ producto.pk }},
+                '{{ producto.nombre }}',
+                {{ producto.cantidad }},
+                '{{ producto.descripcion }}',
+                '{{ producto.codigo_cabys }}',
+                '{{ producto.moneda }}',
+                {{ producto.precio_costo }},
+                {{ producto.precio_venta }},
+                {{ producto.descuento }},
+                '{{ producto.clasificacion }}'
+            ); $('#editarproducto').modal('show');">
+            <i class="fas fa-edit"></i>
+        </button>
             {% else %}
             <p>Error: producto sin identificador.</p>
             {% endif %}
@@ -327,9 +406,20 @@ tbody td:hover {
             </form>
           </td>
         </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="text-center">No hay productos registrados.</td>
+        </tr>
         {% endfor %}
       </tbody>
     </table>
+    
+    <div class="pagination">
+      <button onclick="prevPage()">Anterior</button>
+      <span id="paginaActual"></span>DE<span id="totalPaginas"></span>
+      <button onclick="nextPage()">Siguiente</button>
+    </div>
+
 
     <button class="add-button btn btn-success" data-toggle="modal" data-target="#productModal">
       <i class="fa fa-plus"></i>
