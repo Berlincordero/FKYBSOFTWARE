@@ -315,9 +315,9 @@ tbody td:hover {
           <span class="icon">&#8645;</span>
           <span class="text">INVENTARIO</span>
           <div class="submenu">
-              <div class="submenu-item">
-                <i class="fas fa-print" id="imprimir-icono" style="cursor: pointer;" onclick="imprimirTabla()"></i> PDF
-              </div>
+            <div class="submenu-item">
+              <i class="fas fa-print" id="imprimir-icono" style="cursor: pointer;" onclick="imprimirTabla()"></i>
+            </div>
             <div class="submenu-item">
               <a href="{% url 'exportar_productos_excel' %}">
                 <i class="fas fa-download"></i> Descargar Excel
@@ -726,6 +726,69 @@ function contarProductos() {
   document.getElementById("contador-productos").textContent = textoContador;
 }
 
+function imprimirTabla() {
+  // Obtener el contenido de la tabla de productos
+  const tabla = document.querySelector('.producto-tabla').outerHTML;
+  
+  // Crear una nueva ventana temporal
+  const ventanaImpresion = window.open('', '_blank', 'width=1200,height=600');
+  
+  // Escribir el contenido HTML para la impresión en la ventana temporal
+  ventanaImpresion.document.write(`
+    <html>
+      <head>
+        <title>Imprimir Inventario</title>
+        <style>
+          /* Aquí puedes incluir estilos para la tabla si deseas */
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+            text-align: center;
+          }
+          th, td {
+            padding: 8px;
+            border: 1px solid #000;
+          }
+          th {
+            background-color: #95defd;
+          }
+          tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+          }
+        </style>
+      </head>
+      <body>
+        <h2>Inventario de Productos</h2>
+        ${tabla}
+      </body>
+    </html>
+  `);
+
+  // Esperar a que se cargue el contenido y luego imprimir
+  ventanaImpresion.document.close();
+  ventanaImpresion.focus();
+  ventanaImpresion.print();
+
+  // Cerrar la ventana de impresión después de la impresión
+  ventanaImpresion.close();
+}
+
+function enviarFormulario() {
+document.getElementById('formulario-carga').submit();
+}        
+        
+function imprimirTabla() {
+const tabla = document.querySelector('.producto-tabla').outerHTML;
+const ventana = window.open('', '_blank');
+ventana.document.write('<html><head><title>Impresión</title></head><body>' + tabla + '</body></html>');
+ventana.document.close();
+ventana.print();
+}
+
+function enviarFormulario() {
+document.getElementById('formulario-carga').submit();
+}
 
 
     function cargarDatosProducto(id, nombre, cantidad, descripcion, codigoCABYS, moneda, precioCosto, precioVenta, descuento, clasificacion) {
@@ -746,70 +809,7 @@ function contarProductos() {
     }
 
 
-            function imprimirTabla() {
-    // Obtener el contenido de la tabla de productos
-    const tabla = document.querySelector('.producto-tabla').outerHTML;
-    
-    // Crear una nueva ventana temporal
-    const ventanaImpresion = window.open('', '_blank', 'width=1200,height=600');
-    
-    // Escribir el contenido HTML para la impresión en la ventana temporal
-    ventanaImpresion.document.write(`
-      <html>
-        <head>
-          <title>Imprimir Inventario</title>
-          <style>
-            /* Aquí puedes incluir estilos para la tabla si deseas */
-            table {
-              width: 100%;
-              border-collapse: collapse;
-              font-size: 16px;
-              text-align: center;
-            }
-            th, td {
-              padding: 8px;
-              border: 1px solid #000;
-            }
-            th {
-              background-color: #95defd;
-            }
-            tbody tr:nth-child(even) {
-              background-color: #f2f2f2;
-            }
-          </style>
-        </head>
-        <body>
-          <h2>Inventario de Productos</h2>
-          ${tabla}
-        </body>
-      </html>
-    `);
-
-    // Esperar a que se cargue el contenido y luego imprimir
-    ventanaImpresion.document.close();
-    ventanaImpresion.focus();
-    ventanaImpresion.print();
-
-    // Cerrar la ventana de impresión después de la impresión
-    ventanaImpresion.close();
-}
-
-function enviarFormulario() {
-  document.getElementById('formulario-carga').submit();
-}        
-          
-function imprimirTabla() {
-  const tabla = document.querySelector('.producto-tabla').outerHTML;
-  const ventana = window.open('', '_blank');
-  ventana.document.write('<html><head><title>Impresión</title></head><body>' + tabla + '</body></html>');
-  ventana.document.close();
-  ventana.print();
-}
-
-function enviarFormulario() {
-  document.getElementById('formulario-carga').submit();
-}
-    }
+  }
   </script>
 </body>
 
