@@ -347,7 +347,7 @@ tbody td:hover {
   </div>
 
   <div>
-    <h2>Lista de Productos</h2>
+    <h2>Lista de Productos</h2> 
     <table id="productoTabla"  class="producto-tabla">
       <thead>
         <tr>
@@ -408,17 +408,20 @@ tbody td:hover {
         </tr>
         {% empty %}
         <tr>
-            <td colspan="7" class="text-center">No hay productos registrados.</td>
-        </tr>
+          <td colspan="10" class="text-center">No hay productos registrados</td>
+      </tr>
         {% endfor %}
       </tbody>
     </table>
-    
+      
+  
     <div class="pagination">
       <button onclick="prevPage()">Anterior</button>
       <span id="paginaActual"></span>DE<span id="totalPaginas"></span>
       <button onclick="nextPage()">Siguiente</button>
     </div>
+
+    <strong><p id="contador-productos" class="text-center"></p></strong>
 
 
     <button class="add-button btn btn-success" data-toggle="modal" data-target="#productModal">
@@ -722,6 +725,36 @@ function enviarFormulario() {
   document.getElementById('formulario-carga').submit();
 }
     }
+
+
+// Función para contar los productos registrados
+function contarProductos() {
+  // Obtén todas las filas dentro del tbody de la tabla
+  const tabla = document.getElementById("productoTabla").getElementsByTagName("tbody")[0];
+  const filas = tabla.getElementsByTagName("tr");
+
+  // Contar las filas visibles (productos)
+  let totalProductos = 0;
+  for (let i = 0; i < filas.length; i++) {
+      if (filas[i].style.display !== "none") {
+          totalProductos++;
+      }
+  }
+
+  // Actualiza el texto con el conteo de productos
+  const textoContador = `${totalProductos} producto(s) de ${filas.length} productos registrados`;
+  document.getElementById("contador-productos").textContent = textoContador;
+}
+
+// Llama a la función para contar los productos cuando se carga la página
+contarProductos();
+
+// Llama a la función después de aplicar algún filtro o actualizar la tabla
+document.getElementById("filtroGeneral").addEventListener("input", function() {
+  filtrarTabla(); // Aplica tu filtro de búsqueda
+  contarProductos(); // Actualiza el conteo de productos visibles
+});
+
   </script>
 </body>
 
