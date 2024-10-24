@@ -37,7 +37,7 @@
                             data-provincia="{{ proveedor.provincia }}"
                             data-canton="{{ proveedor.canton }}"
                             data-distrito="{{ proveedor.distrito }}"
-                            data-direccion_exacta="{{ proveedor.direccion_exacta }}"
+                            data-direccion="{{ proveedor.direccion_exacta }}"
                             data-telefono1="{{ proveedor.telefono1 }}"
                             data-telefono2="{{ proveedor.telefono2 }}"
                             data-tipo-identificacion="{{ proveedor.tipo_identificacion }}"
@@ -58,7 +58,7 @@
                                 data-provincia="{{ proveedor.provincia }}"
                                 data-canton="{{ proveedor.canton }}"
                                 data-distrito="{{ proveedor.distrito }}"
-                                data-direccion_exacta="{{ proveedor.direccion_exacta }}"
+                                data-direccion="{{ proveedor.direccion_exacta }}"
                                 data-telefono1="{{ proveedor.telefono1 }}"
                                 data-telefono2="{{ proveedor.telefono2 }}"
                                 data-tipo-identificacion="{{ proveedor.tipo_identificacion }}"
@@ -124,7 +124,7 @@
                         <p><strong>Provincia:</strong> <span id="detalleProvincia"></span></p>
                         <p><strong>Cantón:</strong> <span id="detalleCanton"></span></p>
                         <p><strong>Distrito:</strong> <span id="detalleDistrito"></span></p>
-                        <p><strong>Dirección Exacta:</strong> <span id="detalleDireccion_exacta"></span></p>
+                        <p><strong>Dirección Exacta:</strong> <span id="detalleDireccionExacta"></span></p>
                         <p><strong>Teléfono 1:</strong> <span id="detalleTelefono1"></span></p>
                         <p><strong>Teléfono 2:</strong> <span id="detalleTelefono2"></span></p>
                     </div>
@@ -210,8 +210,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="direccion_exacta">Dirección Exacta:</label>
-                                <input type="text" class="form-control" id="direccion_exacta" name="direccion_exacta" required>
+                                <label for="direccion">Dirección Exacta:</label>
+                                <input type="text" class="form-control" id="direccion" name="direccion" required>
                             </div>
                         </div>
                         <div class="form-section">
@@ -294,8 +294,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="editarDireccion_exacta">Dirección Exacta:</label>
-                                <input type="text" class="form-control" id="editardireccion_exacta" name="direccion_exacta" required>
+                                <label for="editarDireccion">Dirección Exacta:</label>
+                                <input type="text" class="form-control" id="editarDireccion" name="direccion" required>
                             </div>
                         </div>
                         <div class="form-section">
@@ -334,7 +334,7 @@
             var proveedorProvincia = button.getAttribute('data-provincia');
             var proveedorCanton = button.getAttribute('data-canton');
             var proveedorDistrito = button.getAttribute('data-distrito');
-            var proveedorDireccion_exacta = button.getAttribute('data-direccion_exacta');
+            var proveedorDireccion = button.getAttribute('data-direccion');
             var proveedorTelefono1 = button.getAttribute('data-telefono1');
             var proveedorTelefono2 = button.getAttribute('data-telefono2');
             var proveedorTipoIdentificacion = button.getAttribute('data-tipo-identificacion');
@@ -348,7 +348,7 @@
             modal.find('#editarProvincia').val(proveedorProvincia);
             modal.find('#editarCanton').val(proveedorCanton);
             modal.find('#editarDistrito').val(proveedorDistrito);
-            modal.find('#editarDireccion_exacta').val(proveedorDireccion_exacta);
+            modal.find('#editarDireccion').val(proveedorDireccion);
             modal.find('#editarTelefono1').val(proveedorTelefono1);
             modal.find('#editarTelefono2').val(proveedorTelefono2);
             modal.find('#editarTipoIdentificacion').val(proveedorTipoIdentificacion);
@@ -373,7 +373,7 @@
             var proveedorProvincia = button.getAttribute('data-provincia');
             var proveedorCanton = button.getAttribute('data-canton');
             var proveedorDistrito = button.getAttribute('data-distrito');
-            var proveedorDireccion_exacta = button.getAttribute('data-direccion_exacta');
+            var proveedorDireccion = button.getAttribute('data-direccion');
             var proveedorTelefono1 = button.getAttribute('data-telefono1');
             var proveedorTelefono2 = button.getAttribute('data-telefono2');
             var proveedorTipoIdentificacion = button.getAttribute('data-tipo-identificacion');
@@ -386,7 +386,7 @@
             modal.find('#detalleProvincia').text(proveedorProvincia);
             modal.find('#detalleCanton').text(proveedorCanton);
             modal.find('#detalleDistrito').text(proveedorDistrito);
-            modal.find('#detalleDireccion_exacta').text(proveedorDireccion_exacta);
+            modal.find('#detalleDireccionExacta').text(proveedorDireccion);
             modal.find('#detalleTelefono1').text(proveedorTelefono1);
             modal.find('#detalleTelefono2').text(proveedorTelefono2);
             modal.find('#detalleTipoIdentificacion').text(proveedorTipoIdentificacion);
@@ -420,7 +420,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             const costaRicaLocations = {
                 // Datos de localidades de Costa Rica aquí
-               
+                "--Seleccione--":{},
                 "San José": {
                     cantons: {
                         "San José": ["Carmen", "Merced", "Hospital", "Catedral", "Zapote", "San Francisco de Dos Ríos", "Uruca", "Mata Redonda", "Pavas", "Hatillo", "San Sebastián"],
@@ -504,98 +504,54 @@
                         "Guácimo": ["Guácimo", "Mercedes", "Pocora", "Río Jiménez", "Duacarí"],},},
             };
 
-             // Selectores para el formulario de creación
-    const provinciaSelect = document.getElementById("provincia");
-    const cantonSelect = document.getElementById("canton");
-    const distritoSelect = document.getElementById("distrito");
+            const provinciaSelect = document.getElementById("provincia");
+            const cantonSelect = document.getElementById("canton");
+            const distritoSelect = document.getElementById("distrito");
 
-    // Selectores para el formulario de edición
-    const editarProvinciaSelect = document.getElementById("editarProvincia");
-    const editarCantonSelect = document.getElementById("editarCanton");
-    const editarDistritoSelect = document.getElementById("editarDistrito");
+            
 
-    // Función para poblar provincias
-    function populateProvinces(selectElement) {
-        const defaultOption = document.createElement("option");
-        defaultOption.value = "";
-        defaultOption.text = "--Seleccione--";
-        selectElement.appendChild(defaultOption);
+            // Poblar provincias
+            Object.keys(costaRicaLocations).forEach((provincia) => {
+                const option = document.createElement("option");
+                option.value = provincia;
+                option.text = provincia;
+                provinciaSelect.appendChild(option);
+            });
 
-        Object.keys(costaRicaLocations).forEach((provincia) => {
-            const option = document.createElement("option");
-            option.value = provincia;
-            option.text = provincia;
-            selectElement.appendChild(option);
+            // Actualizar cantones y distritos según la provincia seleccionada
+            provinciaSelect.addEventListener("change", () => {
+                const selectedProvincia = provinciaSelect.value;
+                cantonSelect.innerHTML = '<option value="">Seleccione un cantón</option>';
+                distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
+
+                if (selectedProvincia) {
+                    const cantons = costaRicaLocations[selectedProvincia].cantons;
+                    Object.keys(cantons).forEach((canton) => {
+                        const option = document.createElement("option");
+                        option.value = canton;
+                        option.text = canton;
+                        cantonSelect.appendChild(option);
+                    });
+                }
+            });
+
+            // Actualizar distritos según el cantón seleccionado
+            cantonSelect.addEventListener("change", () => {
+                const selectedProvincia = provinciaSelect.value;
+                const selectedCanton = cantonSelect.value;
+                distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
+
+                if (selectedProvincia && selectedCanton) {
+                    const distritos = costaRicaLocations[selectedProvincia].cantons[selectedCanton];
+                    distritos.forEach((distrito) => {
+                        const option = document.createElement("option");
+                        option.value = distrito;
+                        option.text = distrito;
+                        distritoSelect.appendChild(option);
+                    });
+                }
+            });
         });
-    }
-
-    // Poblar provincias en ambos selects
-    populateProvinces(provinciaSelect);
-    populateProvinces(editarProvinciaSelect);
-
-    // Función para actualizar cantones y distritos según la provincia seleccionada
-    function updateCantons(provinciaSelect, cantonSelect, distritoSelect, selectedCanton = null, selectedDistrito = null) {
-        const selectedProvincia = provinciaSelect.value;
-        cantonSelect.innerHTML = '<option value="">Seleccione un cantón</option>';
-        distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
-
-        if (selectedProvincia) {
-            const cantons = costaRicaLocations[selectedProvincia].cantons;
-            Object.keys(cantons).forEach((canton) => {
-                const option = document.createElement("option");
-                option.value = canton;
-                option.text = canton;
-                if (canton === selectedCanton) option.selected = true; // Selecciona el cantón actual en el modal de edición
-                cantonSelect.appendChild(option);
-            });
-
-            // Si hay un cantón seleccionado, actualiza los distritos
-            if (selectedCanton) {
-                updateDistricts(provinciaSelect, cantonSelect, distritoSelect, selectedDistrito);
-            }
-        }
-    }
-
-    // Función para actualizar distritos según el cantón seleccionado
-    function updateDistricts(provinciaSelect, cantonSelect, distritoSelect, selectedDistrito = null) {
-        const selectedProvincia = provinciaSelect.value;
-        const selectedCanton = cantonSelect.value;
-        distritoSelect.innerHTML = '<option value="">Seleccione un distrito</option>';
-
-        if (selectedProvincia && selectedCanton) {
-            const distritos = costaRicaLocations[selectedProvincia].cantons[selectedCanton];
-            distritos.forEach((distrito) => {
-                const option = document.createElement("option");
-                option.value = distrito;
-                option.text = distrito;
-                if (distrito === selectedDistrito) option.selected = true; // Selecciona el distrito actual en el modal de edición
-                distritoSelect.appendChild(option);
-            });
-        }
-    }
-
-    // Eventos para el formulario de creación
-    provinciaSelect.addEventListener("change", () => updateCantons(provinciaSelect, cantonSelect, distritoSelect));
-    cantonSelect.addEventListener("change", () => updateDistricts(provinciaSelect, cantonSelect, distritoSelect));
-
-    // Eventos para el formulario de edición
-    editarProvinciaSelect.addEventListener("change", () => updateCantons(editarProvinciaSelect, editarCantonSelect, editarDistritoSelect));
-    editarCantonSelect.addEventListener("change", () => updateDistricts(editarProvinciaSelect, editarCantonSelect, editarDistritoSelect));
-
-    // Cargar los valores actuales al abrir el modal de edición
-    $('#EditarProveedor').on('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-
-        const selectedProvincia = button.getAttribute('data-provincia');
-        const selectedCanton = button.getAttribute('data-canton');
-        const selectedDistrito = button.getAttribute('data-distrito');
-
-        editarProvinciaSelect.value = selectedProvincia;
-        updateCantons(editarProvinciaSelect, editarCantonSelect, editarDistritoSelect, selectedCanton, selectedDistrito);
-    });
-});
-
-
 
     </script>
 

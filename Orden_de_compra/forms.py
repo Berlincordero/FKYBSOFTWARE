@@ -1,5 +1,7 @@
 from django import forms
 from .models import OrdenDeCompra
+from Inventario.models import Producto
+from Proveedores.models import Proveedor        
 
 class OrdenDeCompraForm(forms.ModelForm):
     class Meta:
@@ -13,7 +15,6 @@ class OrdenDeCompraForm(forms.ModelForm):
             'cantidad',
             'precio_unitario',
             'proveedor',
-            'descuento',
             'lugar_entrega',
             'notas',
             'metodo_pago',

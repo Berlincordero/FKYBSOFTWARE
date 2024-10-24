@@ -18,7 +18,7 @@ def agregar_proveedor(request):
         provincia = request.POST.get('provincia')
         canton = request.POST.get('canton')
         distrito = request.POST.get('distrito')
-        direccion_exacta = request.POST.get('direccion')
+        direccion_exacta = request.POST.get('direccion_exacta')
         telefono1 = request.POST.get('telefono1')
         telefono2 = request.POST.get('telefono2')
 
