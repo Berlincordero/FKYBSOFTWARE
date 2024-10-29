@@ -3,6 +3,8 @@ from .models import OrdenDeCompra
 from .forms import OrdenDeCompraForm  
 from decimal import Decimal
 
+from django.views.decorators.http import require_POST
+
 def lista_ordenes(request):
     ordenes = OrdenDeCompra.objects.all()
     descuentos = ['0', '5', '10', '15']  
@@ -76,3 +78,39 @@ def crear_orden(request):
         'descuentos': descuentos,
         'metodos_pago': metodos_pago,
     })
+
+
+@require_POST
+def eliminar_orden(request):
+    if request.method == 'POST':
+        orden_id = request.POST.get('orden_id')
+        try:
+            orden = OrdenDeCompra.objects.get(id_orden=orden_id)
+            orden.delete()
+            return redirect('lista_ordenes')
+        except OrdenDeCompra.DoesNotExist:
+            # Manejar el error de que no existe la orden
+            return redirect('lista_ordenes')  # O redirigir a una página de error
+
+@require_POST
+def editar_orden(request):
+    if request.method == 'POST':
+        orden_id = request.POST.get('orden_id')
+        try:
+            orden = OrdenDeCompra.objects.get(id_orden=orden_id)
+            orden.id_usuario = request.POST.get('id_usuario')
+            orden.id_proveedor = request.POST.get('id_proveedor')
+            orden.id_producto = request.POST.get('id_producto')
+            orden.descripcion = request.POST.get('descripcion')
+            orden.cantidad = request.POST.get('cantidad')
+            orden.precio_unitario = request.POST.get('precio_unitario')
+            orden.descuento = request.POST.get('descuento')
+            orden.metodo_pago = request.POST.get('metodo_pago')
+            orden.lugar_entrega = request.POST.get('lugar_entrega')
+            orden.notas = request.POST.get('notas')
+
+            orden.save()  # Guardar los cambios
+            return redirect('lista_ordenes')
+        except OrdenDeCompra.DoesNotExist:
+            # Manejar el error de que no existe la orden
+            return redirect('lista_ordenes')  # O redirigir a una página de error
