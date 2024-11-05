@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Asignar Rutas</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Asignar Rutas</h1>
+
+        <!-- Mostrar mensajes de éxito o error -->
+        {% if messages %}
+            <div>
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Formulario para agregar una nueva ruta -->
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="fecha_ruta" class="form-label">Fecha de Ruta</label>
+                <input type="date" class="form-control" id="fecha_ruta" name="fecha_ruta" required>
+            </div>
+            <div class="mb-3">
+                <label for="provincia" class="form-label">Provincia</label>
+                <input type="text" class="form-control" id="provincia" name="provincia" required>
+            </div>
+            <div class="mb-3">
+                <label for="canton" class="form-label">Cantón</label>
+                <input type="text" class="form-control" id="canton" name="canton" required>
+            </div>
+            <div class="mb-3">
+                <label for="distrito" class="form-label">Distrito</label>
+                <input type="text" class="form-control" id="distrito" name="distrito" required>
+            </div>
+            <div class="mb-3">
+                <label for="direccion_exacta" class="form-label">Dirección Exacta</label>
+                <input type="text" class="form-control" id="direccion_exacta" name="direccion_exacta" required>
+            </div>
+            <div class="mb-3">
+                <label for="nombre_conductor" class="form-label">Nombre del Conductor</label>
+                <input type="text" class="form-control" id="nombre_conductor" name="nombre_conductor" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_vehiculo" class="form-label">ID Vehículo</label>
+                <input type="text" class="form-control" id="id_vehiculo" name="id_vehiculo" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Asignar Ruta</button>
+        </form>
+
+        <!-- Mostrar las rutas existentes -->
+        <h2 class="mt-4">Rutas Existentes</h2>
+        {% if rutas %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID Ruta</th>
+                        <th>Fecha</th>
+                        <th>Provincia</th>
+                        <th>Cantón</th>
+                        <th>Distrito</th>
+                        <th>Dirección Exacta</th>
+                        <th>Conductor</th>
+                        <th>Vehículo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ruta in rutas %}
+                        <tr>
+                            <td>{{ ruta.id_ruta }}</td>
+                            <td>{{ ruta.fecha_ruta }}</td>
+                            <td>{{ ruta.provincia }}</td>
+                            <td>{{ ruta.canton }}</td>
+                            <td>{{ ruta.distrito }}</td>
+                            <td>{{ ruta.direccion_exacta }}</td>
+                            <td>{{ ruta.nombre_conductor }}</td>
+                            <td>{{ ruta.id_vehiculo }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay rutas asignadas en el sistema.</p>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

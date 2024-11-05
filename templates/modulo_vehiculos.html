@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .table thead th {
+        background-color: #007bff;
+        color: white;
+    }
+    .table tbody tr:hover {
+        background-color: #e2e6ea;
+    }
+    .modal-header {
+        background-color: #007bff;
+        color: white;
+    }
+    .alert {
+        display: none;
+    }
+</style>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Módulo Vehículos</h1>
+
+    <h2 class="mb-4">Lista de Vehículos</h2>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#vehiculoModal">
+            <i class="fa fa-plus"></i> Agregar Vehículo
+        </a>
+    </div>
+
+    {% if vehiculos %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID Vehículo</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Año</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehiculo in vehiculos %}
+                    <tr>
+                        <td>{{ vehiculo.id_vehiculo }}</td>
+                        <td>{{ vehiculo.marca }}</td>
+                        <td>{{ vehiculo.modelo }}</td>
+                        <td>{{ vehiculo.año }}</td>
+                        <td>
+                            <a href="#" class="btn btn-warning me-2" 
+                               data-bs-toggle="modal" 
+                               data-bs-target="#vehiculoModal" 
+                               data-id="{{ vehiculo.id_vehiculo }}" 
+                               data-marca="{{ vehiculo.marca }}" 
+                               data-modelo="{{ vehiculo.modelo }}" 
+                               data-año="{{ vehiculo.año }}">
+                               Editar
+                            </a>
+                            <a href="#" class="btn btn-danger" 
+                               data-bs-toggle="modal" 
+                               data-bs-target="#confirmarEliminarModal" 
+                               data-id="{{ vehiculo.id_vehiculo }}" 
+                               data-nombre="{{ vehiculo.marca }}">
+                               Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Botón Regresar -->
+    <a href="{% url 'transportes:modulo_transportes' %}" class="btn btn-secondary">Regresar</a>
+    
+    {% else %}
+        <p class="text-center">No hay vehículos en el sistema</p>
+    {% endif %}
+
+    <!-- Modal para agregar/editar vehículo -->
+    <div class="modal fade" id="vehiculoModal" tabindex="-1" aria-labelledby="vehiculoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="vehiculoModalLabel">Agregar Vehículo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="vehiculoForm" method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="id_vehiculo" class="form-label">ID Vehículo</label>
+                            <input type="text" class="form-control" id="id_vehiculo" name="id_vehiculo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="marca" class="form-label">Marca</label>
+                            <input type="text" class="form-control" id="marca" name="marca" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modelo" class="form-label">Modelo</label>
+                            <input type="text" class="form-control" id="modelo" name="modelo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="año" class="form-label">Año</label>
+                            <input type="text" class="form-control" id="año" name="año" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación de eliminación -->
+    <div class="modal fade" id="confirmarEliminarModal" tabindex="-1" aria-labelledby="confirmarEliminarModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmarEliminarModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="eliminarForm" method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que deseas eliminar el vehículo <strong id="vehiculoNombre"></strong>?</p>
+                        <input type="hidden" id="idVehiculoEliminar" name="id_vehiculo">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Manejo del modal de vehículo
+    const vehiculoModal = document.getElementById('vehiculoModal');
+    const form = document.getElementById('vehiculoForm');
+
+    vehiculoModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        const marca = button.getAttribute('data-marca');
+        const modelo = button.getAttribute('data-modelo');
+        const año = button.getAttribute('data-año');
+
+        if (id) {
+            form.action = "{% url 'transportes:editar_vehiculo' '0' %}".replace('0', id);
+            document.getElementById('vehiculoModalLabel').innerText = 'Editar Vehículo';
+            document.getElementById('id_vehiculo').value = id;
+            document.getElementById('marca').value = marca;
+            document.getElementById('modelo').value = modelo;
+            document.getElementById('año').value = año;
+        } else {
+            form.action = "{% url 'transportes:agregar_vehiculo' %}";
+            form.reset();
+            document.getElementById('vehiculoModalLabel').innerText = 'Agregar Vehículo';
+        }
+    });
+
+    // Manejo del modal de eliminación de vehículo
+    const eliminarModal = document.getElementById('confirmarEliminarModal');
+    eliminarModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        const nombre = button.getAttribute('data-nombre');
+
+        document.getElementById('vehiculoNombre').innerText = nombre;
+        document.getElementById('idVehiculoEliminar').value = id;
+        document.getElementById('eliminarForm').action = "{% url 'transportes:eliminar_vehiculo' '0' %}".replace('0', id);
+    });
+
+</script>
+
+{% endblock %}
