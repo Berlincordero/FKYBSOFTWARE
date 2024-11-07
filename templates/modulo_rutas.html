@@ -85,7 +85,7 @@
                         </button>
                         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="setDeleteForm('{{ ruta.id_ruta }}', '{% url 'transportes:eliminar_ruta' ruta.id_ruta %}')">
                             <i class="fa fa-trash"></i>
-                        </button>
+                        </button>                        
                     </td>
                 </tr>
                 {% endfor %}
@@ -266,16 +266,16 @@
         const input = document.getElementById("searchDate").value;
         const table = document.getElementById("routesTable");
         const rows = table.getElementsByTagName("tr");
-
+    
         for (let i = 1; i < rows.length; i++) {
             const cells = rows[i].getElementsByTagName("td");
             const dateCell = cells[1] || {};
             const dateValue = dateCell.textContent || dateCell.innerText;
-
-            // Convert date to desired format
+    
+            // Asegúrate de que esta conversión sea correcta
             const formattedDate = convertDateFormat(dateValue);
-
-            // Check if the input matches the formatted date
+    
+            // Si el valor no se encuentra en la fecha, ocultamos la fila
             if (formattedDate.indexOf(input) > -1) {
                 rows[i].style.display = "";
             } else {
@@ -283,6 +283,7 @@
             }
         }
     }
+    
 
     function setDeleteForm(routeId, actionUrl) {
         document.getElementById('routeId').textContent = routeId;

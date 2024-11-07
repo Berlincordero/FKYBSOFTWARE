@@ -1,0 +1,491 @@
+provincia,canton,distrito
+San José,San José,Carmen
+San José,San José,Merced
+San José,San José,Hospital
+San José,San José,Catedral
+San José,San José,Zapote
+San José,San José,San Francisco de Dos Ríos
+San José,San José,Uruca
+San José,San José,Mata Redonda
+San José,San José,Pavas
+San José,San José,Hatillo
+San José,San José,San Sebastián
+San José,Escazú,Escazú
+San José,Escazú,San Antonio
+San José,Escazú,San Rafael
+San José,Desamparados,Desamparados
+San José,Desamparados,San Miguel
+San José,Desamparados,San Juan de Dios
+San José,Desamparados,San Rafael Arriba
+San José,Desamparados,San Antonio
+San José,Desamparados,Frailes
+San José,Desamparados,Patarra
+San José,Desamparados,San Cristobal
+San José,Desamparados,Rosario
+San José,Desamparados,Damas
+San José,Desamparados,San Rafael Abajo
+San José,Desamparados,Gravilias
+San José,Desamparados,Los Guido
+San José,Puriscal,Santiago
+San José,Puriscal,Mercedes Sur
+San José,Puriscal,Barbacoas
+San José,Puriscal,Grifo Alto
+San José,Puriscal,San Rafael
+San José,Puriscal,Candelarita
+San José,Puriscal,Desamparaditos
+San José,Puriscal,San Antonio
+San José,Puriscal,Chires
+San José,Tarrazú,San Marcos
+San José,Tarrazú,San Lorenzo
+San José,Tarrazú,San Carlos
+San José,Aserrí,Aserrí
+San José,Aserrí,Tarbaca
+San José,Aserrí,Vuelta de Jorco
+San José,Aserrí,San Gabriel
+San José,Aserrí,Legua
+San José,Aserrí,Monterrey
+San José,Aserrí,Salitrillos
+San José,Mora,Colón
+San José,Mora,Guayabo
+San José,Mora,Tabarcia
+San José,Mora,Piedras Negras
+San José,Mora,Picagres
+San José,Mora,Jaris
+San José,Mora,Quitirrisí
+San José,Goicoechea,Guadalupe
+San José,Goicoechea,San Francisco
+San José,Goicoechea,Calle Blancos
+San José,Goicoechea,Mata de Plátano
+San José,Goicoechea,Ipis
+San José,Goicoechea,Rancho Redondo
+San José,Goicoechea,Purral
+San José,Santa Ana,Santa Ana
+San José,Santa Ana,Salitral
+San José,Santa Ana,Pozos
+San José,Santa Ana,Uruca
+San José,Santa Ana,Piedades
+San José,Santa Ana,Brasil
+San José,Alajuelita,Alajuelita
+San José,Alajuelita,San Josecito
+San José,Alajuelita,San Antonio
+San José,Alajuelita,Concepción
+San José,Alajuelita,San Felipe
+San José,Vazquez de Coronado,San Isidro
+San José,Vazquez de Coronado,San Rafael
+San José,Vazquez de Coronado,Dulce Nombre de Jesús
+San José,Vazquez de Coronado,Patalillo
+San José,Vazquez de Coronado,Cascajal
+San José,Acosta,San Ignacio
+San José,Acosta,Guaitil
+San José,Acosta,Palmichal
+San José,Acosta,Cangrejal
+San José,Acosta,Sabanillas
+San José,Tibás,San Juan
+San José,Tibás,Cinco Esquinas
+San José,Tibás,Anselmo Llorente
+San José,Tibás,León XIII
+San José,Tibás,Colima
+San José,Moravia,San Vicente
+San José,Moravia,San Jerónimo
+San José,Moravia,La Trinidad
+San José,Montes de Oca,San Pedro
+San José,Montes de Oca,Sabanilla
+San José,Montes de Oca,Mercedes
+San José,Montes de Oca,San Rafael
+San José,Turrubares,San Pablo
+San José,Turrubares,San Pedro
+San José,Turrubares,San Juan de Mata
+San José,Turrubares,San Luis
+San José,Turrubares,Carara
+San José,Dota,Santa María
+San José,Dota,Jardín
+San José,Dota,Copey
+San José,Curridabat,Curridabat
+San José,Curridabat,Granadilla
+San José,Curridabat,Sánchez
+San José,Curridabat,Tirrases
+San José,Pérez Zeledón,San Isidro de El General
+San José,Pérez Zeledón,El General
+San José,Pérez Zeledón,Daniel Flores
+San José,Pérez Zeledón,Rivas
+San José,Pérez Zeledón,San Pedro
+San José,Pérez Zeledón,Platanares
+San José,Pérez Zeledón,Pejibaye
+San José,Pérez Zeledón,Cajón
+San José,Pérez Zeledón,Barú
+San José,Pérez Zeledón,Río Nuevo
+San José,Pérez Zeledón,Paramo
+San José,Pérez Zeledón,La Amistad
+San José,León Cortés Castro,San Pablo
+San José,León Cortés Castro,San Andrés
+San José,León Cortés Castro,Llano Bonito
+San José,León Cortés Castro,San Isidro
+San José,León Cortés Castro,Santa Cruz
+San José,León Cortés Castro,San Antonio
+Alajuela,Alajuela,Alajuela
+Alajuela,Alajuela,San José
+Alajuela,Alajuela,Carrizal
+Alajuela,Alajuela,San Antonio
+Alajuela,Alajuela,Guácima
+Alajuela,Alajuela,San Isidro
+Alajuela,Alajuela,Sabanilla
+Alajuela,Alajuela,San Rafael
+Alajuela,Alajuela,Río Segundo
+Alajuela,Alajuela,Desamparados
+Alajuela,Alajuela,Turrucares
+Alajuela,Alajuela,Tambor
+Alajuela,Alajuela,Garita
+Alajuela,Alajuela,Sarapiquí
+Alajuela,San Ramón,San Ramón
+Alajuela,San Ramón,Santiago
+Alajuela,San Ramón,San Juan
+Alajuela,San Ramón,Piedades Norte
+Alajuela,San Ramón,Piedades Sur
+Alajuela,San Ramón,San Rafael
+Alajuela,San Ramón,San Isidro
+Alajuela,San Ramón,Ángeles
+Alajuela,San Ramón,Alfaro
+Alajuela,San Ramón,Volio
+Alajuela,San Ramón,Concepción
+Alajuela,San Ramón,Zapotal
+Alajuela,San Ramón,Peñas Blancas
+Alajuela,San Ramón,San Lorenzo
+Alajuela,Grecia,Grecia
+Alajuela,Grecia,San Isidro
+Alajuela,Grecia,San José
+Alajuela,Grecia,San Roque
+Alajuela,Grecia,Tacares
+Alajuela,Grecia,Puente de Piedra
+Alajuela,Grecia,Bolivar
+Alajuela,San Mateo,San Mateo
+Alajuela,San Mateo,Desmonte
+Alajuela,San Mateo,Jesús María
+Alajuela,San Mateo,Labrador
+Alajuela,Atenas,Atenas
+Alajuela,Atenas,Jesús
+Alajuela,Atenas,Mercedes
+Alajuela,Atenas,San Isidro
+Alajuela,Atenas,Concepción
+Alajuela,Atenas,San José
+Alajuela,Atenas,Santa Eulalia
+Alajuela,Atenas,Escobal
+Alajuela,Naranjo,Naranjo
+Alajuela,Naranjo,San Miguel
+Alajuela,Naranjo,San José
+Alajuela,Naranjo,Cirrí Sur
+Alajuela,Naranjo,San Jerónimo
+Alajuela,Naranjo,San Juan
+Alajuela,Naranjo,El Rosario
+Alajuela,Naranjo,Palmitos
+Alajuela,Palmares,Palmares
+Alajuela,Palmares,Zaragoza
+Alajuela,Palmares,Buenos Aires
+Alajuela,Palmares,Santiago
+Alajuela,Palmares,Candelaria
+Alajuela,Palmares,Esquipulas
+Alajuela,Palmares,La Granja
+Alajuela,Poás,San Pedro
+Alajuela,Poás,San Juan
+Alajuela,Poás,San Rafael
+Alajuela,Poás,Carrillos
+Alajuela,Poás,Sabana Redonda
+Alajuela,Orotina,Orotina
+Alajuela,Orotina,El Mastate
+Alajuela,Orotina,Hacienda Vieja
+Alajuela,Orotina,Coyolar
+Alajuela,Orotina,La Ceiba
+Alajuela,San Carlos,Quesada
+Alajuela,San Carlos,Florencia
+Alajuela,San Carlos,Buenavista
+Alajuela,San Carlos,Aguas Zarcas
+Alajuela,San Carlos,Venecia
+Alajuela,San Carlos,Pital
+Alajuela,San Carlos,La Fortuna
+Alajuela,San Carlos,La Tigra
+Alajuela,San Carlos,La Palmera
+Alajuela,San Carlos,Venado
+Alajuela,San Carlos,Cutris
+Alajuela,San Carlos,Monterrey
+Alajuela,San Carlos,Pocosol
+Alajuela,Zarcero,Zarcero
+Alajuela,Zarcero,Laguna
+Alajuela,Zarcero,Tapesco
+Alajuela,Zarcero,Guadalupe
+Alajuela,Zarcero,Palmira
+Alajuela,Zarcero,Zapote
+Alajuela,Zarcero,Brisas
+Alajuela,Sarchí,Sarchí Norte
+Alajuela,Sarchí,Sarchí Sur
+Alajuela,Sarchí,Toro Amarillo
+Alajuela,Sarchí,San Pedro
+Alajuela,Sarchí,Rodríguez
+Alajuela,Upala,Upala
+Alajuela,Upala,Aguas Claras
+Alajuela,Upala,San José O Pizote
+Alajuela,Upala,Bijagua
+Alajuela,Upala,Delicias
+Alajuela,Upala,Dos Ríos
+Alajuela,Upala,Yolillal
+Alajuela,Upala,Canalete
+Alajuela,Los Chiles,Los Chiles
+Alajuela,Los Chiles,Caño Negro
+Alajuela,Los Chiles,El Amparo
+Alajuela,Los Chiles,San Jorge
+Alajuela,Guatuso,San Rafael
+Alajuela,Guatuso,Buenavista
+Alajuela,Guatuso,Cote
+Alajuela,Guatuso,Katira
+Alajuela,Río Cuarto,Río Cuarto
+Alajuela,Río Cuarto,Santa Rita
+Alajuela,Río Cuarto,Santa Isabel
+Cartago,Cartago,Oriental
+Cartago,Cartago,Occidental
+Cartago,Cartago,Carmen
+Cartago,Cartago,San Nicolás
+Cartago,Cartago,Aguacaliente o San Francisco
+Cartago,Cartago,Guadalupe o Arenilla
+Cartago,Cartago,Corralillo
+Cartago,Cartago,Tierra Blanca
+Cartago,Cartago,Dulce Nombre
+Cartago,Cartago,Llano Grande
+Cartago,Cartago,Quebradilla
+Cartago,Paraíso,Paraíso
+Cartago,Paraíso,Santiago
+Cartago,Paraíso,Orosi
+Cartago,Paraíso,Cachí
+Cartago,Paraíso,Llanos de Santa Lucía
+Cartago,Paraíso,Birrisito
+Cartago,La Unión,Tres Ríos
+Cartago,La Unión,San Diego
+Cartago,La Unión,San Juan
+Cartago,La Unión,San Rafael
+Cartago,La Unión,Concepción
+Cartago,La Unión,Dulce Nombre
+Cartago,La Unión,San Ramón
+Cartago,La Unión,Río Azul
+Cartago,Jiménez,Juan Viñas
+Cartago,Jiménez,Tucurrique
+Cartago,Jiménez,Pejibaye
+Cartago,Turrialba,Turrialba
+Cartago,Turrialba,La Suiza
+Cartago,Turrialba,Peralta
+Cartago,Turrialba,Santa Cruz
+Cartago,Turrialba,Santa Teresita
+Cartago,Turrialba,Pavones
+Cartago,Turrialba,Tuis
+Cartago,Turrialba,Tayutic
+Cartago,Turrialba,Santa Rosa
+Cartago,Turrialba,Tres Equis
+Cartago,Turrialba,La Isabel
+Cartago,Turrialba,Chirripó
+Cartago,Alvarado,Pacayas
+Cartago,Alvarado,Cervantes
+Cartago,Alvarado,Capellades
+Cartago,Oreamuno,San Rafael
+Cartago,Oreamuno,Cot
+Cartago,Oreamuno,Potrero Cerrado
+Cartago,Oreamuno,Cipreses
+Cartago,Oreamuno,Santa Rosa
+Cartago,El Guarco,El Tejar
+Cartago,El Guarco,San Isidro
+Cartago,El Guarco,Tobosi
+Cartago,El Guarco,Patio de Agua
+Heredia,Heredia,Heredia
+Heredia,Heredia,Mercedes
+Heredia,Heredia,San Francisco
+Heredia,Heredia,Ulloa
+Heredia,Heredia,Varablanca
+Heredia,Barva,Barva
+Heredia,Barva,San Pedro
+Heredia,Barva,San Pablo
+Heredia,Barva,San Roque
+Heredia,Barva,Santa Lucía
+Heredia,Barva,San José de la Montaña
+Heredia,Santo Domingo,Santo Domingo
+Heredia,Santo Domingo,San Vicente
+Heredia,Santo Domingo,San Miguel
+Heredia,Santo Domingo,Paracito
+Heredia,Santo Domingo,Santo Tomás
+Heredia,Santo Domingo,Santa Rosa
+Heredia,Santo Domingo,Tures
+Heredia,Santo Domingo,Pará
+Heredia,Santa Bárbara,Santa Bárbara
+Heredia,Santa Bárbara,San Pedro
+Heredia,Santa Bárbara,San Juan
+Heredia,Santa Bárbara,Jesús
+Heredia,Santa Bárbara,Santo Domingo
+Heredia,Santa Bárbara,Purabá
+Heredia,San Rafael,San Rafael
+Heredia,San Rafael,San Josecito
+Heredia,San Rafael,Santiago
+Heredia,San Rafael,Ángeles
+Heredia,San Rafael,Concepción
+Heredia,San Isidro,San Isidro
+Heredia,San Isidro,San José
+Heredia,San Isidro,Concepción
+Heredia,San Isidro,San Francisco
+Heredia,Belén,San Antonio
+Heredia,Belén,La Ribera
+Heredia,Belén,La Asunción
+Heredia,Flores,San Joaquín
+Heredia,Flores,Barrantes
+Heredia,Flores,Llorente
+Heredia,San Pablo,San Pablo
+Heredia,San Pablo,Rincón de Sabanilla
+Heredia,Sarapiquí,Puerto Viejo
+Heredia,Sarapiquí,La Virgen
+Heredia,Sarapiquí,Las Horquetas
+Heredia,Sarapiquí,Llanuras del Gaspar
+Heredia,Sarapiquí,Cureña
+
+
+Guanacaste,Liberia,Liberia
+Guanacaste,Liberia,Cañas Dulces
+Guanacaste,Liberia,Mayorga
+Guanacaste,Liberia,Nacascolo
+Guanacaste,Liberia,Curubandé
+Guanacaste,Nicoya,Nicoya
+Guanacaste,Nicoya,Mansión
+Guanacaste,Nicoya,San Antonio
+Guanacaste,Nicoya,Quebrada Honda
+Guanacaste,Nicoya,Sámara
+Guanacaste,Nicoya,Nosara
+Guanacaste,Nicoya,Belén de Nosarita
+Guanacaste,Santa Cruz,Santa Cruz
+Guanacaste,Santa Cruz,Bolsón
+Guanacaste,Santa Cruz,Veintisiete de Abril
+Guanacaste,Santa Cruz,Tempate
+Guanacaste,Santa Cruz,Cartagena
+Guanacaste,Santa Cruz,Cuajiniquil
+Guanacaste,Santa Cruz,Diriá
+Guanacaste,Santa Cruz,Cabo Velas
+Guanacaste,Santa Cruz,Tamarindo
+Guanacaste,Bagaces,Bagaces
+Guanacaste,Bagaces,La Fortuna
+Guanacaste,Bagaces,Mogote
+Guanacaste,Bagaces,Río Naranjo
+Guanacaste,Carrillo,Filadelfia
+Guanacaste,Carrillo,Palmira
+Guanacaste,Carrillo,Sardinal
+Guanacaste,Carrillo,Belén
+Guanacaste,Cañas,Cañas
+Guanacaste,Cañas,Palmira
+Guanacaste,Cañas,San Miguel
+Guanacaste,Cañas,Bebedero
+Guanacaste,Cañas,Porozal
+Guanacaste,Abangares,Las Juntas
+Guanacaste,Abangares,Sierra
+Guanacaste,Abangares,San Juan
+Guanacaste,Abangares,Colorado
+Guanacaste,Tilarán,Tilarán
+Guanacaste,Tilarán,Quebrada Grande
+Guanacaste,Tilarán,Tronadora
+Guanacaste,Tilarán,Santa Rosa
+Guanacaste,Tilarán,Líbano
+Guanacaste,Tilarán,Tierras Morenas
+Guanacaste,Tilarán,Arenal
+Guanacaste,Tilarán,Cabeceras
+Guanacaste,Nandayure,Carmona
+Guanacaste,Nandayure,Santa Rita
+Guanacaste,Nandayure,Zapotal
+Guanacaste,Nandayure,San Pablo
+Guanacaste,Nandayure,Porvenir
+Guanacaste,Nandayure,Bejuco
+Guanacaste,La Cruz,La Cruz
+Guanacaste,La Cruz,Santa Cecilia
+Guanacaste,La Cruz,La Garita
+Guanacaste,La Cruz,Santa Elena
+Guanacaste,Hojancha,Hojancha
+Guanacaste,Hojancha,Monte Romo
+Guanacaste,Hojancha,Puerto Carrillo
+Guanacaste,Hojancha,Huacas
+Guanacaste,Hojancha,Matambú
+Puntarenas,Puntarenas,Puntarenas
+Puntarenas,Puntarenas,Pitahaya
+Puntarenas,Puntarenas,Chomes
+Puntarenas,Puntarenas,Lepanto
+Puntarenas,Puntarenas,Paquera
+Puntarenas,Puntarenas,Manzanillo
+Puntarenas,Puntarenas,Guacimal
+Puntarenas,Puntarenas,Barranca
+Puntarenas,Puntarenas,Isla del Coco
+Puntarenas,Puntarenas,Cóbano
+Puntarenas,Puntarenas,Chacarita
+Puntarenas,Puntarenas,Chira
+Puntarenas,Puntarenas,Acapulco
+Puntarenas,Puntarenas,El Roble
+Puntarenas,Puntarenas,Arancibia
+Puntarenas,Esparza,Espíritu Santo
+Puntarenas,Esparza,San Juan Grande
+Puntarenas,Esparza,Macacona
+Puntarenas,Esparza,San Rafael
+Puntarenas,Esparza,San Jerónimo
+Puntarenas,Esparza,Caldera
+Puntarenas,Buenos Aires,Buenos Aires
+Puntarenas,Buenos Aires,Volcán
+Puntarenas,Buenos Aires,Potrero Grande
+Puntarenas,Buenos Aires,Boruca
+Puntarenas,Buenos Aires,Pilas
+Puntarenas,Buenos Aires,Colinas
+Puntarenas,Buenos Aires,Chánguena
+Puntarenas,Buenos Aires,Biolley
+Puntarenas,Buenos Aires,Brunka
+Puntarenas,Montes de Oro,Miramar
+Puntarenas,Montes de Oro,La Unión
+Puntarenas,Montes de Oro,San Isidro
+Puntarenas,Osa,Puerto Cortés
+Puntarenas,Osa,Palmar
+Puntarenas,Osa,Sierpe
+Puntarenas,Osa,Bahía Ballena
+Puntarenas,Osa,Piedras Blancas
+Puntarenas,Osa,Bahía Drake
+Puntarenas,Quepos,Quepos
+Puntarenas,Quepos,Savegre
+Puntarenas,Quepos,Naranjito
+Puntarenas,Golfito,Golfito
+Puntarenas,Golfito,Puerto Jiménez
+Puntarenas,Golfito,Guaycará
+Puntarenas,Golfito,Pavón
+Puntarenas,Coto Brus,San Vito
+Puntarenas,Coto Brus,Sabalito
+Puntarenas,Coto Brus,Aguabuena
+Puntarenas,Coto Brus,Limoncito
+Puntarenas,Coto Brus,Pittier
+Puntarenas,Coto Brus,Gutiérrez Braun
+Puntarenas,Parrita,Parrita
+Puntarenas,Corredores,Corredor
+Puntarenas,Corredores,La Cuesta
+Puntarenas,Corredores,Canoas
+Puntarenas,Corredores,Laurel
+Puntarenas,Garabito,Jacó
+Puntarenas,Garabito,Tárcoles
+Puntarenas,Garabito,Lagunillas
+Puntarenas,Monteverde,Monteverde
+Limón,Limón,Limón
+Limón,Limón,Valle La Estrella
+Limón,Limón,Río Blanco
+Limón,Limón,Matama
+Limón,Pococí,Guápiles
+Limón,Pococí,Jiménez
+Limón,Pococí,Rita
+Limón,Pococí,Roxana
+Limón,Pococí,Cariari
+Limón,Pococí,Colorado
+Limón,Pococí,La Colonia
+Limón,Siquirres,Siquirres
+Limón,Siquirres,Pacuarito
+Limón,Siquirres,Florida
+Limón,Siquirres,Germania
+Limón,Siquirres,El Cairo
+Limón,Siquirres,Alegría
+Limón,Siquirres,Reventazón
+Limón,Talamanca,Bratsi
+Limón,Talamanca,Sixaola
+Limón,Talamanca,Cahuita
+Limón,Talamanca,Telire
+Limón,Matina,Matina
+Limón,Matina,Batán
+Limón,Matina,Carrandí
+Limón,Guácimo,Guácimo
+Limón,Guácimo,Mercedes
+Limón,Guácimo,Pocora

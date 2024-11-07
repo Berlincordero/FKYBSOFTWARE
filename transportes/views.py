@@ -7,6 +7,7 @@ from django.views.generic import ListView
 from django.utils import timezone
 import datetime
 from django.contrib import messages
+from geografia.models import Provincia, Canton, Distrito
 
 
 def modulo_transportes(request):
@@ -128,10 +129,13 @@ def modulo_vehiculos(request):
 #transportes/views.py
 
 def modulo_rutas(request):
-    rutas = Ruta.objects.all()  # Asegúrate de que Ruta es tu modelo de rutas
+    # Si estás usando un campo 'activo' en el modelo Ruta
+    rutas = Ruta.objects.filter(activo=True)  # Recupera todas las rutas sin filtrar  # Filtra por rutas activas
     conductores = Conductor.objects.all()
     vehiculos = Vehiculo.objects.all()
     return render(request, 'modulo_rutas.html', {'rutas': rutas, 'conductores': conductores, 'vehiculos': vehiculos})
+
+
 
 
 
@@ -170,22 +174,23 @@ def agregar_ruta(request):
 
 def eliminar_ruta(request, id):
     if request.method == 'POST':
-        # Cambia 'id' por 'id_ruta' si estás utilizando 'id_ruta' en tu modelo Ruta
-        ruta = get_object_or_404(Ruta, id_ruta=id)  
+        # Obtiene la ruta que quieres "eliminar"
+        ruta = get_object_or_404(Ruta, id_ruta=id)
         
-        # Crea un nuevo registro en RutaEliminada antes de eliminar
+        # Si ya tienes una tabla RutaEliminada, mueve la ruta allí
         RutaEliminada.objects.create(
-            ruta=ruta,  # Esto asume que tienes un ForeignKey llamado 'ruta' en RutaEliminada
-            fecha_eliminacion=timezone.now(),
-            # Aquí puedes agregar más campos si es necesario
+            ruta=ruta,  # Asume que RutaEliminada tiene un campo 'ruta' que guarda la ruta original
+            fecha_eliminacion=timezone.now()
         )
-
-        # Elimina la ruta
-        ruta.delete()
-        messages.success(request, 'Ruta eliminada con éxito.')
         
-        # Redirige a la vista deseada
+        # Marca la ruta como inactiva en lugar de eliminarla (opcional, dependiendo de tu modelo)
+        ruta.activo = False  # Suponiendo que tienes un campo 'activo' para marcar como inactiva
+        ruta.save()
+
+        messages.success(request, 'Ruta movida a eliminadas con éxito.')
         return redirect('transportes:modulo_rutas')
+
+
 
 
     
@@ -215,38 +220,15 @@ def editar_ruta(request, id_ruta):
 
 
 def asignar_rutas(request):
-    if request.method == 'POST':
-        # Obtener datos del formulario
-        fecha_ruta = request.POST.get('fecha_ruta')
-        provincia = request.POST.get('provincia')
-        canton = request.POST.get('canton')
-        distrito = request.POST.get('distrito')
-        direccion_exacta = request.POST.get('direccion_exacta')
-        nombre_conductor = request.POST.get('nombre_conductor')
-        id_vehiculo = request.POST.get('id_vehiculo')
-
-        # Crear una nueva ruta
-        try:
-            nueva_ruta = Ruta(
-                fecha_ruta=fecha_ruta,
-                provincia=provincia,
-                canton=canton,
-                distrito=distrito,
-                direccion_exacta=direccion_exacta,
-                nombre_conductor=nombre_conductor,
-                id_vehiculo=id_vehiculo
-            )
-            nueva_ruta.save()
-            messages.success(request, 'Ruta asignada exitosamente.')
-            return redirect('transportes:asignar_rutas')  # Redirigir a la misma página después de guardar
-        except Exception as e:
-            messages.error(request, f'Error al asignar ruta: {str(e)}')
-
-    # Obtener todas las rutas para mostrarlas en el template
-    rutas = Ruta.objects.all()
-    return render(request, 'asignar_rutas.html', {'rutas': rutas})
+    # Obtener todas las provincias
+    provincias = Provincia.objects.all()  
+    return render(request, 'modulo_rutas.html', {'provincias': provincias})
 
 def eliminar_todas_rutas(request):
     if request.method == 'POST':
         Ruta.objects.all().delete()  # Elimina todas las rutas
         return redirect('transportes:asignar_rutas')  # Redirigir a la página de asignar rutas
+    
+
+
+

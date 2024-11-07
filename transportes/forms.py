@@ -1,5 +1,6 @@
 #transportes/forms.py
 from django import forms
+from geografia.models import Provincia, Canton, Distrito
 from .models import Conductor, Vehiculo, Ruta
 
 class ConductorForm(forms.ModelForm):
@@ -16,21 +17,12 @@ class VehiculoForm(forms.ModelForm):
 class RutaForm(forms.ModelForm):
     class Meta:
         model = Ruta
-        fields = [
-            'fecha_ruta',
-            'provincia',
-            'canton',
-            'distrito',
-            'direccion_exacta',
-            'nombre_conductor',
-            'id_vehiculo'
-        ]
-        widgets = {
-            'fecha_ruta': forms.DateInput(attrs={'type': 'date'}),
-            'direccion_exacta': forms.TextInput(attrs={'placeholder': 'Ingrese dirección exacta'}),
-            'nombre_conductor': forms.Select(),  # Esto será llenado dinámicamente
-            'id_vehiculo': forms.Select(),  # Esto será llenado dinámicamente
-        }
+        fields = ['fecha_ruta', 'provincia', 'canton', 'distrito', 'direccion_exacta', 'nombre_conductor', 'id_vehiculo']
+
+    # Widgets para las relaciones
+    provincia = forms.ModelChoiceField(queryset=Provincia.objects.all(), required=True, empty_label="Seleccione una provincia")
+    canton = forms.ModelChoiceField(queryset=Canton.objects.none(), required=True, empty_label="Seleccione un cantón")
+    distrito = forms.ModelChoiceField(queryset=Distrito.objects.none(), required=True, empty_label="Seleccione un distrito")
 
     def __init__(self, *args, **kwargs):
         conductores = kwargs.pop('conductores', None)

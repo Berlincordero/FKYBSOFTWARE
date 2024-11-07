@@ -36,11 +36,13 @@ class Ruta(models.Model):
     canton = models.CharField(max_length=100)
     distrito = models.CharField(max_length=100)
     direccion_exacta = models.CharField(max_length=255)
-    nombre_conductor = models.ForeignKey(Conductor, on_delete=models.CASCADE)  # Cambiado a ForeignKey
-    id_vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)  # Cambiado a ForeignKey
+    nombre_conductor = models.ForeignKey(Conductor, on_delete=models.CASCADE)
+    id_vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
+    activo = models.BooleanField(default=True)  # Campo para marcar rutas activas o no
 
     def __str__(self):
         return f"Ruta {self.id_ruta} - {self.fecha_ruta}"
+
 
 
 class RutaEliminada(models.Model):

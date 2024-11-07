@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'Clientes',
     'mi_aplicacion',
     'transportes',
+    'geografia',
     'Orden_de_compra',
     
 ]

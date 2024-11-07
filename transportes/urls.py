@@ -27,6 +27,7 @@ urlpatterns = [
     path('agregar_ruta/', views.agregar_ruta, name='agregar_ruta'),
     path('editar_ruta/<str:id_ruta>/', views.editar_ruta, name='editar_ruta'),
     path('asignar_rutas/', views.asignar_rutas, name='asignar_rutas'),
+    
 
 
 
