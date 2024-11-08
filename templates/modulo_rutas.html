@@ -95,9 +95,18 @@
                 </tr>
             {% endif %}
         </tbody>
+
+        <div class="mb-3">
+            <button class="btn" style="background-color: #00bcd4; color: white;" onclick="printRutas()">
+                <i class="fa fa-print"></i> Imprimir Rutas
+            </button>
+        </div>
+        
+        
     </table>
     <a href="{% url 'transportes:modulo_transportes' %}" class="btn btn-secondary">Regresar</a>
 </div>
+
 
 <!-- Modal Agregar Ruta -->
 <div class="modal fade" id="addRouteModal" tabindex="-1" aria-labelledby="addRouteModalLabel" aria-hidden="true">
@@ -666,6 +675,42 @@
             });
         });
     });
+
+
+    function printRutas() {
+        // Obtener la tabla de rutas
+        const table = document.getElementById("routesTable").outerHTML;
+    
+        // Crear una nueva ventana para imprimir
+        const printWindow = window.open("", "_blank");
+    
+        // Formato de la página de impresión
+        printWindow.document.write(`
+            <html>
+            <head>
+                <title></title>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+                <style>
+                    h1 { text-align: center; margin-top: 20px; }
+                    .table th, .table td { border: 1px solid #dee2e6; padding: 8px; }
+                    .table th { background-color: #007bff; color: white; }
+                </style>
+            </head>
+            <body>
+                <h1>Listado de Rutas</h1>
+                <p>Fecha de impresión: ${new Date().toLocaleDateString("es-ES")}</p>
+                ${table}
+            </body>
+            </html>
+        `);
+    
+        // Cerrar el documento de la ventana y activar la impresión
+        printWindow.document.close();
+        printWindow.print();
+    }
+    
 </script>
+
+
 </body>
 </html>
