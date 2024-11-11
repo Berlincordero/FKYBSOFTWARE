@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Módulo Rutas</title>
+    <title>Módulo Clientes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -28,7 +28,7 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h1 class="text-center">Rutas</h1>
+    <h1 class="text-center">Clientes</h1>
 
     <div class="alert alert-success" id="successAlert" role="alert">
         {% if messages %}
@@ -39,95 +39,99 @@
     </div>
 
     <div class="mb-3">
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRouteModal">
-            <i class="fa fa-plus"></i> Agregar Ruta
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClientModal">
+            <i class="fa fa-plus"></i> Agregar Cliente
         </button>
     </div>
 
     <!-- Barra de búsqueda -->
     <div class="mb-3">
         <div class="input-group">
-            <input type="text" id="searchDate" class="form-control" placeholder="Buscar por fecha (DD-MM-YYYY o DD/MM/YYYY)" onkeyup="filterRutas()">
+            <input type="text" id="searchClient" class="form-control" placeholder="Buscar por cédula o nombre" onkeyup="filterClients()">
             <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
         </div>
     </div>
 
-    <!-- Tabla de Rutas -->
-    <table class="table table-bordered" id="routesTable">
+    <!-- Tabla de Clientes -->
+    <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID Ruta</th>
-                <th>Fecha</th>
+                <th>ID Cliente</th>
+                <th>Nombre</th>
+                <th>Primer Apellido</th>
+                <th>Segundo Apellido</th>
                 <th>Provincia</th>
                 <th>Cantón</th>
                 <th>Distrito</th>
                 <th>Dirección Exacta</th>
-                <th>Conductor</th>
-                <th>Vehículo</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            {% if rutas %}
-                {% for ruta in rutas %}
-                <tr>
-                    <td>{{ ruta.id_ruta }}</td>
-                    <td>{{ ruta.fecha_ruta }}</td>
-                    <td>{{ ruta.provincia }}</td>
-                    <td>{{ ruta.canton }}</td>
-                    <td>{{ ruta.distrito }}</td>
-                    <td>{{ ruta.direccion_exacta }}</td>
-                    <td>{{ ruta.nombre_conductor }} {{ ruta.apellido_1 }}</td>
-                    <td>{{ ruta.id_vehiculo }}</td>
-                    <td>
-                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editRouteModal{{ ruta.id_ruta }}">
-                            <i class="fa fa-pencil"></i>
-                        </button>
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="setDeleteForm('{{ ruta.id_ruta }}', '{% url 'transportes:eliminar_ruta' ruta.id_ruta %}')">
-                            <i class="fa fa-trash"></i>
-                        </button>                        
-                    </td>
-                </tr>
-                {% endfor %}
-            {% else %}
-                <tr>
-                    <td colspan="9" class="text-center">No hay rutas del día en el sistema.</td>
-                </tr>
-            {% endif %}
-        </tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.id_cliente }}</td>
+                <td>{{ cliente.nombre }}</td>
+                <td>{{ cliente.primer_apellido }}</td>
+                <td>{{ cliente.segundo_apellido }}</td>
+                <td>{{ cliente.provincia }}</td>
+                <td>{{ cliente.canton }}</td>
+                <td>{{ cliente.distrito }}</td>
+                <td>{{ cliente.direccion_exacta }}</td>
+                <td>{{ cliente.telefono }}</td>
+                <td>{{ cliente.correo }}</td>
+                <td>
+                    <!-- Botón de eliminación 
+                    <a href="{% url 'clientes:eliminar_cliente' cliente.id_cliente %}" class="btn btn-danger">
+                        Eliminar
+                    </a>-->
+                    <!-- Botón para activar el modal de editar cliente -->
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editClientModal{{ cliente.id_cliente }}">
+                        Editar
+                    </button>
 
-        <div class="mb-3">
-            <button class="btn" style="background-color: #00bcd4; color: white;" onclick="printRutas()">
-                <i class="fa fa-print"></i> Imprimir Rutas
-            </button>
-        </div>
-        
-        
+                    
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="10" class="text-center">No hay clientes registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
     <a href="{% url 'transportes:modulo_transportes' %}" class="btn btn-secondary">Regresar</a>
 </div>
 
-
-<!-- Modal Agregar Ruta -->
-<div class="modal fade" id="addRouteModal" tabindex="-1" aria-labelledby="addRouteModalLabel" aria-hidden="true">
+<!-- Modal Agregar Cliente -->
+<div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="post" action="{% url 'transportes:agregar_ruta' %}">
+        <form method="post" action="{% url 'clientes:agregar_cliente' %}">
             {% csrf_token %}
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addRouteModalLabel">Agregar Ruta</h5>
+                    <h5 class="modal-title" id="addClientModalLabel">Agregar Cliente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="id_ruta" class="form-label">ID Ruta (Factura)</label>
-                        <input type="text" class="form-control" name="id_ruta" required>
+                        <label for="id_cliente" class="form-label">ID Cliente (Cédula)</label>
+                        <input type="text" class="form-control" name="id_cliente" required>
                     </div>
                     <div class="mb-3">
-                        <label for="fecha_ruta" class="form-label">Fecha Ruta</label>
-                        <input type="date" class="form-control" name="fecha_ruta" required>
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" name="nombre" required>
                     </div>
-
+                    <div class="mb-3">
+                        <label for="primer_apellido" class="form-label">Primer Apellido</label>
+                        <input type="text" class="form-control" name="primer_apellido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="segundo_apellido" class="form-label">Segundo Apellido</label>
+                        <input type="text" class="form-control" name="segundo_apellido" required>
+                    </div>
                     <div class="mb-3">
                         <label for="provincia" class="form-label">Provincia</label>
                         <select class="form-select" id="provincia" name="provincia" required>
@@ -135,7 +139,6 @@
                             <!-- Provincias se llenarán aquí con JS -->
                         </select>
                     </div>
-                    
                     <div class="mb-3">
                         <label for="canton" class="form-label">Cantón</label>
                         <select class="form-select" id="canton" name="canton" required>
@@ -143,7 +146,6 @@
                             <!-- Cantones se llenarán aquí con JS -->
                         </select>
                     </div>
-                    
                     <div class="mb-3">
                         <label for="distrito" class="form-label">Distrito</label>
                         <select class="form-select" id="distrito" name="distrito" required>
@@ -151,93 +153,79 @@
                             <!-- Distritos se llenarán aquí con JS -->
                         </select>
                     </div>
-                    
-
-                                        
-
-                    
-                    
                     <div class="mb-3">
                         <label for="direccion_exacta" class="form-label">Dirección Exacta</label>
                         <input type="text" class="form-control" name="direccion_exacta" required>
                     </div>
                     <div class="mb-3">
-                        <label for="nombre_conductor" class="form-label">Conductor</label>
-                        <select class="form-select" name="nombre_conductor" required>
-                            {% for conductor in conductores %}
-                            <option value="{{ conductor.id_conductor }}">{{ conductor.nombre_conductor }} {{ conductor.apellidos_1 }}</option>
-                            {% endfor %}
-                        </select>
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" name="telefono" required>
                     </div>
                     <div class="mb-3">
-                        <label for="id_vehiculo" class="form-label">Vehículo</label>
-                        <select class="form-select" name="id_vehiculo" required>
-                            {% for vehiculo in vehiculos %}
-                            <option value="{{ vehiculo.id_vehiculo }}">{{ vehiculo.marca }} {{ vehiculo.modelo }}</option>
-                            {% endfor %}
-                        </select>
+                        <label for="correo" class="form-label">Correo</label>
+                        <input type="email" class="form-control" name="correo" required>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Agregar Ruta</button>
+                    <button type="submit" class="btn btn-primary">Agregar Cliente</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-<!-- Modal Editar Ruta -->
-{% for ruta in rutas %}
-<div class="modal fade" id="editRouteModal{{ ruta.id_ruta }}" tabindex="-1" aria-labelledby="editRouteModalLabel" aria-hidden="true">
+<!-- Modal Editar Cliente -->
+{% for cliente in clientes %}
+<div class="modal fade" id="editClientModal{{ cliente.id_cliente }}" tabindex="-1" aria-labelledby="editClientModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="post" action="{% url 'transportes:editar_ruta' ruta.id_ruta %}">
+        <form method="post" action="{% url 'clientes:editar_cliente' cliente.id_cliente %}">
             {% csrf_token %}
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editRouteModalLabel">Editar Ruta</h5>
+                    <h5 class="modal-title" id="editClientModalLabel">Editar Cliente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="id_ruta" class="form-label">ID Ruta (Factura)</label>
-                        <input type="text" class="form-control" name="id_ruta" value="{{ ruta.id_ruta }}" required>
+                        <label for="id_cliente" class="form-label">ID Cliente (Cédula)</label>
+                        <input type="text" class="form-control" name="id_cliente" value="{{ cliente.id_cliente }}" required>
                     </div>
                     <div class="mb-3">
-                        <label for="fecha_ruta" class="form-label">Fecha Ruta</label>
-                        <input type="date" class="form-control" name="fecha_ruta" value="{{ ruta.fecha_ruta }}" required>
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" name="nombre" value="{{ cliente.nombre }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="primer_apellido" class="form-label">Primer Apellido</label>
+                        <input type="text" class="form-control" name="primer_apellido" value="{{ cliente.primer_apellido }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="segundo_apellido" class="form-label">Segundo Apellido</label>
+                        <input type="text" class="form-control" name="segundo_apellido" value="{{ cliente.segundo_apellido }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="provincia" class="form-label">Provincia</label>
-                        <input type="text" class="form-control" name="provincia" value="{{ ruta.provincia }}" required>
+                        <input type="text" class="form-control" name="provincia" value="{{ cliente.provincia }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="canton" class="form-label">Cantón</label>
-                        <input type="text" class="form-control" name="canton" value="{{ ruta.canton }}" required>
+                        <input type="text" class="form-control" name="canton" value="{{ cliente.canton }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="distrito" class="form-label">Distrito</label>
-                        <input type="text" class="form-control" name="distrito" value="{{ ruta.distrito }}" required>
+                        <input type="text" class="form-control" name="distrito" value="{{ cliente.distrito }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="direccion_exacta" class="form-label">Dirección Exacta</label>
-                        <input type="text" class="form-control" name="direccion_exacta" value="{{ ruta.direccion_exacta }}" required>
+                        <input type="text" class="form-control" name="direccion_exacta" value="{{ cliente.direccion_exacta }}" required>
                     </div>
                     <div class="mb-3">
-                        <label for="nombre_conductor" class="form-label">Conductor</label>
-                        <select class="form-select" name="nombre_conductor" required>
-                            {% for conductor in conductores %}
-                            <option value="{{ conductor.id_conductor }}" {% if conductor.id_conductor == ruta.nombre_conductor %}selected{% endif %}>{{ conductor.nombre_conductor }} {{ conductor.apellidos_1 }}</option>
-                            {% endfor %}
-                        </select>
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" name="telefono" value="{{ cliente.telefono }}" required>
                     </div>
                     <div class="mb-3">
-                        <label for="id_vehiculo" class="form-label">Vehículo</label>
-                        <select class="form-select" name="id_vehiculo" required>
-                            {% for vehiculo in vehiculos %}
-                            <option value="{{ vehiculo.id_vehiculo }}" {% if vehiculo.id_vehiculo == ruta.id_vehiculo %}selected{% endif %}>{{ vehiculo.marca }} {{ vehiculo.modelo }}</option>
-                            {% endfor %}
-                        </select>
+                        <label for="correo" class="form-label">Correo</label>
+                        <input type="email" class="form-control" name="correo" value="{{ cliente.correo }}" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -261,7 +249,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ¿Desea eliminar la ruta <span id="routeId"></span>?
+                    ¿Desea eliminar al cliente <span id="clientName"></span>?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -272,52 +260,42 @@
     </div>
 </div>
 
+<script>
+    function setDeleteForm(id_cliente, clientName, actionUrl) {
+        document.getElementById('clientName').textContent = clientName;  // Mostrar el nombre del cliente en el modal
+        document.getElementById('deleteForm').action = actionUrl;  // Asigna la URL de la eliminación al formulario
+    }
+</script>
+
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    function convertDateFormat(dateStr) {
-        const dateParts = dateStr.split(" ");
-        const month = dateParts[0]; // Ejemplo: Nov.
-        const day = parseInt(dateParts[1], 10); // Ejemplo: 2
-        const year = parseInt(dateParts[2], 10); // Ejemplo: 2024
-
-        const months = {
-            "Jan.": "01", "Feb.": "02", "Mar.": "03", "Apr.": "04",
-            "May": "05", "Jun.": "06", "Jul.": "07", "Aug.": "08",
-            "Sep.": "09", "Oct.": "10", "Nov.": "11", "Dec.": "12"
-        };
-
-        return `${day < 10 ? '0' + day : day}/${months[month]}/${year}`;
-    }
-
-    function filterRutas() {
-        const input = document.getElementById("searchDate").value;
-        const table = document.getElementById("routesTable");
+    function filterClients() {
+        const input = document.getElementById("searchClient").value.toLowerCase();
+        const table = document.getElementById("clientsTable");
         const rows = table.getElementsByTagName("tr");
-    
+
         for (let i = 1; i < rows.length; i++) {
             const cells = rows[i].getElementsByTagName("td");
-            const dateCell = cells[1] || {};
-            const dateValue = dateCell.textContent || dateCell.innerText;
-    
-            // Asegúrate de que esta conversión sea correcta
-            const formattedDate = convertDateFormat(dateValue);
-    
-            // Si el valor no se encuentra en la fecha, ocultamos la fila
-            if (formattedDate.indexOf(input) > -1) {
+            const idCell = cells[0];  // Cédula (id_cliente)
+            const nameCell = cells[1]; // Nombre
+            const idValue = idCell ? idCell.textContent.toLowerCase() : "";
+            const nameValue = nameCell ? nameCell.textContent.toLowerCase() : "";
+
+            if (idValue.indexOf(input) > -1 || nameValue.indexOf(input) > -1) {
                 rows[i].style.display = "";
             } else {
                 rows[i].style.display = "none";
             }
         }
     }
-    
 
-    function setDeleteForm(routeId, actionUrl) {
-        document.getElementById('routeId').textContent = routeId;
+    function setDeleteForm(clientId, actionUrl) {
         document.getElementById('deleteForm').action = actionUrl;
     }
 
-    // Mostrar la alerta de éxito
     function showSuccessAlert() {
         const successAlert = document.getElementById('successAlert');
         successAlert.style.display = 'block';
@@ -326,12 +304,12 @@
         }, 3000); // Ocultar después de 3 segundos
     }
 
-    // Llama a la función si hay éxito
     window.onload = function() {
         {% if messages %}
             showSuccessAlert();
         {% endif %}
     };
+
 
 
     const costaRicaLocations = {
@@ -483,7 +461,6 @@
             }
         }
     };
-    
 </script>
 
 <script>
@@ -675,62 +652,8 @@
             });
         });
     });
-
-
-    function printRutas() {
-        // Obtener la tabla de rutas
-        const table = document.getElementById("routesTable").outerHTML;
-    
-        // Crear una nueva ventana para imprimir
-        const printWindow = window.open("", "_blank");
-    
-        // Formato de la página de impresión
-        printWindow.document.write(`
-            <html>
-            <head>
-                <title></title>
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-                <style>
-                    h1 { text-align: center; margin-top: 20px; }
-                    .table th, .table td { border: 1px solid #dee2e6; padding: 8px; }
-                    .table th { background-color: #007bff; color: white; }
-                </style>
-            </head>
-            <body>
-                <h1>Listado de Rutas</h1>
-                <p>Fecha de impresión: ${new Date().toLocaleDateString("es-ES")}</p>
-                ${table}
-            </body>
-            </html>
-        `);
-    
-        // Cerrar el documento de la ventana y activar la impresión
-        printWindow.document.close();
-        printWindow.print();
-    }
-
-    function filterClients() {
-        const input = document.getElementById("searchClient").value.toLowerCase();
-        const table = document.getElementById("clientsTable");
-        const rows = table.getElementsByTagName("tr");
-
-        for (let i = 1; i < rows.length; i++) {
-            const cells = rows[i].getElementsByTagName("td");
-            const idCell = cells[0];  // Cédula (id_cliente)
-            const nameCell = cells[1]; // Nombre
-            const idValue = idCell ? idCell.textContent.toLowerCase() : "";
-            const nameValue = nameCell ? nameCell.textContent.toLowerCase() : "";
-
-            if (idValue.indexOf(input) > -1 || nameValue.indexOf(input) > -1) {
-                rows[i].style.display = "";
-            } else {
-                rows[i].style.display = "none";
-            }
-        }
-    }
     
 </script>
-
 
 </body>
 </html>
