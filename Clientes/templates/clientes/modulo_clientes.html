@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo Clientes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .table thead th {
+            background-color: #007bff;
+            color: white;
+        }
+        .table tbody tr:hover {
+            background-color: #e2e6ea;
+        }
+        .modal-header {
+            background-color: #007bff;
+            color: white;
+        }
+        .alert {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Clientes</h1>
+
+    <div class="alert alert-success" id="successAlert" role="alert">
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClientModal">
+            <i class="fa fa-plus"></i> Agregar Cliente
+        </button>
+    </div>
+
+    <!-- Barra de búsqueda -->
+    <div class="mb-3">
+        <div class="input-group">
+            <input type="text" id="searchClient" class="form-control" placeholder="Buscar por cédula o nombre" onkeyup="filterClients()">
+            <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
+        </div>
+    </div>
+
+    <!-- Tabla de Clientes -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID Cliente</th>
+                <th>Nombre</th>
+                <th>Primer Apellido</th>
+                <th>Segundo Apellido</th>
+                <th>Provincia</th>
+                <th>Cantón</th>
+                <th>Distrito</th>
+                <th>Dirección Exacta</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.id_cliente }}</td>
+                <td>{{ cliente.nombre }}</td>
+                <td>{{ cliente.primer_apellido }}</td>
+                <td>{{ cliente.segundo_apellido }}</td>
+                <td>{{ cliente.provincia }}</td>
+                <td>{{ cliente.canton }}</td>
+                <td>{{ cliente.distrito }}</td>
+                <td>{{ cliente.direccion_exacta }}</td>
+                <td>{{ cliente.telefono }}</td>
+                <td>{{ cliente.correo }}</td>
+                <td>
+                    <!-- Botón de eliminación 
+                    <a href="{% url 'clientes:eliminar_cliente' cliente.id_cliente %}" class="btn btn-danger">
+                        Eliminar
+                    </a>-->
+                    <!-- Botón para activar el modal de editar cliente -->
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editClientModal{{ cliente.id_cliente }}">
+                        Editar
+                    </button>
+
+                    
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="10" class="text-center">No hay clientes registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'transportes:modulo_transportes' %}" class="btn btn-secondary">Regresar</a>
+</div>
+
+<!-- Modal Agregar Cliente -->
+<div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" action="{% url 'clientes:agregar_cliente' %}">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addClientModalLabel">Agregar Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="id_cliente" class="form-label">ID Cliente (Cédula)</label>
+                        <input type="text" class="form-control" name="id_cliente" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="primer_apellido" class="form-label">Primer Apellido</label>
+                        <input type="text" class="form-control" name="primer_apellido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="segundo_apellido" class="form-label">Segundo Apellido</label>
+                        <input type="text" class="form-control" name="segundo_apellido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="provincia" class="form-label">Provincia</label>
+                        <select class="form-select" id="provincia" name="provincia" required>
+                            <option value="">Seleccione una provincia</option>
+                            <!-- Provincias se llenarán aquí con JS -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="canton" class="form-label">Cantón</label>
+                        <select class="form-select" id="canton" name="canton" required>
+                            <option value="">Seleccione un cantón</option>
+                            <!-- Cantones se llenarán aquí con JS -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="distrito" class="form-label">Distrito</label>
+                        <select class="form-select" id="distrito" name="distrito" required>
+                            <option value="">Seleccione un distrito</option>
+                            <!-- Distritos se llenarán aquí con JS -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccion_exacta" class="form-label">Dirección Exacta</label>
+                        <input type="text" class="form-control" name="direccion_exacta" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" name="telefono" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="correo" class="form-label">Correo</label>
+                        <input type="email" class="form-control" name="correo" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Agregar Cliente</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Editar Cliente -->
+{% for cliente in clientes %}
+<div class="modal fade" id="editClientModal{{ cliente.id_cliente }}" tabindex="-1" aria-labelledby="editClientModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" action="{% url 'clientes:editar_cliente' cliente.id_cliente %}">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editClientModalLabel">Editar Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="id_cliente" class="form-label">ID Cliente (Cédula)</label>
+                        <input type="text" class="form-control" name="id_cliente" value="{{ cliente.id_cliente }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" name="nombre" value="{{ cliente.nombre }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="primer_apellido" class="form-label">Primer Apellido</label>
+                        <input type="text" class="form-control" name="primer_apellido" value="{{ cliente.primer_apellido }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="segundo_apellido" class="form-label">Segundo Apellido</label>
+                        <input type="text" class="form-control" name="segundo_apellido" value="{{ cliente.segundo_apellido }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="provincia" class="form-label">Provincia</label>
+                        <input type="text" class="form-control" name="provincia" value="{{ cliente.provincia }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="canton" class="form-label">Cantón</label>
+                        <input type="text" class="form-control" name="canton" value="{{ cliente.canton }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="distrito" class="form-label">Distrito</label>
+                        <input type="text" class="form-control" name="distrito" value="{{ cliente.distrito }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccion_exacta" class="form-label">Dirección Exacta</label>
+                        <input type="text" class="form-control" name="direccion_exacta" value="{{ cliente.direccion_exacta }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" name="telefono" value="{{ cliente.telefono }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="correo" class="form-label">Correo</label>
+                        <input type="email" class="form-control" name="correo" value="{{ cliente.correo }}" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endfor %}
+
+<!-- Modal Confirmación de Eliminación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" id="deleteForm">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Desea eliminar al cliente <span id="clientName"></span>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function setDeleteForm(id_cliente, clientName, actionUrl) {
+        document.getElementById('clientName').textContent = clientName;  // Mostrar el nombre del cliente en el modal
+        document.getElementById('deleteForm').action = actionUrl;  // Asigna la URL de la eliminación al formulario
+    }
+</script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function filterClients() {
+        const input = document.getElementById("searchClient").value.toLowerCase();
+        const table = document.getElementById("clientsTable");
+        const rows = table.getElementsByTagName("tr");
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName("td");
+            const idCell = cells[0];  // Cédula (id_cliente)
+            const nameCell = cells[1]; // Nombre
+            const idValue = idCell ? idCell.textContent.toLowerCase() : "";
+            const nameValue = nameCell ? nameCell.textContent.toLowerCase() : "";
+
+            if (idValue.indexOf(input) > -1 || nameValue.indexOf(input) > -1) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+
+    function setDeleteForm(clientId, actionUrl) {
+        document.getElementById('deleteForm').action = actionUrl;
+    }
+
+    function showSuccessAlert() {
+        const successAlert = document.getElementById('successAlert');
+        successAlert.style.display = 'block';
+        setTimeout(() => {
+            successAlert.style.display = 'none';
+        }, 3000); // Ocultar después de 3 segundos
+    }
+
+    window.onload = function() {
+        {% if messages %}
+            showSuccessAlert();
+        {% endif %}
+    };
+
+
+
+    const costaRicaLocations = {
+        "San José": {
+            cantons: {
+                "San José": [
+                    "Carmen", "Merced", "Hospital", "Catedral", "Zapote",
+                    "San Francisco de Dos Ríos", "Uruca", "Mata Redonda", 
+                    "Pavas", "Hatillo", "San Sebastián"
+                ],
+                "Escazú": ["Escazú", "San Antonio", "San Rafael"],
+                "Desamparados": [
+                    "Desamparados", "San Miguel", "San Juan de Dios", 
+                    "San Rafael Arriba", "San Antonio", "Frailes", 
+                    "Patarra", "San Cristobal", "Rosario", "Damas", 
+                    "San Rafael Abajo", "Gravilias", "Los Guido"
+                ],
+                "Puriscal": [
+                    "Santiago", "Mercedes Sur", "Barbacoas", "Grifo Alto",
+                    "San Rafael", "Candelarita", "Desamparaditos", 
+                    "San Antonio", "Chires"
+                ],
+                "Tarrazú": ["San Marcos", "San Lorenzo", "San Carlos"],
+                "Aserrí": ["Aserrí", "Tarbaca", "Vuelta de Jorco", "San Gabriel", "Legua", "Monterrey", "Salitrillos"],
+                "Mora": ["Colón", "Guayabo", "Tabarcia", "Piedras Negras", "Picagres", "Jaris", "Quitirrisí"],
+                "Goicoechea": ["Guadalupe", "San Francisco", "Calle Blancos", "Mata de Plátano", "Ipis", "Rancho Redondo", "Purral"],
+                "Santa Ana": ["Santa Ana", "Salitral", "Pozos", "Uruca", "Piedades", "Brasil"],
+                "Alajuelita": ["Alajuelita", "San Josecito", "San Antonio", "Concepción", "San Felipe"],
+                "Vázquez de Coronado": ["San Isidro", "San Rafael", "Dulce Nombre de Jesús", "Patalillo", "Cascajal"],
+                "Acosta": ["San Ignacio", "Guaitil", "Palmichal", "Cangrejal", "Sabanillas"],
+                "Tibás": ["San Juan", "Cinco Esquinas", "Anselmo Llorente", "León XIII", "Colima"],
+                "Moravia": ["San Vicente", "San Jerónimo", "La Trinidad"],
+                "Montes de Oca": ["San Pedro", "Sabanilla", "Mercedes", "San Rafael"],
+                "Turrubares": ["San Pablo", "San Pedro", "San Juan de Mata", "San Luis", "Carara"],
+                "Dota": ["Santa María", "Jardín", "Copey"],
+                "Curridabat": ["Curridabat", "Granadilla", "Sánchez", "Tirrases"],
+                "Pérez Zeledón": ["San Isidro de El General", "El General", "Daniel Flores", "Rivas", "San Pedro", "Platanares", "Pejibaye", "Cajón", "Barú", "Río Nuevo", "Paramo", "La Amistad"],
+                "León Cortés Castro": ["San Pablo", "San Andrés", "Llano Bonito", "San Isidro", "Santa Cruz", "San Antonio"]
+            }
+        },
+        "Alajuela": {
+            cantons: {
+                "Alajuela": [
+                    "Alajuela", "San José", "Carrizal", "San Antonio", 
+                    "Guácima", "San Isidro", "Sabanilla", "San Rafael", 
+                    "Río Segundo", "Desamparados", "Turrucares", 
+                    "Tambor", "Garita", "Sarapiquí"
+                ],
+                "San Ramón": [
+                    "San Ramón", "Santiago", "San Juan", "Piedades Norte", 
+                    "Piedades Sur", "San Rafael", "San Isidro", 
+                    "Ángeles", "Alfaro", "Volio", "Concepción", "Zapotal", 
+                    "Peñas Blancas", "San Lorenzo"
+                ],
+                "Grecia": ["Grecia", "San Isidro", "San José", "San Roque", "Tacares", "Puente de Piedra", "Bolivar"],
+                "San Mateo": ["San Mateo", "Desmonte", "Jesús María", "Labrador"],
+                "Atenas": ["Atenas", "Jesús", "Mercedes", "San Isidro", "Concepción", "San José", "Santa Eulalia", "Escobal"],
+                "Naranjo": ["Naranjo", "San Miguel", "San José", "Cirrí Sur", "San Jerónimo", "San Juan", "El Rosario", "Palmitos"],
+                "Palmares": ["Palmares", "Zaragoza", "Buenos Aires", "Santiago", "Candelaria", "Esquipulas", "La Granja"],
+                "Poás": ["San Pedro", "San Juan", "San Rafael", "Carrillos", "Sabana Redonda"],
+                "Orotina": ["Orotina", "El Mastate", "Hacienda Vieja", "Coyolar", "La Ceiba"],
+                "San Carlos": ["Quesada", "Florencia", "Buenavista", "Aguas Zarcas", "Venecia", "Pital", "La Fortuna", "La Tigra", "La Palmera", "Venado", "Cutris", "Monterrey", "Pocosol"],
+                "Zarcero": ["Zarcero", "Laguna", "Tapesco", "Guadalupe", "Palmira", "Zapote", "Brisas"],
+                "Sarchí": ["Sarchí Norte", "Sarchí Sur", "Toro Amarillo", "San Pedro", "Rodríguez"],
+                "Upala": ["Upala", "Aguas Claras", "San José O Pizote", "Bijagua", "Delicias", "Dos Ríos", "Yolillal", "Canalete"],
+                "Los Chiles": ["Los Chiles", "Caño Negro", "El Amparo", "San Jorge"],
+                "Guatuso": ["San Rafael", "Buenavista", "Cote", "Katira"],
+                "Río Cuarto": ["Río Cuarto", "Santa Rita", "Santa Isabel"]
+            }
+        },
+        "Cartago": {
+            cantons: {
+                "Cartago": [
+                    "Oriental", "Occidental", "Carmen", "San Nicolás", 
+                    "Aguacaliente o San Francisco", "Guadalupe o Arenilla", 
+                    "Corralillo", "Tierra Blanca", "Dulce Nombre", 
+                    "Llano Grande", "Quebradilla"
+                ],
+                "Paraíso": ["Paraíso", "Santiago", "Orosi", "Cachí", "Llanos de Santa Lucía"],
+                "La Unión": ["Tres Ríos", "San Diego", "San Juan", "San Rafael", "Concepción", "Dulce Nombre", "San Ramón", "Río Azul"],
+                "Jiménez": ["Juan Viñas", "Tucurrique", "Pejibaye"],
+                "Turrialba": ["Turrialba", "La Suiza", "Peralta", "Santa Cruz", "Santa Teresita", "Pavones", "Tuis", "Tayutic", "Santa Rosa", "Tres Equis", "La Isabel", "Chirripó"],
+                "Alvarado": ["Pacayas", "Cervantes", "Capellades"],
+                "Oreamuno": ["San Rafael", "Cot", "Potrero Cerrado", "Cipreses", "Santa Rosa"],
+                "El Guarco": ["El Tejar", "San Isidro", "Tobosi", "Patio de Agua"]
+            }
+        },
+        "Heredia": {
+            cantons: {
+                "Heredia": [
+                    "Heredia", "Mercedes", "San Francisco", "Ulloa", 
+                    "Varablanca"
+                ],
+                "Barva": ["Barva", "San Pedro", "San Pablo", "San Roque", "Santa Lucía", "San José de la Montaña"],
+                "Santo Domingo": ["Santo Domingo", "San Vicente", "San Miguel", "Paracito", "Santo Tomás", "Santa Rosa", "Tures", "Pará"],
+                "Santa Bárbara": ["Santa Bárbara", "San Pedro", "San Juan", "Jesús", "Santo Domingo", "Purabá"],
+                "San Rafael": ["San Rafael", "San Josecito", "Santiago", "Ángeles", "Concepción"],
+                "San Isidro": ["San Isidro", "San José", "Concepción", "San Francisco"],
+                "Belén": ["San Antonio", "La Ribera", "La Asunción"],
+                "Flores": ["San Joaquín", "Barrantes", "Llorente"],
+                "San Pablo": ["San Pablo", "Rincón de Sabanilla"],
+                "Sarapiquí": ["Puerto Viejo", "La Virgen", "Las Horquetas", "Llanuras del Gaspar", "Cureña"]
+            }
+        },
+            "Guanacaste": {
+            cantons: {
+                "Liberia": ["Liberia", "Cañas Dulces", "Mayorga", "Nacascolo", "Curubandé"],
+                "Nicoya": ["Nicoya", "Mansión", "San Antonio", "Quebrada Honda", "Sámara", "Nosara", "Belén de Nosarita"],
+                "Santa Cruz": ["Santa Cruz", "Bolsón", "Veintisiete de Abril", "Tempate", "Cartagena", "Cuajiniquil", "Diriá", "Cabo Velas", "Tamarindo"],
+                "Bagaces": ["Bagaces", "La Fortuna", "Mogote", "Río Naranjo"],
+                "Carrillo": ["Filadelfia", "Palmira", "Sardinal", "Belén"],
+                "Cañas": ["Cañas", "Palmira", "San Miguel", "Bebedero", "Porozal"],
+                "Abangares": ["Las Juntas", "Sierra", "San Juan", "Colorado"],
+                "Tilarán": ["Tilarán", "Quebrada Grande", "Tronadora", "Santa Rosa", "Líbano", "Tierras Morenas", "Arenal"],
+                "Nandayure": ["Carmona", "Santa Rita", "Zapotal", "San Pablo", "Porvenir", "Bejuco"],
+                "La Cruz": ["La Cruz", "Santa Cecilia", "La Garita", "Santa Elena"],
+                "Hojancha": ["Hojancha", "Monte Romo", "Puerto Carrillo", "Huacas", "Matambú"]
+            }
+        },
+        "Puntarenas": {
+            cantons: {
+                "Puntarenas": [
+                    "Puntarenas", "Pitahaya", "Chomes", "Lepanto", "Paquera", 
+                    "Manzanillo", "Guacimal", "Barranca", "Isla del Coco", 
+                    "Cóbano", "Chacarita", "Chira", "Acapulco", 
+                    "El Roble", "Arancibia"
+                ],
+                "Esparza": ["Espíritu Santo", "San Juan Grande", "Macacona", "San Rafael", "San Jerónimo", "Caldera"],
+                "Buenos Aires": ["Buenos Aires", "Volcán", "Potrero Grande", "Boruca", "Pilas", "Colinas", "Chánguena", "Biolley", "Brunka"],
+                "Montes de Oro": ["Miramar", "La Unión", "San Isidro"],
+                "Osa": ["Puerto Cortés", "Palmar", "Sierpe", "Bahía Ballena", "Piedras Blancas", "Bahía Drake"],
+                "Quepos": ["Quepos", "Savegre", "Naranjito"],
+                "Golfito": ["Golfito", "Puerto Jiménez", "Guaycará", "Pavón"],
+                "Coto Brus": ["San Vito", "Sabalito", "Aguabuena", "Limoncito", "Pittier", "Gutiérrez Braun"],
+                "Parrita": ["Parrita"],
+                "Corredores": ["Corredor", "La Cuesta", "Canoas", "Laurel"],
+                "Garabito": ["Jacó", "Tárcoles"],
+                "Monteverde": ["Monteverde"]
+            }
+        },
+        "Limón": {
+            cantons: {
+                "Limón": ["Limón", "Valle La Estrella", "Río Blanco", "Matama"],
+                "Pococí": ["Guápiles", "Jiménez", "Rita", "Roxana", "Cariari", "Colorado", "La Colonia"],
+                "Siquirres": ["Siquirres", "Pacuarito", "Florida", "Germania", "El Cairo", "Alegría", "Reventazón"],
+                "Talamanca": ["Bratsi", "Sixaola", "Cahuita", "Telire"],
+                "Matina": ["Matina", "Batán", "Carrandí"],
+                "Guácimo": ["Guácimo", "Mercedes", "Pocora", "Río Jiménez", "Duacarí"]
+            }
+        }
+    };
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Objeto de ubicaciones
+        const costaRicaLocations = {
+            "San José": {
+                cantons: {
+                    "San José": [
+                        "Carmen", "Merced", "Hospital", "Catedral", "Zapote",
+                        "San Francisco de Dos Ríos", "Uruca", "Mata Redonda", 
+                        "Pavas", "Hatillo", "San Sebastián"
+                    ],
+                    "Escazú": ["Escazú", "San Antonio", "San Rafael"],
+                    "Desamparados": [
+                        "Desamparados", "San Miguel", "San Juan de Dios", 
+                        "San Rafael Arriba", "San Antonio", "Frailes", 
+                        "Patarra", "San Cristobal", "Rosario", "Damas", 
+                        "San Rafael Abajo", "Gravilias", "Los Guido"
+                    ],
+                    "Puriscal": [
+                        "Santiago", "Mercedes Sur", "Barbacoas", "Grifo Alto",
+                        "San Rafael", "Candelarita", "Desamparaditos", 
+                        "San Antonio", "Chires"
+                    ],
+                    "Tarrazú": ["San Marcos", "San Lorenzo", "San Carlos"],
+                    "Aserrí": ["Aserrí", "Tarbaca", "Vuelta de Jorco", "San Gabriel", "Legua", "Monterrey", "Salitrillos"],
+                    "Mora": ["Colón", "Guayabo", "Tabarcia", "Piedras Negras", "Picagres", "Jaris", "Quitirrisí"],
+                    "Goicoechea": ["Guadalupe", "San Francisco", "Calle Blancos", "Mata de Plátano", "Ipis", "Rancho Redondo", "Purral"],
+                    "Santa Ana": ["Santa Ana", "Salitral", "Pozos", "Uruca", "Piedades", "Brasil"],
+                    "Alajuelita": ["Alajuelita", "San Josecito", "San Antonio", "Concepción", "San Felipe"],
+                    "Vázquez de Coronado": ["San Isidro", "San Rafael", "Dulce Nombre de Jesús", "Patalillo", "Cascajal"],
+                    "Acosta": ["San Ignacio", "Guaitil", "Palmichal", "Cangrejal", "Sabanillas"],
+                    "Tibás": ["San Juan", "Cinco Esquinas", "Anselmo Llorente", "León XIII", "Colima"],
+                    "Moravia": ["San Vicente", "San Jerónimo", "La Trinidad"],
+                    "Montes de Oca": ["San Pedro", "Sabanilla", "Mercedes", "San Rafael"],
+                    "Turrubares": ["San Pablo", "San Pedro", "San Juan de Mata", "San Luis", "Carara"],
+                    "Dota": ["Santa María", "Jardín", "Copey"],
+                    "Curridabat": ["Curridabat", "Granadilla", "Sánchez", "Tirrases"],
+                    "Pérez Zeledón": ["San Isidro de El General", "El General", "Daniel Flores", "Rivas", "San Pedro", "Platanares", "Pejibaye", "Cajón", "Barú", "Río Nuevo", "Paramo", "La Amistad"],
+                    "León Cortés Castro": ["San Pablo", "San Andrés", "Llano Bonito", "San Isidro", "Santa Cruz", "San Antonio"]
+                }
+            },
+            "Alajuela": {
+                cantons: {
+                    "Alajuela": [
+                        "Alajuela", "San José", "Carrizal", "San Antonio", 
+                        "Guácima", "San Isidro", "Sabanilla", "San Rafael", 
+                        "Río Segundo", "Desamparados", "Turrucares", 
+                        "Tambor", "Garita", "Sarapiquí"
+                    ],
+                    "San Ramón": [
+                        "San Ramón", "Santiago", "San Juan", "Piedades Norte", 
+                        "Piedades Sur", "San Rafael", "San Isidro", 
+                        "Ángeles", "Alfaro", "Volio", "Concepción", "Zapotal", 
+                        "Peñas Blancas", "San Lorenzo"
+                    ],
+                    "Grecia": ["Grecia", "San Isidro", "San José", "San Roque", "Tacares", "Puente de Piedra", "Bolivar"],
+                    "San Mateo": ["San Mateo", "Desmonte", "Jesús María", "Labrador"],
+                    "Atenas": ["Atenas", "Jesús", "Mercedes", "San Isidro", "Concepción", "San José", "Santa Eulalia", "Escobal"],
+                    "Naranjo": ["Naranjo", "San Miguel", "San José", "Cirrí Sur", "San Jerónimo", "San Juan", "El Rosario", "Palmitos"],
+                    "Palmares": ["Palmares", "Zaragoza", "Buenos Aires", "Santiago", "Candelaria", "Esquipulas", "La Granja"],
+                    "Poás": ["San Pedro", "San Juan", "San Rafael", "Carrillos", "Sabana Redonda"],
+                    "Orotina": ["Orotina", "El Mastate", "Hacienda Vieja", "Coyolar", "La Ceiba"],
+                    "San Carlos": ["Quesada", "Florencia", "Buenavista", "Aguas Zarcas", "Venecia", "Pital", "La Fortuna", "La Tigra", "La Palmera", "Venado", "Cutris", "Monterrey", "Pocosol"],
+                    "Zarcero": ["Zarcero", "Laguna", "Tapesco", "Guadalupe", "Palmira", "Zapote", "Brisas"],
+                    "Sarchí": ["Sarchí Norte", "Sarchí Sur", "Toro Amarillo", "San Pedro", "Rodríguez"],
+                    "Upala": ["Upala", "Aguas Claras", "San José O Pizote", "Bijagua", "Delicias", "Dos Ríos", "Yolillal", "Canalete"],
+                    "Los Chiles": ["Los Chiles", "Caño Negro", "El Amparo", "San Jorge"],
+                    "Guatuso": ["San Rafael", "Buenavista", "Cote", "Katira"],
+                    "Río Cuarto": ["Río Cuarto", "Santa Rita", "Santa Isabel"]
+                }
+            },
+            "Cartago": {
+                cantons: {
+                    "Cartago": [
+                        "Oriental", "Occidental", "Carmen", "San Nicolás", 
+                        "Aguacaliente o San Francisco", "Guadalupe o Arenilla", 
+                        "Corralillo", "Tierra Blanca", "Dulce Nombre", 
+                        "Llano Grande", "Quebradilla"
+                    ],
+                    "Paraíso": ["Paraíso", "Santiago", "Orosi", "Cachí", "Llanos de Santa Lucía"],
+                    "La Unión": ["Tres Ríos", "San Diego", "San Juan", "San Rafael", "Concepción", "Dulce Nombre", "San Ramón", "Río Azul"],
+                    "Jiménez": ["Juan Viñas", "Tucurrique", "Pejibaye"],
+                    "Turrialba": ["Turrialba", "La Suiza", "Peralta", "Santa Cruz", "Santa Teresita", "Pavones", "Tuis", "Tayutic", "Santa Rosa", "Tres Equis", "La Isabel", "Chirripó"],
+                    "Alvarado": ["Pacayas", "Cervantes", "Capellades"],
+                    "Oreamuno": ["San Rafael", "Cot", "Potrero Cerrado", "Cipreses", "Santa Rosa"],
+                    "El Guarco": ["El Tejar", "San Isidro", "Tobosi", "Patio de Agua"]
+                }
+            },
+            "Heredia": {
+                cantons: {
+                    "Heredia": [
+                        "Heredia", "Mercedes", "San Francisco", "Ulloa", 
+                        "Varablanca"
+                    ],
+                    "Barva": ["Barva", "San Pedro", "San Pablo", "San Roque", "Santa Lucía", "San José de la Montaña"],
+                    "Santo Domingo": ["Santo Domingo", "San Vicente", "San Miguel", "Paracito", "Santo Tomás", "Santa Rosa", "Tures", "Pará"],
+                    "Santa Bárbara": ["Santa Bárbara", "San Pedro", "San Juan", "Jesús", "Santo Domingo", "Purabá"],
+                    "San Rafael": ["San Rafael", "San Josecito", "Santiago", "Ángeles", "Concepción"],
+                    "San Isidro": ["San Isidro", "San José", "Concepción", "San Francisco"],
+                    "Belén": ["San Antonio", "La Ribera", "La Asunción"],
+                    "Flores": ["San Joaquín", "Barrantes", "Llorente"],
+                    "San Pablo": ["San Pablo", "Rincón de Sabanilla"],
+                    "Sarapiquí": ["Puerto Viejo", "La Virgen", "Las Horquetas", "Llanuras del Gaspar", "Cureña"]
+                }
+            },
+                "Guanacaste": {
+                cantons: {
+                    "Liberia": ["Liberia", "Cañas Dulces", "Mayorga", "Nacascolo", "Curubandé"],
+                    "Nicoya": ["Nicoya", "Mansión", "San Antonio", "Quebrada Honda", "Sámara", "Nosara", "Belén de Nosarita"],
+                    "Santa Cruz": ["Santa Cruz", "Bolsón", "Veintisiete de Abril", "Tempate", "Cartagena", "Cuajiniquil", "Diriá", "Cabo Velas", "Tamarindo"],
+                    "Bagaces": ["Bagaces", "La Fortuna", "Mogote", "Río Naranjo"],
+                    "Carrillo": ["Filadelfia", "Palmira", "Sardinal", "Belén"],
+                    "Cañas": ["Cañas", "Palmira", "San Miguel", "Bebedero", "Porozal"],
+                    "Abangares": ["Las Juntas", "Sierra", "San Juan", "Colorado"],
+                    "Tilarán": ["Tilarán", "Quebrada Grande", "Tronadora", "Santa Rosa", "Líbano", "Tierras Morenas", "Arenal"],
+                    "Nandayure": ["Carmona", "Santa Rita", "Zapotal", "San Pablo", "Porvenir", "Bejuco"],
+                    "La Cruz": ["La Cruz", "Santa Cecilia", "La Garita", "Santa Elena"],
+                    "Hojancha": ["Hojancha", "Monte Romo", "Puerto Carrillo", "Huacas", "Matambú"]
+                }
+            },
+            "Puntarenas": {
+                cantons: {
+                    "Puntarenas": [
+                        "Puntarenas", "Pitahaya", "Chomes", "Lepanto", "Paquera", 
+                        "Manzanillo", "Guacimal", "Barranca", "Isla del Coco", 
+                        "Cóbano", "Chacarita", "Chira", "Acapulco", 
+                        "El Roble", "Arancibia"
+                    ],
+                    "Esparza": ["Espíritu Santo", "San Juan Grande", "Macacona", "San Rafael", "San Jerónimo", "Caldera"],
+                    "Buenos Aires": ["Buenos Aires", "Volcán", "Potrero Grande", "Boruca", "Pilas", "Colinas", "Chánguena", "Biolley", "Brunka"],
+                    "Montes de Oro": ["Miramar", "La Unión", "San Isidro"],
+                    "Osa": ["Puerto Cortés", "Palmar", "Sierpe", "Bahía Ballena", "Piedras Blancas", "Bahía Drake"],
+                    "Quepos": ["Quepos", "Savegre", "Naranjito"],
+                    "Golfito": ["Golfito", "Puerto Jiménez", "Guaycará", "Pavón"],
+                    "Coto Brus": ["San Vito", "Sabalito", "Aguabuena", "Limoncito", "Pittier", "Gutiérrez Braun"],
+                    "Parrita": ["Parrita"],
+                    "Corredores": ["Corredor", "La Cuesta", "Canoas", "Laurel"],
+                    "Garabito": ["Jacó", "Tárcoles"],
+                    "Monteverde": ["Monteverde"]
+                }
+            },
+            "Limón": {
+                cantons: {
+                    "Limón": ["Limón", "Valle La Estrella", "Río Blanco", "Matama"],
+                    "Pococí": ["Guápiles", "Jiménez", "Rita", "Roxana", "Cariari", "Colorado", "La Colonia"],
+                    "Siquirres": ["Siquirres", "Pacuarito", "Florida", "Germania", "El Cairo", "Alegría", "Reventazón"],
+                    "Talamanca": ["Bratsi", "Sixaola", "Cahuita", "Telire"],
+                    "Matina": ["Matina", "Batán", "Carrandí"],
+                    "Guácimo": ["Guácimo", "Mercedes", "Pocora", "Río Jiménez", "Duacarí"]
+                }
+            }
+        };
+
+        // Inicializar las provincias en el dropdown
+        const provincias = Object.keys(costaRicaLocations);
+        provincias.forEach(function(provincia) {
+            document.getElementById("provincia").innerHTML += `<option value="${provincia}">${provincia}</option>`;
+        });
+
+        // Manejar el cambio en la provincia
+        document.getElementById("provincia").addEventListener("change", function() {
+            const provincia = this.value;
+            const cantones = provincia in costaRicaLocations ? Object.keys(costaRicaLocations[provincia].cantons) : [];
+            
+            // Limpiar y actualizar el dropdown de cantones
+            const cantonSelect = document.getElementById("canton");
+            cantonSelect.innerHTML = "<option value=''>Seleccione un cantón</option>";
+            cantones.forEach(function(canton) {
+                cantonSelect.innerHTML += `<option value="${canton}">${canton}</option>`;
+            });
+            
+            // Limpiar el dropdown de distritos
+            document.getElementById("distrito").innerHTML = "<option value=''>Seleccione un distrito</option>";
+        });
+
+        // Manejar el cambio en el cantón
+        document.getElementById("canton").addEventListener("change", function() {
+            const provincia = document.getElementById("provincia").value;
+            const canton = this.value;
+            const distritos = provincia && canton && costaRicaLocations[provincia].cantons[canton] ? costaRicaLocations[provincia].cantons[canton] : [];
+
+            // Limpiar y actualizar el dropdown de distritos
+            const distritoSelect = document.getElementById("distrito");
+            distritoSelect.innerHTML = "<option value=''>Seleccione un distrito</option>";
+            distritos.forEach(function(distrito) {
+                distritoSelect.innerHTML += `<option value="${distrito}">${distrito}</option>`;
+            });
+        });
+    });
+    
+</script>
+
+</body>
+</html>
