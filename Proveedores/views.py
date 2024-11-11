@@ -5,7 +5,7 @@ from .forms import ProveedorForm
 
 
 def proveedor_list(request):
-    proveedores = Proveedor.objects.all()  
+    proveedores = Proveedor.objects.filter(activo=True) 
     return render(request, 'proveedores/proveedor_list.html', {'proveedores': proveedores})
 
 def agregar_proveedor(request):
@@ -42,7 +42,8 @@ def eliminar_proveedor(request):
     if request.method == 'POST':
         proveedor_id = request.POST.get('id')
         proveedor = get_object_or_404(Proveedor, id_proveedor=proveedor_id)
-        proveedor.delete()
+        proveedor.activo = False  # Marca el proveedor como inactivo
+        proveedor.save()  # Guarda el cambio en la base de datos
         return redirect('proveedor_list')
     
 def editar_proveedor(request):

@@ -341,7 +341,6 @@ tbody td:hover {
       </div>
       <div class="search-bar">
         <input type="text" id="filtroGeneral" placeholder="Busca producto por Nombre, cantidad o descripción" />
-        <button type="button">&#128269;</button>
       </div>
     </div>
   </div>
@@ -376,7 +375,7 @@ tbody td:hover {
           <td>{{ producto.descuento }}</td>
           <td>{{ producto.clasificacion }}</td>
           <td>
-            <!-- Botón para editar -->
+            <!-- Botón para editar -->    
             {% if producto.pk %}
             <button type="button" class="btn btn-warning btn-warning-icon-only" 
             onclick="cargarDatosProducto(

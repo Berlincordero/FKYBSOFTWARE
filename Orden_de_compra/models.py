@@ -39,6 +39,7 @@ class OrdenDeCompra(models.Model):
         null=True,
         help_text='Total después de aplicar descuento e IVA'
     )
+    activo = models.BooleanField(default=True)
 
     def __str__(self):
         return f"Orden de Compra {self.id_orden} - {self.id_producto}"

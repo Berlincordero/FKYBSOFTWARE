@@ -21,6 +21,7 @@ class Proveedor(models.Model):
     direccion_exacta = models.TextField(default= 'direccion' ,max_length=255)
     telefono1 = models.CharField(max_length=20)
     telefono2 = models.CharField(max_length=20, blank=True, null=True)
+    activo = models.BooleanField(default=True)
  
     def __str__(self):
         return self.nombre_empresa

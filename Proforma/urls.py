@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns = [
     
-    path('Proforma/', views.proforma_view, name='proforma_view'),
+    path('', views.lista_proforma, name='lista_proforma'),
+    path('crear/', views.crear_proforma, name='crear_proforma'),
+    path('eliminar/<int:pk>/', views.eliminar_proforma, name='eliminar_proforma'),
     
 ]

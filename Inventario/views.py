@@ -10,7 +10,7 @@ from .models import Producto
 
 # Create your views here.
 def lista_productos(request):
-    productos = Producto.objects.all()
+    productos = Producto.objects.filter(activo=True)
     print(productos)
     return render(request, 'Inventario.html', {'productos': productos})
 
@@ -70,11 +70,9 @@ def crear_producto(request):
 
 def eliminar_producto(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
-    if request.method == 'POST':
-        producto.delete()
-        return redirect('lista_productos')
-    return redirect('lista_productos')
-
+    producto.activo = False  # Marca la proforma como inactiva
+    producto.save()
+    return redirect('lista_productos')  
 
 def exportar_productos_excel(request):
     # Crear un archivo Excel en memoria
