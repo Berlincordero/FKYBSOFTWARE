@@ -80,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'fkybsoftware',
-        'USER': 'admin',
-        'PASSWORD': '123456',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
         'HOST': 'localhost',  # o la dirección de tu servidor PostgreSQL
         'PORT': '5432',  # el puerto por defecto de PostgreSQL es 5432
     }
@@ -129,8 +129,11 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = 'external_login'  
 
 #Tiempo de sesion
 SESSION_COOKIE_AGE = 21600  # 6h
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SAVE_EVERY_REQUEST = True
+
+AUTH_USER_MODEL = 'Usuarios.CustomUser'

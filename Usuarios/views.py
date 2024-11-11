@@ -1,29 +1,17 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import views as auth_views
-from django.views.decorators.http import require_POST
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.contrib import messages
 
+from Usuarios.models import CustomUser
+from .forms import AgregarPersonalForm, EditarPersonalForm, EditarPerfilForm
 from config.forms import LoginForm
-
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
-from django import forms
-from django.contrib.auth import logout
-
-"""
-def external_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            
-            return redirect('index')
-    else:
-        form = LoginForm()
-
-    return render(request, 'external_login.html', {'form': form})
-"""
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
+# Define el modelo de usuario configurado
+User = get_user_model()
+
+# Vista de inicio de sesión
 def external_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -32,13 +20,11 @@ def external_login(request):
             password = form.cleaned_data.get('password')
             
             try:
-                
                 user = User.objects.get(email=email)
-                
                 user = authenticate(username=user.username, password=password)
                 if user is not None:
                     login(request, user)
-                    return redirect('index') 
+                    return redirect('index')
                 else:
                     form.add_error(None, 'Email o contraseña incorrectos')
             except User.DoesNotExist:
@@ -48,11 +34,79 @@ def external_login(request):
 
     return render(request, 'external_login.html', {'form': form})
 
-
+# Vista de cierre de sesión
 def logout_view(request):
-    logout(request)  # Cierra la sesión del usuario
-    return redirect('external_login')  # Redirige a la página de inicio de sesión
+    logout(request)
+    return redirect('external_login')
 
+# Vista de gestión de usuarios
+@login_required
 def usuarios(request):
-    #datos = modelo.objects.all()
-    return render(request, 'Usuarios/usuarios.html')
+    users = User.objects.filter(is_active=True)  
+    return render(request, 'Usuarios/usuarios.html', {'users': users, 'current_user': request.user})
+
+# Vista para editar personal
+def editar_personal(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.method == 'POST':
+        form = EditarPersonalForm(request.POST, instance=user, request_user=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Información actualizada correctamente.')
+            return redirect('usuarios')
+        else:
+            if 'role' in form.errors:
+                messages.error(request, 'No puedes cambiar tu propio rol.')
+            else:
+                messages.error(request, 'Por favor, corrija los errores en el formulario.')
+    else:
+        form = EditarPersonalForm(instance=user, request_user=request.user)
+    
+    return render(request, 'Usuarios/usuarios.html', {'form': form, 'users': User.objects.filter(is_active=True)})
+
+def agregar_personal(request):
+    users = User.objects.filter(is_active=True) 
+    if request.method == 'POST':
+        form = AgregarPersonalForm(request.POST)
+        if form.is_valid():
+            password = form.cleaned_data.get('password')
+            confirm_password = request.POST.get('confirm_password')
+            email = form.cleaned_data.get('email')
+            role = form.cleaned_data.get('role')
+
+            if User.objects.filter(email=email).exists():
+                messages.error(request, 'El correo electrónico ya está en uso.')
+            elif password != confirm_password:
+                messages.error(request, 'Las contraseñas no coinciden.')
+            else:
+                user = form.save(commit=False)
+                user.set_password(password)
+                user.role = role  
+                user.save()
+                messages.success(request, 'Personal agregado exitosamente.')
+                return redirect('usuarios')  
+        else:
+            messages.error(request, 'Hubo un problema al agregar al usuario. Asegúrese de que las contraseñas coinciden y que el correo electrónico no está ya registrado.')
+    else:
+        form = AgregarPersonalForm()
+    
+    return render(request, 'Usuarios/usuarios.html', {'form': form, 'users': users})
+
+def eliminar_personal(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.method == "POST":
+        if request.user != user:  
+            user.is_active = False
+            user.save()
+            messages.success(request, 'Usuario desactivado correctamente.')
+        else:
+            messages.error(request, 'No puedes desactivar tu propio usuario.')
+        return redirect('usuarios')  
+    return redirect('usuarios')
+    
+
+@login_required
+def perfil_usuario(request):
+    user = request.user
+    is_admin = user.groups.filter(name='Admin').exists()  
+    return render(request, 'Usuarios/perfil.html', {'user': user, 'is_admin': is_admin})

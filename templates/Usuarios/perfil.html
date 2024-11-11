@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Perfil de Usuario</h2>
+    <div id="notification-container">
+        {% for message in messages %}
+            <div class="notification {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">{{ user.username }}</h4>
+            <p class="card-text"><strong>Nombre:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+            <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+            <p class="card-text"><strong>Rol:</strong> 
+                {% if user.role == 'admin' %}
+                    Administrador
+                {% else %}
+                    Usuario
+                {% endif %}
+            </p>
+            
+
+        </div>
+    </div>
+</div>
+{% endblock %}

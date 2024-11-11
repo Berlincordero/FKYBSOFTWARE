@@ -849,16 +849,8 @@ h2 {
     /* Ajusta este valor según el espacio que desees */
 }
 
-.modal-dialog {
-    max-width: 80%;
-    align-items: center;
-}
 
-.modal-content {
-    align-items: right;
-    padding: 20px;
-    width: 80%;
-}
+
 
 .form-group label {
     font-weight: bold;
@@ -1139,31 +1131,13 @@ h2 {
     font-weight: 400;
 }
 
-.modal {
-    z-index: 1050;
-    /* Valor por defecto de Bootstrap */
-}
 
-.modal-backdrop {
-    z-index: 1040;
-    /* Valor por defecto de Bootstrap */
-}
 
-.modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1040;
-}
 
-.modal {
-    z-index: 1050;
-}
 
-.modal-dialog {}
+
+
+
 
 
 /**********************************************************************************************************************/
@@ -1207,56 +1181,10 @@ h2 {
     color: green;
 }
 
-.modal-body {
-    display: flex;
-    justify-content: center;
-    /* Centra el contenido horizontalmente */
-    align-items: center;
-    /* Centra el contenido verticalmente */
-    text-align: center;
-    /* Centra el texto dentro de cada párrafo */
-}
-
-.modal-content-inner {
-    text-align: justify;
-    /* Justifica el texto dentro del contenedor */
-    max-width: 100%;
-    /* Ajusta el ancho máximo para el contenido */
-    padding-left: 329px;
-}
-
-.modal-body p {
-    margin-bottom: 15px;
-    /* Espaciado entre párrafos */
-}
 
 
-/* Estilos para ver detalles */
 
-.modal-body {
-    display: flex;
-    justify-content: center;
-    /* Centra el contenido horizontalmente */
-    align-items: center;
-    /* Centra el contenido verticalmente */
-    text-align: center;
-    /* Centra el texto dentro de cada párrafo */
-}
-
-.modal-content-inner {
-    text-align: justify;
-    /* Justifica el texto dentro del contenedor */
-    max-width: 100%;
-    /* Ajusta el ancho máximo para el contenido */
-}
-
-.modal-body p {
-    margin-bottom: 15px;
-    /* Espaciado entre párrafos */
-}
-
-
-/* Estilos para ver formulario proveedores  */
+/* Estilos para formularios verticales */
 
 .form-section {
     margin-bottom: 20px;
@@ -1267,46 +1195,26 @@ h2 {
     color: white;
     padding: 10px;
     text-align: center;
+    border-radius: 5px;
 }
 
 .form-header {
     background-color: #0174DF;
     color: white;
-    padding: 5px;
+    padding: 10px;
     text-align: center;
-    font-family: emoji;
-    width: 58%;
-    margin-left: 245px;
-}
-
-.table-form th,
-.table-form td {
-    border: 1px solid black;
-    padding: 8px;
-}
-
-.table-form th {
-    background-color: #f9f4f4;
-}
-
-.form-label {
-    font-weight: bold;
-}
-
-.table-form th.internal-use,
-.table-form td.internal-use {
-    text-align: center !important;
-    vertical-align: middle !important;
-}
-
-label {
-    font-weight: bold;
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
+    width: 100%;
+    margin: 0 auto 20px;
 }
 
 .form {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; /* Cambiado a columna */
+    gap: 15px;
 }
 
 .form-group {
@@ -1315,32 +1223,52 @@ label {
 }
 
 .form-group label {
-    margin-bottom: 5px;
+    font-weight: bold;
     color: #333333;
+    margin-bottom: 5px;
 }
 
 .form-group input,
-.form-group select {
-    padding: 8px;
+.form-group select,
+.form-group textarea {
+    padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-shadow: none;
     outline: none;
+    transition: border-color 0.3s;
 }
 
 .form-group input:focus,
-.form-group select:focus {
+.form-group select:focus,
+.form-group textarea:focus {
     border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-.invalid-feedback {
+.form-group .invalid-feedback {
     color: #dc3545;
     font-size: 12px;
     margin-top: 5px;
 }
 
+/* Botones de acción */
+.form button,
+.form input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #0174DF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
+.form button:hover,
+.form input[type="submit"]:hover {
+    background-color: #005bb5;
+}
 /* Estilos para ordenes de compra */
 
 
@@ -1573,4 +1501,59 @@ label {
 /* Cambios de color al pasar el cursor */
 .social-icon-unique i:hover {
     color: #0056b3; /* Cambia el color a un azul más oscuro al hacer hover */
+}
+
+
+/* Elimina doble flecha en el datatable */
+
+th::after, th::before {
+    content: none !important;
+}
+
+#DTable td,
+#DTable th {
+    background-color: transparent !important;
+}
+
+#DTable td.selected,
+#DTable th.selected {
+    background-color: inherit !important;
+}
+
+/* Contenedor general para notificaciones en la esquina */
+#notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    width: 300px;
+}
+
+/* Estilos de cada tipo de mensaje */
+.notification {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+/* Colores según el tipo de mensaje */
+.notification.success {
+    background-color: #4caf50; /* Verde para éxito */
+}
+
+.notification.error {
+    background-color: #f44336; /* Rojo para errores */
+}
+
+.notification.info {
+    background-color: #2196f3; /* Azul para información */
+}
+
+.notification.warning {
+    background-color: #ff9800; /* Naranja para advertencias */
+}
 }

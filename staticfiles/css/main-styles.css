@@ -792,7 +792,49 @@ h2 {
     cursor: pointer;
 }
 
+.filter-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
 
+
+/* Estilos para la barra de filtros y paginación */
+
+.filter-pagination-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.pagination span {
+    margin: 0 5px;
+    font-size: 16px;
+}
+
+.pagination-button {
+    background: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    padding: 5px;
+    color: #348fff;
+}
+
+.pagination-button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
 
 
 /* Estilos para la tabla de productos */
@@ -1214,7 +1256,7 @@ h2 {
 }
 
 
-/* Estilos para ver formulario proveedores  */
+/* Estilos para formularios verticales */
 
 .form-section {
     margin-bottom: 20px;
@@ -1225,46 +1267,26 @@ h2 {
     color: white;
     padding: 10px;
     text-align: center;
+    border-radius: 5px;
 }
 
 .form-header {
     background-color: #0174DF;
     color: white;
-    padding: 5px;
+    padding: 10px;
     text-align: center;
-    font-family: emoji;
-    width: 58%;
-    margin-left: 245px;
-}
-
-.table-form th,
-.table-form td {
-    border: 1px solid black;
-    padding: 8px;
-}
-
-.table-form th {
-    background-color: #f9f4f4;
-}
-
-.form-label {
-    font-weight: bold;
-}
-
-.table-form th.internal-use,
-.table-form td.internal-use {
-    text-align: center !important;
-    vertical-align: middle !important;
-}
-
-label {
-    font-weight: bold;
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
+    width: 100%;
+    margin: 0 auto 20px;
 }
 
 .form {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; /* Cambiado a columna */
+    gap: 15px;
 }
 
 .form-group {
@@ -1273,32 +1295,52 @@ label {
 }
 
 .form-group label {
-    margin-bottom: 5px;
+    font-weight: bold;
     color: #333333;
+    margin-bottom: 5px;
 }
 
 .form-group input,
-.form-group select {
-    padding: 8px;
+.form-group select,
+.form-group textarea {
+    padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-shadow: none;
     outline: none;
+    transition: border-color 0.3s;
 }
 
 .form-group input:focus,
-.form-group select:focus {
+.form-group select:focus,
+.form-group textarea:focus {
     border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-.invalid-feedback {
+.form-group .invalid-feedback {
     color: #dc3545;
     font-size: 12px;
     margin-top: 5px;
 }
 
+/* Botones de acción */
+.form button,
+.form input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #0174DF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
+.form button:hover,
+.form input[type="submit"]:hover {
+    background-color: #005bb5;
+}
 /* Estilos para ordenes de compra */
 
 

@@ -25,6 +25,15 @@
                     <header>Inicio de sesión</header>
                     <form method="post" class="form-group">
                         {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    
                         <div class="input-field">
                             <input type="text" class="input" id="email" name="email" required="" autocomplete="off">
                             <label for="email">Email</label>
@@ -43,4 +52,14 @@
     </div>
 </div>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(function() {
+            var alert = document.querySelector(".alert");
+            if (alert) {
+                alert.style.display = "none";
+            }
+        }, 10000); 
+    });
+</script>
 </html>

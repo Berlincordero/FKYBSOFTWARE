@@ -39,16 +39,20 @@
                         </li>
                     
                         <li class="sidebar-item">
+                            {% if user.role == 'admin' %}
                             <a href="#" class="sidebar-link collapsed" data-bs-target="#personal" data-bs-toggle="collapse"
                                 aria-expanded="false"><i class="fa-solid fa-user pe-2"></i>
                                 Personal
                             </a>
+                            
+
                             <ul id="personal" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                                 <li class="sidebar-item">
                                     <a href="{% url 'usuarios' %}" class="sidebar-link">Administrar staff</a>
                                 </li>
                                 
                             </ul>
+                            {%endif%}
                         </li>
                         
                         <li class="sidebar-item">
@@ -181,14 +185,11 @@
                                     <div class="sub-menu border rounded">
                                         <div class="user-info">
                                             <img src="{% static 'img/banner.jpg' %}">
-                                            <span><h3>Hola! USER</h3></span>
+                                            <span><h3>Hola {{ request.user.first_name }}!</h3></span>
                                         </div>
                                         <hr>
-                                        <a href="#" class="dropdown-item sub-menu-link">
-                                            <p><i class="fa fa-user me-2"></i>Perfil </p>
-                                        </a>
-                                        <a href="#" class="dropdown-item sub-menu-link">
-                                           <p><i class="fa fa-cog me-2"></i>Configuraciones </p>
+                                        <a href="{% url 'perfil_usuario' %}" class="dropdown-item sub-menu-link">
+                                            <p><i class="fa fa-user me-2"></i>Perfil</p>
                                         </a>
                                         <form method="POST" action="{% url 'logout' %}">
                                             {% csrf_token %}
