@@ -29,7 +29,6 @@
 <body>
 <div class="container mt-5">
     <h1 class="text-center">Clientes</h1>
-
     <div class="alert alert-success" id="successAlert" role="alert">
         {% if messages %}
             {% for message in messages %}
@@ -37,13 +36,11 @@
             {% endfor %}
         {% endif %}
     </div>
-
     <div class="mb-3">
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClientModal">
             <i class="fa fa-plus"></i> Agregar Cliente
         </button>
     </div>
-
     <!-- Barra de búsqueda -->
     <div class="mb-3">
         <div class="input-group">
@@ -51,7 +48,6 @@
             <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
         </div>
     </div>
-
     <!-- Tabla de Clientes -->
     <table class="table table-bordered">
         <thead>
@@ -91,7 +87,6 @@
                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editClientModal{{ cliente.id_cliente }}">
                         Editar
                     </button>
-
                     
                 </td>
             </tr>
@@ -104,7 +99,6 @@
     </table>
     <a href="{% url 'transportes:modulo_transportes' %}" class="btn btn-secondary">Regresar</a>
 </div>
-
 <!-- Modal Agregar Cliente -->
 <div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -174,7 +168,6 @@
         </form>
     </div>
 </div>
-
 <!-- Modal Editar Cliente -->
 {% for cliente in clientes %}
 <div class="modal fade" id="editClientModal{{ cliente.id_cliente }}" tabindex="-1" aria-labelledby="editClientModalLabel" aria-hidden="true">
@@ -237,7 +230,6 @@
     </div>
 </div>
 {% endfor %}
-
 <!-- Modal Confirmación de Eliminación -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -259,31 +251,24 @@
         </form>
     </div>
 </div>
-
 <script>
     function setDeleteForm(id_cliente, clientName, actionUrl) {
         document.getElementById('clientName').textContent = clientName;  // Mostrar el nombre del cliente en el modal
         document.getElementById('deleteForm').action = actionUrl;  // Asigna la URL de la eliminación al formulario
     }
 </script>
-
-
-
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function filterClients() {
         const input = document.getElementById("searchClient").value.toLowerCase();
         const table = document.getElementById("clientsTable");
         const rows = table.getElementsByTagName("tr");
-
         for (let i = 1; i < rows.length; i++) {
             const cells = rows[i].getElementsByTagName("td");
             const idCell = cells[0];  // Cédula (id_cliente)
             const nameCell = cells[1]; // Nombre
             const idValue = idCell ? idCell.textContent.toLowerCase() : "";
             const nameValue = nameCell ? nameCell.textContent.toLowerCase() : "";
-
             if (idValue.indexOf(input) > -1 || nameValue.indexOf(input) > -1) {
                 rows[i].style.display = "";
             } else {
@@ -291,11 +276,9 @@
             }
         }
     }
-
     function setDeleteForm(clientId, actionUrl) {
         document.getElementById('deleteForm').action = actionUrl;
     }
-
     function showSuccessAlert() {
         const successAlert = document.getElementById('successAlert');
         successAlert.style.display = 'block';
@@ -303,15 +286,11 @@
             successAlert.style.display = 'none';
         }, 3000); // Ocultar después de 3 segundos
     }
-
     window.onload = function() {
         {% if messages %}
             showSuccessAlert();
         {% endif %}
     };
-
-
-
     const costaRicaLocations = {
         "San José": {
             cantons: {
@@ -462,7 +441,6 @@
         }
     };
 </script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Objeto de ubicaciones
@@ -615,13 +593,11 @@
                 }
             }
         };
-
         // Inicializar las provincias en el dropdown
         const provincias = Object.keys(costaRicaLocations);
         provincias.forEach(function(provincia) {
             document.getElementById("provincia").innerHTML += `<option value="${provincia}">${provincia}</option>`;
         });
-
         // Manejar el cambio en la provincia
         document.getElementById("provincia").addEventListener("change", function() {
             const provincia = this.value;
@@ -637,13 +613,11 @@
             // Limpiar el dropdown de distritos
             document.getElementById("distrito").innerHTML = "<option value=''>Seleccione un distrito</option>";
         });
-
         // Manejar el cambio en el cantón
         document.getElementById("canton").addEventListener("change", function() {
             const provincia = document.getElementById("provincia").value;
             const canton = this.value;
             const distritos = provincia && canton && costaRicaLocations[provincia].cantons[canton] ? costaRicaLocations[provincia].cantons[canton] : [];
-
             // Limpiar y actualizar el dropdown de distritos
             const distritoSelect = document.getElementById("distrito");
             distritoSelect.innerHTML = "<option value=''>Seleccione un distrito</option>";
@@ -654,6 +628,5 @@
     });
     
 </script>
-
 </body>
 </html>
