@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'fkybsoftware',
         'USER': 'postgres',
-        'PASSWORD': 'kik301',
+        'PASSWORD': 'admin',
         'HOST': 'localhost',  # o la dirección de tu servidor PostgreSQL
         'PORT': '5432',  # el puerto por defecto de PostgreSQL es 5432
     }

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% load static %}
-
 {% block content %}
+
+
 <div class="container mt-4">
     <div class="header-proveedores">
         <h1><i class="fa-solid fa-cart-shopping"></i> Facturación Proveedores</h1>
@@ -11,8 +11,8 @@
     <a href="#" data-bs-toggle="modal" title="Agregar nueva orden" data-bs-target="#crearOrdenModal">
         <i class="fa-solid fa-file-circle-plus fa-2x icono-verde"></i>
     </a>
-    
-    <!-- Tabla de órdenes de compra -->
+    <br>
+        <!-- Tabla de órdenes de compra -->
     <table id="orden_de_compraTable" class="table table-striped table-bordered">
         <thead>
             <tr>
@@ -252,7 +252,10 @@
                             {% endfor %}
                         </select>
                     </div>
-                
+                    <div>
+                        <label for="proveedor_edit">Proveedor:</label>
+                        <input type="text" name="proveedor" id="proveedor_edit" />
+                    </div>
                     <div>
                         <label for="lugar_entrega_edit">Lugar de Entrega:</label>
                         <input type="text" name="lugar_entrega" id="lugar_entrega_edit" required />
@@ -329,7 +332,9 @@
     </div>
 </div>
 
-
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
     function setDeleteData(id, descripcion) {
@@ -349,6 +354,7 @@
             document.getElementById('precio_unitario_edit').value = precio; // Asignar Precio Unitario
             document.getElementById('descuento_edit').value = descuento; // Asignar Descuento
             document.getElementById('metodo_pago_edit').value = metodo; // Asignar Método de Pago
+            document.getElementById('proveedor_edit').value = proveedor; // Asignar Proveedor
             document.getElementById('lugar_entrega_edit').value = lugar; // Asignar Lugar de Entrega
             document.getElementById('notas_edit').value = notas; // Asignar Notas
         }
@@ -364,11 +370,55 @@
                 document.getElementById('detalle_precio_unitario').innerText = precio; // Asignar Precio Unitario
                 document.getElementById('detalle_descuento').innerText = descuento + '%'; // Asignar Descuento
                 document.getElementById('detalle_metodo_pago').innerText = metodo; // Asignar Método de Pago
+                document.getElementById('detalle_proveedor').innerText = proveedor; // Asignar Proveedor
                 document.getElementById('detalle_lugar_entrega').innerText = lugar; // Asignar Lugar de Entrega
                 document.getElementById('detalle_notas').innerText = notas; // Asignar Notas
                 document.getElementById('detalle_subtotal').innerText = subtotal; // Asignar Subtotal
                 document.getElementById('detalle_total').innerText = total; // Asignar Total
             }
             </script>
+
+   <Script>
+    $(document).ready(function() {
+       var table = $('#orden_de_compraTable').DataTable({
+        paging: true,
+        searching: true,
+        ordering: true,
+        info: true,
+        lengthChange: false,
+        pageLength: 5,
+        language: {
+            url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+        }
+       });
+       var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+              return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </Script>
+                
             
 {% endblock %}
+
+<!--
+def crear_orden(request):
+    descuentos = ['0', '5', '10', '15']  
+    metodos_pago = ['EFECTIVO', 'TARJETA', 'SINPE'] 
+
+    if request.method == 'POST':
+        form = OrdenDeCompraForm(request.POST)
+        if form.is_valid():
+            
+            form.save()
+            return redirect('lista_ordenes')  
+    else:
+        form = OrdenDeCompraForm()
+
+    
+    return render(request, 'ordenes/orden_de_compra.html', {
+        'form': form,
+        'descuentos': descuentos,
+        'metodos_pago': metodos_pago,
+    })
+-->   

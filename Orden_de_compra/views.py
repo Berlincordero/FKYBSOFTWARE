@@ -59,8 +59,7 @@ def lista_ordenes(request):
         'metodos_pago': metodos_pago,
     }
     return render(request, 'ordenes/orden_de_compra.html', context)
-
-
+    
 def crear_orden(request):
     descuentos = ['0', '5', '10', '15']  
     metodos_pago = ['EFECTIVO', 'TARJETA', 'SINPE'] 
@@ -112,3 +111,12 @@ def editar_orden(request):
         except OrdenDeCompra.DoesNotExist:
             # Manejar el error de que no existe la orden
             return redirect('lista_ordenes')  # O redirigir a una página de error
+
+def detalle_orden(request, orden_id):
+    orden = get_object_or_404(OrdenDeCompra, id=orden_id)
+    articulos = orden.articulos  # Accede a los artículos desde el campo JSON
+
+    return render(request, 'ordenes/detalle_orden.html', {
+        'orden': orden,
+        'articulos': articulos,
+    })
