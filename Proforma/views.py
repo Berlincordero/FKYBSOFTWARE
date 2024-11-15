@@ -6,7 +6,8 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 import subprocess
 from django.shortcuts import render, redirect
-from .models import Proforma
+from .forms import ProformaForm
+
 # Create your views here.
 
 def lista_proforma(request):
@@ -14,12 +15,13 @@ def lista_proforma(request):
     return render(request, 'Proforma.html', {'proformas': proformas})
 
 
-def editar_proforma(request):
+
+
+def editar_proforma(request, pk):
+    proforma = get_object_or_404(Proforma, pk=pk)
+
     if request.method == 'POST':
-        # Obtén el pk del producto desde el formulario
-        pk = request.POST.get('proforma_id')
-        proforma = get_object_or_404(Proforma, pk=pk)
-        
+        # Recibir y actualizar los datos del formulario
         proforma.fecha = request.POST.get('fecha')
         proforma.moneda = request.POST.get('moneda')
         proforma.cliente = request.POST.get('cliente')
@@ -27,14 +29,17 @@ def editar_proforma(request):
         proforma.medio_pago = request.POST.get('medio_pago')
         proforma.condicion_venta = request.POST.get('condicion_venta')
         proforma.detalles = request.POST.get('detalles')
-        proforma.nota = request.POST.get('nota')   # Este es solo un ejemplo; reemplaza por el cálculo adecuado
-        
+        proforma.nota = request.POST.get('nota')
+        proforma.subtotal = 1000  # Este es solo un ejemplo; reemplaza por el cálculo adecuado
+        proforma.descuento = 0    # Este es solo un ejemplo; reemplaza por el cálculo adecuado
+        proforma.iva = 130        # Este es solo un ejemplo; reemplaza por el cálculo adecuado
+        proforma.total = 1130     # Este es solo un ejemplo; reemplaza por el cálculo adecuado
+
         proforma.save()
+         # Redirigir a la página de lista de proformas
         return redirect('lista_proforma')
-
     return render(request, 'Proforma.html')
-
-
+      
 
 def crear_proforma(request):
     if request.method == 'POST':
@@ -74,7 +79,6 @@ def crear_proforma(request):
     return render(request, 'Proforma.html')
 
 
-from .models import Proforma
 
 
 def eliminar_proforma(request, pk):

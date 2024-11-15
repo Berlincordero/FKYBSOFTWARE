@@ -1,0 +1,838 @@
+{% extends 'base.html' %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Proformas</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <style>
+    
+    
+
+
+.container-proformas-kike {
+        width: 80%;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+        position: relative;
+      }
+      .title-with-icon {
+        font-size: 18px;
+        color: orange;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .title-with-icon i {
+        margin-right: 10px;
+        font-size: 2em;
+      }
+      .title-with-icon h1 {
+        margin: 0;
+        font-size: 2em;
+      }
+      .search-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+      }
+      .search-container input {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        margin-right: 10px;
+      }
+      .search-container .search-button {
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+      }
+      
+      .header,
+      .form-group,
+      .line-details,
+      .buttons,
+      .totals {
+        margin: 20px 0;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input[type="text"],
+      select {
+        margin-top: 15px;
+        width: 40%;
+        padding: 8px;
+        margin-bottom: 10px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+      th,
+      td {
+        border: 1px solid #95defd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #95defd;
+      }
+
+      tbody tr:hover {
+        background-color: hsl(180, 1%, 83%); /* Cambia el fondo de la fila al pasar el ratón */
+        transition: background-color 0.3s; /* Para una transición suave */
+    }
+    
+      tbody td:hover {
+        background-color: #efc737; /* Cambia el fondo de la celda al pasar el ratón */
+        transition: background-color 0.3s; /* Para una transición suave */
+    }
+
+
+      .save-proforma,
+      .create-proforma {
+        padding: 10px 20px;
+        background-color: #3163f9;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+      .modal-proforma {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .action-icons i {
+        background-color: #96c4f5;
+        color: red;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+      }
+      .fixed-icons {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+      }
+      .fixed-icons button {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        color: #3163f9;
+        padding: 8px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        cursor: pointer;
+        font-size: 1.5em;
+      }
+      .create-proforma {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #4caf50;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        border-radius: 50%;
+        font-size: 24px;
+        color: white;
+        width: 50px;
+        height: 50px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+
+      @media (min-width: 1200px) {
+        .h1, h1 {
+            margin: auto;
+            color: orange;
+            font-size: 2.5rem;
+        }
+    }
+    .search-bar {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+  }
+  
+  .search-label {
+      margin-bottom: 5px; /* Espacio entre la etiqueta y la barra de búsqueda */
+      font-weight: bold;  /* Opcional: Negrita para la etiqueta */
+  }
+  
+  .search-input-wrapper {
+      display: flex;
+      align-items: center;
+  }
+  
+  .search-input-wrapper input[type="text"] {
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      flex-grow: 1;
+      margin-right: 10px;
+  }
+  
+  .search-input-wrapper button {
+      background-color: #4caf50;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  
+  .icono-proforma-formulario {
+      color: #826119e7
+  }
+  .moneda-unica {
+    background-color: #e0f7fa; /* Color de fondo personalizado */
+    border: 2px solid #00796b; /* Borde personalizado */
+    color: #004d40; /* Color del texto */
+    padding: 5px;
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
+    width: 150px; /* Ancho fijo */
+    cursor: pointer;
+}
+
+.moneda-unica:focus {
+    border-color: #004d40; /* Cambia el color del borde al enfocar */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 77, 64, 0.5); /* Sombra al enfocar */
+}
+
+/* Contenedor de los iconos */
+.action-icons {
+    display: flex;
+    justify-content: center; /* Centra los iconos horizontalmente */
+    align-items: center; /* Centra los iconos verticalmente */
+    gap: 15px; /* Espacio entre los iconos */
+}
+
+/* Estilos generales para los iconos */
+.action-icons i {
+    cursor: pointer;
+    font-size: 20px;
+    color: #555;
+    transition: color 0.3s ease;
+}
+
+/* Cambia el color al pasar el mouse */
+.action-icons i:hover {
+    color: #007bff;
+}
+
+/* Efecto de presionado */
+.action-icons i:active {
+    transform: scale(0.95);
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; /* Ajusta la altura según tu diseño */
+}
+
+.imprimir-proforma {
+  font-size: 35px;
+  color: #28a745;
+  cursor: pointer;
+  padding: 20px; /* Espacio alrededor del ícono */
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-below-proforma {
+  text-align: center; /* Centers the image if needed */
+  margin-top: 15px;   /* Adjust for separation */
+}
+
+.image-below-icon {
+  border-radius: 35px; /* Rounded corners */
+  width: 300px;       /* Adjust size as needed */
+  height: auto;      /* Keeps aspect ratio */
+}
+
+////////////////////////////////
+
+ 
+    </style>
+  </head>
+  <body>
+    <div class="container-proformas-kike">
+      <div class="title-with-icon">
+        <i class="fa fa-file-invoice-dollar"></i>
+        <h1>Proformas</h1>
+      </div>
+      <div class="search-container">
+        <input type="text" id="search" placeholder="Buscar por cliente" />
+      </div>
+
+    </div>
+
+    <div class="proforma-list" style="width: 100%; margin: 20px auto;">
+      <table>
+          <thead>
+              <tr>
+                  <th>Fecha</th>
+                  <th>Moneda</th>
+                  <th>Cliente</th>
+                  <th>Código Actividad Económica</th>
+                  <th>Medio de Pago</th>
+                  <th>Condición de Venta</th>
+                  <th>Detalles</th>
+                  <th>Nota</th>
+                  <th>Total</th>
+                  <th>Opciones</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for proforma in proformas %}
+            <tr id="proforma-{{ proforma.id }}" 
+                data-fecha="{{ proforma.fecha }}" 
+                data-moneda="{{ proforma.moneda }}" 
+                data-cliente="{{ proforma.cliente }}" 
+                data-codigo="{{ proforma.codigo_actividad_economica }}" 
+                data-medio_pago="{{ proforma.medio_pago }}" 
+                data-condicion_venta="{{ proforma.condicion_venta }}" 
+                data-detalles="{{ proforma.detalles }}" 
+                data-nota="{{ proforma.nota }}" 
+                data-total="{{ proforma.total }}">
+            
+                <td>{{ proforma.fecha }}</td>
+                <td>{{ proforma.moneda }}</td>
+                <td>{{ proforma.cliente }}</td>
+                <td>{{ proforma.codigo_actividad_economica }}</td>
+                <td>{{ proforma.medio_pago }}</td>
+                <td>{{ proforma.condicion_venta }}</td>
+                <td>{{ proforma.detalles }}</td>
+                <td>{{ proforma.nota }}</td>
+                <td>{{ proforma.total }}</td>
+                <td class="action-icons">
+                    <form action="{% url 'eliminar_proforma' proforma.pk %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                    <i class="fas fa-edit" onclick="editarProforma({{ proforma.id }})"></i>
+                </td>
+            </tr>
+            {% empty %}
+            <tr class="fila-vacia">
+                <td colspan="10" class="text-center">No hay proformas registrados</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+  </div>
+  
+    
+    <button class="create-proforma" onclick="openModal()">+</button>
+
+    <div id="proformaModal" class="modal-proforma" style="display: none;">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h1><i class="fas fa-file-invoice icono-proforma-formulario"></i> Proforma</h1>
+      <form action="{% url 'crear_proforma' %}" method="POST">
+        {% csrf_token %}
+        <div class="header">
+          <div class="header-left">
+            <input type="date" class="form-control" id="fecha" name="fecha">
+            <select id="moneda" name="moneda" class="moneda-unica">
+            <option value="CRC">CRC</option>
+            <option value="USD">Dólares</option>
+            </select>
+          </div>
+          <div class="header-right">
+            <p>
+              Venta al por menor artículos de ferretería
+              pinturas madera y
+              materiales para la construcción.
+            </p>
+            <p> este documento no es válido como factura ni documento fiscal</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cliente">Cliente:</label>
+          <input
+            type="text"
+            id="cliente"
+            name="cliente"
+            placeholder="Busca por nombre, cédula o teléfono"
+          />
+        </div>
+        <div class="form-group">
+          <label for="Código-actividad-económica"
+            >Código-actividad-económica:</label
+          >
+          <select id="codigo_actividad_economica" name="codigo_actividad_economica">
+            <option value="regular">Regular</option>
+            <option value="especial">Especial</option>
+            <option value="exento">Mayorista</option>
+        </select>
+        </div>
+        <div class="form-group">
+          <label for="medio-pago">Medio de pago:</label>
+          <select id="medio_pago" name="medio_pago">
+            <option value="efectivo">Efectivo</option>
+            <option value="tarjeta">Tarjeta</option>
+            <option value="transferencia">Transferencia</option>  
+            <option value="cheque">Cheque</option>
+            <option value="deposito">Depósito</option>
+            <option value="otros">Otros</option>
+        </select>
+          <label for="condición-venta">Condición de venta:</label>
+          <select id="condicion_venta" name="condicion_venta">
+            <option value="contado">Contado</option>
+            <option value="credito">Crédito</option>
+        </select>
+        </div>
+          <!-- Nuevos campos para Detalles y Nota -->
+          <div class="form-group">
+            <label for="detalles">Detalles:</label>
+            <input
+              type="text"
+              id="detalles"
+              name="detalles"
+              placeholder="Detalles de la proforma"
+            />
+          </div>
+          <div class="form-group">
+            <label for="nota">Nota:</label>
+            <input
+              type="text"
+              id="nota"
+              name="nota"
+              placeholder="Nota adicional"
+            />
+          </div>
+          
+          <div class="search-bar">
+            <label for="nota" class="search-label">Producto:</label>
+            <div class="search-input-wrapper">
+                <input type="text" id="nota" placeholder="Ingrese el nombre del producto">
+                <button><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+
+        <div class="line-details">
+          <h2>Detalles de línea</h2>
+          <table id="line-items-table">
+              <thead>
+                  <tr>
+                      <th>Código</th>
+                      <th>Descripción</th>
+                      <th>Cantidad</th>
+                      <th>Unidad</th>
+                      <th>Precio Unitario</th>
+                      <th>Descuento</th>
+                      <th>IVA</th>
+                      <th>Total</th>
+                      <th>Opciones</th>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>001</td>
+                      <td>Producto 1</td>
+                      <td><input type="number" value="10" min="1" onchange="updateTotal(this)"></td>
+                      <td>unidad</td>
+                      <td>1000</td>
+                      <td><input type="number" value="" min="1" onchange="updateTotal(this)"></td>
+                      <td>13%</td>
+                      <td>1000</td>
+                      <td class="action-icons">
+                          <i class="fas fa-trash" onclick="eliminarFila(this)"></i>
+                      </td>
+                  </tr>
+                  <!-- otras filas -->
+              </tbody>
+          </table>
+      </div>
+       
+        <div class="totals">
+          <h2>Totales</h2>
+          <p>Subtotal: <span id="subtotal">1000</span></p>
+          <p>Descuento: <span id="descuento">0</span></p>
+          <p>IVA: <span id="iva">130</span></p>
+          <p>Total Neto: <span id="total">1000</span></p>
+        </div>
+        <div class="buttons">
+          <button type="submit" class="save-proforma">Guardar</button>
+        </div>
+      </form>
+        <div class="buttons-imprimir-proforma">
+          <i class="fas fa-print imprimir-proforma" onclick="imprimirProforma()"></i>
+      </div>
+      <div class="image-below-proforma">
+        {% load static %}
+        <img src="{% static 'img/logo.jpg' %}" alt="Question Image" class="image-below-icon"/>
+      </div>
+      </div>
+    </div>
+    
+
+    <div id="editarproformaModal" class="modal-proforma" style="display: none;">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h1><i class="fas fa-file-invoice icono-proforma-formulario"></i> Editar Proforma</h1>
+        <form action="{% url 'editar_proforma' %}" method="POST">
+          {% csrf_token %}
+          <div class="header">
+            <div class="header-left">
+              <input type="date" class="form-control" id="editarfecha" name="fecha">
+              <select id="editarmoneda" name="moneda" class="moneda-unica">
+                <option value="CRC">CRC</option>
+                <option value="USD">Dólares</option>
+              </select>
+            </div>
+            <div class="header-right">
+              <p>
+                Venta al por menor artículos de ferretería
+                pinturas madera y
+                materiales para la construcción.
+              </p>
+              <p> este documento no es válido como factura ni documento fiscal</p>
+            </div>
+          </div>
+          <class="form-group">
+            <label for="editarcliente">Cliente:</label>
+            <input
+              type="text"
+              id="editarcliente"
+              name="cliente"
+              placeholder="Busca por nombre, cédula o teléfono"
+            /> 
+
+          <div class="form-group">
+            <label for="editarcodigoactividadeconomica"
+              >Código-actividad-económica:</label
+            >
+            <select id="editarcodigoactividadeconomica" name="codigo_actividad_economica">
+              <option value="regular">Regular</option>
+              <option value="especial">Especial</option>
+              <option value="exento">Mayorista</option>
+          </select>
+          </div>
+          <div class="form-group">
+            <label for="editarmediopago">Medio de pago:</label>
+            <select id="editarmediopago" name="medio_pago">
+              <option value="efectivo">Efectivo</option>
+              <option value="tarjeta">Tarjeta</option>
+              <option value="transferencia">Transferencia</option>  
+              <option value="cheque">Cheque</option>
+              <option value="deposito">Depósito</option>
+              <option value="otros">Otros</option>
+          </select>
+            <label for="editarcondicionventa">Condición de venta:</label>
+            <select id="editarcondicionventa" name="condicion_venta">
+              <option value="contado">Contado</option>
+              <option value="credito">Crédito</option>
+          </select>
+          </div>
+            <!-- Nuevos campos para Detalles y Nota -->
+            <div class="form-group">
+              <label for="editardetalles">Detalles:</label>
+              <input
+                type="text"
+                id="editardetalles"
+                name="detalles"
+                placeholder="Detalles de la proforma"
+              />
+            </div>
+            <div class="form-group">
+              <label for="editarnota">Nota:</label>
+              <input
+                type="text"
+                id="editarnota"
+                name="nota"
+                placeholder="Nota adicional"
+              />
+            </div>
+            <div class="search-bar">
+              <label for="nota" class="search-label">Producto:</label>
+              <div class="search-input-wrapper">
+                  <input type="text" id="nota" placeholder="Ingrese el nombre del producto">
+                  <button><i class="fa fa-search"></i></button>
+              </div>
+          </div>
+  
+          <div class="line-details">
+            <h2>Detalles de línea</h2>
+            <table id="line-items-table">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Unidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Descuento</th>
+                        <th>IVA</th>
+                        <th>Total</th>
+                        <th>Opciones</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>Producto 1</td>
+                        <td><input type="number" value="10" min="1" onchange="updateTotal(this)"></td>
+                        <td>unidad</td>
+                        <td>1000</td>
+                        <td><input type="number" value="" min="1" onchange="updateTotal(this)"></td>
+                        <td>13%</td>
+                        <td>1000</td>
+                        <td class="action-icons">
+                            <i class="fas fa-trash" onclick="eliminarFila(this)"></i>
+                        </td>
+                    </tr>
+                    <!-- otras filas -->
+                </tbody>
+            </table>
+        </div>
+         
+          <div class="totals">
+            <h2>Totales</h2>
+            <p>Subtotal: <span id="subtotal">1000</span></p>
+            <p>Descuento: <span id="descuento">0</span></p>
+            <p>IVA: <span id="iva">130</span></p>
+            <p>Total Neto: <span id="total">1000</span></p>
+          </div>
+          <div class="buttons">
+            <button type="submit" class="save-proforma">Guardar</button>
+          </div>
+        </form>
+          <div class="buttons-imprimir-proforma">
+            <i class="fas fa-print imprimir-proforma" onclick="imprimirProforma()"></i>
+        </div>
+        <div class="image-below-proforma">
+          {% load static %}
+          <img src="{% static 'img/logo.jpg' %}" alt="Question Image" class="image-below-icon"/>
+        </div>
+        </div>
+      </div>
+   
+
+
+
+    <script>
+
+/////////////////
+function imprimirProforma() {
+  // Clonar el contenido del modal
+  var contenido = document.getElementById('proformaModal').cloneNode(true);
+  
+  // Crear una nueva ventana de impresión
+  var ventanaImpresion = window.open('', '', 'height=900,width=800');
+
+  // Escribir el contenido en la nueva ventana
+  ventanaImpresion.document.write('<html><head><title>Proforma</title>');
+  
+  // Incluir el enlace a los iconos y estilos de impresión
+  ventanaImpresion.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
+  ventanaImpresion.document.write('<style>');
+  
+  // Definir estilos específicos para la impresión
+  ventanaImpresion.document.write(`
+      @media print {
+          body {
+              font-family: Arial, sans-serif;
+              font-size: 20px; /* Tamaño de fuente más grande */
+              margin: 0;
+              padding: 40px; /* Aumentar el padding para dar más espacio */
+          }
+          .modal-content {
+              width: 100%;
+              margin: 0;
+              padding: 20px;
+          }
+          h1, h2 {
+              text-align: center;
+              font-size: 24px; /* Aumentar el tamaño de los títulos */
+          }
+          table {
+              width: 100%;
+              border-collapse: collapse;
+              font-size: 18px; /* Aumentar el tamaño del texto en las tablas */
+          }
+          th, td {
+              padding: 12px; /* Aumentar el padding de las celdas */
+              border: 1px solid black;
+              text-align: left;
+          }
+
+          th:last-child, td:last-child {
+           display: none;
+       }
+          .header-right p {
+              text-align: right;
+              font-size: 18px; /* Aumentar el tamaño del texto en el encabezado */
+          }
+          .buttons, .buttons-imprimir-proforma, .close {
+              display: none; /* Ocultar botones innecesarios */
+          }
+         .image-below-icon {
+          margin: 0 350px;
+          border-radius: 35px;
+          margin-right. 350px;
+          margin-top: 85px;   /* Adjust for separation */
+          width: 250px;       /* Adjust size as needed */
+          }
+
+      }
+  `);
+  
+  ventanaImpresion.document.write('</style></head><body>');
+  
+  // Añadir el contenido del modal
+  ventanaImpresion.document.body.appendChild(contenido);
+  
+  // Cerrar el documento para que la impresión pueda proceder
+  ventanaImpresion.document.close();
+
+  // Esperar a que se cargue y luego lanzar la impresión
+  ventanaImpresion.onload = function() {
+      ventanaImpresion.focus();
+      ventanaImpresion.print();
+      ventanaImpresion.close(); // Cerrar la ventana después de imprimir
+  };
+}
+
+  // Función para abrir el modal
+  function openModal() {
+    console.log("Abriendo el modal");
+    document.getElementById("proformaModal").style.display = "block";
+  }
+
+  // Función para cerrar el modal
+  function closeModal() {
+    console.log("Cerrando el modal");
+    document.getElementById("proformaModal").style.display = "none";
+  }
+
+  // Cerrar el modal cuando el usuario hace clic fuera del modal
+  window.onclick = function(event) {
+    var modal = document.getElementById("proformaModal");
+    if (event.target === modal) {
+      console.log("Cerrando modal al hacer clic fuera");
+      closeModal();
+    }
+  }
+
+  function editarProforma(id) {
+    // Seleccionar la fila correspondiente usando el ID
+    var row = document.getElementById("proforma-" + id);
+
+    // Obtener los datos de los atributos data-
+    var fecha = row.getAttribute("data-fecha");
+    var moneda = row.getAttribute("data-moneda");
+    var cliente = row.getAttribute("data-cliente");
+    var codigoActividad = row.getAttribute("data-codigo");
+    var medioPago = row.getAttribute("data-medio_pago");
+    var condicionVenta = row.getAttribute("data-condicion_venta");
+    var detalles = row.getAttribute("data-detalles");
+    var nota = row.getAttribute("data-nota");
+    var total = row.getAttribute("data-total");
+
+    // Llenar el formulario del modal de edición con estos datos
+    document.getElementById("editarfecha").value = fecha;
+    document.getElementById("editarmoneda").value = moneda;
+    document.getElementById("editarcliente").value = cliente;
+    document.getElementById("editarcodigoactividadeconomica").value = codigoActividad;
+    document.getElementById("editarmediopago").value = medioPago;
+    document.getElementById("editarcondicionventa").value = condicionVenta;
+    document.getElementById("editardetalles").value = detalles;
+    document.getElementById("editarnota").value = nota;
+
+    // Opcionalmente, podrías mostrar el total si es necesario en el formulario de edición:
+    document.getElementById("editartotal").innerText = total;
+
+    // Mostrar el modal de edición
+    document.getElementById("editarproformaModal").style.display = "block";
+}
+
+// Función para cerrar los modales
+function closeModal() {
+    document.getElementById("proformaModal").style.display = "none";
+    document.getElementById("editarproformaModal").style.display = "none";
+}
+
+// Cerrar el modal cuando el usuario hace clic fuera del modal
+window.onclick = function(event) {
+    var createModal = document.getElementById("proformaModal");
+    var editModal = document.getElementById("editarproformaModal");
+
+    if (event.target === createModal) {
+        closeModal();
+    } else if (event.target === editModal) {
+        closeModal();
+    }
+}  
+
+</script>
+  </body>
+</html>
+
+{% endblock content %}
