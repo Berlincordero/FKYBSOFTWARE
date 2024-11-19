@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'Inventario',
     'Proforma',
     'Facturacion',
-    'Informacion',
     'Reportes',
     'Proveedores',
     'mi_aplicacion',
@@ -81,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'fkybsoftware',
         'USER': 'postgres',
-        'PASSWORD': 'admin',
+        'PASSWORD': 'kik301',
         'HOST': 'localhost',  # o la dirección de tu servidor PostgreSQL
         'PORT': '5432',  # el puerto por defecto de PostgreSQL es 5432
     }
