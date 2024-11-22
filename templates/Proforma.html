@@ -316,6 +316,33 @@
 }
 
 ////////////////////////////////
+#product-modal {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+#product-modal h3 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#product-modal select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#product-modal button {
+  padding: 10px 20px;
+  margin: 5px;
+}
 
  
     </style>
@@ -389,149 +416,139 @@
       </table>
   </div>
   
-    
-    <button class="create-proforma" onclick="openModal()">+</button>
+  <button class="create-proforma" onclick="openModal()">+</button>
 
-    <div id="proformaModal" class="modal-proforma" style="display: none;">
+  <!-- Modal de Crear Proforma -->
+  <div id="proformaModal" class="modal-proforma" style="display: none;">
       <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h1><i class="fas fa-file-invoice icono-proforma-formulario"></i> Proforma</h1>
-      <form action="{% url 'crear_proforma' %}" method="POST">
-        {% csrf_token %}
-        <div class="header">
-          <div class="header-left">
-            <input type="date" class="form-control" id="fecha" name="fecha">
-            <select id="moneda" name="moneda" class="moneda-unica">
-            <option value="CRC">CRC</option>
-            <option value="USD">Dólares</option>
-            </select>
-          </div>
-          <div class="header-right">
-            <p>
-              Venta al por menor artículos de ferretería
-              pinturas madera y
-              materiales para la construcción.
-            </p>
-            <p> este documento no es válido como factura ni documento fiscal</p>
-          </div>
+          <span class="close" onclick="closeModal()">&times;</span>
+          <h1><i class="fas fa-file-invoice icono-proforma-formulario"></i> Proforma</h1>
+          <form action="{% url 'crear_proforma' %}" method="POST">
+              {% csrf_token %}
+  
+              <!-- Información principal de la proforma -->
+              <div class="header">
+                  <div class="header-left">
+                      <label for="fecha">Fecha:</label>
+                      <input type="date" class="form-control" id="fecha" name="fecha">
+                      
+                      <label for="moneda">Moneda:</label>
+                      <select id="moneda" name="moneda" class="moneda-unica">
+                          <option value="CRC">Colones</option>
+                          <option value="USD">Dólares</option>
+                      </select>
+                  </div>
+                  <div class="header-right">
+                      <p>Venta al por menor artículos de ferretería, pinturas, madera y materiales para la construcción.</p>
+                      <p>Este documento no es válido como factura ni documento fiscal.</p>
+                  </div>
+              </div>
+  
+              <!-- Información del cliente -->
+              <div class="form-group">
+                  <label for="cliente">Cliente:</label>
+                  <input type="text" id="cliente" name="cliente" placeholder="Busca por nombre, cédula o teléfono">
+              </div>
+  
+              <!-- Código de actividad económica -->
+              <div class="form-group">
+                  <label for="codigo_actividad_economica">Código de Actividad Económica:</label>
+                  <select id="codigo_actividad_economica" name="codigo_actividad_economica">
+                      <option value="regular">Regular</option>
+                      <option value="especial">Especial</option>
+                      <option value="exento">Exento</option>
+                  </select>
+              </div>
+  
+              <!-- Medio de pago y condición de venta -->
+              <div class="form-group">
+                  <label for="medio_pago">Medio de pago:</label>
+                  <select id="medio_pago" name="medio_pago">
+                      <option value="efectivo">Efectivo</option>
+                      <option value="tarjeta">Tarjeta</option>
+                      <option value="transferencia">Transferencia</option>
+                      <option value="cheque">Cheque</option>
+                      <option value="deposito">Depósito</option>
+                      <option value="otros">Otros</option>
+                  </select>
+                  
+                  <label for="condicion_venta">Condición de venta:</label>
+                  <select id="condicion_venta" name="condicion_venta">
+                      <option value="contado">Contado</option>
+                      <option value="credito">Crédito</option>
+                  </select>
+              </div>
+  
+              <!-- Campos de detalles y nota -->
+              <div class="form-group">
+                  <label for="detalles">Detalles:</label>
+                  <input type="text" id="detalles" name="detalles" placeholder="Detalles de la proforma">
+              </div>
+              <div class="form-group">
+                  <label for="nota">Nota:</label>
+                  <input type="text" id="nota" name="nota" placeholder="Nota adicional">
+              </div>
+  
+              <!-- Tabla de detalles de línea -->
+              <div class="line-details">
+                  <h2>Detalles de línea</h2>
+                  <table id="line-items-table">
+                      <thead>
+                          <tr>
+                              <th>Código</th>
+                              <th>Descripción</th>
+                              <th>Cantidad</th>
+                              <th>Unidad</th>
+                              <th>Precio Unitario</th>
+                              <th>Descuento</th>
+                              <th>IVA</th>
+                              <th>Total</th>
+                              <th>Opciones</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <!-- Aquí se llenarán las filas dinámicamente -->
+                      </tbody>
+                  </table>
+              </div>
+  
+              <!-- Botón para abrir el modal de selección de productos -->
+              <button type="button" onclick="mostrarModalProductos()">Agregar Producto</button>
+  
+              <!-- Modal de Selección de Productos -->
+              <div id="product-modal" style="display: none;">
+                  <h3>Seleccionar Producto</h3>
+                  <select id="product-select">
+                      <!-- Opciones llenadas dinámicamente -->
+                  </select>
+                  <button type="button" onclick="agregarProducto()">Agregar Producto</button>
+                  <button type="button" onclick="cerrarModalProductos()">Cerrar</button>
+              </div>
+  
+              <!-- Totales -->
+              <div class="totals">
+                  <h2>Totales</h2>
+                  <p>Subtotal: <span id="subtotal">0.00</span></p>
+                  <p>Descuento: <span id="descuento">0.00</span></p>
+                  <p>IVA: <span id="iva">0.00</span></p>
+                  <p>Total Neto: <span id="total">0.00</span></p>
+              </div>
+  
+              <!-- Botón para guardar la proforma -->
+              <div class="buttons">
+                  <button type="submit" class="save-proforma">Guardar</button>
+              </div>
+          </form>
+          <div class="buttons-imprimir-proforma">
+            <i class="fas fa-print imprimir-proforma" onclick="imprimirProforma()"></i>
         </div>
-        <div class="form-group">
-          <label for="cliente">Cliente:</label>
-          <input
-            type="text"
-            id="cliente"
-            name="cliente"
-            placeholder="Busca por nombre, cédula o teléfono"
-          />
-        </div>
-        <div class="form-group">
-          <label for="Código-actividad-económica"
-            >Código-actividad-económica:</label
-          >
-          <select id="codigo_actividad_economica" name="codigo_actividad_economica">
-            <option value="regular">Regular</option>
-            <option value="especial">Especial</option>
-            <option value="exento">Mayorista</option>
-        </select>
-        </div>
-        <div class="form-group">
-          <label for="medio-pago">Medio de pago:</label>
-          <select id="medio_pago" name="medio_pago">
-            <option value="efectivo">Efectivo</option>
-            <option value="tarjeta">Tarjeta</option>
-            <option value="transferencia">Transferencia</option>  
-            <option value="cheque">Cheque</option>
-            <option value="deposito">Depósito</option>
-            <option value="otros">Otros</option>
-        </select>
-          <label for="condición-venta">Condición de venta:</label>
-          <select id="condicion_venta" name="condicion_venta">
-            <option value="contado">Contado</option>
-            <option value="credito">Crédito</option>
-        </select>
-        </div>
-          <!-- Nuevos campos para Detalles y Nota -->
-          <div class="form-group">
-            <label for="detalles">Detalles:</label>
-            <input
-              type="text"
-              id="detalles"
-              name="detalles"
-              placeholder="Detalles de la proforma"
-            />
-          </div>
-          <div class="form-group">
-            <label for="nota">Nota:</label>
-            <input
-              type="text"
-              id="nota"
-              name="nota"
-              placeholder="Nota adicional"
-            />
-          </div>
-          
-          <div class="search-bar">
-            <label for="nota" class="search-label">Producto:</label>
-            <div class="search-input-wrapper">
-                <input type="text" id="nota" placeholder="Ingrese el nombre del producto">
-                <button><i class="fa fa-search"></i></button>
-            </div>
-        </div>
-
-        <div class="line-details">
-          <h2>Detalles de línea</h2>
-          <table id="line-items-table">
-              <thead>
-                  <tr>
-                      <th>Código</th>
-                      <th>Descripción</th>
-                      <th>Cantidad</th>
-                      <th>Unidad</th>
-                      <th>Precio Unitario</th>
-                      <th>Descuento</th>
-                      <th>IVA</th>
-                      <th>Total</th>
-                      <th>Opciones</th>
-              </thead>
-              <tbody>
-                  <tr>
-                      <td>001</td>
-                      <td>Producto 1</td>
-                      <td><input type="number" value="10" min="1" onchange="updateTotal(this)"></td>
-                      <td>unidad</td>
-                      <td>1000</td>
-                      <td><input type="number" value="" min="1" onchange="updateTotal(this)"></td>
-                      <td>13%</td>
-                      <td>1000</td>
-                      <td class="action-icons">
-                          <i class="fas fa-trash" onclick="eliminarFila(this)"></i>
-                      </td>
-                  </tr>
-                  <!-- otras filas -->
-              </tbody>
-          </table>
-      </div>
-       
-        <div class="totals">
-          <h2>Totales</h2>
-          <p>Subtotal: <span id="subtotal">1000</span></p>
-          <p>Descuento: <span id="descuento">0</span></p>
-          <p>IVA: <span id="iva">130</span></p>
-          <p>Total Neto: <span id="total">1000</span></p>
-        </div>
-        <div class="buttons">
-          <button type="submit" class="save-proforma">Guardar</button>
-        </div>
-      </form>
-        <div class="buttons-imprimir-proforma">
-          <i class="fas fa-print imprimir-proforma" onclick="imprimirProforma()"></i>
-      </div>
-      <div class="image-below-proforma">
-        {% load static %}
-        <img src="{% static 'img/logo.jpg' %}" alt="Question Image" class="image-below-icon"/>
+        <div class="image-below-proforma">
+          {% load static %}
+          <img src="{% static 'img/logo.jpg' %}" alt="Question Image" class="image-below-icon"/>
       </div>
       </div>
-    </div>
+  </div>
+   
     
 
     <div id="editarproformaModal" class="modal-proforma" style="display: none;">
@@ -827,6 +844,86 @@ window.onclick = function(event) {
         closeModal();
     }
 }  
+
+
+function mostrarModalProductos() {
+  fetch("{% url 'obtener_productos' %}") // Llamada a la vista Django
+      .then(response => {
+          if (!response.ok) {
+              throw new Error("Error al obtener los productos");
+          }
+          return response.json();
+      })
+      .then(data => {
+          const select = document.querySelector("#product-select");
+          select.innerHTML = ""; // Limpia las opciones antes de llenarlas
+          data.forEach(producto => {
+              const option = `
+                  <option value="${producto.id}" 
+                          data-codigo="${producto.codigo_cabys}" 
+                          data-nombre="${producto.nombre}" 
+                          data-descripcion="${producto.descripcion}" 
+                          data-precio="${producto.precio_venta}">
+                      ${producto.codigo_cabys} - ${producto.nombre} - ${producto.precio_venta}
+                  </option>`;
+              select.insertAdjacentHTML("beforeend", option);
+          });
+          document.querySelector("#product-modal").style.display = "block";
+      })
+      .catch(error => console.error("Error al cargar productos:", error));
+}
+
+// Agregar producto seleccionado a la tabla
+function agregarProducto() {
+  const select = document.querySelector("#product-select");
+  const selectedOption = select.options[select.selectedIndex];
+
+  if (!selectedOption) {
+      alert("Por favor, selecciona un producto.");
+      return;
+  }
+
+  const codigo = selectedOption.getAttribute("data-codigo");
+  const nombre = selectedOption.getAttribute("data-nombre");
+  const descripcion = selectedOption.getAttribute("data-descripcion") || "Sin descripción";
+  const precioVenta = selectedOption.getAttribute("data-precio");
+
+  const tbody = document.querySelector("#line-items-table tbody");
+  const fila = `
+      <tr>
+          <td>${codigo}</td>
+          <td>${descripcion}</td>
+          <td><input type="number" value="1" min="1" onchange="updateTotal(this)"></td>
+          <td>unidad</td>
+          <td>${precioVenta}</td>
+          <td><input type="number" value="0" min="0" onchange="updateTotal(this)"></td>
+          <td>13%</td>
+          <td>${precioVenta}</td>
+          <td class="action-icons">
+              <i class="fas fa-trash" onclick="eliminarFila(this)"></i>
+          </td>
+      </tr>`;
+  tbody.insertAdjacentHTML("beforeend", fila);
+
+  // Cierra el modal después de agregar el producto
+  cerrarModalProductos();
+}
+
+// Cerrar el modal de productos
+function cerrarModalProductos() {
+  document.querySelector("#product-modal").style.display = "none";
+}
+
+// Eliminar una fila de la tabla
+function eliminarFila(elemento) {
+  elemento.closest("tr").remove();
+}
+
+// Actualizar el total (puedes personalizar esta lógica)
+function updateTotal(input) {
+  console.log("Nueva cantidad:", input.value);
+  // Implementa la lógica para recalcular el total si es necesario.
+}
 
 </script>
   </body>
