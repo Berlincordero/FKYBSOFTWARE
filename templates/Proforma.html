@@ -496,6 +496,7 @@
                       <thead>
                           <tr>
                               <th>Código</th>
+                              <th>nombre</th>
                               <th>Descripción</th>
                               <th>Cantidad</th>
                               <th>Unidad</th>
@@ -892,6 +893,7 @@ function agregarProducto() {
   const fila = `
       <tr>
           <td>${codigo}</td>
+          <td>${nombre}</td>
           <td>${descripcion}</td>
           <td><input type="number" value="1" min="1" onchange="updateTotal(this)"></td>
           <td>unidad</td>
