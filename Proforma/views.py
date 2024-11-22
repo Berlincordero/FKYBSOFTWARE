@@ -73,7 +73,7 @@ def crear_proforma(request):
             total=total,
         )
         proforma.save()
-
+        
         # Redirigir a la página de lista de proformas
         return redirect('lista_proforma')
     return render(request, 'Proforma.html')

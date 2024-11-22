@@ -7,6 +7,10 @@ from django.core.files.storage import FileSystemStorage
 import subprocess
 from django.shortcuts import render, redirect
 from .models import Producto
+from django.http import JsonResponse
+
+
+
 
 # Create your views here.
 def lista_productos(request):
@@ -73,6 +77,17 @@ def eliminar_producto(request, pk):
     producto.activo = False  # Marca la proforma como inactiva
     producto.save()
     return redirect('lista_productos')  
+
+
+
+
+def obtener_productos(request):
+    # Filtramos productos activos para mostrarlos en el modal
+    productos = Producto.objects.filter(activo=True).values('id', 'codigo_cabys', 'nombre', 'descripcion', 'precio_venta')
+    return JsonResponse(list(productos), safe=False)
+
+
+
 
 def exportar_productos_excel(request):
     # Crear un archivo Excel en memoria

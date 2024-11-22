@@ -1,5 +1,4 @@
 from django.db import models
-
 # Create your models here.
 
 class Proforma(models.Model):
@@ -24,3 +23,5 @@ class Proforma(models.Model):
 class proformas(models.Model):
     Proforma = models.ForeignKey(Proforma, on_delete=models.CASCADE)
     detalles = models.TextField()
+    
+    

@@ -1,7 +1,110 @@
+
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acerca de Nosotros - Ferretería San Jerónimo</title>
+    <style>
+        body {
+            background-image: url("{% static 'img/catku.png' %}"); /* Ruta de la imagen de fondo */
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
 
+        /* Sección para el GIF */
+        .gif-section {
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+        }
 
+        .gif-section img {
+            width: 30%;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Sección general */
+        .section {
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .section h2 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .section p {
+            font-size: 18px;
+            color: #666;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        /* Estilo de los botones */
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sección con el GIF -->
+    <div class="gif-section">
+        {% load static %}
+        <img src="{% static 'img/kurochan.gif' %}" alt="Question Image" class="image-below-icon"/>
+    </div>
+
+    <div class="section">
+        <h2>Bienvenido a Ferretería San Jerónimo</h2>
+        <p>En Ferretería San Jerónimo, nos dedicamos a ofrecer los mejores productos de ferretería y herramientas para profesionales y aficionados. Con más de 20 años de experiencia, somos tu opción confiable para todo lo que necesites en construcción, reparaciones y mantenimiento.</p>
+        <a href="#mision" class="btn">Conoce más sobre nosotros</a>
+    </div>
+
+    <div id="mision" class="section">
+        <h2>Misión y Visión</h2>
+        <p><strong>Misión:</strong> Proveer a nuestros clientes con productos de ferretería de alta calidad a precios competitivos, con un excelente servicio y un compromiso con la satisfacción del cliente.</p>
+        <p><strong>Visión:</strong> Ser la ferretería líder en la región, reconocida por su innovación, servicio al cliente y por ofrecer productos que faciliten el trabajo de nuestros clientes.</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Ferretería San Jerónimo | Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
 {% endblock %}
-

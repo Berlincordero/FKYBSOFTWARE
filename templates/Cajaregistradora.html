@@ -670,17 +670,7 @@
          }
 
 
-         function mostrarContenido() {
-            var buscarInput = document.getElementById('buscar').value;
-            var contenidoDiv = document.getElementById('contenido');
-            var invoiceTable = document.getElementById('invoiceTable');
-            
-            contenidoDiv.style.display = 'block';
-
-            var nuevaFila = document.createElement('tr');
-            nuevaFila.innerHTML = '<td>00002</td><td>' + buscarInput + '<br /><small>Concepto: IT2</small></td><td>5</td><td>100</td><td>15.00</td><td>115.00</td><td><div class="button-container"><button class="button-eliminar" onclick="eliminarFila(this)">Eliminar</button><i class="fas fa-print print-icon"></i></div></td>';
-            invoiceTable.appendChild(nuevaFila);
-        }
+        
         function mostrarModal() {
             var modal = document.getElementById('modalPago');
             modal.style.display = 'block';
@@ -815,130 +805,6 @@
         }
    
 
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch('http://localhost:8001/api/facturas/')
-                .then(response => response.json())
-                .then(data => {
-                    const invoiceTable = document.getElementById('invoiceTable');
-                    data.forEach(factura => {
-                        const nuevaFila = document.createElement('tr');
-                        nuevaFila.innerHTML = `
-                            <td>${factura.id}</td>
-                            <td>${factura.cliente.nombre}</td>
-                            <td>${factura.fecha}</td>
-                            <td>${factura.total}</td>
-                            <td>${factura.estado}</td>
-                            <td><button onclick="verDetalles(${factura.id})">Ver Detalles</button></td>
-                        `;
-                        invoiceTable.appendChild(nuevaFila);
-                    });
-                })
-                .catch(error => console.error('Error fetching facturas:', error));
-        });
-
-        function verDetalles(facturaId) {
-            fetch(`/api/facturas/${facturaId}/detalles/`)
-                .then(response => response.json())
-                .then(data => {
-                    const detallesTable = document.getElementById('detallesTable');
-                    detallesTable.innerHTML = '';
-                    data.forEach(detalle => {
-                        const nuevaFila = document.createElement('tr');
-                        nuevaFila.innerHTML = `
-                            <td>${detalle.producto.nombre}</td>
-                            <td>${detalle.cantidad}</td>
-                            <td>${detalle.precio_base}</td>
-                            <td>${detalle.iva}</td>
-                            <td>${detalle.total}</td>
-                        `;
-                        detallesTable.appendChild(nuevaFila);
-                    });
-                })
-                .catch(error => console.error('Error fetching detalles:', error));
-        }
-
-        function crearFactura(event) {
-            event.preventDefault();
-            const clienteId = document.getElementById('clienteId').value;
-            const total = document.getElementById('totalFactura').value;
-            const estado = document.getElementById('estadoFactura').value;
-
-            fetch('/api/facturas/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    cliente: clienteId,
-                    total: total,
-                    estado: estado,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Factura creada:', data);
-                agregarDetallesFactura(data.id);
-            })
-            .catch(error => console.error('Error creando factura:', error));
-        }
-
-        function agregarDetallesFactura(facturaId) {
-            const detalles = [];
-            document.querySelectorAll('.detalle-factura').forEach((row) => {
-                const productoId = row.querySelector('.productoId').value;
-                const cantidad = row.querySelector('.cantidad').value;
-                const precioBase = row.querySelector('.precioBase').value;
-                const iva = row.querySelector('.iva').value;
-
-                detalles.push({
-                    factura: facturaId,
-                    producto: productoId,
-                    cantidad: cantidad,
-                    precio_base: precioBase,
-                    iva: iva,
-                    total: (precioBase * cantidad * (1 + iva / 100)).toFixed(2),
-                });
-            });
-
-            detalles.forEach(detalle => {
-                fetch('/api/detallesfactura/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(detalle),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Detalle agregado:', data);
-                })
-                .catch(error => console.error('Error agregando detalle:', error));
-            });
-        }
-
-        function registrarPago(event) {
-            event.preventDefault();
-            const facturaId = document.getElementById('facturaId').value;
-            const metodoPago = document.getElementById('metodoPago').value;
-            const montoPago = document.getElementById('montoPago').value;
-
-            fetch('/api/pagos/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    factura: facturaId,
-                    metodo: metodoPago,
-                    monto: montoPago,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Pago registrado:', data);
-            })
-            .catch(error => console.error('Error registrando pago:', error));
-        }
      </script>
  </body>
  </html>
