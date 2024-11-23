@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Módulo Clientes</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
     <style>
         body {
             background-color: #f8f9fa;
@@ -26,9 +22,8 @@
         }
     </style>
 </head>
-<body>
 <div class="container mt-5">
-    <h1 class="text-center">Clientes</h1>
+    <h1 class="text-center">Módulo Clientes</h1>
     <div class="alert alert-success" id="successAlert" role="alert">
         {% if messages %}
             {% for message in messages %}
@@ -42,64 +37,63 @@
         </button>
     </div>
     <!-- Barra de búsqueda -->
-    <div class="mb-3">
-        <div class="input-group">
-            <input type="text" id="searchClient" class="form-control" placeholder="Buscar por cédula o nombre" onkeyup="filterClients()">
-            <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
-        </div>
+<div class="mb-3">
+    <div class="input-group">
+        <input type="text" id="searchClient" class="form-control" placeholder="Buscar por cédula o nombre" onkeyup="filterClients()">
+        <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
     </div>
+</div>
+
+
+
     <!-- Tabla de Clientes -->
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID Cliente</th>
-                <th>Nombre</th>
-                <th>Primer Apellido</th>
-                <th>Segundo Apellido</th>
-                <th>Provincia</th>
-                <th>Cantón</th>
-                <th>Distrito</th>
-                <th>Dirección Exacta</th>
-                <th>Teléfono</th>
-                <th>Correo</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for cliente in clientes %}
-            <tr>
-                <td>{{ cliente.id_cliente }}</td>
-                <td>{{ cliente.nombre }}</td>
-                <td>{{ cliente.primer_apellido }}</td>
-                <td>{{ cliente.segundo_apellido }}</td>
-                <td>{{ cliente.provincia }}</td>
-                <td>{{ cliente.canton }}</td>
-                <td>{{ cliente.distrito }}</td>
-                <td>{{ cliente.direccion_exacta }}</td>
-                <td>{{ cliente.telefono }}</td>
-                <td>{{ cliente.correo }}</td>
-                <td>
-                    <!-- Botón de eliminación 
-                    <a href="{% url 'clientes:eliminar_cliente' cliente.id_cliente %}" class="btn btn-danger">
-                        Eliminar
-                    </a>-->
-                    <!-- Botón para activar el modal de editar cliente -->
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editClientModal{{ cliente.id_cliente }}">
-                        Editar
-                    </button>
-                    
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="10" class="text-center">No hay clientes registrados.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{% url 'transportes:modulo_transportes' %}" class="btn btn-secondary">Regresar</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID Cliente</th>
+            <th>Nombre</th>
+            <th>Primer Apellido</th>
+            <th>Segundo Apellido</th>
+            <th>Provincia</th>
+            <th>Cantón</th>
+            <th>Distrito</th>
+            <th>Dirección Exacta</th>
+            <th>Teléfono</th>
+            <th>Correo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="clientList">
+        {% for cliente in clientes %}
+        <tr class="client" data-cedula="{{ cliente.id_cliente }}" data-nombre="{{ cliente.nombre }}">
+            <td>{{ cliente.id_cliente }}</td>
+            <td>{{ cliente.nombre }}</td>
+            <td>{{ cliente.primer_apellido }}</td>
+            <td>{{ cliente.segundo_apellido }}</td>
+            <td>{{ cliente.provincia }}</td>
+            <td>{{ cliente.canton }}</td>
+            <td>{{ cliente.distrito }}</td>
+            <td>{{ cliente.direccion_exacta }}</td>
+            <td>{{ cliente.telefono }}</td>
+            <td>{{ cliente.correo }}</td>
+            <td>
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editClientModal{{ cliente.id_cliente }}">
+                    Editar
+                </button>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="10" class="text-center">No hay clientes registrados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 </div>
 <!-- Modal Agregar Cliente -->
+<style>#addClientModalLabel {
+    color: white !important;
+}</style>
 <div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form method="post" action="{% url 'clientes:agregar_cliente' %}">
@@ -260,22 +254,29 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function filterClients() {
-        const input = document.getElementById("searchClient").value.toLowerCase();
-        const table = document.getElementById("clientsTable");
-        const rows = table.getElementsByTagName("tr");
-        for (let i = 1; i < rows.length; i++) {
-            const cells = rows[i].getElementsByTagName("td");
-            const idCell = cells[0];  // Cédula (id_cliente)
-            const nameCell = cells[1]; // Nombre
-            const idValue = idCell ? idCell.textContent.toLowerCase() : "";
-            const nameValue = nameCell ? nameCell.textContent.toLowerCase() : "";
-            if (idValue.indexOf(input) > -1 || nameValue.indexOf(input) > -1) {
-                rows[i].style.display = "";
+        // Obtener el valor ingresado en el campo de búsqueda
+        var input = document.getElementById("searchClient");
+        var filter = input.value.toLowerCase(); // Convertir a minúsculas para hacer una búsqueda insensible a mayúsculas/minúsculas
+        var clientList = document.getElementById("clientList");
+        var clients = clientList.getElementsByClassName("client"); // Obtener todos los elementos con clase "client"
+        
+        // Recorrer todos los elementos de clientes
+        for (var i = 0; i < clients.length; i++) {
+            var client = clients[i];
+            var cedula = client.getAttribute("data-cedula").toLowerCase(); // Obtener la cédula del cliente
+            var nombre = client.getAttribute("data-nombre").toLowerCase(); // Obtener el nombre del cliente
+            
+            // Verificar si la cédula o el nombre contiene el texto de búsqueda
+            if (cedula.includes(filter) || nombre.includes(filter)) {
+                client.style.display = ""; // Mostrar el cliente
             } else {
-                rows[i].style.display = "none";
+                client.style.display = "none"; // Ocultar el cliente
             }
         }
     }
+    
+
+
     function setDeleteForm(clientId, actionUrl) {
         document.getElementById('deleteForm').action = actionUrl;
     }
@@ -628,5 +629,4 @@
     });
     
 </script>
-</body>
-</html>
+{% endblock %}
