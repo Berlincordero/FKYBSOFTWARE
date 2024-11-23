@@ -11,10 +11,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
     />
     <style>
-    
-    
-
-
 .container-proformas-kike {
         width: 80%;
         margin: 0 auto;
@@ -92,7 +88,6 @@
       }
       th,
       td {
-        border: 1px solid #95defd;
         padding: 8px;
         text-align: left;
       }
@@ -111,6 +106,21 @@
     }
 
 
+    td input[type="number"] {
+      width: 60px; /* Ajusta el ancho del campo */
+      padding: 5px; /* Espaciado interno */
+      border: 1px solid #ccc; /* Borde ligero */
+      border-radius: 4px; /* Bordes redondeados */
+      font-size: 14px; /* Tamaño del texto */
+      text-align: center; /* Centrar el texto */
+      outline: none; /* Quita el contorno azul predeterminado */
+      transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Animación al enfocar */
+    }
+  
+    td input[type="number"]:focus {
+      border-color: #007BFF; /* Cambia el color del borde al enfocar */
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Agrega un efecto de sombra */
+    }
       .save-proforma,
       .create-proforma {
         padding: 10px 20px;
@@ -199,7 +209,7 @@
       @media (min-width: 1200px) {
         .h1, h1 {
             margin: auto;
-            color: orange;
+            color:#1b9f8e;
             font-size: 2.5rem;
         }
     }
@@ -241,6 +251,7 @@
   }
   
   .icono-proforma-formulario {
+      margin-right: 10px; /* Espacio entre el icono y el texto */
       color: #826119e7
   }
   .moneda-unica {
@@ -315,36 +326,168 @@
   height: auto;      /* Keeps aspect ratio */
 }
 
-////////////////////////////////
+button[onclick="mostrarModalProductos()"] {
+  background-color: #007BFF; /* Azul */
+  color: #fff; /* Texto blanco */
+  padding: 10px 20px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño del texto */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambiar el cursor al pasar */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Efecto suave */
+}
+
+button[onclick="mostrarModalProductos()"]:hover {
+  background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
+  transform: scale(1.05); /* Ampliar ligeramente */
+}
+
+button[onclick="mostrarModalProductos()"]:active {
+  background-color: #003d80; /* Azul aún más oscuro al hacer clic */
+  transform: scale(0.95); /* Reducir ligeramente */
+}
+
+/* Estilo para el modal */
 #product-modal {
   display: none; /* Oculto por defecto */
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed; /* Posición fija */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centrar en pantalla */
+  width: 400px; /* Ancho del modal */
+  padding: 20px; /* Espaciado interno */
+  background-color: #fff; /* Fondo blanco */
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+  z-index: 1000; /* Asegurarse de que esté sobre otros elementos */
+  font-family: Arial, sans-serif; /* Fuente */
 }
 
+/* Estilo para el encabezado del modal */
 #product-modal h3 {
+  margin: 0;
+  margin-bottom: 20px; /* Espaciado debajo del encabezado */
+  font-size: 20px;
+  color: #007BFF; /* Azul */
   text-align: center;
-  margin-bottom: 10px;
 }
 
+/* Estilo para el select */
 #product-modal select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
+  width: 100%; /* Ancho completo */
+  padding: 10px; /* Espaciado interno */
+  font-size: 14px; /* Tamaño del texto */
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 5px; /* Bordes redondeados */
+  margin-bottom: 20px; /* Espaciado debajo del select */
 }
 
+/* Estilo para los botones dentro del modal */
 #product-modal button {
-  padding: 10px 20px;
-  margin: 5px;
+  background-color: #28a745; /* Verde */
+  color: #fff; /* Texto blanco */
+  padding: 10px 20px; /* Espaciado interno */
+  font-size: 14px; /* Tamaño del texto */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambiar el cursor al pasar */
+  margin-right: 10px; /* Espaciado entre botones */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Efecto suave */
 }
 
+#product-modal button:hover {
+  background-color: #218838; /* Verde más oscuro al pasar el cursor */
+  transform: scale(1.05); /* Ampliar ligeramente */
+}
+
+#product-modal button:active {
+  background-color: #1e7e34; /* Verde aún más oscuro al hacer clic */
+  transform: scale(0.95); /* Reducir ligeramente */
+}
+
+/* Estilo para el botón de cerrar */
+#product-modal button[onclick="cerrarModalProductos()"] {
+  background-color: #dc3545; /* Rojo */
+}
+
+#product-modal button[onclick="cerrarModalProductos()"]:hover {
+  background-color: #c82333; /* Rojo más oscuro */
+}
+
+
+.totals {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+.totals h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.total-item {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #555;
+}
+
+.total-item strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.total-item p {
+  font-size: 20px;
+  color: #007BFF; /* Azul para resaltar el monto */
+  margin: 0;
+  font-weight: bold;
+  text-align: left;
+}
  
+#info-subtotal {
+  font-size: 15px; /* Tamaño de fuente más pequeño que un <h1> típico */
+  color: #D9534F; /* Color rojo para llamar la atención */
+  background-color: #F8D7DA; /* Fondo rosado claro para resaltar */
+  border: 1px solid #F5C6CB; /* Borde para definir el contenedor */
+  padding: 10px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+  margin: 20px 0; /* Separación vertical */
+  font-weight: bold; /* Texto en negrita */
+  text-align: center; /* Centrado del texto */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+td select[name="unidad"] {
+  width: 180px; /* Ajusta el ancho del campo */
+  padding: 5px; /* Espaciado interno */
+  border: 1px solid #ccc; /* Borde ligero */
+  border-radius: 4px; /* Bordes redondeados */
+  font-size: 14px; /* Tamaño de texto */
+  background-color: #f9f9f9; /* Fondo claro */
+  color: #333; /* Color del texto */
+  outline: none; /* Quita el contorno azul predeterminado */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Animación al enfocar */
+}
+
+td select[name="unidad"]:focus {
+  border-color: #007BFF; /* Cambia el color del borde al enfocar */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Agrega un efecto de sombra */
+  background-color: #fff; /* Fondo blanco al enfocar */
+}
+
+td select[name="unidad"] option {
+  font-size: 14px; /* Tamaño del texto en las opciones */
+  color: #555; /* Color del texto en las opciones */
+}
     </style>
   </head>
   <body>
@@ -422,7 +565,7 @@
   <div id="proformaModal" class="modal-proforma" style="display: none;">
       <div class="modal-content">
           <span class="close" onclick="closeModal()">&times;</span>
-          <h1><i class="fas fa-file-invoice icono-proforma-formulario"></i> Proforma</h1>
+          <h1><i class="fas fa-file-invoice icono-proforma-formulario"></i>Formulario Proforma</h1>
           <form action="{% url 'crear_proforma' %}" method="POST">
               {% csrf_token %}
   
@@ -439,6 +582,7 @@
                       </select>
                   </div>
                   <div class="header-right">
+                      <p>Ferreteria San jeronimo S.A, Moravia Telefono: 2224 4585</p>
                       <p>Venta al por menor artículos de ferretería, pinturas, madera y materiales para la construcción.</p>
                       <p>Este documento no es válido como factura ni documento fiscal.</p>
                   </div>
@@ -492,6 +636,10 @@
               <!-- Tabla de detalles de línea -->
               <div class="line-details">
                   <h2>Detalles de línea</h2>
+                  <h1 id="info-subtotal">
+                    ¡Importante: El Subtotal, IVA y Total Neto se calculan automáticamente una vez
+                    colocado el descuento en 1 o más, en los productos de la tabla  que se vayan agregando se puede devolver a 0. Esto es para que el sistema calcule correctamente el total neto!
+                </h1>
                   <table id="line-items-table">
                       <thead>
                           <tr>
@@ -501,8 +649,8 @@
                               <th>Cantidad</th>
                               <th>Unidad</th>
                               <th>Precio Unitario</th>
-                              <th>Descuento</th>
-                              <th>IVA</th>
+                              <th>Descuento %</th>
+                              <th>Descuento aplicado</th>
                               <th>Total</th>
                               <th>Opciones</th>
                           </tr>
@@ -528,12 +676,23 @@
   
               <!-- Totales -->
               <div class="totals">
-                  <h2>Totales</h2>
-                  <p>Subtotal: <span id="subtotal">0.00</span></p>
-                  <p>Descuento: <span id="descuento">0.00</span></p>
-                  <p>IVA: <span id="iva">0.00</span></p>
-                  <p>Total Neto: <span id="total">0.00</span></p>
-              </div>
+                <div class="total-item">
+                    <strong>Descuento aplicado :</strong>
+                    <p id="descuento">0.00</p>
+                </div>
+                <div class="total-item">
+                    <strong>Subtotal:</strong>
+                    <p id="subtotal">0.00</p>
+                </div>
+                <div class="total-item">
+                    <strong>IVA:</strong>
+                    <p id="iva">0.00</p>
+                </div>
+                <div class="total-item">
+                    <strong>Total Neto:</strong>
+                    <p id="total">0.00</p>
+                </div>
+            </div>
   
               <!-- Botón para guardar la proforma -->
               <div class="buttons">
@@ -638,7 +797,11 @@
           </div>
   
           <div class="line-details">
-            <h2>Detalles de línea</h2>
+            <h2>Desglose de la Proforma</h2>
+            <h1 id="info-subtotal">
+              ¡Importante: El Subtotal, IVA y Total Neto se calculan automáticamente una vez
+              colocado el descuento en 1 o más, en los productos de la tabla  que se vayan agregando se puede devolver a 0. Esto es para que el sistema calcule correctamente el total neto!
+          </h1>
             <table id="line-items-table">
                 <thead>
                     <tr>
@@ -653,30 +816,30 @@
                         <th>Opciones</th>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>001</td>
-                        <td>Producto 1</td>
-                        <td><input type="number" value="10" min="1" onchange="updateTotal(this)"></td>
-                        <td>unidad</td>
-                        <td>1000</td>
-                        <td><input type="number" value="" min="1" onchange="updateTotal(this)"></td>
-                        <td>13%</td>
-                        <td>1000</td>
-                        <td class="action-icons">
-                            <i class="fas fa-trash" onclick="eliminarFila(this)"></i>
-                        </td>
-                    </tr>
-                    <!-- otras filas -->
+                    <!-- Aquí se llenarán las filas dinámicamente -->
                 </tbody>
             </table>
         </div>
-         
+
+        
+              <!-- Botón para abrir el modal de selección de productos -->
+              <button type="button" onclick="mostrarModalProductos()">Agregar Producto</button>
+  
+              <!-- Modal de Selección de Productos -->
+              <div id="product-modal" style="display: none;">
+                  <h3>Seleccionar Producto</h3>
+                  <select id="product-select">
+                      <!-- Opciones llenadas dinámicamente -->
+                  </select>
+                  <button type="button" onclick="agregarProducto()">Agregar Producto</button>
+                  <button type="button" onclick="cerrarModalProductos()">Cerrar</button>
+              </div>
+          <!-- Totales -->
           <div class="totals">
-            <h2>Totales</h2>
-            <p>Subtotal: <span id="subtotal">1000</span></p>
-            <p>Descuento: <span id="descuento">0</span></p>
-            <p>IVA: <span id="iva">130</span></p>
-            <p>Total Neto: <span id="total">1000</span></p>
+            <p><strong>Descuento aplicado:</strong><span id="descuento"></span></p>
+            <p><strong>Subtotal: 0</strong><span id="subtotal"></span></p>
+            <p><strong>IVA:0</strong><span id="iva"></span></p>
+            <p><strong>Total Neto:0</strong><span id="total"></span></p>
           </div>
           <div class="buttons">
             <button type="submit" class="save-proforma">Guardar</button>
@@ -701,6 +864,18 @@
 function imprimirProforma() {
   // Clonar el contenido del modal
   var contenido = document.getElementById('proformaModal').cloneNode(true);
+  
+  // Eliminar el elemento con el ID 'info-subtotal' del contenido clonado
+  var infoSubtotal = contenido.querySelector('#info-subtotal');
+  if (infoSubtotal) {
+      infoSubtotal.remove();
+  }
+
+  // Eliminar el botón para agregar productos
+  var botonAgregarProducto = contenido.querySelector('button[onclick="mostrarModalProductos()"]');
+  if (botonAgregarProducto) {
+      botonAgregarProducto.remove();
+  }
   
   // Crear una nueva ventana de impresión
   var ventanaImpresion = window.open('', '', 'height=900,width=800');
@@ -744,6 +919,27 @@ function imprimirProforma() {
           th:last-child, td:last-child {
            display: none;
        }
+           td input[type="number"] {
+    width: 60px; /* Ajusta el ancho del campo */
+    padding: 5px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde ligero */
+    border-radius: 4px; /* Bordes redondeados */
+    font-size: 14px; /* Tamaño del texto */
+    text-align: center; /* Centrar el texto */
+    outline: none; /* Quita el contorno azul predeterminado */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Animación al enfocar */
+}
+
+td input[type="number"]:focus {
+    border-color: #007BFF; /* Cambia el color del borde al enfocar */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Agrega un efecto de sombra */
+}
+
+td input[type="number"]::-webkit-inner-spin-button, 
+td input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Quita los botones de incremento/decremento */
+    margin: 0;
+}
           .header-right p {
               text-align: right;
               font-size: 18px; /* Aumentar el tamaño del texto en el encabezado */
@@ -755,7 +951,7 @@ function imprimirProforma() {
           margin: 0 350px;
           border-radius: 35px;
           margin-right. 350px;
-          margin-top: 85px;   /* Adjust for separation */
+          margin-top: 45px;   /* Adjust for separation */
           width: 250px;       /* Adjust size as needed */
           }
 
@@ -777,6 +973,7 @@ function imprimirProforma() {
       ventanaImpresion.close(); // Cerrar la ventana después de imprimir
   };
 }
+
 
   // Función para abrir el modal
   function openModal() {
@@ -846,7 +1043,6 @@ window.onclick = function(event) {
     }
 }  
 
-
 function mostrarModalProductos() {
   fetch("{% url 'obtener_productos' %}") // Llamada a la vista Django
       .then(response => {
@@ -874,7 +1070,6 @@ function mostrarModalProductos() {
       .catch(error => console.error("Error al cargar productos:", error));
 }
 
-// Agregar producto seleccionado a la tabla
 function agregarProducto() {
   const select = document.querySelector("#product-select");
   const selectedOption = select.options[select.selectedIndex];
@@ -896,10 +1091,32 @@ function agregarProducto() {
           <td>${nombre}</td>
           <td>${descripcion}</td>
           <td><input type="number" value="1" min="1" onchange="updateTotal(this)"></td>
-          <td>unidad</td>
+          <td>
+              <select name="unidad" onchange="updateUnidad(this)">
+                  <option value="Unidad">Unidad</option>
+                  <option value="Kg">Kg</option>
+                  <option value="Medio Kilogramo">Medio Kilogramo</option>
+                  <option value="Cuarto Kilogramo">Cuarto Kilogramo</option>
+                  <option value="Octavo Kilogramo">Octavo Kilogramo</option>
+                  <option value="Grms">Grms</option>
+                  <option value="Cuarto de Litro">Cuarto de Litro</option>
+                  <option value="Octavo de Litro">Octavo de Litro</option>
+                  <option value="Litros">Litros</option>
+                  <option value="Galones">Galones</option>
+                  <option value="Cuarto de Galón">Cuarto de Galón</option>
+                  <option value="Octavo de Galón">Octavo de Galón</option>
+                  <option value="Medio Galón">Medio Galón</option>
+                  <option value="Metro">Metro</option>
+                  <option value="Medio Metro">Medio Metro</option>
+                  <option value="Cuarto Metro">Cuarto Metro</option>
+                  <option value="Tonelada">Tonelada</option>
+                  <option value="Centímetros">Centímetros</option>
+                  <option value="Varas">Varas</option>
+              </select>
+          </td>
           <td>${precioVenta}</td>
-          <td><input type="number" value="0" min="0" onchange="updateTotal(this)"></td>
-          <td>13%</td>
+          <td><input type="number" value="0" min="0" max="100" onchange="updateTotal(this)"></td>
+          <td class="descuento">0.00</td>
           <td>${precioVenta}</td>
           <td class="action-icons">
               <i class="fas fa-trash" onclick="eliminarFila(this)"></i>
@@ -911,20 +1128,72 @@ function agregarProducto() {
   cerrarModalProductos();
 }
 
-// Cerrar el modal de productos
 function cerrarModalProductos() {
   document.querySelector("#product-modal").style.display = "none";
 }
 
-// Eliminar una fila de la tabla
 function eliminarFila(elemento) {
   elemento.closest("tr").remove();
 }
 
-// Actualizar el total (puedes personalizar esta lógica)
 function updateTotal(input) {
-  console.log("Nueva cantidad:", input.value);
-  // Implementa la lógica para recalcular el total si es necesario.
+    // Encuentra la fila en la que está el input que cambió
+    const fila = input.closest("tr");
+
+    // Obtén los valores necesarios para calcular el total
+    const cantidad = parseFloat(fila.querySelector("td:nth-child(4) input").value) || 0; // Cantidad
+    const precioUnitario = parseFloat(fila.querySelector("td:nth-child(6)").textContent) || 0; // Precio Unitario
+    const descuentoPorcentaje = parseFloat(fila.querySelector("td:nth-child(7) input").value) || 0; // Descuento en %
+
+    // Validar que el porcentaje de descuento esté entre 0 y 100
+    if (descuentoPorcentaje < 0 || descuentoPorcentaje > 100) {
+        alert("El descuento debe estar entre 0% y 100%");
+        fila.querySelector("td:nth-child(7) input").value = 0;
+        return;
+    }
+
+    // Calcula el subtotal y el descuento
+    const subtotal = cantidad * precioUnitario;
+    const descuento = (subtotal * descuentoPorcentaje) / 100;
+
+    // Calcula el total después del descuento
+    const total = subtotal - descuento;
+
+    // Actualiza las celdas de la fila
+    fila.querySelector("td:nth-child(8)").textContent = descuento.toFixed(2); // Descuento aplicado
+    fila.querySelector("td:nth-child(9)").textContent = total.toFixed(2); // Total con 2 decimales
+
+    // Actualiza el subtotal general
+    actualizarSubtotal();
+}
+
+function actualizarSubtotal() {
+  // Obtén todas las filas de la tabla
+  const filas = document.querySelectorAll("#line-items-table tbody tr");
+
+  let subtotal = 0;
+  let descuento = 0; // Variable para acumular los descuentos aplicados
+
+  // Suma los totales y los descuentos de todas las filas
+  filas.forEach(fila => {
+      const total = parseFloat(fila.querySelector("td:nth-child(9)").textContent) || 0;
+      const descuentoFila = parseFloat(fila.querySelector("td:nth-child(8)").textContent) || 0; // Obtén el descuento aplicado
+      subtotal += total;
+      descuento += descuentoFila; // Acumula el descuento
+  });
+
+  // Actualiza el subtotal en el apartado de totales
+  document.querySelector("#subtotal").textContent = subtotal.toFixed(2);
+
+  // Actualiza el campo de descuento aplicado
+  document.querySelector("#descuento").textContent = descuento.toFixed(2); // Muestra la suma de descuentos aplicados
+
+  // Aquí puedes calcular IVA o descuentos globales si lo necesitas.
+  const iva = subtotal * 0.13; // 13% de IVA (ejemplo)
+  document.querySelector("#iva").textContent = iva.toFixed(2);
+
+  const totalNeto = subtotal + iva;
+  document.querySelector("#total").textContent = totalNeto.toFixed(2);
 }
 
 </script>
