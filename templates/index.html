@@ -1,106 +1,229 @@
-
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acerca de Nosotros - Ferretería San Jerónimo</title>
+
+    <!-- Imagen de la empresa -->
+    <div class="empresa-banner">
+        <img src="{% static 'img/Ferreteria San Jerónimo.jpg' %}" alt="Ferretería San Jerónimo">
+    </div>
+
+    <!-- Sección Hero -->
+    <div class="hero">
+        <div>
+            <h1>Bienvenido</h1>
+            <p>Más de 20 años de experiencia ofreciendo las mejores herramientas y productos para profesionales y aficionados en el mundo de la construcción y reparación.</p>
+        </div>
+    </div>
+
+    <!-- Sección de servicios -->
+    <div class="services">
+        <div class="service-item">
+            <i class="fas fa-hammer"></i>
+            <h3>Herramientas</h3>
+            <p>Una amplia variedad de herramientas de alta calidad para todos tus proyectos.</p>
+        </div>
+        <div class="service-item">
+            <i class="fas fa-wrench"></i>
+            <h3>Asesoría</h3>
+            <p>Recibe asesoría experta para elegir los productos adecuados para tu proyecto.</p>
+        </div>
+    </div>
+
+    <!-- Sección principal -->
+    <div class="section">
+        <h2>Conoce más sobre nosotros</h2>
+        <p>En Ferretería San Jerónimo, nos enorgullece brindar productos de calidad, un excelente servicio y asesoramiento personalizado. Estamos comprometidos con el éxito de tus proyectos.</p>
+        <a href="#mision" class="btn">Más información</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Ferretería San Jerónimo | Todos los derechos reservados.</p>
+    </footer>
+
     <style>
-        body {
-            background-image: url("{% static 'img/catku.png' %}"); /* Ruta de la imagen de fondo */
+
+        .body{
+            background-color: #084272;
+        }
+
+        .main{
+            background-color: #084272;
+        }
+
+        .section{
+            margin: 30px
+        }
+
+
+        .container-fluid {
+            margin: 0; /* Elimina márgenes */
+            padding: 0; /* Elimina padding */
+        }
+
+        .empresa-banner {
             margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+            display: flex; /* Usamos Flexbox */
+            justify-content: center; /* Centra horizontalmente */
+            align-items: center; /* Centra verticalmente */
+            background-color: #084272; /* Opcional: Color de fondo para ver los límites */
         }
 
-        /* Sección para el GIF */
-        .gif-section {
-            width: 100%;
-            text-align: center;
-            padding: 20px 0;
+        /* Banner con la imagen de la empresa */
+        .empresa-banner img {
+            margin: 0;
+            width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+            height:  351px;/* Ajusta la altura fija */
+            width : 957px;/* Ajusta el ancho */
+            display: block;
         }
 
-        .gif-section img {
-            width: 30%;
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-
-        /* Sección general */
-        .section {
+        /* Sección hero */
+        .hero {
             padding: 40px 20px;
             text-align: center;
-            margin-top: 20px;
+            background: rgb(255,255,255);
+        background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(49,84,114,1) 76%, rgba(8,66,114,1) 100%);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            color: #fff;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-top: 15px;
+            max-width: 700px;
+            margin: 10px auto;
+        }
+
+        /* Servicios */
+        .services {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 30px 20px;
+            background-color: #fff;
+        }
+
+        .service-item {
+            text-align: center;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+        }
+
+        .service-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-item i {
+            font-size: 2.5rem;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #fff;
+            margin:0px;
+            margin-bottom: 40px;
         }
 
         .section h2 {
-            font-size: 28px;
+            font-size: 2.2rem;
             color: #333;
+            font-weight: 600;
         }
 
         .section p {
-            font-size: 18px;
+            font-size: 1rem;
             color: #666;
-            max-width: 800px;
+            max-width: 700px;
             margin: 20px auto;
         }
 
-        /* Estilo de los botones */
+        /* Botones estilizados */
         .btn {
             background-color: #007bff;
-            color: white;
+            color: #fff;
             padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
+            font-size: 0.9rem;
             text-decoration: none;
-            font-size: 16px;
-            cursor: pointer;
             display: inline-block;
             margin-top: 20px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         .btn:hover {
             background-color: #0056b3;
+            transform: translateY(-3px);
         }
 
         footer {
             background-color: #333;
-            color: white;
+            color: #fff;
             text-align: center;
             padding: 10px;
             position: fixed;
             bottom: 0;
             width: 100%;
+            font-size: 0.9rem;
         }
+
+        /**/
+
+        .service-item i {
+            font-size: 2.5rem;
+            color: #007bff;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        /* Martillo - Icono 1 */
+        .service-item:nth-child(1):hover i {
+            animation: hammer-strike 0.6s infinite;
+        }
+        
+        @keyframes hammer-strike {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(-30deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+        
+        /*  Icono 2*/
+        .service-item:nth-child(2):hover i {
+            animation: screw-unscrew 1s infinite;
+        }
+        
+        @keyframes screw-unscrew {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-5px) rotate(-15deg);
+            }
+        }
+        
+
     </style>
-</head>
-<body>
-
-    <!-- Sección con el GIF -->
-    <div class="gif-section">
-        {% load static %}
-        <img src="{% static 'img/kurochan.gif' %}" alt="Question Image" class="image-below-icon"/>
-    </div>
-
-    <div class="section">
-        <h2>Bienvenido a Ferretería San Jerónimo</h2>
-        <p>En Ferretería San Jerónimo, nos dedicamos a ofrecer los mejores productos de ferretería y herramientas para profesionales y aficionados. Con más de 20 años de experiencia, somos tu opción confiable para todo lo que necesites en construcción, reparaciones y mantenimiento.</p>
-        <a href="#mision" class="btn">Conoce más sobre nosotros</a>
-    </div>
-
-    
-
-    <footer>
-        <p>&copy; 2024 Ferretería San Jerónimo | Todos los derechos reservados.</p>
-    </footer>
-
-</body>
-</html>
 {% endblock %}
