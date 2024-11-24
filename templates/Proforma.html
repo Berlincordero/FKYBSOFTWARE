@@ -488,6 +488,14 @@ td select[name="unidad"] option {
   font-size: 14px; /* Tamaño del texto en las opciones */
   color: #555; /* Color del texto en las opciones */
 }
+
+.icono-caja-abierta {
+  font-size: 36px; /* Tamaño del ícono */
+  color: #865a27e7; /* Color del ícono */
+  margin-right: 10px; /* Espacio entre el ícono y el texto */
+  vertical-align: middle; /* Alineación vertical con el texto */
+}
+
     </style>
   </head>
   <body>
@@ -666,7 +674,8 @@ td select[name="unidad"] option {
   
               <!-- Modal de Selección de Productos -->
               <div id="product-modal" style="display: none;">
-                  <h3>Seleccionar Producto</h3>
+                  <h3><i class="fas fa-box-open icono-caja-abierta"></i> Seleccionar Producto</h3>
+                  
                   <select id="product-select">
                       <!-- Opciones llenadas dinámicamente -->
                   </select>
@@ -693,11 +702,14 @@ td select[name="unidad"] option {
                     <p id="total">0.00</p>
                 </div>
             </div>
-  
+            <input type="hidden" id="subtotal-input" name="subtotal">
+            <input type="hidden" id="descuento-input" name="descuento">
+            <input type="hidden" id="iva-input" name="iva">
+            <input type="hidden" id="total-input" name="total">
               <!-- Botón para guardar la proforma -->
               <div class="buttons">
-                  <button type="submit" class="save-proforma">Guardar</button>
-              </div>
+                <button type="submit" class="save-proforma" onclick="prepararDatosProforma()">Guardar</button>
+            </div>
           </form>
           <div class="buttons-imprimir-proforma">
             <i class="fas fa-print imprimir-proforma" onclick="imprimirProforma()"></i>
@@ -821,8 +833,7 @@ td select[name="unidad"] option {
             </table>
         </div>
 
-        
-              <!-- Botón para abrir el modal de selección de productos -->
+         <!-- Botón para abrir el modal de selección de productos -->
               <button type="button" onclick="mostrarModalProductos()">Agregar Producto</button>
   
               <!-- Modal de Selección de Productos -->
@@ -834,6 +845,7 @@ td select[name="unidad"] option {
                   <button type="button" onclick="agregarProducto()">Agregar Producto</button>
                   <button type="button" onclick="cerrarModalProductos()">Cerrar</button>
               </div>
+  
           <!-- Totales -->
           <div class="totals">
             <p><strong>Descuento aplicado:</strong><span id="descuento"></span></p>
@@ -841,9 +853,17 @@ td select[name="unidad"] option {
             <p><strong>IVA:0</strong><span id="iva"></span></p>
             <p><strong>Total Neto:0</strong><span id="total"></span></p>
           </div>
-          <div class="buttons">
-            <button type="submit" class="save-proforma">Guardar</button>
-          </div>
+
+          <input type="hidden" id="subtotal-input" name="subtotal">
+          <input type="hidden" id="descuento-input" name="descuento">
+          <input type="hidden" id="iva-input" name="iva">
+          <input type="hidden" id="total-input" name="total">
+          
+        
+        <div class="buttons">
+            <button type="submit" class="save-proforma" onclick="prepararDatosProforma()">Guardar</button>
+        </div>
+
         </form>
           <div class="buttons-imprimir-proforma">
             <i class="fas fa-print imprimir-proforma" onclick="imprimirProforma()"></i>
@@ -1195,6 +1215,21 @@ function actualizarSubtotal() {
   const totalNeto = subtotal + iva;
   document.querySelector("#total").textContent = totalNeto.toFixed(2);
 }
+
+function prepararDatosProforma() {
+  // Obtén los valores calculados
+  const subtotal = document.querySelector("#subtotal").textContent;
+  const descuento = document.querySelector("#descuento").textContent;
+  const iva = document.querySelector("#iva").textContent;
+  const total = document.querySelector("#total").textContent;
+
+  // Asigna los valores a los campos ocultos
+  document.querySelector("#subtotal-input").value = subtotal;
+  document.querySelector("#descuento-input").value = descuento;
+  document.querySelector("#iva-input").value = iva;
+  document.querySelector("#total-input").value = total;
+}
+
 
 </script>
   </body>

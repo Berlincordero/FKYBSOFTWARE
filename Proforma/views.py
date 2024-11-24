@@ -52,10 +52,12 @@ def crear_proforma(request):
         condicion_venta = request.POST.get('condicion_venta')
         detalles = request.POST.get('detalles')
         nota = request.POST.get('nota')
-        subtotal = 1000  # Este es solo un ejemplo; reemplaza por el cálculo adecuado
-        descuento = 0    # Este es solo un ejemplo; reemplaza por el cálculo adecuado
-        iva = 130        # Este es solo un ejemplo; reemplaza por el cálculo adecuado
-        total = 1130     # Este es solo un ejemplo; reemplaza por el cálculo adecuado
+
+        # Capturar los valores calculados por JavaScript
+        subtotal = float(request.POST.get('subtotal', 0))
+        descuento = float(request.POST.get('descuento', 0))
+        iva = float(request.POST.get('iva', 0))
+        total = float(request.POST.get('total', 0))
 
         # Crear una nueva instancia de Proforma y guardar
         proforma = Proforma(
@@ -73,7 +75,7 @@ def crear_proforma(request):
             total=total,
         )
         proforma.save()
-        
+
         # Redirigir a la página de lista de proformas
         return redirect('lista_proforma')
     return render(request, 'Proforma.html')
