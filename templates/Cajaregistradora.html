@@ -342,10 +342,10 @@
  <body>
      <div class="container">
          <div class="icono-caja">
-             <div>
-                 <i class="fas fa-cash-register"></i>
-                 <span>Caja Registradora 1</span>
-             </div>
+            <div>
+                <i class="fas fa-cash-register"></i>
+                <span>{{ terminal }}</span>
+            </div>
              <div class="icon-bar">
                  <i class="fas fa-question-circle" title="Ayuda" onclick="toggleHelpMenu()"></i>
                  <i class="fas fa-print" title="Imprimir"></i>
@@ -354,14 +354,14 @@
              </div>
             
          </div><br></br>
-         <h2>PARA COMENZAR A USAR ESTA CAJA REGISTRADORA CONSULTE (?) </h2><br></br>
+        <br></br>
          <div class="barra-busqueda">
             <input type="text" id="buscar" placeholder="Buscar...">
-            <button type="submit" onclick="mostrarContenido()">Buscar</button>
+            <button type="submit">Buscar</button>
         </div>
         
              
-        <div id="contenido" class="contenido" style="display: none;">
+        <div id="contenido" class="contenido" >
             <div class="header">
                 <div class="company-details">
                     <p>FERRETERIA SAN JERONIMO<br />
@@ -374,8 +374,8 @@
                 <table class="invoice-details">
                     <tr>
                         <th>FECHA</th>
-                        <th>ID FACTURA</th>
-                        <th>ID CLIENTE</th>
+                        <th>NUMERO FACTURA</th>
+                        <th>CLIENTE</th>
                     </tr>
                     <tr>
                         <td>01-07-2011</td>
@@ -727,11 +727,6 @@
          function deleteRow(element) {
              var row = element.parentNode.parentNode;
              row.parentNode.removeChild(row);
-         }
- 
-         function mostrarContenido() {
-             var contenido = document.getElementById('contenido');
-             contenido.style.display = 'block';
          }
  
          function buscarCliente() {

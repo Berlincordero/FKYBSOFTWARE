@@ -102,6 +102,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+TERMINAL_CONFIG = {
+    'Caja Registradora 1': '192.168.0.101',
+    'Caja Registradora 2': '192.168.0.102',
+    'Caja Registradora 3': '192.168.0.103',
+    'Caja Registradora 4': '192.168.0.104',
+    'Caja Registradora 5': '192.168.0.105',
+    'Caja Registradora 6': '192.168.0.106',
+    'Caja Registradora 7': '192.168.0.107',
+    'Caja Registradora 8': '192.168.0.108',
+}
+
+
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -136,3 +150,4 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SAVE_EVERY_REQUEST = True
 
 AUTH_USER_MODEL = 'Usuarios.CustomUser'
+
