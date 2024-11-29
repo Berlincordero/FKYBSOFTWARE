@@ -591,7 +591,7 @@ td select[name="unidad"] option {
                   </div>
                   <div class="header-right">
                       <p>Ferreteria San jeronimo S.A, Moravia Telefono: 2224 4585</p>
-                      <p>Venta al por menor artículos de ferretería, pinturas, madera y materiales para la construcción.</p>
+                      <p>Venta al por mayor y menor de artículos de ferretería, pinturas, madera y materiales para la construcción.</p>
                       <p>Este documento no es válido como factura ni documento fiscal.</p>
                   </div>
               </div>
@@ -645,8 +645,7 @@ td select[name="unidad"] option {
               <div class="line-details">
                   <h2>Detalles de línea</h2>
                   <h1 id="info-subtotal">
-                    ¡Importante: El Subtotal, IVA y Total Neto se calculan automáticamente una vez
-                    colocado el descuento en 1 o más, en los productos de la tabla  que se vayan agregando se puede devolver a 0. Esto es para que el sistema calcule correctamente el total neto!
+                    ¡Importante: El descuento se aplica en porcentaje y se calcula automáticamente el total neto!
                 </h1>
                   <table id="line-items-table">
                       <thead>
@@ -700,12 +699,17 @@ td select[name="unidad"] option {
                 <div class="total-item">
                     <strong>Total Neto:</strong>
                     <p id="total">0.00</p>
+                    <strong>Total Neto en Dólares:</strong>
+                    <p id="total-dolares" style="color: #007BFF; font-size: 20px;">$0.00</p>
+                    <p id="tipo-cambio" style="color: #6c757d; font-size: 18px;">Tipo de cambio utilizado: ₡550.00 por $1</p> 
+                    <p> Este cambio esta sujeto al Banco Central de Costa Rica </p><!-- Tasa de cambio -->
                 </div>
             </div>
             <input type="hidden" id="subtotal-input" name="subtotal">
             <input type="hidden" id="descuento-input" name="descuento">
             <input type="hidden" id="iva-input" name="iva">
             <input type="hidden" id="total-input" name="total">
+            <input type="hidden" id="total-dolares-input" name="total_dolares">
               <!-- Botón para guardar la proforma -->
               <div class="buttons">
                 <button type="submit" class="save-proforma" onclick="prepararDatosProforma()">Guardar</button>
@@ -738,12 +742,9 @@ td select[name="unidad"] option {
               </select>
             </div>
             <div class="header-right">
-              <p>
-                Venta al por menor artículos de ferretería
-                pinturas madera y
-                materiales para la construcción.
-              </p>
-              <p> este documento no es válido como factura ni documento fiscal</p>
+              <p>Ferreteria San jeronimo S.A, Moravia Telefono: 2224 4585</p>
+              <p>Venta al por mayor y menor de artículos de ferretería, pinturas, madera y materiales para la construcción.</p>
+              <p>Este documento no es válido como factura ni documento fiscal.</p>
             </div>
           </div>
           <class="form-group">
@@ -833,47 +834,63 @@ td select[name="unidad"] option {
             </table>
         </div>
 
-         <!-- Botón para abrir el modal de selección de productos -->
-              <button type="button" onclick="mostrarModalProductos()">Agregar Producto</button>
+
+        <!-- Botón para abrir el modal de selección de productos -->
+        <button type="button" onclick="mostrarModalProductos()">Agregar Producto</button>
   
-              <!-- Modal de Selección de Productos -->
-              <div id="product-modal" style="display: none;">
-                  <h3>Seleccionar Producto</h3>
-                  <select id="product-select">
-                      <!-- Opciones llenadas dinámicamente -->
-                  </select>
-                  <button type="button" onclick="agregarProducto()">Agregar Producto</button>
-                  <button type="button" onclick="cerrarModalProductos()">Cerrar</button>
-              </div>
-  
+        <!-- Modal de Selección de Productos -->
+        <div id="product-modal" style="display: none;">
+            <h3><i class="fas fa-box-open icono-caja-abierta"></i> Seleccionar Producto</h3>
+            
+            <select id="product-select">
+                <!-- Opciones llenadas dinámicamente -->
+            </select>
+            <button type="button" onclick="agregarProducto()">Agregar Producto</button>
+            <button type="button" onclick="cerrarModalProductos()">Cerrar</button>
+        </div>
+
           <!-- Totales -->
           <div class="totals">
-            <p><strong>Descuento aplicado:</strong><span id="descuento"></span></p>
-            <p><strong>Subtotal: 0</strong><span id="subtotal"></span></p>
-            <p><strong>IVA:0</strong><span id="iva"></span></p>
-            <p><strong>Total Neto:0</strong><span id="total"></span></p>
-          </div>
-
-          <input type="hidden" id="subtotal-input" name="subtotal">
-          <input type="hidden" id="descuento-input" name="descuento">
-          <input type="hidden" id="iva-input" name="iva">
-          <input type="hidden" id="total-input" name="total">
-          
-        
-        <div class="buttons">
+            <div class="total-item">
+                <strong>Descuento aplicado :</strong>
+                <p id="descuento">0.00</p>
+            </div>
+            <div class="total-item">
+                <strong>Subtotal:</strong>
+                <p id="subtotal">0.00</p>
+            </div>
+            <div class="total-item">
+                <strong>IVA:</strong>
+                <p id="iva">0.00</p>
+            </div>
+            <div class="total-item">
+                <strong>Total Neto:</strong>
+                <p id="total">0.00</p>
+                <strong>Total Neto en Dólares:</strong>
+                <p id="total-dolares" style="color: #007BFF; font-size: 14px;">$0.00</p>
+                <p id="tipo-cambio" style="color: #6c757d; font-size: 12px;">Tipo de cambio utilizado: ₡550.00 por $1</p> <!-- Tasa de cambio -->
+            </div>
+        </div>
+        <input type="hidden" id="subtotal-input" name="subtotal">
+        <input type="hidden" id="descuento-input" name="descuento">
+        <input type="hidden" id="iva-input" name="iva">
+        <input type="hidden" id="total-input" name="total">
+        <input type="hidden" id="total-dolares-input" name="total_dolares">
+          <!-- Botón para guardar la proforma -->
+          <div class="buttons">
             <button type="submit" class="save-proforma" onclick="prepararDatosProforma()">Guardar</button>
         </div>
+      </form>
+      <div class="buttons-imprimir-proforma">
+        <i class="fas fa-print imprimir-proforma" onclick="imprimirProforma()"></i>
+    </div>
+    <div class="image-below-proforma">
+      {% load static %}
+      <img src="{% static 'img/logo.jpg' %}" alt="Question Image" class="image-below-icon"/>
+  </div>
+  </div>
+</div>
 
-        </form>
-          <div class="buttons-imprimir-proforma">
-            <i class="fas fa-print imprimir-proforma" onclick="imprimirProforma()"></i>
-        </div>
-        <div class="image-below-proforma">
-          {% load static %}
-          <img src="{% static 'img/logo.jpg' %}" alt="Question Image" class="image-below-icon"/>
-        </div>
-        </div>
-      </div>
    
 
 
@@ -1063,6 +1080,14 @@ window.onclick = function(event) {
     }
 }  
 
+function formatearColones(valor) {
+  return `₡${parseFloat(valor).toFixed(2)}`;
+}
+
+function formatearDolares(valor) {
+  return `$${parseFloat(valor).toFixed(2)}`;
+}
+
 function mostrarModalProductos() {
   fetch("{% url 'obtener_productos' %}") // Llamada a la vista Django
       .then(response => {
@@ -1081,7 +1106,7 @@ function mostrarModalProductos() {
                           data-nombre="${producto.nombre}" 
                           data-descripcion="${producto.descripcion}" 
                           data-precio="${producto.precio_venta}">
-                      ${producto.codigo_cabys} - ${producto.nombre} - ${producto.precio_venta}
+                      ${producto.codigo_cabys} - ${producto.nombre} - ₡${producto.precio_venta}
                   </option>`;
               select.insertAdjacentHTML("beforeend", option);
           });
@@ -1102,7 +1127,7 @@ function agregarProducto() {
   const codigo = selectedOption.getAttribute("data-codigo");
   const nombre = selectedOption.getAttribute("data-nombre");
   const descripcion = selectedOption.getAttribute("data-descripcion") || "Sin descripción";
-  const precioVenta = selectedOption.getAttribute("data-precio");
+  const precioVenta = parseFloat(selectedOption.getAttribute("data-precio"));
 
   const tbody = document.querySelector("#line-items-table tbody");
   const fila = `
@@ -1115,37 +1140,24 @@ function agregarProducto() {
               <select name="unidad" onchange="updateUnidad(this)">
                   <option value="Unidad">Unidad</option>
                   <option value="Kg">Kg</option>
-                  <option value="Medio Kilogramo">Medio Kilogramo</option>
-                  <option value="Cuarto Kilogramo">Cuarto Kilogramo</option>
-                  <option value="Octavo Kilogramo">Octavo Kilogramo</option>
-                  <option value="Grms">Grms</option>
-                  <option value="Cuarto de Litro">Cuarto de Litro</option>
-                  <option value="Octavo de Litro">Octavo de Litro</option>
                   <option value="Litros">Litros</option>
-                  <option value="Galones">Galones</option>
-                  <option value="Cuarto de Galón">Cuarto de Galón</option>
-                  <option value="Octavo de Galón">Octavo de Galón</option>
-                  <option value="Medio Galón">Medio Galón</option>
-                  <option value="Metro">Metro</option>
-                  <option value="Medio Metro">Medio Metro</option>
-                  <option value="Cuarto Metro">Cuarto Metro</option>
                   <option value="Tonelada">Tonelada</option>
-                  <option value="Centímetros">Centímetros</option>
-                  <option value="Varas">Varas</option>
               </select>
           </td>
-          <td>${precioVenta}</td>
+          <td>${formatearColones(precioVenta)}</td>
           <td><input type="number" value="0" min="0" max="100" onchange="updateTotal(this)"></td>
-          <td class="descuento">0.00</td>
-          <td>${precioVenta}</td>
+          <td class="descuento">₡0.00</td>
+          <td>${formatearColones(precioVenta)}</td>
           <td class="action-icons">
               <i class="fas fa-trash" onclick="eliminarFila(this)"></i>
           </td>
       </tr>`;
   tbody.insertAdjacentHTML("beforeend", fila);
 
-  // Cierra el modal después de agregar el producto
   cerrarModalProductos();
+
+  // Actualizar los totales automáticamente
+  updateTotal();
 }
 
 function cerrarModalProductos() {
@@ -1154,81 +1166,79 @@ function cerrarModalProductos() {
 
 function eliminarFila(elemento) {
   elemento.closest("tr").remove();
+  actualizarSubtotal(); // Recalcular después de eliminar
 }
 
-function updateTotal(input) {
-    // Encuentra la fila en la que está el input que cambió
-    const fila = input.closest("tr");
+function updateTotal(input = null) {
+  const fila = input ? input.closest("tr") : null;
+  const filas = fila ? [fila] : document.querySelectorAll("#line-items-table tbody tr");
 
-    // Obtén los valores necesarios para calcular el total
-    const cantidad = parseFloat(fila.querySelector("td:nth-child(4) input").value) || 0; // Cantidad
-    const precioUnitario = parseFloat(fila.querySelector("td:nth-child(6)").textContent) || 0; // Precio Unitario
-    const descuentoPorcentaje = parseFloat(fila.querySelector("td:nth-child(7) input").value) || 0; // Descuento en %
+  filas.forEach(fila => {
+      const cantidad = parseFloat(fila.querySelector("td:nth-child(4) input").value) || 0;
+      const precioUnitario = parseFloat(fila.querySelector("td:nth-child(6)").textContent.replace("₡", "")) || 0;
+      const descuentoPorcentaje = parseFloat(fila.querySelector("td:nth-child(7) input").value) || 0;
 
-    // Validar que el porcentaje de descuento esté entre 0 y 100
-    if (descuentoPorcentaje < 0 || descuentoPorcentaje > 100) {
-        alert("El descuento debe estar entre 0% y 100%");
-        fila.querySelector("td:nth-child(7) input").value = 0;
-        return;
-    }
+      if (descuentoPorcentaje < 0 || descuentoPorcentaje > 100) {
+          alert("El descuento debe estar entre 0% y 100%");
+          fila.querySelector("td:nth-child(7) input").value = 0;
+          return;
+      }
 
-    // Calcula el subtotal y el descuento
-    const subtotal = cantidad * precioUnitario;
-    const descuento = (subtotal * descuentoPorcentaje) / 100;
+      const subtotal = cantidad * precioUnitario;
+      const descuento = (subtotal * descuentoPorcentaje) / 100;
+      const total = subtotal - descuento;
 
-    // Calcula el total después del descuento
-    const total = subtotal - descuento;
+      fila.querySelector("td:nth-child(8)").textContent = formatearColones(descuento); // Descuento aplicado
+      fila.querySelector("td:nth-child(9)").textContent = formatearColones(total); // Total
+  });
 
-    // Actualiza las celdas de la fila
-    fila.querySelector("td:nth-child(8)").textContent = descuento.toFixed(2); // Descuento aplicado
-    fila.querySelector("td:nth-child(9)").textContent = total.toFixed(2); // Total con 2 decimales
-
-    // Actualiza el subtotal general
-    actualizarSubtotal();
+  actualizarSubtotal();
 }
 
 function actualizarSubtotal() {
-  // Obtén todas las filas de la tabla
   const filas = document.querySelectorAll("#line-items-table tbody tr");
 
   let subtotal = 0;
-  let descuento = 0; // Variable para acumular los descuentos aplicados
+  let descuento = 0;
 
-  // Suma los totales y los descuentos de todas las filas
   filas.forEach(fila => {
-      const total = parseFloat(fila.querySelector("td:nth-child(9)").textContent) || 0;
-      const descuentoFila = parseFloat(fila.querySelector("td:nth-child(8)").textContent) || 0; // Obtén el descuento aplicado
+      const total = parseFloat(fila.querySelector("td:nth-child(9)").textContent.replace("₡", "")) || 0;
+      const descuentoFila = parseFloat(fila.querySelector("td:nth-child(8)").textContent.replace("₡", "")) || 0;
       subtotal += total;
-      descuento += descuentoFila; // Acumula el descuento
+      descuento += descuentoFila;
   });
 
-  // Actualiza el subtotal en el apartado de totales
-  document.querySelector("#subtotal").textContent = subtotal.toFixed(2);
+  document.querySelector("#subtotal").textContent = formatearColones(subtotal);
+  document.querySelector("#descuento").textContent = formatearColones(descuento);
 
-  // Actualiza el campo de descuento aplicado
-  document.querySelector("#descuento").textContent = descuento.toFixed(2); // Muestra la suma de descuentos aplicados
-
-  // Aquí puedes calcular IVA o descuentos globales si lo necesitas.
-  const iva = subtotal * 0.13; // 13% de IVA (ejemplo)
-  document.querySelector("#iva").textContent = iva.toFixed(2);
+  const iva = subtotal * 0.13;
+  document.querySelector("#iva").textContent = formatearColones(iva);
 
   const totalNeto = subtotal + iva;
-  document.querySelector("#total").textContent = totalNeto.toFixed(2);
+  document.querySelector("#total").textContent = formatearColones(totalNeto);
+
+  // Convertir a dólares
+  const tasaCambio = 550; // Cambia esta tasa según la tasa actual
+  const totalDolares = totalNeto / tasaCambio;
+  document.querySelector("#total-dolares").textContent = formatearDolares(totalDolares);
+  document.querySelector("#tipo-cambio").textContent = `Tipo de cambio utilizado: ₡${tasaCambio.toFixed(2)} por $1`; // Actualizar texto del tipo de cambio
+  document.querySelector("#total-dolares-input").value = totalDolares.toFixed(2);
 }
 
 function prepararDatosProforma() {
-  // Obtén los valores calculados
-  const subtotal = document.querySelector("#subtotal").textContent;
-  const descuento = document.querySelector("#descuento").textContent;
-  const iva = document.querySelector("#iva").textContent;
-  const total = document.querySelector("#total").textContent;
+  const subtotal = parseFloat(document.querySelector("#subtotal").textContent.replace("₡", ""));
+  const descuento = parseFloat(document.querySelector("#descuento").textContent.replace("₡", ""));
+  const iva = parseFloat(document.querySelector("#iva").textContent.replace("₡", ""));
+  const total = parseFloat(document.querySelector("#total").textContent.replace("₡", ""));
+  const totalDolares = parseFloat(document.querySelector("#total-dolares-input").value);
 
-  // Asigna los valores a los campos ocultos
   document.querySelector("#subtotal-input").value = subtotal;
   document.querySelector("#descuento-input").value = descuento;
   document.querySelector("#iva-input").value = iva;
   document.querySelector("#total-input").value = total;
+  document.querySelector("#total-dolares-input").value = totalDolares;
 }
+
 
 
 </script>
