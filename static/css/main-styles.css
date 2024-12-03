@@ -1181,6 +1181,26 @@ h2 {
     color: green;
 }
 
+.encabezado {
+    background-color: #007bff; /* Fondo azul */
+    color: #fff; /* Texto blanco */
+    padding: 15px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    text-align: center;
+
+}
+.informacion {
+    background-color: #f8f9fa; /* Fondo gris */
+    padding: 20px;
+}
+.titulo{
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+
 
 
 
@@ -1191,7 +1211,7 @@ h2 {
 }
 
 .form-section h4 {
-    background-color: #0174DF;
+    background-color: #0181dfba;
     color: white;
     padding: 10px;
     text-align: center;
@@ -1207,6 +1227,7 @@ h2 {
     border-radius: 5px;
     width: 100%;
     margin: 0 auto 20px;
+    font-size: 34px;
 }
 
 .form {

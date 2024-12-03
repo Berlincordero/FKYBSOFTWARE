@@ -528,7 +528,7 @@ td select[name="unidad"] option {
           </thead>
           <tbody>
             {% for proforma in proformas %}
-            <tr id="proforma-{{ proforma.id }}" 
+            <tr id="proforma-{{ proforma.id }}"
                 data-fecha="{{ proforma.fecha }}" 
                 data-moneda="{{ proforma.moneda }}" 
                 data-cliente="{{ proforma.cliente }}" 
@@ -549,13 +549,17 @@ td select[name="unidad"] option {
                 <td>{{ proforma.nota }}</td>
                 <td>{{ proforma.total }}</td>
                 <td class="action-icons">
-                    <form action="{% url 'eliminar_proforma' proforma.pk %}" method="POST" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </form>
-                    <i class="fas fa-edit" onclick="editarProforma({{ proforma.id }})"></i>
+                    {% if proforma.pk %}
+                        <form action="{% url 'eliminar_proforma' proforma.pk %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                        <i class="fas fa-edit" onclick="editarProforma({{ proforma.pk }})"></i>
+                    {% else %}
+                        <p>Error: proforma sin identificador.</p>
+                    {% endif %}
                 </td>
             </tr>
             {% empty %}
@@ -731,8 +735,7 @@ td select[name="unidad"] option {
       <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <h1><i class="fas fa-file-invoice icono-proforma-formulario"></i> Editar Proforma</h1>
-        <form action="{% url 'editar_proforma' %}" method="POST">
-          {% csrf_token %}
+        <form action="{% url 'editar_proforma' proforma.pk %}" method="POST">
           <div class="header">
             <div class="header-left">
               <input type="date" class="form-control" id="editarfecha" name="fecha">
@@ -757,9 +760,7 @@ td select[name="unidad"] option {
             /> 
 
           <div class="form-group">
-            <label for="editarcodigoactividadeconomica"
-              >Código-actividad-económica:</label
-            >
+            <label for="editarcodigoactividadeconomica">Código-actividad-económica:</label>
             <select id="editarcodigoactividadeconomica" name="codigo_actividad_economica">
               <option value="regular">Regular</option>
               <option value="especial">Especial</option>
@@ -1034,29 +1035,19 @@ td input[type="number"]::-webkit-outer-spin-button {
   }
 
   function editarProforma(id) {
-    // Seleccionar la fila correspondiente usando el ID
+    // Actualizar la URL de acción del formulario con el ID de la proforma
+    document.querySelector('#editarproformaModal form').action = `/Proforma/editar/${id}/`;
+
+    // Llenar los campos del formulario con los datos obtenidos de la fila
     var row = document.getElementById("proforma-" + id);
-
-    // Obtener los datos de los atributos data-
-    var fecha = row.getAttribute("data-fecha");
-    var moneda = row.getAttribute("data-moneda");
-    var cliente = row.getAttribute("data-cliente");
-    var codigoActividad = row.getAttribute("data-codigo");
-    var medioPago = row.getAttribute("data-medio_pago");
-    var condicionVenta = row.getAttribute("data-condicion_venta");
-    var detalles = row.getAttribute("data-detalles");
-    var nota = row.getAttribute("data-nota");
-    var total = row.getAttribute("data-total");
-
-    // Llenar el formulario del modal de edición con estos datos
-    document.getElementById("editarfecha").value = fecha;
-    document.getElementById("editarmoneda").value = moneda;
-    document.getElementById("editarcliente").value = cliente;
-    document.getElementById("editarcodigoactividadeconomica").value = codigoActividad;
-    document.getElementById("editarmediopago").value = medioPago;
-    document.getElementById("editarcondicionventa").value = condicionVenta;
-    document.getElementById("editardetalles").value = detalles;
-    document.getElementById("editarnota").value = nota;
+    document.getElementById("editarfecha").value = row.getAttribute("data-fecha");
+    document.getElementById("editarmoneda").value = row.getAttribute("data-moneda");
+    document.getElementById("editarcliente").value = row.getAttribute("data-cliente");
+    document.getElementById("editarcodigoactividadeconomica").value = row.getAttribute("data-codigo");
+    document.getElementById("editarmediopago").value = row.getAttribute("data-medio_pago");
+    document.getElementById("editarcondicionventa").value = row.getAttribute("data-condicion_venta");
+    document.getElementById("editardetalles").value = row.getAttribute("data-detalles");
+    document.getElementById("editarnota").value = row.getAttribute("data-nota");
 
     // Mostrar el modal de edición
     document.getElementById("editarproformaModal").style.display = "block";

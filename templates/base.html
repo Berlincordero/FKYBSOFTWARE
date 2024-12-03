@@ -69,12 +69,26 @@
                                 <i class="fa-solid fa-business-time"></i>
                                 Proveedor
                             </a>
-                            <ul id="Proveedor" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#Proveedor">
-                                <a href="{% url 'proveedor_list' %}" class="sidebar-link"><i class="fa-solid fa-business-time"></i> Proveedores </a>
-                                <a href="{% url 'lista_ordenes' %}" class="sidebar-link"><i class="fa-solid fa-business-time"></i> Facturacion proveedor</a>
-                                
+                            <ul id="Proveedor" class="sidebar-dropdown list-unstyled collapse submenu-indent" data-bs-parent="#Proveedor">
+                                <li>
+                                    <a href="{% url 'proveedor_list' %}" class="sidebar-link">
+                                        <i class="fa-solid fa-business-time"></i> Proveedores
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'lista_ordenes' %}" class="sidebar-link">
+                                        <i class="fa-solid fa-business-time"></i> Facturación proveedor
+                                    </a>
+                                </li>
                             </ul>
                         </li>
+ 
+                        <style>/* Estilo para desplazar el submenú */
+                            .submenu-indent {
+                                padding-left: 1.5rem; /* Ajusta el valor según lo que necesites */
+                                transition: all 0.3s ease-in-out; /* Animación suave */
+                            }
+                            </style>
 
                         
                         
@@ -90,7 +104,12 @@
                                 <i class="fa-solid fa-sack-dollar"></i>
                                 Facturación
                             </a>
-                            <ul id="Facturacion" class="sidebar-dropdown list-unstyled collapse">
+				
+
+
+
+                            <ul id="Facturacion" class="sidebar-dropdown list-unstyled collapse submenu-indent" data-bs-parent="#Facturacion">
+
                                 <li>
                                     <a href="{% url 'facturacion' %}" class="sidebar-link">
                                         <i class="fa-solid fa-circle-dollar-to-slot"></i> Facturación

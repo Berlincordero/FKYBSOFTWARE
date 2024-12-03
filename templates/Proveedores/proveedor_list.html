@@ -53,6 +53,8 @@
                         <td>
                             <a href="#" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" title="Detalles" data-bs-target="#DetalleProveedor"
                                 data-id="{{ proveedor.id_proveedor }}" 
+                                data-fecha_ingreso="{{ proveedor.fecha_ingreso }}"
+                                data-nombre_empresa="{{ proveedor.nombre_empresa }}"
                                 data-nombre="{{ proveedor.nombre }}"
                                 data-email="{{ proveedor.email }}"
                                 data-provincia="{{ proveedor.provincia }}"
@@ -91,7 +93,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
-                    <p>¿Desea eliminar el proveedor <span id="deleteUsername"></span>?</p>
+                    <p>¿Desea eliminar de la vista principal <strong><span id="deleteUsername"></span></strong>?</p>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
                     <!-- Aquí ponemos la URL con el ID correcto -->
@@ -106,27 +108,58 @@
     </div>
 
     <div class="modal fade" id="DetalleProveedor" tabindex="-1" aria-labelledby="DetalleProveedorLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
-                <div class="modal-header-provedores">
-                    <h5 class="modal-title" id="DetalleProveedorLabel">Detalle del Proveedor</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="encabezado">
+                    <h5 class="titulo " id="DetalleProveedorLabel">Detalle del Proveedor</h5>
                 </div>
-                <div class="modal-body">
-                    <div class="modal-content-inner">
-                        <p><strong>Código Proveedor:</strong> <span id="detalleCodigoProveedor"></span></p>
-                        <p><strong>Fecha que se ingresó al sistema:</strong> <span id="detalleFechaIngreso"></span></p>
-                        <p><strong>Nombre de la Empresa:</strong> <span id="detalleNombreEmpresa"></span></p>
-                        <p><strong>Tipo de Identificación:</strong> <span id="detalleTipoIdentificacion"></span></p>
-                        <p><strong>Número de Identificación:</strong> <span id="detalleIdentificacion"></span></p>
-                        <p><strong>Nombre:</strong> <span id="detalleNombre"></span></p>
-                        <p><strong>Email:</strong> <span id="detalleEmail"></span></p>
-                        <p><strong>Provincia:</strong> <span id="detalleProvincia"></span></p>
-                        <p><strong>Cantón:</strong> <span id="detalleCanton"></span></p>
-                        <p><strong>Distrito:</strong> <span id="detalleDistrito"></span></p>
-                        <p><strong>Dirección Exacta:</strong> <span id="detalleDireccion_exacta"></span></p>
-                        <p><strong>Teléfono 1:</strong> <span id="detalleTelefono1"></span></p>
-                        <p><strong>Teléfono 2:</strong> <span id="detalleTelefono2"></span></p>
+                <div class="modal-body informacion">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <dl class="row">
+                                <dt class="col-sm-6"><strong>Código Proveedor:</strong></dt>
+                                <dd class="col-sm-6"><span id="detalleCodigoProveedor"></span></dd>
+                    
+                                <dt class="col-sm-6"><strong>Fecha que se ingresó al sistema:</strong></dt>
+                                <dd class="col-sm-6"><span id="detalleFechaIngreso"></span></dd>
+                    
+                                <dt class="col-sm-6"><strong>Nombre de la Empresa:</strong></dt>
+                                <dd class="col-sm-6"><span id="detalleNombreEmpresa"></span></dd>
+                    
+                                <dt class="col-sm-6"><strong>Tipo de Identificación:</strong></dt>
+                                <dd class="col-sm-6"><span id="detalleTipoIdentificacion"></span></dd>
+                    
+                                <dt class="col-sm-6"><strong>Número de Identificación:</strong></dt>
+                                <dd class="col-sm-6"><span id="detalleIdentificacion"></span></dd>
+                    
+                                <dt class="col-sm-6"><strong>Nombre:</strong></dt>
+                                <dd class="col-sm-6"><span id="detalleNombre"></span></dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6">
+                            <dl class="row">
+                                <dt class="col-sm-6"><strong>Email:</strong></dt>
+                                <dd class="col-sm-6"><span id="detalleEmail"></span></dd>
+                    
+                                <dt class="col-sm-6"><strong>Provincia:</strong></dt>
+                                <dd class="col-sm-6"><span id="detalleProvincia"></span></dd>
+                    
+                                <dt class="col-sm-6"><strong>Cantón:</strong></dt>
+                                <dd class="col-sm-6"><span id="detalleCanton"></span></dd>
+                    
+                                <dt class="col-sm-6"><strong>Distrito:</strong></dt>
+                                <dd class="col-sm-6"><span id="detalleDistrito"></span></dd>
+                    
+                                <dt class="col-sm-6"><strong>Dirección Exacta:</strong></dt>
+                                <dd class="col-sm-6"><span id="detalleDireccion_exacta"></span></dd>
+                    
+                                <dt class="col-sm-6"><strong>Teléfono 1:</strong></dt>
+                                <dd class="col-sm-6"><span id="detalleTelefono1"></span></dd>
+                    
+                                <dt class="col-sm-6"><strong>Teléfono 2:</strong></dt>
+                                <dd class="col-sm-6"><span id="detalleTelefono2"></span></dd>
+                            </dl>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -138,7 +171,7 @@
             <div class="modal-content">
                 <div class="modal-header-formulario-provedor">
                     <h5 class="modal-title form-header" id="AgregarProveedorLabel">Formulario de Registro de Proveedores</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    
                 </div>
                 <div class="modal-body">
                     <!-- Copiar el contenido del formulario aquí -->
@@ -148,13 +181,11 @@
                             <h4>Solo para uso interno</h4>
                             <table class="table-form">
                                 <tr>
-                                    <th class="internal-use">Id proveedor</th>
+                                    
                                     <th class="internal-use">Fecha</th>
                                 </tr>
                                 <tr>
-                                    <td class="internal-use">
-                                        <input type="text" class="form-control" id="id_proveedor" name="id_proveedor">
-                                    </td>
+                                    
                                     <td class="internal-use">
                                         <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso">
                                     </td>
@@ -326,35 +357,23 @@
     <script>
 
         $('#EditarProveedor').on('show.bs.modal', function (event) {
-            var button = event.relatedTarget; 
-            var proveedorId = button.getAttribute('data-id');
-            var proveedorNombreEmpresa = button.getAttribute('data-nombre_empresa');
-            var proveedorNombre = button.getAttribute('data-nombre');
-            var proveedorEmail = button.getAttribute('data-email');
-            var proveedorProvincia = button.getAttribute('data-provincia');
-            var proveedorCanton = button.getAttribute('data-canton');
-            var proveedorDistrito = button.getAttribute('data-distrito');
-            var proveedorDireccion_exacta = button.getAttribute('data-direccion_exacta');
-            var proveedorTelefono1 = button.getAttribute('data-telefono1');
-            var proveedorTelefono2 = button.getAttribute('data-telefono2');
-            var proveedorTipoIdentificacion = button.getAttribute('data-tipo-identificacion');
-            var proveedorIdentificacion = button.getAttribute('data-identificacion');
+            const button = event.relatedTarget;
+            const modal = $(this);
         
-            var modal = $(this);
-            modal.find('#editarIdProveedor').val(proveedorId);
-            modal.find('#editarNombreEmpresa').val(proveedorNombreEmpresa);
-            modal.find('#editarNombre').val(proveedorNombre);
-            modal.find('#editarEmail').val(proveedorEmail);
-            modal.find('#editarProvincia').val(proveedorProvincia);
-            modal.find('#editarCanton').val(proveedorCanton);
-            modal.find('#editarDistrito').val(proveedorDistrito);
-            modal.find('#editarDireccion_exacta').val(proveedorDireccion_exacta);
-            modal.find('#editarTelefono1').val(proveedorTelefono1);
-            modal.find('#editarTelefono2').val(proveedorTelefono2);
-            modal.find('#editarTipoIdentificacion').val(proveedorTipoIdentificacion);
-            modal.find('#editarIdentificacion').val(proveedorIdentificacion);
+            modal.find('#editarIdProveedor').val(button.getAttribute('data-id'));
+            modal.find('#editarNombreEmpresa').val(button.getAttribute('data-nombre_empresa'));
+            modal.find('#editarNombre').val(button.getAttribute('data-nombre'));
+            modal.find('#editarEmail').val(button.getAttribute('data-email'));
+            modal.find('#editarProvincia').val(button.getAttribute('data-provincia'));
+            modal.find('#editarCanton').val(button.getAttribute('data-canton'));
+            modal.find('#editarDistrito').val(button.getAttribute('data-distrito'));
+            modal.find('#editarDireccion_exacta').val(button.getAttribute('data-direccion_exacta'));
+            modal.find('#editarTelefono1').val(button.getAttribute('data-telefono1'));
+            modal.find('#editarTelefono2').val(button.getAttribute('data-telefono2'));
+            modal.find('#editarTipoIdentificacion').val(button.getAttribute('data-tipo-identificacion'));
+            modal.find('#editarIdentificacion').val(button.getAttribute('data-identificacion'));
         });
-
+        
         $('#EliminarProveedor').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);  
             var proveedorId = button.data('id');  
@@ -368,6 +387,8 @@
         $('#DetalleProveedor').on('show.bs.modal', function (event) {
             var button = event.relatedTarget; 
             var proveedorId = button.getAttribute('data-id'); 
+            var proveedorFecha_ingreso = button.getAttribute('data-fecha_ingreso');
+            var proveedorNombre_empresa = button.getAttribute('data-nombre_empresa');
             var proveedorNombre = button.getAttribute('data-nombre'); 
             var proveedorEmail = button.getAttribute('data-email');
             var proveedorProvincia = button.getAttribute('data-provincia');
@@ -381,7 +402,9 @@
         
             var modal = $(this);
             modal.find('#detalleCodigoProveedor').text(proveedorId);
-            modal.find('#detalleNombreEmpresa').text(proveedorNombre);
+            modal.find('#detalleFechaIngreso').text(proveedorFecha_ingreso);
+            modal.find('#detalleNombreEmpresa').text(proveedorNombre_empresa);
+            modal.find('#detalleNombre').text(proveedorNombre);
             modal.find('#detalleEmail').text(proveedorEmail);
             modal.find('#detalleProvincia').text(proveedorProvincia);
             modal.find('#detalleCanton').text(proveedorCanton);
@@ -598,5 +621,6 @@
 
 
     </script>
+    
 
 {% endblock %}
