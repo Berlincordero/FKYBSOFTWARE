@@ -102,7 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#IPS de las cajas registradoras unidas a la red unicas
+#IPS unicas de las cajas registradoras unidas a la red 
 SUCURSAL_TERMINAL_CONFIG = {
     'Sucursal Central': {
         'Caja Registradora 1': '192.168.0.101',
