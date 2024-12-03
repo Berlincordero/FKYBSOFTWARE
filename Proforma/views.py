@@ -12,6 +12,7 @@ from .forms import ProformaForm
 
 def lista_proforma(request):
     proformas = Proforma.objects.filter(activo=True)
+    print(proformas)
     return render(request, 'Proforma.html', {'proformas': proformas})
 
 
@@ -21,6 +22,8 @@ def editar_proforma(request, pk):
     proforma = get_object_or_404(Proforma, pk=pk)
 
     if request.method == 'POST':
+        pk = request.POST.get('proforma_id')
+        proforma = get_object_or_404(Proforma, pk=pk)
         # Recibir y actualizar los datos del formulario
         proforma.fecha = request.POST.get('fecha')
         proforma.moneda = request.POST.get('moneda')
