@@ -16,20 +16,17 @@ def get_client_ip(request):
 
 def Cajaregistradora_view(request):
     client_ip = get_client_ip(request)
-    
-     # Configuración de terminales
-    TERMINAL_CONFIG = {
-        'Caja Registradora 1': '192.168.0.101',
-        'Caja Registradora 2': '192.168.0.102',
-        # Agrega más terminales si es necesario
-    }
-    
-    terminal = next(
-        (name for name, ip in TERMINAL_CONFIG.items() if ip == client_ip),
-        "Terminal Desconocida"
-    )
 
-    return render(request, 'Cajaregistradora.html', {'terminal': terminal})
+    sucursal = "Sucursal Desconocida"
+    terminal = "Terminal Desconocida"
 
+    for suc, terminales in settings.SUCURSAL_TERMINAL_CONFIG.items():
+        for term, ip in terminales.items():
+            if ip == client_ip:
+                sucursal = suc
+                terminal = term
+                break
+
+    return render(request, 'Cajaregistradora.html', {'terminal': terminal, 'sucursal': sucursal})
 
 

@@ -336,7 +336,27 @@
     box-shadow: 0 0 5px rgba(46, 139, 87, 0.5); /* Sombra al enfocar */
 }
 
+.suggestions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    background: #fff;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+}
 
+.suggestions li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions li:hover {
+    background: #f0f0f0;
+}
      </style>
  </head>
  <body>
@@ -344,7 +364,7 @@
          <div class="icono-caja">
             <div>
                 <i class="fas fa-cash-register"></i>
-                <span>{{ terminal }}</span>
+                <span>{{ terminal }} - {{ sucursal }}</span>
             </div>
              <div class="icon-bar">
                  <i class="fas fa-question-circle" title="Ayuda" onclick="toggleHelpMenu()"></i>
@@ -378,16 +398,18 @@
                         <th>CLIENTE</th>
                     </tr>
                     <tr>
-                        <td>01-07-2011</td>
-                        <td>1-0001</td>
-                        <td>000001</td>
+                        <td><span id="fechaFactura">{{ fecha_actual }}</span></td>
+                        <td><span id="numeroFactura">1-0001</span></td>
+                        <td><span id="clienteSeleccionado">Selecciona un cliente</span></td>
                     </tr>
                 </table>
+            </div>
             </div>
             <div class="invoice-table">
                 <table class="invoice-details" id="invoiceTable">
                     <tr>
                         <th>Código</th>
+                        <th>Nombre</th>
                         <th>Descripción</th>
                         <th>Cantidad</th>
                         <th>Precio de Venta</th>
@@ -395,24 +417,7 @@
                         <th>Total</th>
                         <th>Acciones</th>
                     </tr>
-                    <tr>
-                        <td>00001</td>
-                        <td>Artículo 1<br /><small>Concepto: IT1</small></td>
-                        <td><input type="number" value="10" min="1" onchange="updateTotal(this)"></td>
-                        <td>2200</td>
-                        <td>285</td>
-                        <td>2600</td>
-                        <td><i class="fas fa-trash" onclick="deleteRow(this)"></i></td>
-                    </tr>
-                    <tr>
-                        <td>0002</td>
-                        <td>Artículo 2<br /><small>Concepto: IT2</small></td>
-                        <td><input type="number" value="10" min="1" onchange="updateTotal(this)"></td>
-                        <td>3100</td>
-                        <td>385</td>
-                        <td>3625</td>
-                        <td><i class="fas fa-trash" onclick="eliminarFila(this)"></i></td>
-                    </tr>
+                  
                 </table>
             </div>
             
@@ -476,10 +481,6 @@
                 <i class="fas fa-store"></i>
                 <span>Configurar tiendas</span>
             </div>
-            <div class="menu-item">
-                <i class="fa-solid fa-toggle-on"></i>
-                <span>Abrir caja</span>
-            </div>
             <div class="menu-item" onclick="openPreCierreCajaModal()">
                 <i class="fas fa-cash-register"></i> <span>Precierre caja</span>
             </div>
@@ -498,9 +499,15 @@
             <span class="close-btn" onclick="toggleUserMenu()">&times;</span>
             <h2>Buscar cliente</h2>
             <div class="search-bar">
-                <input type="text" placeholder="Ingrese el nombre del cliente...">
+                <input 
+                    type="text" 
+                    id="buscarCliente" 
+                    placeholder="Ingrese el nombre del cliente..." 
+                    onkeyup="buscarCliente()"
+                >
                 <button><i class="fa fa-search"></i></button>
             </div>
+            <ul id="resultadosBusqueda" class="suggestions"></ul>
         </div>
 
         <!-- Menú de ayuda -->
@@ -798,7 +805,85 @@
         
             // Aquí también puedes actualizar el resumen general, como el subtotal, IVA y total.
         }
-   
+        
+        function buscarCliente() {
+            const query = document.getElementById('buscarCliente').value;
+            const resultados = document.getElementById('resultadosBusqueda');
+        
+            if (query.length < 2) {
+                resultados.innerHTML = ''; // Limpia las sugerencias si el término es corto
+                return;
+            }
+        
+            // Realiza una solicitud GET al backend
+            fetch(`/clientes/buscar-clientes/?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultados.innerHTML = ''; // Limpia las sugerencias previas
+        
+                    if (data.length > 0) {
+                        data.forEach(cliente => {
+                            const li = document.createElement('li');
+                            li.textContent = `${cliente.nombre} ${cliente.primer_apellido} ${cliente.segundo_apellido}`;
+                            li.onclick = () => seleccionarCliente(cliente.id, cliente.nombre, cliente.primer_apellido, cliente.segundo_apellido);
+                            resultados.appendChild(li);
+                        });
+                    } else {
+                        resultados.innerHTML = '<li>No se encontraron resultados</li>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    resultados.innerHTML = '<li>Error en la búsqueda</li>';
+                });
+        }
+        
+        function seleccionarCliente(id, nombre, primer_apellido, segundo_apellido) {
+            alert(`Cliente seleccionado: ${nombre} ${primer_apellido} ${segundo_apellido}`);
+            document.getElementById('buscarCliente').value = `${nombre} ${primer_apellido} ${segundo_apellido}`;
+            document.getElementById('resultadosBusqueda').innerHTML = ''; // Limpia las sugerencias
+        }
+        function seleccionarCliente(id, nombre, primer_apellido, segundo_apellido) {
+            const clienteCompleto = `${nombre} ${primer_apellido} ${segundo_apellido}`;
+            alert(`Cliente seleccionado: ${clienteCompleto}`);
+            
+            // Actualizar el valor en el campo CLIENTE de la tabla
+            document.getElementById('clienteSeleccionado').textContent = clienteCompleto;
+        
+            // Guardar el cliente seleccionado en un campo oculto (para enviar al backend)
+            const clienteInput = document.getElementById('clienteInputHidden');
+            if (!clienteInput) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.id = 'clienteInputHidden';
+                input.name = 'cliente_id';
+                input.value = id;  // ID del cliente seleccionado
+                document.getElementById('invoiceTable').appendChild(input);
+            } else {
+                clienteInput.value = id;
+            }
+        }
+
+        function seleccionarCliente(id, nombre, primer_apellido, segundo_apellido) {
+            const clienteCompleto = `${nombre} ${primer_apellido} ${segundo_apellido}`;
+            alert(`Cliente seleccionado: ${clienteCompleto}`);
+            
+            // Actualizar el valor en el campo CLIENTE de la tabla
+            document.getElementById('clienteSeleccionado').textContent = clienteCompleto;
+        
+            // Guardar el cliente seleccionado en un campo oculto (para enviar al backend)
+            const clienteInput = document.getElementById('clienteInputHidden');
+            if (!clienteInput) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.id = 'clienteInputHidden';
+                input.name = 'cliente_id';
+                input.value = id;  // ID del cliente seleccionado
+                document.getElementById('invoiceTable').appendChild(input);
+            } else {
+                clienteInput.value = id;
+            }
+        }
 
      </script>
  </body>

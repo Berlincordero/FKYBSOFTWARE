@@ -4,6 +4,10 @@ from .models import Cliente, ClienteEliminado
 from .forms import ClienteForm
 from django.db.models import Q
 from django.utils import timezone
+from django.http import JsonResponse
+from .models import Cliente  # Asegúrate de que el modelo Cliente esté bien definido
+
+
 
 # Vista para mostrar todos los clientes
 def modulo_clientes(request):
@@ -11,15 +15,6 @@ def modulo_clientes(request):
     clientes = Cliente.objects.filter(activo=True)  # Filtra solo clientes activos
     return render(request, 'clientes/modulo_clientes.html', {'clientes': clientes})
 # Vista para buscar clientes por cédula, nombre o apellido
-def buscar_clientes(request):
-    query = request.GET.get('q', '')
-    clientes = Cliente.objects.filter(
-        Q(id_cliente__icontains=query) | 
-        Q(nombre__icontains=query) | 
-        Q(primer_apellido__icontains=query) | 
-        Q(segundo_apellido__icontains=query)
-    )
-    return render(request, 'clientes/modulo_clientes.html', {'clientes': clientes, 'query': query})
 # Vista para eliminar el cliente lógicamente
 def eliminar_cliente(request, id_cliente):
     
@@ -61,3 +56,39 @@ def editar_cliente(request, id_cliente):
         form = ClienteForm(instance=cliente)
     
     return render(request, 'clientes/editar_cliente.html', {'form': form, 'cliente': cliente})
+
+
+#--------------------parte de caja registradora para exportar clientes---------------------
+#---------------------hecho por Berlín---------------------
+
+def buscar_clientes(request):
+    if request.method == "GET":
+        query = request.GET.get('q', '').strip()  # Obtener el término de búsqueda
+
+        # Validar si el término de búsqueda está vacío
+        if not query:
+            return JsonResponse([], safe=False)
+
+        print(f"Término de búsqueda: {query}")  # Depuración
+
+        # Buscar coincidencias en nombre, primer apellido y segundo apellido
+        clientes = Cliente.objects.filter(
+            Q(nombre__icontains=query) | 
+            Q(primer_apellido__icontains=query) | 
+            Q(segundo_apellido__icontains=query)
+        )
+
+        print(f"Resultados encontrados: {[f'{c.nombre} {c.primer_apellido} {c.segundo_apellido}' for c in clientes]}")  # Depuración
+
+        # Serializar los resultados
+        resultados = [
+            {
+                "id": cliente.id_cliente,
+                "nombre": cliente.nombre,
+                "primer_apellido": cliente.primer_apellido,
+                "segundo_apellido": cliente.segundo_apellido
+            }
+            for cliente in clientes
+        ]
+
+        return JsonResponse(resultados, safe=False)

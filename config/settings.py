@@ -102,16 +102,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-TERMINAL_CONFIG = {
-    'Caja Registradora 1': '192.168.0.101',
-    'Caja Registradora 2': '192.168.0.102',
-    'Caja Registradora 3': '192.168.0.103',
-    'Caja Registradora 4': '192.168.0.104',
-    'Caja Registradora 5': '192.168.0.105',
-    'Caja Registradora 6': '192.168.0.106',
-    'Caja Registradora 7': '192.168.0.107',
-    'Caja Registradora 8': '192.168.0.108',
+#IPS de las cajas registradoras unidas a la red unicas
+SUCURSAL_TERMINAL_CONFIG = {
+    'Sucursal Central': {
+        'Caja Registradora 1': '192.168.0.101',
+        'Caja Registradora 2': '192.168.0.102',
+    },
+    'Sucursal Norte': {
+        'Caja Registradora 3': '192.168.0.103',
+        'Caja Registradora 4': '192.168.0.104',
+    },
+    'Sucursal Sur': {
+        'Caja Registradora 5': '192.168.0.105',
+        'Caja Registradora 6': '192.168.0.106',
+    },
+    'Sucursal Este': {
+        'Caja Registradora 7': '192.168.0.107',
+        'Caja Registradora 8': '192.168.0.108',
+    },
 }
 
 
