@@ -1,18 +1,17 @@
-from django.shortcuts import render
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
 from .models import Proforma
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 import subprocess
 from django.shortcuts import render, redirect
 from .forms import ProformaForm
+from django.shortcuts import render, redirect, get_object_or_404
+
+
 
 # Create your views here.
 
 def lista_proforma(request):
     proformas = Proforma.objects.filter(activo=True)
-    print(proformas)
     return render(request, 'Proforma.html', {'proformas': proformas})
 
 
@@ -22,8 +21,6 @@ def editar_proforma(request, pk):
     proforma = get_object_or_404(Proforma, pk=pk)
 
     if request.method == 'POST':
-        pk = request.POST.get('proforma_id')
-        proforma = get_object_or_404(Proforma, pk=pk)
         # Recibir y actualizar los datos del formulario
         proforma.fecha = request.POST.get('fecha')
         proforma.moneda = request.POST.get('moneda')
@@ -42,11 +39,22 @@ def editar_proforma(request, pk):
          # Redirigir a la página de lista de proformas
         return redirect('lista_proforma')
     return render(request, 'Proforma.html')
-      
 
 def crear_proforma(request):
     if request.method == 'POST':
-        # Recibir los datos del formulario
+        # Capturar los valores calculados por JavaScript
+        subtotal = float(request.POST.get('subtotal', 0))
+        descuento = float(request.POST.get('descuento', 0))
+        iva = float(request.POST.get('iva', 0))
+        total = float(request.POST.get('total', 0))
+
+        # Agregar el símbolo de colones a los valores antes de guardarlos
+        subtotal_colones = f"₡{subtotal:,.2f}"
+        descuento_colones = f"₡{descuento:,.2f}"
+        iva_colones = f"₡{iva:,.2f}"
+        total_colones = f"₡{total:,.2f}"
+
+        # Capturar el resto de los datos del formulario
         fecha = request.POST.get('fecha')
         moneda = request.POST.get('moneda')
         cliente = request.POST.get('cliente')
@@ -55,12 +63,6 @@ def crear_proforma(request):
         condicion_venta = request.POST.get('condicion_venta')
         detalles = request.POST.get('detalles')
         nota = request.POST.get('nota')
-
-        # Capturar los valores calculados por JavaScript
-        subtotal = float(request.POST.get('subtotal', 0))
-        descuento = float(request.POST.get('descuento', 0))
-        iva = float(request.POST.get('iva', 0))
-        total = float(request.POST.get('total', 0))
 
         # Crear una nueva instancia de Proforma y guardar
         proforma = Proforma(
@@ -72,19 +74,22 @@ def crear_proforma(request):
             condicion_venta=condicion_venta,
             detalles=detalles,
             nota=nota,
-            subtotal=subtotal,
+            subtotal=subtotal,  # Guarda el valor puro en la base de datos
             descuento=descuento,
             iva=iva,
             total=total,
         )
         proforma.save()
 
+        # Imprimir los valores con el símbolo de colones en la consola (opcional)
+        print(f"Subtotal: {subtotal_colones}")
+        print(f"Descuento: {descuento_colones}")
+        print(f"IVA: {iva_colones}")
+        print(f"Total: {total_colones}")
+
         # Redirigir a la página de lista de proformas
         return redirect('lista_proforma')
     return render(request, 'Proforma.html')
-
-
-
 
 def eliminar_proforma(request, pk):
     proforma = get_object_or_404(Proforma, pk=pk)
