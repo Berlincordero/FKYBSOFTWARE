@@ -368,7 +368,6 @@
             </div>
              <div class="icon-bar">
                  <i class="fas fa-question-circle" title="Ayuda" onclick="toggleHelpMenu()"></i>
-                 <i class="fas fa-print" title="Imprimir"></i>
                  <i class="fas fa-cog" title="Configuración" onclick="toggleConfigMenu()"></i>
                  <i class="fas fa-user" title="Clientes" onclick="toggleUserMenu()"></i>
              </div>
@@ -399,7 +398,7 @@
                     </tr>
                     <tr>
                         <td><span id="fechaFactura">{{ fecha_actual }}</span></td>
-                        <td><span id="numeroFactura">1-0001</span></td>
+                        <td><span id="numeroFactura">{{ numero_factura }}</span></td> <!-- Visible aquí -->
                         <td><span id="clienteSeleccionado">Selecciona un cliente</span></td>
                     </tr>
                 </table>
