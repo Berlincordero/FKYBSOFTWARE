@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'fkybsoftware',
         'USER': 'postgres',
-        'PASSWORD': 'admin',
+        'PASSWORD': 'kik301',
         'HOST': 'localhost',  # o la dirección de tu servidor PostgreSQL
         'PORT': '5432',  # el puerto por defecto de PostgreSQL es 5432
     }
@@ -104,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 #IPS unicas de las cajas registradoras unidas a la red 
 SUCURSAL_TERMINAL_CONFIG = {
-    'Sucursal Central': {
+    'Sucursal Moravia': {
         'Caja Registradora 1': '192.168.0.101',
         'Caja Registradora 2': '192.168.0.102',
     },
@@ -126,11 +126,11 @@ SUCURSAL_TERMINAL_CONFIG = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Costa_Rica'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATIC_URL = '/static/'

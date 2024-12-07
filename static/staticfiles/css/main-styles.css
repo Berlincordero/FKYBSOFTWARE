@@ -296,20 +296,28 @@ a.sidebar-link {
 .clear {
     clear: both;
 }
+
+
 .invoice-details {
     width: 100%;
     margin: 20px 0;
     border-collapse: collapse;
 }
-.invoice-details th, .invoice-details td {
+
+.invoice-details th,
+.invoice-details td {
     padding: 10px;
     border: 1px solid #0562f7;
 }
+
 .invoice-details th {
-    background-color: #fa970c;
+    background-color: #4fc4f6;
     color: #060607;
 }
 
+.invoice-details th.descripcion-col {
+    width: 300px; /* Ajusta el valor a tus necesidades */
+}
 /* Asegúrate de que solo se aplique el borde redondeado a la tabla y no a los elementos internos del contenedor */
 #summaryTable {
     width: 60%;

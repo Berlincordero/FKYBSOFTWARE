@@ -299,10 +299,23 @@ a.sidebar-link {
 
 .container {
     width: 100%;
-    max-width: 1300px;
+    max-width: 1600px;
     margin: 0 auto;
     padding: 20px;
 }
+
+.icono-caja {
+    font-size: 34px;
+    color: #ac0909;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.icono-caja i {
+    margin-right: 10px;
+}
+
 
 .barra-busqueda,
 .barra-caja {
@@ -363,6 +376,10 @@ a.sidebar-link {
 .invoice-details th {
     background-color: #4fc4f6;
     color: #060607;
+}
+
+.invoice-details th.descripcion-col {
+    width: 300px; /* Ajusta el valor a tus necesidades */
 }
 
 #summaryTable {
@@ -465,17 +482,7 @@ a.sidebar-link {
     padding: 20px;
 }
 
-.icono-caja {
-    font-size: 34px;
-    color: #f3590c;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
 
-.icono-caja i {
-    margin-right: 10px;
-}
 
 .icon-bar {
     display: flex;

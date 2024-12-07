@@ -5,4 +5,5 @@ urlpatterns = [
     
     path('Cajaregistradora/', views.Cajaregistradora_view, name='Cajaregistradora_view'),
     
+    
 ]
