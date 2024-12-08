@@ -11,10 +11,17 @@ class Factura(models.Model):
     precio_venta = models.DecimalField(max_digits=10, decimal_places=2)
     iva = models.DecimalField(max_digits=10, decimal_places=2)
     total = models.DecimalField(max_digits=10, decimal_places=2)
+    estado_factura = models.CharField(max_length=20, default="Pendiente")  # Nuevo campo
+    tipo_pago = models.CharField(max_length=20, default="Efectivo")  # Nuevo campo
+    estado_factura = models.CharField(
+        max_length=50,
+        choices=[('Pagada', 'Pagada'), ('Pendiente', 'Pendiente')],
+        default='Pendiente'
+    )
 
     def save(self, *args, **kwargs):
         if not self.numero_factura:
-            # Obtiene la última factura para determinar el número siguiente
+            # Obtener el número de factura
             last_factura = Factura.objects.last()
             new_number = 0 if not last_factura else int(last_factura.numero_factura.split()[1]) + 1
             self.numero_factura = f"F {new_number}"
@@ -22,5 +29,4 @@ class Factura(models.Model):
 
     def __str__(self):
         return f"Factura #{self.numero_factura} - Total: {self.total}"
-    
     

@@ -16,7 +16,7 @@
           </button>
         </div>
         <div class="facturacion-caja-kike-search-box">
-          <input type="text" placeholder="Buscar proforma..." />
+          <input type="text" placeholder="Buscar Factura..." />
           <button type="button" class="facturacion-caja-search-button">
             <i class="fas fa-search"></i>
           </button>
@@ -25,24 +25,16 @@
       </div>
     </div>
 
-    <div class="facturacion-caja-kike-pagination">
-      <button class="facturacion-caja-kike-pagination-button">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      <div class="facturacion-caja-kike-page-number">Página 1 de 10</div>
-      <button class="facturacion-caja-kike-pagination-button">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-    </div>
-
     <table class="facturacion-caja-kike-table">
       <thead>
         <tr>
-          <th>ID FACTURA</th>
-          <th>Fecha / Hora</th>
+          <th>Fecha</th>
+          <th>Numero Factura</th>
           <th>Cliente</th>
-          <th>Tipo</th>
-          <th>Moneda</th>
+          <th>Codigo</th>
+          <th>Descripcion</th>
+          <th>Cantidad</th>
+          <th>Precio Venta</th>
           <th>I.V.A</th>
           <th>Total</th>
           <th>Estado de La Factura</th>
@@ -51,203 +43,25 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>0000003125</td>
-          <td>24/05/24 05:35PM</td>
-          <td>JESSICA SOLANO GONZALEZ</td>
-          <td>Tiquete</td>
-          <td>CRC</td>
-          <td>799.50</td>
-          <td>6150.00</td>
-          <td>
-            Pago Pendiente
-            <i class="fa fa-times-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-pending"></i>
-          </td>
-          <td>A crédito</td>
-          <td>
-            <button
-              class="facturacion-caja-kike-archive-button"
-              title="Archivar"
-            >
-              <i class="fa fa-archive"></i>
-            </button>
-          </td>
+        <tbody>
+          {% for factura in facturas %}
+            <tr>
+              <td>{{ factura.fecha }}</td>
+              <td>{{ factura.numero_factura }}</td>
+              <td>{{ factura.cliente }}</td>
+              <td>{{ factura.codigo }}</td>
+              <td>{{ factura.descripcion }}</td>
+              <td>{{ factura.cantidad }}</td>
+              <td>₡{{ factura.precio_venta }}</td>
+              <td>₡{{ factura.iva }}</td>
+              <td>₡{{ factura.total }}</td>
+              <td>{{ factura.estado_factura }}</td>
+              <td>{{ factura.tipo_pago }}</td>
+              <td><button class="facturacion-caja-kike-archive-button">Archivar</button></td>
+            </tr>
+          {% endfor %}
+        </tbody>
         </tr>
-        <tr>
-          <td>0000000161</td>
-          <td>24/05/24 05:28PM</td>
-          <td>Humberto Antonio Martínez Umaña</td>
-          <td>Factura</td>
-          <td>CRC</td>
-          <td>577.20</td>
-          <td>4440.00</td>
-          <td>
-            Pagada
-            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
-          </td>
-          <td>A contado</td>
-          <td>
-            <button
-              class="facturacion-caja-kike-archive-button"
-              title="Archivar"
-            >
-              <i class="fa fa-archive"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>0000003124</td>
-          <td>24/05/24 05:07PM</td>
-          <td></td>
-          <td>Tiquete</td>
-          <td>CRC</td>
-          <td>52.00</td>
-          <td>400.00</td>
-          <td>
-            Pagada
-            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
-          </td>
-          <td>A contado</td>
-          <td>
-            <button
-              class="facturacion-caja-kike-archive-button"
-              title="Archivar"
-            >
-              <i class="fa fa-archive"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>0000003123</td>
-          <td>24/05/24 05:03PM</td>
-          <td></td>
-          <td>Tiquete</td>
-          <td>CRC</td>
-          <td>1085.50</td>
-          <td>8350.00</td>
-          <td>
-            Pagada
-            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
-          </td>
-          <td>A contado</td>
-          <td>
-            <button
-              class="facturacion-caja-kike-archive-button"
-              title="Archivar"
-            >
-              <i class="fa fa-archive"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>0000003122</td>
-          <td>24/05/24 04:59PM</td>
-          <td></td>
-          <td>Tiquete</td>
-          <td>CRC</td>
-          <td>611.00</td>
-          <td>4700.00</td>
-          <td>
-            Pagada
-            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
-          </td>
-          <td>A contado</td>
-          <td>
-            <button
-              class="facturacion-caja-kike-archive-button"
-              title="Archivar"
-            >
-              <i class="fa fa-archive"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>0000003121</td>
-          <td>24/05/24 04:56PM</td>
-          <td></td>
-          <td>Tiquete</td>
-          <td>CRC</td>
-          <td>572.00</td>
-          <td>4400.00</td>
-          <td>
-            Pagada
-            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
-          </td>
-          <td>A contado</td>
-          <td>
-            <button
-              class="facturacion-caja-kike-archive-button"
-              title="Archivar"
-            >
-              <i class="fa fa-archive"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>0000003120</td>
-          <td>24/05/24 04:52PM</td>
-          <td></td>
-          <td>Tiquete</td>
-          <td>CRC</td>
-          <td>552.50</td>
-          <td>4250.00</td>
-          <td>
-            Pagada
-            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
-          </td>
-          <td>A contado</td>
-          <td>
-            <button
-              class="facturacion-caja-kike-archive-button"
-              title="Archivar"
-            >
-              <i class="fa fa-archive"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>0000003119</td>
-          <td>24/05/24 04:49PM</td>
-          <td></td>
-          <td>Tiquete</td>
-          <td>CRC</td>
-          <td>1547.00</td>
-          <td>11900.00</td>
-          <td>
-            Pagada
-            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
-          </td>
-          <td>A contado</td>
-          <td>
-            <button
-              class="facturacion-caja-kike-archive-button"
-              title="Archivar"
-            >
-              <i class="fa fa-archive"></i>
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td>0000003118</td>
-          <td>24/05/24 04:43PM</td>
-          <td></td>
-          <td>Tiquete</td>
-          <td>CRC</td>
-          <td>598.00</td>
-          <td>4600.00</td>
-          <td>
-            Pagada
-            <i class="fa fa-check-circle facturacion-caja-kike-status-icon facturacion-caja-kike-status-paid"></i>
-          </td>
-          <td>A contado</td>
-          <td>
-            <button
-              class="facturacion-caja-kike-archive-button"
-              title="Archivar"
-            >
-              <i class="fa fa-archive"></i>
-            </button>
-          </td>
         </tr>
       </tbody>
     </table>

@@ -1,4 +1,9 @@
 from django.shortcuts import render
+from Cajaregistradora.models import Factura
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.http import JsonResponse
+
 
 def facturacion(request):
     return render(request, 'Facturacion/facturacion.html')
@@ -6,11 +11,14 @@ def facturacion(request):
 def FormularioATV(request):
     return render(request, 'Facturacion/FormularioATV.html')
 
-from django.http import HttpResponse
-
-def enviar_factura(request):
-    return HttpResponse("Factura enviada.")
-
 
 def Verificacioncomprobante(request):
     return render(request, 'Facturacion/Verificacioncomprobante.html')
+
+
+
+def facturacion(request):
+    facturas = Factura.objects.all()  # Obtener todas las facturas
+    context = {"facturas": facturas}
+    return render(request, 'Facturacion/facturacion.html', context)
+

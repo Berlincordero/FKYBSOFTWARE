@@ -575,6 +575,98 @@
     width: 300px;
     text-align: center;
 }
+
+
+.modal-eliminar-unico {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-contenido-unico {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: center;
+    position: relative;
+}
+
+.modal-cerrar-unico {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.modal-contenido-unico h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.modal-contenido-unico p {
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.modal-contenido-unico input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.modal-botones {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-confirmar-unico {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    flex: 1;
+    margin-right: 10px;
+}
+
+.btn-cancelar-unico {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    flex: 1;
+}
+
+.btn-confirmar-unico:hover {
+    background-color: #218838;
+}
+
+.btn-cancelar-unico:hover {
+    background-color: #c82333;
+}
+
      </style>
  </head>
  <body>
@@ -675,23 +767,23 @@
                 <table class="tabla-subtotal" id="summaryTable">
                     <tr>
                         <td><strong>Cantidad Productos</strong></td>
-                        <td><strong>2.0</strong></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Subtotal</strong></td>
-                        <td><strong>2000</strong></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Descuentos</strong></td>
                         <td><strong>0.00</strong></td>
                     </tr>
                     <tr>
+                        <td><strong>Subtotal</strong></td>
+                        <td><strong>₡0.00</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Descuentos</strong></td>
+                        <td><strong>₡0.00</strong></td>
+                    </tr>
+                    <tr>
                         <td><strong>IVA</strong></td>
-                        <td><strong>300.00</strong></td>
+                        <td><strong>₡0.00</strong></td>
                     </tr>
                     <tr>
                         <td><strong>Total</strong></td>
-                        <td><strong>2300.00</strong></td>
+                        <td><strong>₡0.00</strong></td>
                     </tr>
                 </table>
             </div>
@@ -702,7 +794,7 @@
                 <br>
                 <div class="button-container">
                     <button class="button-pagar" onclick="openPaymentModal()">Pagar</button>
-                    <button class="button-eliminar" onclick="eliminarContenido()">ELIMINAR FACTURA</button>
+                 
                 </div>
                 <br>
                 <div class="thanks-unique">
@@ -722,7 +814,45 @@
                 </div>
                 
             </div>
-            
+
+
+        <!-- Modal de Pago -->
+        <div id="paymentModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closePaymentModal()">&times;</span>
+                <h2>Realizar Pago</h2>
+                <label for="paymentMethod">Tipo de precio:</label>
+                <select>
+                    <option value="Regular">Regular</option>
+                    <option value="Mayorista">Mayorista</option>
+                    <option value="Proveedor">Proveedor</option>
+                </select>
+                <label for="paymentMethod">Tipo de Moneda:</label>
+                <select>
+                    <option value="Colones">Colones</option>
+                    <option value="Dolares">Dólares</option>
+                </select>
+                <label for="paymentMethod">Descuento:</label>
+                <select>
+                    <option value="0">0%</option>
+                    <option value="5">5%</option>
+                    <option value="10">10%</option>
+                    <option value="15">15%</option>
+                    <option value="50">50%</option>
+                </select>
+                <label for="paymentMethod">Método de Pago:</label>
+                <select>
+                    <option value="creditCard">Tarjeta de Crédito o Débito</option>
+                    <option value="cash">Efectivo</option>
+                    <option value="transfer">Transferencia</option>
+                    <option value="credit">Pago a Crédito</option>
+                </select>
+                <label for="amount">Monto a Pagar:</label>
+                <input type="number" id="amount" placeholder="Monto">
+                <button onclick="procesarPago()">Procesar Pago</button>
+
+            </div>
+        </div>
  
         <!-- Menú de configuración -->
         <div id="configMenu" class="config-menu">
@@ -775,10 +905,9 @@
 <div id="providerModal" class="custom-modal">
     <button class="close-btn" onclick="toggleModal('providerModal')">&times;</button>
     <h3>Buscar Proveedor</h3>
-    <input type="text" placeholder="Ingrese el proveedor...">
-    <ul class="suggestions">
-        <!-- Resultados de búsqueda -->
-    </ul>
+    <input type="text" id="buscarOrden" placeholder="Ingrese el proveedor u orden..." oninput="filtrarOrdenes()">
+    <ul id="listaSugerenciasOrdenes" class="suggestions" style="display: none;"></ul>
+    <button onclick="agregarOrdenSeleccionada()">Agregar Orden</button>
 </div>
 
         <!-- Menú de ayuda -->
@@ -789,55 +918,13 @@
                 <span>Instrucciones de uso:</span>
             </div>
             <div class="menu-item">
-                <span>1. Ingrese al icono de configuraciones</span>
+                <span>1. Busque un producto para agregarlo</span>
             </div>
             <div class="menu-item">
-                <span>2. Presione abrir caja para activarla</span>
-            </div>
-            <div class="menu-item">
-                <span>3. Busque un producto para agregarlo</span>
-            </div>
-            <div class="menu-item">
-                <span>4. si aplicas el precierre este generara el cierre en fisico y el cierre automatico de la caja registradore</span>
+                <span>2. si aplicas el precierre este generara el cierre en fisico y el cierre automatico de la caja registradore</span>
             </div>
         </div>
-     <!-- Modal de Pago -->
-     <div id="paymentModal" class="modal">
-         <div class="modal-content">
-             <span class="close" onclick="closePaymentModal()">&times;</span>
-             <h2>Realizar Pago</h2>
-             <label for="paymentMethod">Tipo de precio:</label>
-             <select id="paymentMethod">
-                 <option value="Regular">Regular</option>
-                 <option value="Mayorista">Mayorista</option>
-                 <option value="Proveedor">Proveedor</option>
-             </select>
-             <label for="paymentMethod">Tipo de Moneda</label>
-             <select id="paymentMethod">
-                 <option value="Colones">Colones</option>
-                 <option value="Dolares">Dolares</option>
-             </select>
-             <label for="paymentMethod">Descuento:</label>
-             <select id="paymentMethod">
-                 <option value="descuento">0%</option>
-                 <option value="descuento">5%</option>
-                 <option value="descuento">10%</option>
-                 <option value="descuento">15%</option>
-                 <option value="descuento">50%</option>
-
-             </select>
-             <label for="paymentMethod">Método de Pago:</label>
-             <select id="paymentMethod">
-                 <option value="creditCard">Tarjeta de Crédito o Debito</option>
-                 <option value="cash">Efectivo</option>
-                 <option value="transfer">Transferencia</option>
-                 <option value="transfer">Pago a Credito</option>
-             </select>
-             <label for="amount">Monto a Pagar:</label>
-             <input type="number" id="amount" placeholder="Monto">
-             <button onclick="processPayment()">Procesar Pago</button>
-         </div>
-     </div>
+    
 
      <!--modal de precierre-->
     
@@ -930,6 +1017,24 @@
         </form>
     </div>
 </div>
+
+
+
+<div id="modalEliminar" class="modal-eliminar-unico">
+    <div class="modal-contenido-unico">
+        <span class="modal-cerrar-unico" onclick="cerrarModalEliminar()">&times;</span>
+        <h3>Confirmar Eliminación</h3>
+        <p>Ingrese el código de seguridad para confirmar la eliminación:</p>
+        <input type="password" id="codigoSeguridadUnico" placeholder="Código de seguridad" />
+        <div class="modal-botones">
+            <button class="btn-confirmar-unico" onclick="validarCodigoEliminar()">Confirmar</button>
+            <button class="btn-cancelar-unico" onclick="cerrarModalEliminar()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+
+
      <script>
         document.addEventListener("DOMContentLoaded", function () {
             window.toggleModal = function (modalId) {
@@ -1004,16 +1109,6 @@
             modal.style.display = 'none';
         }
 
-        function eliminarContenido() {
-            var contenidoDiv = document.getElementById('contenido');
-            contenidoDiv.style.display = 'none';
-            var invoiceTable = document.getElementById('invoiceTable');
-            var rowCount = invoiceTable.rows.length;
-            while (rowCount > 1) {
-                invoiceTable.deleteRow(rowCount - 1);
-                rowCount--;
-            }
-        }
 
         function eliminarFila(button) {
             var row = button.parentNode.parentNode.parentNode;
@@ -1194,17 +1289,17 @@
 
     /////////////////////////////////////////////////////////////////////////////////////////
     
-     // Convertimos los productos del contexto Django a un array de objetos JS
-     const productos = [
- {% for producto in productos %}
-     {
-         "id": {{ producto.id }},
-         "codigo_cabys": "{{ producto.codigo_cabys|escapejs }}",
-         "nombre": "{{ producto.nombre|escapejs }}",
-         "descripcion": "{{ producto.descripcion|default:''|escapejs }}",
-         "precio_venta": "{{ producto.precio_venta }}"
-     },
- {% endfor %}
+// Convertimos los productos del contexto Django a un array de objetos JS
+const productos = [
+{% for producto in productos %}
+    {
+        "id": {{ producto.id }},
+        "codigo_cabys": "{{ producto.codigo_cabys|escapejs }}",
+        "nombre": "{{ producto.nombre|escapejs }}",
+        "descripcion": "{{ producto.descripcion|default:''|escapejs }}",
+        "precio_venta": "{{ producto.precio_venta }}"
+    },
+{% endfor %}
 ];
 
 let productoSeleccionado = null;
@@ -1225,7 +1320,7 @@ function filtrarProductos() {
     lista.innerHTML = '';
     resultados.forEach(p => {
         const li = document.createElement('li');
-        li.textContent = `${p.nombre} - ${p.descripcion || 'Sin descripción'} - ${p.codigo_cabys} - ${p.precio_venta}`;
+        li.textContent = `${p.nombre} - ${p.descripcion || 'Sin descripción'} - ${p.codigo_cabys} - ₡${p.precio_venta}`;
         li.onclick = () => {
             productoSeleccionado = p;
             input.value = p.nombre;
@@ -1238,8 +1333,6 @@ function filtrarProductos() {
 }
 
 function agregarProductoSeleccionado() {
-  
-
     const { codigo_cabys, nombre, descripcion, precio_venta } = productoSeleccionado;
     const precio = parseFloat(precio_venta);
 
@@ -1251,9 +1344,9 @@ function agregarProductoSeleccionado() {
         <td>${nombre}</td>
         <td>${descripcion}</td>
         <td><input type="number" value="1" min="1" onchange="actualizarTotal(this, ${precio})"></td>
-        <td>${precio.toFixed(2)}</td>
-        <td>${(1 * precio).toFixed(2)}</td>
-        <td><button onclick="eliminarFila(this)">Eliminar</button></td>
+        <td>₡${precio.toFixed(2)}</td>
+        <td>₡${(1 * precio).toFixed(2)}</td>
+        <td><button onclick="confirmarEliminacion(this)">Borrar</button></td>
     `;
 
     productoSeleccionado = null;
@@ -1264,7 +1357,28 @@ function actualizarTotal(input, precio) {
     const row = input.closest('tr');
     const cantidad = parseInt(input.value) || 1;
     const totalCell = row.cells[5];
-    totalCell.textContent = (cantidad * precio).toFixed(2);
+    totalCell.textContent = `₡${(cantidad * precio).toFixed(2)}`;
+}
+
+function confirmarEliminacion(button) {
+    // Mostrar un cuadro de diálogo para ingresar el código de seguridad
+    const codigo = prompt("Ingrese el código de seguridad para borrar (será oculto con asteriscos):", "");
+
+    if (codigo === null) {
+        // El usuario canceló
+        return;
+    }
+
+    // Validar el código (puedes reemplazar '1234' por un valor dinámico o una API)
+    const codigoCorrecto = "1234"; // Código de ejemplo
+
+    if (codigo === codigoCorrecto) {
+        // Código correcto, eliminar la fila
+        eliminarFila(button);
+    } else {
+        // Código incorrecto, mostrar un mensaje de error
+        alert("El código ingresado es incorrecto. No se borrará la fila.");
+    }
 }
 
 function eliminarFila(button) {
@@ -1290,6 +1404,385 @@ document.addEventListener('click', function(event) {
         cerrarSugerencias();
     }
 });
+////////////////////////////////////////////////////////////////////////////////////
+
+const ordenes = [
+{% for orden in ordenes_compra %}
+    {
+        "id": "{{ orden.id_orden }}",
+        "proveedor": "{{ orden.proveedor|escapejs }}", // Proveedor
+        "descripcion": "{{ orden.descripcion|escapejs }}",
+        "cantidad": {{ orden.cantidad }},
+        "precio_unitario": {{ orden.precio_unitario }},
+        "subtotal": "{{ orden.total }}"
+    },
+{% endfor %}
+];
+
+// Depuración: Imprime las órdenes en la consola del navegador
+console.log("Órdenes cargadas:", ordenes);
+
+let ordenSeleccionada = null;
+
+function filtrarOrdenes() {
+    const input = document.getElementById('buscarOrden');
+    const filtro = input.value.toLowerCase();
+    const lista = document.getElementById('listaSugerenciasOrdenes');
+
+    if (!filtro) {
+        lista.innerHTML = '';
+        lista.style.display = 'none';
+        return;
+    }
+
+    const resultados = ordenes.filter(o => 
+        o.proveedor.toLowerCase().includes(filtro)
+    );
+
+    lista.innerHTML = '';
+    resultados.forEach(o => {
+        const li = document.createElement('li');
+        li.textContent = `${o.descripcion || 'Sin descripción'} - Proveedor: ${o.proveedor} - Precio Unitario: ₡${o.precio_unitario.toFixed(2)}`;
+        li.onclick = () => {
+            ordenSeleccionada = o;
+            input.value = o.proveedor;
+            lista.style.display = 'none';
+        };
+        lista.appendChild(li);
+    });
+
+    lista.style.display = resultados.length > 0 ? 'block' : 'none';
+}
+
+function agregarOrdenSeleccionada() {
+    if (!ordenSeleccionada) {
+        alert('Por favor selecciona una orden antes de agregarla.');
+        return;
+    }
+
+    // Extraer los datos de la orden seleccionada
+    const { id, proveedor, descripcion, cantidad, precio_unitario } = ordenSeleccionada;
+
+    const table = document.getElementById('invoiceTable');
+    const row = table.insertRow(-1);
+
+    // Calcular el subtotal inicial basado en cantidad y precio_unitario
+    const subtotal = cantidad * precio_unitario;
+
+    // Llenar la fila con los campos acomodados
+    row.innerHTML = `
+        <td>${id}</td>                     <!-- Código -->
+        <td>${proveedor}</td>              <!-- Proveedor -->
+        <td>${descripcion}</td>            <!-- Descripción -->
+        <td><input type="number" value="${cantidad}" min="1" onchange="actualizarTotalOrden(this, ${precio_unitario})"></td> <!-- Cantidad -->
+        <td>₡${precio_unitario.toFixed(2)}</td>  <!-- Precio de Venta -->
+        <td>₡${subtotal.toFixed(2)}</td>    <!-- Subtotal -->
+        <td>
+            <button onclick="confirmarEliminacion(this)">Eliminar</button>
+        </td> <!-- Botón Eliminar -->
+    `;
+
+    ordenSeleccionada = null;
+    document.getElementById('buscarOrden').value = '';
+}
+
+function actualizarTotalOrden(input, precioUnitario) {
+    const row = input.closest('tr');
+    const cantidad = parseInt(input.value) || 1; // Si no hay valor, usa 1 como predeterminado
+    const subtotalCell = row.cells[5]; // Subtotal está en la sexta celda
+    const subtotal = cantidad * precioUnitario;
+
+    // Actualiza el subtotal en la tabla con el símbolo de colones
+    subtotalCell.textContent = `₡${subtotal.toFixed(2)}`;
+}
+
+let botonEliminarActual = null;
+
+function confirmarEliminacion(button) {
+    // Guardar el botón de la fila seleccionada
+    botonEliminarActual = button;
+
+    // Mostrar el modal
+    const modal = document.getElementById('modalEliminar');
+    modal.style.display = 'flex'; // Mostrar el modal
+}
+
+function cerrarModalEliminar() {
+    // Ocultar el modal
+    const modal = document.getElementById('modalEliminar');
+    modal.style.display = 'none';
+
+    // Limpiar el campo de código
+    document.getElementById('codigoSeguridadUnico').value = '';
+}
+
+function validarCodigoEliminar() {
+    const codigoIngresado = document.getElementById('codigoSeguridadUnico').value;
+    const codigoCorrecto = "1234"; // Código de ejemplo; reemplazar por validación del backend si es necesario
+
+    if (codigoIngresado === codigoCorrecto) {
+        // Código correcto, eliminar la fila
+        eliminarFila(botonEliminarActual);
+        cerrarModalEliminar();
+    } else {
+        // Código incorrecto, mostrar alerta
+        alert("El código ingresado es incorrecto. No se eliminará la fila.");
+    }
+}
+
+function eliminarFila(button) {
+    const row = button.closest('tr');
+    row.parentNode.removeChild(row);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Función para actualizar el resumen general (productos y órdenes de compra)
+function actualizarResumen() {
+    const table = document.getElementById('invoiceTable');
+    const rows = table.rows;
+    let cantidadProductos = 0;
+    let subtotal = 0;
+
+    // Recorrer las filas de la tabla para calcular los totales
+    for (let i = 1; i < rows.length; i++) { // Ignorar la fila de encabezado
+        const cantidadInput = rows[i].cells[3].querySelector('input');
+        const cantidad = parseFloat(cantidadInput?.value || 1); // Predeterminado: 1
+        const precioUnitario = parseFloat(rows[i].cells[4].textContent.replace('₡', '').trim()) || 0;
+        const subtotalProducto = cantidad * precioUnitario;
+
+        // Actualizar el subtotal en la fila correspondiente
+        rows[i].cells[5].textContent = `₡${subtotalProducto.toFixed(2)}`;
+
+        cantidadProductos += cantidad;
+        subtotal += subtotalProducto;
+    }
+
+    // Obtener el descuento del modal
+    const descuentoSelect = document.querySelector('#paymentModal select:nth-of-type(3)');
+    const descuentoPorcentaje = parseFloat(descuentoSelect?.value || 0);
+    const descuentoMonto = (subtotal * descuentoPorcentaje) / 100;
+
+    // Calcular el IVA (13%)
+    const iva = (subtotal - descuentoMonto) * 0.13;
+
+    // Calcular el total final
+    const total = subtotal - descuentoMonto + iva;
+
+    // Actualizar la tabla de subtotales
+    const resumenTable = document.getElementById('summaryTable');
+    resumenTable.rows[0].cells[1].textContent = cantidadProductos.toFixed(2); // Cantidad de productos
+    resumenTable.rows[1].cells[1].textContent = `₡${subtotal.toFixed(2)}`; // Subtotal
+    resumenTable.rows[2].cells[1].textContent = `₡${descuentoMonto.toFixed(2)}`; // Descuento
+    resumenTable.rows[3].cells[1].textContent = `₡${iva.toFixed(2)}`; // IVA
+    resumenTable.rows[4].cells[1].textContent = `₡${total.toFixed(2)}`; // Total
+}
+
+// Función para agregar productos a la tabla
+function agregarProductoSeleccionado() {
+    if (!productoSeleccionado) {
+        alert('Selecciona un producto antes de agregar.');
+        return;
+    }
+
+    const { codigo_cabys, nombre, descripcion, precio_venta } = productoSeleccionado;
+    const precio = parseFloat(precio_venta);
+
+    const table = document.getElementById('invoiceTable');
+    const row = table.insertRow(-1);
+
+    // Crear la fila con los datos del producto
+    row.innerHTML = `
+        <td>${codigo_cabys}</td>
+        <td>${nombre}</td>
+        <td>${descripcion}</td>
+        <td><input type="number" value="1" min="1" onchange="actualizarTotal(this, ${precio})"></td>
+        <td>₡${precio.toFixed(2)}</td>
+        <td>₡${precio.toFixed(2)}</td>
+        <td><button onclick="eliminarFila(this)">Borrar</button></td>
+    `;
+
+    // Limpiar la selección
+    productoSeleccionado = null;
+    document.getElementById('buscar').value = '';
+
+    // Actualizar el resumen
+    actualizarResumen();
+}
+
+// Función para agregar órdenes de compra a la tabla
+function agregarOrdenSeleccionada() {
+    if (!ordenSeleccionada) {
+        alert('Selecciona una orden antes de agregar.');
+        return;
+    }
+
+    const { id, proveedor, descripcion, cantidad, precio_unitario } = ordenSeleccionada;
+    const precio = parseFloat(precio_unitario);
+    const subtotal = cantidad * precio;
+
+    const table = document.getElementById('invoiceTable');
+    const row = table.insertRow(-1);
+
+    // Crear la fila con los datos de la orden de compra
+    row.innerHTML = `
+        <td>${id}</td>
+        <td>${proveedor}</td>
+        <td>${descripcion}</td>
+        <td><input type="number" value="${cantidad}" min="1" onchange="actualizarTotal(this, ${precio})"></td>
+        <td>₡${precio.toFixed(2)}</td>
+        <td>₡${subtotal.toFixed(2)}</td>
+        <td><button onclick="eliminarFila(this)">Borrar</button></td>
+    `;
+
+    // Limpiar la selección
+    ordenSeleccionada = null;
+    document.getElementById('buscarOrden').value = '';
+
+    // Actualizar el resumen
+    actualizarResumen();
+}
+
+// Función para actualizar el total de una fila
+function actualizarTotal(input, precio) {
+    const row = input.closest('tr');
+    const cantidad = parseFloat(input.value) || 1;
+    const totalCell = row.cells[5];
+    totalCell.textContent = `₡${(cantidad * precio).toFixed(2)}`;
+
+    // Actualizar el resumen general
+    actualizarResumen();
+}
+
+// Función para eliminar una fila
+function eliminarFila(button) {
+    const row = button.closest('tr');
+    row.parentNode.removeChild(row);
+
+    // Actualizar el resumen tras eliminar la fila
+    actualizarResumen();
+}
+
+// Función para filtrar productos
+function filtrarProductos() {
+    const input = document.getElementById('buscar');
+    const filtro = input.value.toLowerCase();
+    const lista = document.getElementById('listaSugerencias');
+
+    if (!filtro) {
+        lista.innerHTML = '';
+        lista.style.display = 'none';
+        return;
+    }
+
+    const resultados = productos.filter(p => p.nombre.toLowerCase().includes(filtro));
+
+    lista.innerHTML = '';
+    resultados.forEach(p => {
+        const li = document.createElement('li');
+        li.textContent = `${p.nombre} - ${p.descripcion || 'Sin descripción'} - ${p.codigo_cabys} - ₡${p.precio_venta}`;
+        li.onclick = () => {
+            productoSeleccionado = p;
+            input.value = p.nombre;
+            lista.style.display = 'none';
+        };
+        lista.appendChild(li);
+    });
+
+    lista.style.display = resultados.length > 0 ? 'block' : 'none';
+}
+
+// Función para filtrar órdenes de compra
+function filtrarOrdenes() {
+    const input = document.getElementById('buscarOrden');
+    const filtro = input.value.toLowerCase();
+    const lista = document.getElementById('listaSugerenciasOrdenes');
+
+    if (!filtro) {
+        lista.innerHTML = '';
+        lista.style.display = 'none';
+        return;
+    }
+
+    const resultados = ordenes.filter(o => 
+        o.proveedor.toLowerCase().includes(filtro)
+    );
+
+    lista.innerHTML = '';
+    resultados.forEach(o => {
+        const li = document.createElement('li');
+        li.textContent = `${o.descripcion || 'Sin descripción'} - Proveedor: ${o.proveedor} - ₡${o.precio_unitario}`;
+        li.onclick = () => {
+            ordenSeleccionada = o;
+            input.value = o.proveedor;
+            lista.style.display = 'none';
+        };
+        lista.appendChild(li);
+    });
+
+    lista.style.display = resultados.length > 0 ? 'block' : 'none';
+}
+
+// Inicializar el resumen al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    actualizarResumen();
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////
+function procesarPago() {
+    const tipoPrecio = document.querySelector('#paymentModal select:nth-of-type(1)').value;
+    const tipoMoneda = document.querySelector('#paymentModal select:nth-of-type(2)').value;
+    const descuento = document.querySelector('#paymentModal select:nth-of-type(3)').value;
+    const metodoPago = document.querySelector('#paymentModal select:nth-of-type(4)').value;
+    const montoPagar = document.getElementById('amount').value;
+
+    const datosFactura = {
+        tipo_precio: tipoPrecio,
+        tipo_moneda: tipoMoneda,
+        descuento: descuento,
+        metodo_pago: metodoPago,
+        monto: montoPagar,
+        productos: [],
+    };
+
+    // Recoger los productos de la tabla
+    const filas = document.querySelectorAll('#invoiceTable tr');
+    filas.forEach((fila, index) => {
+        if (index === 0) return; // Saltar el encabezado
+        const columnas = fila.querySelectorAll('td');
+        datosFactura.productos.push({
+            codigo: columnas[0].textContent,
+            nombre: columnas[1].textContent,
+            descripcion: columnas[2].textContent,
+            cantidad: columnas[3].querySelector('input').value,
+            precio_venta: columnas[4].textContent.replace('₡', '').trim(),
+            subtotal: columnas[5].textContent.replace('₡', '').trim(),
+        });
+    });
+
+    // Enviar al backend
+    fetch('/Cajaregistradora/guardar_factura/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        },
+        body: JSON.stringify(datosFactura),
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Factura guardada exitosamente.');
+            location.reload(); // Recargar la página para limpiar los datos
+        } else {
+            alert('Error al guardar la factura. Intenta nuevamente.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al procesar el pago.');
+    });
+}
      </script>
  </body>
  </html>
