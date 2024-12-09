@@ -1,20 +1,14 @@
 from django.db import models
 from django.utils.timezone import now
 
-class RegistroCaja(models.Model):
-    fecha = models.DateField(auto_now_add=True)  # Fecha en que se abre la caja
-    hora_apertura = models.TimeField(auto_now_add=True)  # Hora exacta de apertura
-    monto_inicial = models.DecimalField(max_digits=10, decimal_places=2)  # Monto inicial ingresado
-    usuario = models.CharField(max_length=255)  # Nombre o ID del usuario que abre la caja
-    estado = models.CharField(
-        max_length=10,
-        choices=[('Abierta', 'Abierta'), ('Cerrada', 'Cerrada')],
-        default='Abierta'
-    )
+
+class AperturaCaja(models.Model):
+    cajero = models.CharField(max_length=100)
+    monto_inicial = models.DecimalField(max_digits=10, decimal_places=2)
+    fecha_hora_apertura = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Caja abierta por {self.usuario} el {self.fecha} a las {self.hora_apertura}"
-
+        return f"Apertura de caja por {self.cajero} el {self.fecha_hora_apertura}"
 
 class Factura(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)

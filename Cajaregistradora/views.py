@@ -1,13 +1,14 @@
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 import json
-
-from .models import Factura, RegistroCaja
+from .models import Factura
 from Inventario.models import Producto
 from Orden_de_compra.models import OrdenDeCompra
+from .models import Factura, AperturaCaja
+from django.contrib import messages
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -20,12 +21,13 @@ def get_client_ip(request):
         ip = '192.168.0.101'  # Ajusta según tu entorno
     return ip
 
+
+
 def Cajaregistradora_view(request):
     client_ip = get_client_ip(request)
-
-    # Identificar sucursal y terminal según la IP
     sucursal = "Sucursal Desconocida"
     terminal = "Terminal Desconocida"
+
     for suc, terminales in settings.SUCURSAL_TERMINAL_CONFIG.items():
         for term, ip in terminales.items():
             if ip == client_ip:
@@ -33,24 +35,33 @@ def Cajaregistradora_view(request):
                 terminal = term
                 break
 
-    # Cargar todos los productos activos
     productos = Producto.objects.filter(activo=True)
-
-    # Cargar todas las órdenes de compra activas
     ordenes_compra = OrdenDeCompra.objects.filter(activo=True)
-
-    # Generar la fecha y hora actual
     fecha_hora_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    # Generar número de factura
     last_factura = Factura.objects.last()
     if last_factura:
-        last_number = int(last_factura.numero_factura.split()[1])  # Obtiene el último número
+        last_number = int(last_factura.numero_factura.split()[1])
     else:
         last_number = 0
-    numero_factura = f"F {last_number + 1}"  # Genera el siguiente número
+    numero_factura = f"F {last_number + 1}"
 
-    # Agregar datos al contexto
+    caja_abierta_mensaje = None
+    caja_abierta_id = request.session.get('caja_abierta_id')
+    apertura_fecha = None
+    apertura_hora = None
+    apertura_monto = None
+
+    if caja_abierta_id:
+        try:
+            apertura = AperturaCaja.objects.get(id=caja_abierta_id)
+            # Fecha y hora de apertura
+            apertura_fecha = apertura.fecha_hora_apertura.strftime("%d/%m/%Y")
+            apertura_hora = apertura.fecha_hora_apertura.strftime("%H:%M:%S")
+            apertura_monto = apertura.monto_inicial
+            caja_abierta_mensaje = f"La caja la abrió {apertura.cajero} con un monto inicial de {apertura_monto}, a las {apertura_hora}."
+        except AperturaCaja.DoesNotExist:
+            del request.session['caja_abierta_id']
+
     context = {
         'terminal': terminal,
         'sucursal': sucursal,
@@ -58,6 +69,10 @@ def Cajaregistradora_view(request):
         'ordenes_compra': ordenes_compra,
         'fecha_hora_actual': fecha_hora_actual,
         'numero_factura': numero_factura,
+        'caja_abierta_mensaje': caja_abierta_mensaje,
+        'apertura_fecha': apertura_fecha,
+        'apertura_hora': apertura_hora,
+        'apertura_monto': apertura_monto
     }
 
     return render(request, 'Cajaregistradora.html', context)
@@ -87,5 +102,24 @@ def guardar_factura(request):
             return JsonResponse({'status': 'success', 'message': 'Factura guardada exitosamente.'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+        
+        
+def abrir_caja_view(request):
+    if request.method == 'POST':
+        cajero = request.POST.get('cajero')
+        monto_inicial = request.POST.get('monto_inicial')
 
+        # Guardar apertura en la base de datos
+        apertura = AperturaCaja.objects.create(
+            cajero=cajero,
+            monto_inicial=monto_inicial
+        )
 
+        # Guardar el ID de la apertura en la sesión
+        request.session['caja_abierta_id'] = apertura.id
+
+        # Redirigir a la vista principal sin usar solo el messages de Django, 
+        # ya que queremos persistencia en la recarga. 
+        # Aun así puedes usar messages para el primer request si gustas.
+        return redirect('Cajaregistradora_view')
+    return render(request, 'Cajaregistradora.html')
