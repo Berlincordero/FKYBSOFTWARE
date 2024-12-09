@@ -9,21 +9,27 @@
                 <h1>Reporte de ventas</h1>
             </div>
             <div class="col-md-6 text-end">
-                <input type="date" id="start-date" class="form-control d-inline" style="width: auto;" placeholder="Fecha Inicio">
-                <input type="date" id="end-date" class="form-control d-inline ms-2" style="width: auto;" placeholder="Fecha Fin">
+                <input type="date" id="start-date" class="form-control d-inline" style="width: auto;" value="{{ start_date }}">
+                <input type="date" id="end-date" class="form-control d-inline ms-2" style="width: auto;" value="{{ end_date }}">
                 <button type="button" class="btn btn-outline-warning ms-2" id="filter-button">
                     Filtrar
                 </button>
+                <button type="button" class="btn btn-outline-secondary ms-2" id="clear-filter-button">
+                    Limpiar Filtros
+                </button>
             </div>
+            
         </div>
     </nav>
 
     <div class="card shadow my-3">
         <div class="container p-3">
             <canvas id="salesChart"></canvas>
-            <button type="button" class="btn btn-outline-primary mt-3" id="download-report">Descargar Reporte</button>
+            <a href="{% url 'descargar_reporte_ventas' %}?start_date={{ start_date }}&end_date={{ end_date }}" 
+            class="btn btn-outline-primary mt-3" id="download-detailed-report">
+                Descargar Reporte Detallado
+            </a>
         </div>
-    </div>
 
     <div class="card shadow">
         <div class="container p-3">
@@ -37,49 +43,97 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>2024-07-25</td>
-                        <td>FAC12345</td>
-                        <td>$150.00</td>
-                        <td>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewInvoiceModal" onclick="viewInvoice('FAC12345')">
-                                Ver Factura
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2024-07-28</td>
-                        <td>FAC12346</td>
-                        <td>$200.00</td>
-                        <td>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewInvoiceModal" onclick="viewInvoice('FAC12346')">
-                                Ver Factura
-                            </button>
-                        </td>
-                    </tr>
+                    
+                {% for factura in facturas %}
+                <tr>
+                    <td>{{ factura.fecha|date:"Y-m-d" }}</td>
+                    <td>{{ factura.numero_factura }}</td>
+                    <td>{{ factura.total }}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewInvoiceModal" 
+                                onclick="showInvoice('{{ factura.numero_factura }}')">
+                            Ver Factura
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Modal para ver factura -->
-    <div class="modal fade" id="viewInvoiceModal" tabindex="-1" aria-labelledby="viewInvoiceModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewInvoiceModalLabel">Detalles de la Factura</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- Modal para ver factura -->
+<div class="modal fade" id="viewInvoiceModal" tabindex="-1" aria-labelledby="viewInvoiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header  text-white">
+                <h5 class="modal-title w-100 text-center" id="viewInvoiceModalLabel">Detalles de la Factura</h5>
+                <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th>Factura ID</th>
+                                <td id="modal-numero-factura">N/A</td>
+                            </tr>
+                            <tr>
+                                <th>Fecha</th>
+                                <td id="modal-fecha">N/A</td>
+                            </tr>
+                            <tr>
+                                <th>Cliente</th>
+                                <td id="modal-cliente">N/A</td>
+                            </tr>
+                            <tr>
+                                <th>Tipo de Pago</th>
+                                <td id="modal-tipo-pago">N/A</td>
+                            </tr>
+                            <tr>
+                                <th>Código</th>
+                                <td id="modal-codigo">N/A</td>
+                            </tr>
+                            <tr>
+                                <th>Nombre</th>
+                                <td id="modal-nombre">N/A</td>
+                            </tr>
+                            <tr>
+                                <th>Descripción</th>
+                                <td id="modal-descripcion">N/A</td>
+                            </tr>
+                            <tr>
+                                <th>Cantidad</th>
+                                <td id="modal-cantidad">N/A</td>
+                            </tr>
+                            <tr>
+                                <th>Precio Unitario</th>
+                                <td id="modal-precio-unitario">N/A</td>
+                            </tr>
+                            <tr>
+                                <th>IVA</th>
+                                <td id="modal-iva">N/A</td>
+                            </tr>
+                            <tr>
+                                <th>Total</th>
+                                <td id="modal-total">N/A</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="modal-body" id="invoiceDetails">
-                    <!-- Aquí se mostrarán los detalles de la factura -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <a id="downloadInvoice" class="btn btn-primary" href="#">Descargar Factura</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
-
+</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -90,14 +144,19 @@
         $('#DTable').DataTable();
 
         // Inicializamos el grafico de Chart.js
+        var salesData = {{ ventas_por_mes|safe }};
+        var labels = Object.keys(salesData);
+        var data = Object.values(salesData);
+        console.log(salesData);
+
         var ctx = document.getElementById('salesChart').getContext('2d');
         var salesChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'], // Etiquetas de ejemplo, estas las podemos hacer por año
+                labels: labels,
                 datasets: [{
-                    label: 'Ventas',
-                    data: [12, 19, 28, 5, 2, 3], // Datos de ejemplo deben cambiar segun el total de ventas que registremos en la db
+                    label: 'Ventas por Mes',
+                    data: data,
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1
@@ -112,11 +171,19 @@
             }
         });
 
-        $('#filter-button').on('click', function() {
-            var startDate = $('#start-date').val();
-            var endDate = $('#end-date').val();
-            $('#DTable').DataTable().draw(); 
+        document.getElementById('filter-button').addEventListener('click', function() {
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+        
+            if (!startDate || !endDate) {
+                alert('Por favor selecciona ambas fechas.');
+                return;
+            }
+        
+            // Recargar la página con los parámetros de filtro
+            window.location.href = `/Reportes/Ventas/?start_date=${startDate}&end_date=${endDate}`;
         });
+        
 
         $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
@@ -134,36 +201,129 @@
             }
         );
 
-        $('#download-report').on('click', function() {
-            var link = document.createElement('a');
-            link.href = document.getElementById('salesChart').toDataURL('image/png');
-            link.download = 'reporte_ventas.png';
-            link.click();
+        
+    
+
+        function viewInvoice(invoiceId) {
+            document.getElementById('invoiceDetails').innerHTML = `
+                <p><strong>Factura ID:</strong> ${invoiceId}</p>
+                <p><strong>Detalles de la factura</strong>: Ejemplo de detalles para ${invoiceId}.</p>
+            `;
+        }
+
+        function toggleOptions(event) {
+            const optionsMenu = document.getElementById('subOptions');
+            if (optionsMenu.classList.contains('open-options')) {
+                optionsMenu.classList.remove('open-options');
+            } else {
+                optionsMenu.classList.add('open-options');
+            }
+            event.stopPropagation();
+        }
+
+        document.addEventListener('click', function(e) {
+            const optionsMenu = document.getElementById('subOptions');
+            if (!optionsMenu.contains(e.target)) {
+                optionsMenu.classList.remove('open-options');
+            }
         });
+        $('#download-detailed-report').attr('href', function() {
+            var startDate = $('#start-date').val();
+            var endDate = $('#end-date').val();
+            return `/Reportes/descargar_reporte_ventas/?start_date=${startDate}&end_date=${endDate}`;
+        });
+        $('#clear-filter-button').on('click', function () {
+            // Calcular las fechas de los últimos 6 meses desde la fecha actual
+            const currentDate = new Date();
+            const sixMonthsAgo = new Date();
+            sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
+        
+            // Formatear las fechas en formato YYYY-MM-DD
+            const formatDate = (date) => {
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const day = date.getDate().toString().padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+        
+            const startDate = formatDate(sixMonthsAgo);
+            const endDate = formatDate(currentDate);
+        
+            // Actualizar los campos de fecha en el formulario
+            $('#start-date').val(startDate);
+            $('#end-date').val(endDate);
+        
+            // Recargar la página con las fechas calculadas como parámetros
+            window.location.href = `/Reportes/Ventas/?start_date=${startDate}&end_date=${endDate}`;
+        });
+        
     });
+    function viewInvoice(numeroFactura) {
+        $.ajax({
+            url: `/Reportes/obtener_factura/${numeroFactura}/`, // Asegúrate de que la URL sea correcta
+            method: 'GET',
+            success: function (data) {
+                // Actualizar el contenido del modal con los detalles de la factura
+                const invoiceDetails = `
+                    <p><strong>Fecha:</strong> ${data.fecha}</p>
+                    <p><strong>Número de Factura:</strong> ${data.numero_factura}</p>
+                    <p><strong>Cliente:</strong> ${data.cliente}</p>
+                    <p><strong>Código:</strong> ${data.codigo}</p>
+                    <p><strong>Nombre:</strong> ${data.nombre}</p>
+                    <p><strong>Descripción:</strong> ${data.descripcion}</p>
+                    <p><strong>Cantidad:</strong> ${data.cantidad}</p>
+                    <p><strong>Precio de Venta:</strong> $${parseFloat(data.precio_venta).toFixed(2)}</p>
+                    <p><strong>IVA:</strong> $${parseFloat(data.iva).toFixed(2)}</p>
+                    <p><strong>Total:</strong> $${parseFloat(data.total).toFixed(2)}</p>
+                    <p><strong>Estado de la Factura:</strong> ${data.estado_factura}</p>
+                    <p><strong>Tipo de Pago:</strong> ${data.tipo_pago}</p>
+                `;
+                $('#invoiceDetails').html(invoiceDetails);
+    
+                // Mostrar la factura seleccionada
+                // Mostrar la factura seleccionada
+                document.getElementById(`factura-${facturaId}`).style.display = 'block';
 
-    function viewInvoice(invoiceId) {
-        document.getElementById('invoiceDetails').innerHTML = `
-            <p><strong>Factura ID:</strong> ${invoiceId}</p>
-            <p><strong>Detalles de la factura</strong>: Ejemplo de detalles para ${invoiceId}.</p>
-        `;
+                // Actualizar el enlace para descargar la factura
+                document.getElementById('downloadInvoice').href = `/Reportes/descargar_factura/${numeroFactura}/`;
+
+
+
+            },
+            error: function () {
+                alert('Error al cargar los detalles de la factura.');
+            }
+        });
     }
-
-    function toggleOptions(event) {
-        const optionsMenu = document.getElementById('subOptions');
-        if (optionsMenu.classList.contains('open-options')) {
-            optionsMenu.classList.remove('open-options');
-        } else {
-            optionsMenu.classList.add('open-options');
-        }
-        event.stopPropagation();
+    function showInvoice(numeroFactura) {
+        $.ajax({
+            url: `/Reportes/obtener_factura/${encodeURIComponent(numeroFactura)}/`,
+            method: "GET",
+            success: function (data) {
+                // Actualizar el modal con los datos de la factura
+                $('#modal-numero-factura').text(data.numero_factura);
+                $('#modal-fecha').text(data.fecha);
+                $('#modal-cliente').text(data.cliente || "Cliente Desconocido");
+                $('#modal-tipo-pago').text(data.tipo_pago);
+    
+                $('#modal-codigo').text(data.codigo);
+                $('#modal-nombre').text(data.nombre);
+                $('#modal-descripcion').text(data.descripcion);
+                $('#modal-cantidad').text(data.cantidad);
+                $('#modal-precio-unitario').text(`$${parseFloat(data.precio_venta).toFixed(2)}`);
+                $('#modal-iva').text(`$${parseFloat(data.iva).toFixed(2)}`);
+                $('#modal-total').text(`$${parseFloat(data.total).toFixed(2)}`);
+    
+                // Actualizar el enlace de descarga
+                $('#downloadInvoice').attr('href', `/Reportes/descargar_factura/${encodeURIComponent(numeroFactura)}/`);
+            },
+            error: function () {
+                alert("Error al cargar los detalles de la factura.");
+            }
+        });
     }
-
-    document.addEventListener('click', function(e) {
-        const optionsMenu = document.getElementById('subOptions');
-        if (!optionsMenu.contains(e.target)) {
-            optionsMenu.classList.remove('open-options');
-        }
-    });
+    console.log(facturaId, numeroFactura);
+    console.log(document.getElementById(`factura-${facturaId}`));
+    
 </script>
 {% endblock %}

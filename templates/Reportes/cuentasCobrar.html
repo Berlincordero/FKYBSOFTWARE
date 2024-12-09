@@ -7,7 +7,7 @@
     <div class="card shadow my-4">
         <div class="card-body">
             <h2>Registrar Cuenta por Cobrar</h2>
-            <form id="accountReceivableForm" method="post" action="">
+            <form id="cuentasCobrarForm" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="clientName" class="form-label">Nombre del Cliente</label>
@@ -45,32 +45,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Ejemplo de datos -->
+                    {% for cuenta in cuentas %}
                     <tr>
-                        <td>Cliente A</td>
-                        <td>$500.00</td>
-                        <td>2024-08-15</td>
-                        <td>Pendiente</td>
+                        <td>{{ cuenta.cliente }}</td>
+                        <td>${{ cuenta.monto }}</td>
+                        <td>{{ cuenta.fecha_vencimiento }}</td>
+                        <td>{{ cuenta.estado }}</td>
                         <td>
-                            <button type="button" class="btn btn-info" onclick="viewAccountDetails('1')">Ver</button>
-                        </td>
-                    </tr>
-                    <!-- Más filas según sea necesario -->
+                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#viewAccountModal">
+                                Ver Detalles
+                            </button>                    
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Modal para ver detalles de la cuenta por cobrar -->
+    <!-- Modal para mostrar los detalles -->
     <div class="modal fade" id="viewAccountModal" tabindex="-1" aria-labelledby="viewAccountModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="viewAccountModalLabel">Detalles de la Cuenta por Cobrar</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
-                <div class="modal-body" id="accountDetails">
-                    <!-- Aquí se mostrarán los detalles de la cuenta -->
+                <div class="modal-body">
+                    <p><strong>Cliente:</strong> Cliente de Prueba</p>
+                    <p><strong>Monto:</strong> $500.00</p>
+                    <p><strong>Fecha de Vencimiento:</strong> 2024-12-15</p>
+                    <p><strong>Descripción:</strong> Pago pendiente por servicios de mantenimiento.</p>
+                    <p><strong>Estado:</strong> Pendiente</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -81,26 +85,31 @@
 
     <!-- 3. Generar Reporte en PDF -->
     <div class="text-end my-4">
-        <button type="button" class="btn btn-success" id="generateReport">Generar Reporte PDF</button>
+        <a href="{% url 'reporte_cuentas_por_cobrar' %}" class="btn btn-success" target="_blank">
+            Generar Reporte PDF
+        </a>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#accountsReceivableTable').DataTable();
 
         // Función para mostrar detalles de una cuenta por cobrar
         function viewAccountDetails(accountId) {
-            // Aquí se podría hacer una solicitud AJAX para obtener los detalles
-            $('#accountDetails').html(`
-                <p><strong>Cliente:</strong> Cliente A</p>
-                <p><strong>Monto:</strong> $500.00</p>
-                <p><strong>Fecha de Vencimiento:</strong> 2024-08-15</p>
-                <p><strong>Descripción:</strong> Ejemplo de descripción para la cuenta.</p>
-            `);
-            $('#viewAccountModal').modal('show');
+            $.get(`/CuentasCobrar/detalle/${accountId}/`, function(data) {
+                $('#accountDetails').html(`
+                    <p><strong>Cliente:</strong> ${data.cliente}</p>
+                    <p><strong>Monto:</strong> $${data.monto}</p>
+                    <p><strong>Fecha de Vencimiento:</strong> ${data.fecha_vencimiento}</p>
+                    <p><strong>Descripción:</strong> ${data.descripcion}</p>
+                    <p><strong>Estado:</strong> ${data.estado}</p>
+                `);
+                $('#viewAccountModal').modal('show');
+            });
         }
 
         // Función para generar reporte PDF

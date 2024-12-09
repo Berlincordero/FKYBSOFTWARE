@@ -8,7 +8,7 @@
     <div class="card shadow my-4">
         <div class="card-body">
             <h2>Registrar Pago a Factura</h2>
-            <form id="paymentForm" method="post" action="">
+            <form id="paymentForm" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="invoiceNumber" class="form-label">Número de Factura</label>
@@ -29,7 +29,7 @@
                         <option value="transferencia">Transferencia</option>
                         <option value="tarjeta">Tarjeta</option>
                         <option value="efectivo">Efectivo</option>
-                        <option value="Sinpe">Sinpe</option>
+                        <option value="sinpe">Sinpe</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Registrar Pago</button>
@@ -51,15 +51,24 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for pago in pagos %}
                     <tr>
-                        <td>FAC1001</td>
-                        <td>$250.00</td>
-                        <td>2024-07-20</td>
-                        <td>Transferencia</td>
+                        <td>{{ pago.numero_factura }}</td>
+                        <td>₡{{ pago.monto_pago }}</td>
+                        <td>{{ pago.fecha_pago }}</td>
+                        <td>{{ pago.metodo_pago }}</td>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <!-- Botón para generar PDF -->
+    <div class="text-end my-4">
+        <a href="{% url 'reporte_pagos_facturas' %}" class="btn btn-success" target="_blank">
+            Generar Reporte PDF
+        </a>
     </div>
 </div>
 

@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -104,112 +103,44 @@
 
     <div class="reportetransportes">
         <h1>Reporte de Transportes</h1>
-
-        <!-- Barra de búsqueda -->
-        <div class="search-container">
-            <input type="text" placeholder="Buscar por nombre, número de placa, número de factura...">
-            <button>Buscar</button>
-        </div>
-
-        <h2>Conductor</h2>
+    
+        {% if rutas %}
+        <h2>Rutas Registradas</h2>
         <table>
-            <tr>
-                <th>Nombre</th>
-                <td>Juan Carlos</td>
-            </tr>
-            <tr>
-                <th>Primer Apellido</th>
-                <td>Gómez</td>
-            </tr>
-            <tr>
-                <th>Segundo Apellido</th>
-                <td>Martínez</td>
-            </tr>
-            <tr>
-                <th>Número de Cédula</th>
-                <td>0123456789</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>ID Ruta</th>
+                    <th>Fecha</th>
+                    <th>Provincia</th>
+                    <th>Cantón</th>
+                    <th>Distrito</th>
+                    <th>Dirección Exacta</th>
+                    <th>Conductor</th>
+                    <th>Vehículo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ruta in rutas %}
+                <tr>
+                    <td>{{ ruta.id_ruta }}</td>
+                    <td>{{ ruta.fecha_ruta }}</td>
+                    <td>{{ ruta.provincia }}</td>
+                    <td>{{ ruta.canton }}</td>
+                    <td>{{ ruta.distrito }}</td>
+                    <td>{{ ruta.direccion_exacta }}</td>
+                    <td>{{ ruta.nombre_conductor.nombre_conductor }} {{ ruta.nombre_conductor.apellidos_1 }} {{ ruta.nombre_conductor.apellidos_2 }}</td>
+                    <td>{{ ruta.id_vehiculo.marca }} {{ ruta.id_vehiculo.modelo }} ({{ ruta.id_vehiculo.id_vehiculo }})</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
-
-        <h2>Placa de Vehículo</h2>
-        <table>
-            <tr>
-                <th>Número de Placa</th>
-                <td>XYZ-1234</td>
-            </tr>
-            <tr>
-                <th>Seleccionar Conductor</th>
-                <td>Juan Carlos Gómez Martínez</td>
-            </tr>
-        </table>
-
-        <h2>Asignación de Rutas</h2>
-        <table>
-            <tr>
-                <th>Número de Factura</th>
-                <td>56789</td>
-            </tr>
-            <tr>
-                <th>Provincia</th>
-                <td>San José</td>
-            </tr>
-            <tr>
-                <th>Cantón</th>
-                <td>Central</td>
-            </tr>
-            <tr>
-                <th>Distrito</th>
-                <td>Carmen</td>
-            </tr>
-            <tr>
-                <th>Dirección Exacta</th>
-                <td>Avenida Central, Calle 5</td>
-            </tr>
-        </table>
-
-        <h2>Rutas del Día Registradas</h2>
-        <table>
-            <tr>
-                <th>Número de Factura</th>
-                <th>Placa</th>
-                <th>Conductor</th>
-                <th>Fecha</th>
-                <th>Provincia</th>
-                <th>Cantón</th>
-                <th>Distrito</th>
-                <th>Dirección Exacta</th>
-                <th>Transporte</th> <!-- Nueva columna para el botón -->
-            </tr>
-            <tr>
-                <td>56789</td>
-                <td>XYZ-1234</td>
-                <td>Juan Carlos Gómez Martínez</td>
-                <td>2024-08-11</td>
-                <td>San José</td>
-                <td>Central</td>
-                <td>Carmen</td>
-                <td>Avenida Central, Calle 5</td>
-                <td><a href="#" class="ver-transporte-btn">Ver Transporte</a></td> <!-- Botón "Ver Transporte" -->
-            </tr>
-            <tr>
-                <td>67890</td>
-                <td>ABC-5678</td>
-                <td>María Fernández Ruiz</td>
-                <td>2024-08-11</td>
-                <td>Alajuela</td>
-                <td>Central</td>
-                <td>San Rafael</td>
-                <td>Calle 7, Avenida 3</td>
-                <td><a href="#" class="ver-transporte-btn">Ver Transporte</a></td> <!-- Botón "Ver Transporte" -->
-            </tr>
-        </table>
-
-        <div class="chart-container">
-            <canvas id="rutaChart"></canvas>
-        </div>
-
-        <a href="#" class="generate-report-btn">Generar Reporte</a>
+        {% else %}
+        <p>No se encontraron rutas registradas.</p>
+        {% endif %}
+    
+        <a href="{% url 'reporte_transportes_pdf' %}" class="generate-report-btn" target="_blank">Generar Reporte PDF</a>
     </div>
+    
 
     <script>
         var ctx = document.getElementById('rutaChart').getContext('2d');

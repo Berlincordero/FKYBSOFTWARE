@@ -46,6 +46,7 @@ def usuarios(request):
     return render(request, 'Usuarios/usuarios.html', {'users': users, 'current_user': request.user})
 
 # Vista para editar personal
+@login_required
 def editar_personal(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if request.method == 'POST':
@@ -63,7 +64,7 @@ def editar_personal(request, user_id):
         form = EditarPersonalForm(instance=user, request_user=request.user)
     
     return render(request, 'Usuarios/usuarios.html', {'form': form, 'users': User.objects.filter(is_active=True)})
-
+@login_required
 def agregar_personal(request):
     users = User.objects.filter(is_active=True) 
     if request.method == 'POST':
@@ -91,7 +92,7 @@ def agregar_personal(request):
         form = AgregarPersonalForm()
     
     return render(request, 'Usuarios/usuarios.html', {'form': form, 'users': users})
-
+@login_required
 def eliminar_personal(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if request.method == "POST":

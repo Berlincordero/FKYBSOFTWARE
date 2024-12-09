@@ -2,6 +2,9 @@
 {% block content %}
 
 <title>Reporte de Proformas</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <style>
     .reporte-proforma {
         width: 80%;
@@ -19,194 +22,103 @@
         font-family: 'Poppins', sans-serif;
     }
 
-    .search-container {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-    }
-
-    .search-container input[type="text"] {
-        width: 30%;
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-        font-size: 12px;
-    }
-
-    .search-container .fa-search {
-        margin-left: 10px;
-        color: #333;
-        cursor: pointer;
-    }
-
-    .header {
-        background-color: #d6e9f8;
-        padding: 15px;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .header div {
-        flex: 1;
-        margin-right: 10px;
-    }
-
-    .header div:last-child {
-        margin-right: 0;
-    }
-
-    .header span {
-        font-weight: bold;
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    .generate-report-btn {
-        display: inline-block;
-        margin-top: 30px;
-        padding: 5px 10px;
-        background-color: #f90;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        font-family: 'Poppins', sans-serif;
-        text-align: center;
-        text-decoration: none;
-    }
-
-    .generate-report-btn:hover {
-        background-color: #e07d00;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-
-    th, td {
-        padding: 10px;
-        border: 1px solid #ddd;
-    }
-
-    th {
-        background-color: #f2f2f2;
-        color: #333;
-    }
-
-    .summary {
-        margin-top: 20px;
-        width: 50%;
-        float: right;
-        font-family: 'Poppins', sans-serif;
-        font-size: 16px;
-        color: #333;
-    }
-
-    .summary div {
-        display: flex;
-        justify-content: space-between;
-        padding: 5px 0;
-    }
-
-    .summary div span {
-        font-weight: bold;
-    }
-
-    /* New Styles for the Action Button */
     .action-btn {
-        display: inline-block;
         padding: 5px 10px;
         background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        font-family: 'Poppins', sans-serif;
-        text-align: center;
+        color: white;
         text-decoration: none;
+        border-radius: 5px;
     }
 
     .action-btn:hover {
         background-color: #0056b3;
+    }
+
+    table.dataTable tbody tr {
+        background-color: #fff;
     }
 </style>
 
 <div class="reporte-proforma">
     <h1>Reporte de Proformas</h1>
 
-    <!-- Barra de búsqueda arriba del header -->
-    <div class="search-container">
-        <input type="text" placeholder="Busca por nombre, cédula o teléfono">
-        <i class="fa fa-search"></i>
-    </div>
-
-    <div class="header">
-        <div>
-            <span>Fecha:</span> 2024-07-18
-        </div>
-        <div>
-            <span>Moneda:</span> CRC
-        </div>
-        <div>
-            <span>Venta:</span> Venta al por menor de artículos de ferretería, pinturas, madera y materiales para la construcción
-        </div>
-    </div>
-
-    <div>
-        <span>Código de actividad económica:</span> regular
-    </div>
-
-    <div>
-        <span>Medio de pago:</span> Efectivo
-    </div>
-
-    <div>
-        <span>Condición de venta:</span> Contado
-    </div>
-
-    <h2>Detalles de línea</h2>
-    <table>
+    <!-- Tabla principal -->
+    <table id="proformas-table" class="display">
         <thead>
             <tr>
-                <th>Código</th>
-                <th>Descripción</th>
-                <th>Cantidad</th>
-                <th>Unidad</th>
-                <th>Precio Unitario</th>
-                <th>Descuento</th>
-                <th>Total</th>
-                <th>Acción</th> <!-- Nueva columna para el botón de acción -->
+                <th>Fecha</th>
+                <th>Moneda</th>
+                <th>Cliente</th>
+                <th>Condición de Venta</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>001</td>
-                <td>Producto 1</td>
-                <td>1</td>
-                <td>unidad</td>
-                <td>1000</td>
-                <td>0</td>
-                <td>1000</td>
-                <td><a href="#" class="action-btn">Ver Reporte</a></td> <!-- Botón de acción -->
+            {% for item in reporte %}
+            <tr data-proforma-id="{{ item.proforma.id }}">
+                <td>{{ item.proforma.fecha }}</td>
+                <td>{{ item.proforma.moneda }}</td>
+                <td>{{ item.proforma.cliente }}</td>
+                <td>{{ item.proforma.condicion_venta }}</td>
+                <td>
+                    <button class="btn-detalles">Ver Productos</button>
+                    <a href="{% url 'detalle_proforma_pdf' item.proforma.id %}" class="action-btn" target="_blank">Descargar</a>
+                </td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
-
-    <div class="summary">
-        <div><span>Sub Total:</span> <span>1000 CRC</span></div>
-        <div><span>Descuento:</span> <span>0 CRC</span></div>
-        <div><span>IVA:</span> <span>130 CRC</span></div>
-        <div><span>Total:</span> <span>1130 CRC</span></div>
-        
-        <!-- Botón pequeño para generar reportes debajo del total -->
-        <a href="#" class="generate-report-btn">Generar Reporte</a>
-    </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        const table = $('#proformas-table').DataTable();
+
+        $('#proformas-table').on('click', '.btn-detalles', function () {
+            const row = $(this).closest('tr');
+            const proformaId = row.data('proforma-id');
+            const childRow = table.row(row);
+
+            if (childRow.child.isShown()) {
+                childRow.child.hide();
+                row.removeClass('shown');
+            } else {
+                fetch(`/Reportes/detallesProforma/${proformaId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let detallesHtml = `
+                            <table style="margin: 10px; width: 90%; background: #f9f9f9; border-radius: 10px;">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Descripción</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio Unitario</th>
+                                        <th>Descuento</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`;
+                        data.detalles.forEach(detalle => {
+                            detallesHtml += `
+                                <tr>
+                                    <td>${detalle.producto}</td>
+                                    <td>${detalle.descripcion}</td>
+                                    <td>${detalle.cantidad}</td>
+                                    <td>₡${parseFloat(detalle.precio_unitario).toFixed(2)}</td>
+                                    <td>₡${parseFloat(detalle.descuento).toFixed(2)}</td>
+                                    <td>₡${parseFloat(detalle.total).toFixed(2)}</td>
+                                </tr>`;
+                        });
+                        detallesHtml += '</tbody></table>';
+
+                        childRow.child(detallesHtml).show();
+                        row.addClass('shown');
+                    })
+                    .catch(error => console.error('Error al cargar detalles:', error));
+            }
+        });
+    });
+</script>
 
 {% endblock %}

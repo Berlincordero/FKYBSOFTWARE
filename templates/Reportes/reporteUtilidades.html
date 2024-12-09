@@ -1,203 +1,242 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+    .reporteUtilidades-main {
+        margin: 0 auto;
+        width: 85%;
+        font-family: 'Arial', sans-serif;
+    }
+    .reporteUtilidades-h1 {
+        color: #FF8C00;
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    .reporteUtilidades-h2 {
+        color: #444444;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+    .reporteUtilidades-p {
+        color: #666666;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    .reporteUtilidades-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #FAFAFA;
+    }
+    .reporteUtilidades-table, .reporteUtilidades-th, .reporteUtilidades-td {
+        border: 1px solid #CCCCCC;
+    }
+    .reporteUtilidades-th {
+        padding: 12px;
+        text-align: left;
+        background-color: #0288D1;
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    .reporteUtilidades-td {
+        padding: 12px;
+        text-align: left;
+        color: #333333;
+        font-size: 13px;
+    }
+    .reporteUtilidades-summary {
+        margin-top: 25px;
+        background-color: #F5F5F5;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #E0E0E0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .reporteUtilidades-summary h2 {
+        color: #444444;
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    .reporteUtilidades-chart-container {
+        margin-top: 40px;
+        background-color: #FFFFFF;
+        border-radius: 8px;
+        padding: 25px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        text-align: center;
+    }
+    .reporteUtilidades-generate-report-btn {
+        position: absolute;
+        top: -40px;
+        right: 10px;
+        padding: 10px 16px;
+        background-color: #FF5722;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .reporteUtilidades-generate-report-btn:hover {
+        background-color: #E64A19;
+    }
+    .reporteUtilidades-canvas {
+        margin: 0 auto;
+        width: 400px !important;
+        height: 400px !important;
+    }
+    .reporteUtilidades-search-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .reporteUtilidades-search-container label {
+        font-size: 14px;
+        margin-right: 8px;
+        color: #333333;
+    }
+    .reporteUtilidades-search-container input {
+        padding: 8px;
+        border: 1px solid #CCCCCC;
+        border-radius: 4px;
+        width: 150px;
+        margin-right: 10px;
+    }
+    .reporteUtilidades-search-container button {
+        padding: 8px 16px;
+        background-color: #0288D1;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .reporteUtilidades-search-container button:hover {
+        background-color: #0277BD;
+    }
+</style>
+<div class="reporteUtilidades-main">
+    <h1 class="reporteUtilidades-h1">Reporte de Utilidades</h1>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de Utilidades</title>
-    <style>
-        .reporteUtilidades-main {
-            margin: 0 auto;
-            width: 80%;
-            font-family: 'Arial', sans-serif;
-        }
-        .reporteUtilidades-h1 {
-            color: #f90;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .reporteUtilidades-h2 {
-            color: #333333;
-            margin-bottom: 10px;
-        }
-        .reporteUtilidades-p {
-            color: #555555;
-            font-size: 14px;
-        }
-        .reporteUtilidades-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: #f9f9f9;
-        }
-        .reporteUtilidades-table, .reporteUtilidades-th, .reporteUtilidades-td {
-            border: 1px solid #dddddd;
-        }
-        .reporteUtilidades-th {
-            padding: 12px;
-            text-align: left;
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-        }
-        .reporteUtilidades-td {
-            padding: 12px;
-            text-align: left;
-            color: #333333;
-        }
-        .reporteUtilidades-summary {
-            margin-top: 20px;
-            background-color: #f2f2f2;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #cccccc;
-        }
-        .reporteUtilidades-chart-container {
-            margin-top: 40px;
-            background-color: #ffffff;
-            border-radius: 5px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            position: relative;
-        }
-        .reporteUtilidades-generate-report-btn {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            padding: 8px 16px;
-            background-color: #FF6347;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .reporteUtilidades-canvas {
-            margin: 0 auto;
-            width: 350px !important;
-            height: 350px !important;
-        }
-        .reporteUtilidades-search-container {
-            display: flex;
-            justify-content: flex-start;
-            margin-bottom: 20px;
-        }
-        .reporteUtilidades-search-container input[type="text"] {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px 0 0 4px;
-            width: 300px;
-        }
-        .reporteUtilidades-search-container button {
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-left: none;
-            background-color: orange;
-            color: white;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <div class="reporteUtilidades-main">
-        <h1 class="reporteUtilidades-h1">Reporte de Utilidades</h1>
+    <!-- Filtros de fechas -->
+    <div class="reporteUtilidades-search-container">
+        <label for="start-date">Fecha Inicio:</label>
+        <input type="date" id="start-date" value="{{ start_date }}">
+        <label for="end-date">Fecha Fin:</label>
+        <input type="date" id="end-date" value="{{ end_date }}">
+        <button id="filter-button">Filtrar</button>
+        <button id="clear-filters">Limpiar</button>
+    </div>
+    <!-- Botón para descargar reporte -->
+    <a id="download-report" class="btn btn-primary" href="{% url 'descargar_reporte_utilidades' %}?start_date={{ start_date }}&end_date={{ end_date }}">
+        Descargar Reporte PDF
+    </a>
 
-        <!-- Barra de búsqueda -->
-        <div class="reporteUtilidades-search-container">
-            <input type="text" placeholder="Buscar...">
-            <button type="submit"><i class="fa fa-search"></i></button>
-        </div>
+    <!-- Tabla de utilidades -->
+    <table class="reporteUtilidades-table">
+        <thead>
+            <tr>
+                <th class="reporteUtilidades-th">Concepto</th>
+                <th class="reporteUtilidades-th">Monto (COLONES)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="reporteUtilidades-td">Ingresos Totales</td>
+                <td class="reporteUtilidades-td">{{ ingresos_totales|floatformat:2 }} colones</td>
+            </tr>
+            <tr>
+                <td class="reporteUtilidades-td">Costo Total de Productos</td>
+                <td class="reporteUtilidades-td">{{ costo_total_productos|floatformat:2 }} colones</td>
+            </tr>
+            <tr>
+                <td class="reporteUtilidades-td">IVA Total</td>
+                <td class="reporteUtilidades-td">{{ iva_total|floatformat:2 }} colones</td>
+            </tr>
+            <tr>
+                <td class="reporteUtilidades-td"><strong>Utilidades Netas</strong></td>
+                <td class="reporteUtilidades-td"><strong>{{ utilidades_netas|floatformat:2 }} colones</strong></td>
+            </tr>
+        </tbody>
+    </table>
 
-        <h2 class="reporteUtilidades-h2">Periodo: 01/01/2023 - 31/12/2023</h2>
-        <table class="reporteUtilidades-table">
-            <thead>
-                <tr>
-                    <th class="reporteUtilidades-th">Concepto</th>
-                    <th class="reporteUtilidades-th">Monto (COLONES)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="reporteUtilidades-td">Ingresos Totales</td>
-                    <td class="reporteUtilidades-td">100,000 colones</td>
-                </tr>
-                <tr>
-                    <td class="reporteUtilidades-td">Costos de Bienes Vendidos (COGS)</td>
-                    <td class="reporteUtilidades-td">40,000 colones</td>
-                </tr>
-                <tr>
-                    <td class="reporteUtilidades-td">Gastos Operativos</td>
-                    <td class="reporteUtilidades-td">30,000 colones</td>
-                </tr>
-                <tr>
-                    <td class="reporteUtilidades-td">Utilidades Brutas</td>
-                    <td class="reporteUtilidades-td">60,000 colones</td>
-                </tr>
-                <tr>
-                    <td class="reporteUtilidades-td">Utilidades Operativas</td>
-                    <td class="reporteUtilidades-td">30,000 colones</td>
-                </tr>
-                <tr>
-                    <td class="reporteUtilidades-td">Gastos Adicionales</td>
-                    <td class="reporteUtilidades-td">5,000 colones</td>
-                </tr>
-                <tr>
-                    <td class="reporteUtilidades-td"><strong>Utilidades Netas</strong></td>
-                    <td class="reporteUtilidades-td"><strong>25,000 colones</strong></td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <div class="reporteUtilidades-summary">
-            <h2 class="reporteUtilidades-h2">Resumen</h2>
-            <p class="reporteUtilidades-p">Las utilidades netas para el periodo especificado son de <strong>190,000 colones netos</strong>.</p>
-        </div>
-        
-        <div class="reporteUtilidades-summary">
-            <h2 class="reporteUtilidades-h2">TOTAL DE IMPUESTOS</h2>
-            <p class="reporteUtilidades-p">Los impuestos recaudados del periodo especificado son de <strong>19,280 colones netos</strong>.</p>
-            <p class="reporteUtilidades-p">Este monto se debe pagar antes del 15 de enero del 2024.</p>
-        </div>
-
-        <div class="reporteUtilidades-chart-container">
-            <!-- Botón para generar reporte -->
-            <button class="reporteUtilidades-generate-report-btn">Generar Reporte</button>
-
-            <h2 class="reporteUtilidades-h2">Distribución de Ingresos y Gastos</h2>
-            <canvas id="distribucionChart" class="reporteUtilidades-canvas"></canvas>
-        </div>
+    <!-- Resumen -->
+    <div class="reporteUtilidades-summary">
+        <h2 class="reporteUtilidades-h2">Resumen</h2>
+        <p class="reporteUtilidades-p">El IVA total recaudado en el periodo especificado es de <strong>{{ iva_total|floatformat:2 }} colones</strong>.</p>
+        <p class="reporteUtilidades-p">El total de utilidades netas, después del IVA, es de <strong>{{ utilidades_netas|floatformat:2 }} colones</strong>.</p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('distribucionChart').getContext('2d');
-        const distribucionChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Costos de Bienes Vendidos', 'Gastos Operativos', 'Utilidades Netas'],
-                datasets: [{
-                    label: 'Distribución de Ingresos',
-                    data: [40000, 30000, 25000],
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                }
+    <!-- Gráfico -->
+    <div class="reporteUtilidades-chart-container">
+        <h2 class="reporteUtilidades-h2">Distribución de Utilidades</h2>
+        <canvas id="distribucionChart" class="reporteUtilidades-canvas"></canvas>
+    </div>
+
+    
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Funcionalidad de los filtros
+    document.getElementById('filter-button').addEventListener('click', function() {
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+
+        if (!startDate || !endDate) {
+            alert('Por favor selecciona ambas fechas.');
+            return;
+        }
+
+        // Recargar la página con los parámetros de fechas
+        window.location.href = `/Reportes/reporteUtilidades/?start_date=${startDate}&end_date=${endDate}`;
+    });
+
+    document.getElementById('clear-filters').addEventListener('click', function() {
+        const currentDate = new Date();
+        const oneYearAgo = new Date();
+        oneYearAgo.setFullYear(currentDate.getFullYear() - 1);
+
+        const formatDate = (date) => {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+
+        const startDate = formatDate(oneYearAgo);
+        const endDate = formatDate(currentDate);
+
+        document.getElementById('start-date').value = startDate;
+        document.getElementById('end-date').value = endDate;
+        window.location.href = `/Reportes/reporteUtilidades/?start_date=${startDate}&end_date=${endDate}`;
+    });
+
+    // Generar el gráfico
+    const ctx = document.getElementById('distribucionChart').getContext('2d');
+    const distribucionChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Costo de Productos', 'IVA Total', 'Utilidades Netas'],
+            datasets: [{
+                label: 'Distribución de Utilidades',
+                data: [{{ costo_total_productos }}, {{ iva_total }}, {{ utilidades_netas }}],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
             }
-        });
-    </script>
-
-</body>
-</html>
-
+        }
+    });
+</script>
 {% endblock %}

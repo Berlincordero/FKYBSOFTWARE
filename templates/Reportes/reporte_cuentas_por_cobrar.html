@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Cuentas por Cobrar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+        }
+        .total {
+            font-weight: bold;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reporte de Cuentas por Cobrar</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Monto</th>
+                <th>Fecha de Vencimiento</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cuenta in cuentas %}
+            <tr>
+                <td>{{ cuenta.cliente }}</td>
+                <td>${{ cuenta.monto }}</td>
+                <td>{{ cuenta.fecha_vencimiento }}</td>
+                <td>{{ cuenta.estado }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3" class="total">Total:</td>
+                <td class="total">${{ total_monto }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
