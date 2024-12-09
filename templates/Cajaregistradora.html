@@ -1970,8 +1970,24 @@ function printPreCierre() {
         input.replaceWith(span); // Reemplazar input con texto plano
     });
 
-    // Asegurarnos de eliminar cualquier botón, ícono de cerrar u otro elemento innecesario
+    // Eliminar cualquier botón o ícono de cerrar
     modalClone.querySelectorAll(".close, button").forEach(el => el.remove());
+
+    // Agregar un título personalizado al inicio del contenido
+    const headerTitle = `
+        <div class="print-title">
+            <h2 style="text-align: center; margin-bottom: 20px;">Reporte de Pre-Cierre</h2>
+        </div>
+    `;
+    modalClone.insertAdjacentHTML("afterbegin", headerTitle); // Insertar al inicio del contenido clonado
+
+    // Agregar la imagen al pie del contenido clonado
+    const footerImageHTML = `
+        <div class="image-below-proforma">
+            <img src="/static/img/logo.jpg" alt="Logo" class="image-below-icon" style="max-width: 100px; height: auto; margin-top: 20px; text-align: center;"/>
+        </div>
+    `;
+    modalClone.insertAdjacentHTML("beforeend", footerImageHTML); // Insertar al final del contenido clonado
 
     // Crear una nueva ventana para la impresión
     const printWindow = window.open("", "_blank", "width=300,height=400");
@@ -2004,13 +2020,25 @@ function printPreCierre() {
                 border: 1px solid #ddd;
                 text-align: left;
             }
+            .print-title h2 {
+                font-size: 16px;
+                text-transform: uppercase;
+            }
+            .image-below-proforma {
+                text-align: center;
+                margin-top: 20px;
+            }
+            .image-below-proforma img {
+                max-width: 100px; /* Ajustar el tamaño según la necesidad */
+                height: auto;
+            }
             @page {
                 margin: 5mm;
             }
         </style>
     `;
 
-    // Escribir el contenido clonado en la ventana de impresión
+    // Escribir el contenido en la ventana de impresión
     printWindow.document.write(`
         <html>
             <head>
@@ -2031,7 +2059,6 @@ function printPreCierre() {
     printWindow.print();
     printWindow.close();
 }
-
 
 
      </script>
