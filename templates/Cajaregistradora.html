@@ -1730,6 +1730,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
 function procesarPago() {
     const tipoPrecio = document.querySelector('#paymentModal select:nth-of-type(1)').value;
     const tipoMoneda = document.querySelector('#paymentModal select:nth-of-type(2)').value;
@@ -1737,12 +1738,20 @@ function procesarPago() {
     const metodoPago = document.querySelector('#paymentModal select:nth-of-type(4)').value;
     const montoPagar = document.getElementById('amount').value;
 
+    // Obtener el cliente seleccionado
+    const clienteSeleccionado = document.getElementById('clienteSeleccionado').textContent.trim();
+    if (!clienteSeleccionado || clienteSeleccionado === 'Selecciona un cliente') {
+        alert('Por favor selecciona un cliente antes de procesar el pago.');
+        return;
+    }
+
     const datosFactura = {
         tipo_precio: tipoPrecio,
         tipo_moneda: tipoMoneda,
         descuento: descuento,
         metodo_pago: metodoPago,
         monto: montoPagar,
+        cliente: clienteSeleccionado, // Cliente añadido al objeto
         productos: [],
     };
 
@@ -1751,13 +1760,23 @@ function procesarPago() {
     filas.forEach((fila, index) => {
         if (index === 0) return; // Saltar el encabezado
         const columnas = fila.querySelectorAll('td');
+
+        // Verificar si hay una entrada válida en el campo de cantidad
+        const cantidadInput = columnas[3].querySelector('input');
+        const cantidad = cantidadInput ? parseInt(cantidadInput.value) : 0;
+
+        if (isNaN(cantidad) || cantidad <= 0) {
+            alert(`Por favor, introduce una cantidad válida para el producto: ${columnas[1].textContent}`);
+            throw new Error('Cantidad no válida.');
+        }
+
         datosFactura.productos.push({
             codigo: columnas[0].textContent,
             nombre: columnas[1].textContent,
             descripcion: columnas[2].textContent,
-            cantidad: columnas[3].querySelector('input').value,
-            precio_venta: columnas[4].textContent.replace('₡', '').trim(),
-            subtotal: columnas[5].textContent.replace('₡', '').trim(),
+            cantidad: cantidad,
+            precio_venta: parseFloat(columnas[4].textContent.replace('₡', '').trim()),
+            subtotal: parseFloat(columnas[5].textContent.replace('₡', '').trim()),
         });
     });
 
@@ -1770,19 +1789,22 @@ function procesarPago() {
         },
         body: JSON.stringify(datosFactura),
     })
-    .then(response => {
-        if (response.ok) {
-            alert('Factura guardada exitosamente.');
-            location.reload(); // Recargar la página para limpiar los datos
-        } else {
-            alert('Error al guardar la factura. Intenta nuevamente.');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error al procesar el pago.');
-    });
+        .then(response => {
+            if (response.ok) {
+                alert('Factura guardada exitosamente.');
+                location.reload(); // Recargar la página para limpiar los datos
+            } else {
+                response.json().then(data => {
+                    alert(`Error al guardar la factura: ${data.message || 'Intenta nuevamente.'}`);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al procesar el pago.');
+        });
 }
+
      </script>
  </body>
  </html>
