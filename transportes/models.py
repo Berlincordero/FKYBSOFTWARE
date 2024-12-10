@@ -51,6 +51,15 @@ class RutaEliminada(models.Model):
 
     def __str__(self):
         return f"Ruta {self.ruta.id_ruta} eliminada el {self.fecha_eliminacion}"
+    
+class RutaPrecio(models.Model):
+    id = models.AutoField(primary_key=True)  # ID
+    ruta = models.ForeignKey(Ruta, to_field='id_ruta', on_delete=models.CASCADE)  # Relación con id_ruta de Ruta
+    precio_ruta = models.DecimalField(max_digits=10, decimal_places=2, choices=[(5000, '5000'), (10000, '10000')])  # Precio
+    kilometro = models.IntegerField(choices=[(1, '1'), (2, '2')])  # Kilómetros
+
+    def __str__(self):
+        return f"Ruta {self.ruta.id_ruta} - Precio: {self.precio_ruta} - Km: {self.kilometro}"
 
 
 
