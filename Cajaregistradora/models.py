@@ -40,3 +40,19 @@ class Factura(models.Model):
         return f"Factura #{self.numero_factura} - Total: {self.total}"
 
 
+
+
+class MovimientoDinero(models.Model):
+    TIPO_CHOICES = [
+        ('ingreso', 'Ingreso'),
+        ('egreso', 'Egreso'),
+    ]
+
+    tipo_movimiento = models.CharField(choices=TIPO_CHOICES, max_length=10)
+    fecha_hora = models.DateTimeField()
+    usuario = models.CharField(max_length=100)
+    nota = models.TextField(blank=True, null=True)
+    monto = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.tipo_movimiento} - {self.monto}"

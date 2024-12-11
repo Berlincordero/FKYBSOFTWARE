@@ -9,6 +9,10 @@ from Inventario.models import Producto
 from Orden_de_compra.models import OrdenDeCompra
 from .models import Factura, AperturaCaja
 from django.contrib import messages
+from .models import MovimientoDinero
+from django.db.models import Sum
+
+
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -20,7 +24,6 @@ def get_client_ip(request):
     if ip == '127.0.0.1':
         ip = '192.168.0.101'  # Ajusta según tu entorno
     return ip
-
 
 def Cajaregistradora_view(request):
     client_ip = get_client_ip(request)
@@ -49,7 +52,7 @@ def Cajaregistradora_view(request):
     apertura_fecha = None
     apertura_hora = None
     apertura_monto = None
-    apertura_cajero = None  # Inicializamos la variable
+    apertura_cajero = None
 
     if caja_abierta_id:
         try:
@@ -57,10 +60,14 @@ def Cajaregistradora_view(request):
             apertura_fecha = apertura.fecha_hora_apertura.strftime("%d/%m/%Y")
             apertura_hora = apertura.fecha_hora_apertura.strftime("%H:%M:%S")
             apertura_monto = apertura.monto_inicial
-            apertura_cajero = apertura.cajero  # Obtenemos el cajero
+            apertura_cajero = apertura.cajero
             caja_abierta_mensaje = f"La caja la abrió {apertura_cajero} con un monto inicial de {apertura_monto}, a las {apertura_hora}."
         except AperturaCaja.DoesNotExist:
             del request.session['caja_abierta_id']
+    
+    # Aquí obtenemos todos los movimientos para mostrarlos en la tabla de precierre
+    movimientos = MovimientoDinero.objects.all().order_by('-fecha_hora')  # ordenados por fecha desc, si se desea
+    total_movimientos = movimientos.aggregate(total=Sum('monto'))['total'] or 0
 
     context = {
         'terminal': terminal,
@@ -73,7 +80,10 @@ def Cajaregistradora_view(request):
         'apertura_fecha': apertura_fecha,
         'apertura_hora': apertura_hora,
         'apertura_monto': apertura_monto,
-        'apertura_cajero': apertura_cajero
+        'apertura_cajero': apertura_cajero,
+        'movimientos': movimientos,  # Agregamos movimientos al contexto
+        'total_movimientos': total_movimientos,  # El total sumado de todos los movimientos
+    
     }
 
     return render(request, 'Cajaregistradora.html', context)
@@ -125,3 +135,31 @@ def abrir_caja_view(request):
         # Aun así puedes usar messages para el primer request si gustas.
         return redirect('Cajaregistradora_view')
     return render(request, 'Cajaregistradora.html')
+
+def guardar_movimiento_dinero(request):
+    if request.method == 'POST':
+        tipo = request.POST.get('tipoMovimiento')
+        fecha_hora = request.POST.get('fechaHora')
+        usuario = request.POST.get('usuario')
+        nota = request.POST.get('nota')
+        monto = request.POST.get('monto')
+
+        # Convertir fecha_hora al objeto datetime (si necesario)
+        # fecha_hora viene en formato "YYYY-MM-DDTHH:MM", por ejemplo: "2024-12-11T15:30"
+        # Se puede convertir con:
+        fecha_hora_dt = datetime.strptime(fecha_hora, "%Y-%m-%dT%H:%M")
+
+        # Crear el movimiento en la base de datos
+        MovimientoDinero.objects.create(
+            tipo_movimiento=tipo,
+            fecha_hora=fecha_hora_dt,
+            usuario=usuario,
+            nota=nota,
+            monto=monto
+        )
+
+        # Redirigir a la vista principal que muestra el precierre
+        return redirect('Cajaregistradora_view')
+    else:
+        # Si no es POST, simplemente redirige a la vista principal
+        return redirect('Cajaregistradora_view')

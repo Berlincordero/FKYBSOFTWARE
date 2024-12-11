@@ -1070,21 +1070,27 @@
         <label for="Movimiento-dinero">Movimiento de dinero</label>
         <div class="invoice-info">
             <table class="invoice-details">
-                <tr>
-                    <th>FECHA</th>
-                    <th>USUARIO</th>
-                    <th>Nota</th>
-                    <th>MONTO</th>
-                </tr>
-                <tr>
-                    <td>01-07-2011</td>
-                    <td></td>
-                    <td>SE RETIRA LA CANTIDAD DE </td>
-                    <td></td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>FECHA</th>
+                        <th>USUARIO</th>
+                        <th>NOTA</th>
+                        <th>MONTO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for movimiento in movimientos %}
+                    <tr>
+                        <td>{{ movimiento.fecha_hora|date:"d-m-Y H:i" }}</td>
+                        <td>{{ movimiento.usuario }}</td>
+                        <td>{{ movimiento.nota }}</td>
+                        <td>{{ movimiento.monto }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
-        <P>TOTAL MOVIMIENTOS :00.00 CRC </P>
+        <p>Total de todos los movimientos: {{ total_movimientos }} CRC</p>
             <label for="ARQUEO DE CAJA">ARQUEO DE CAJA</label>
             <label for="monto">Conteo Actual de Monto Efectivo:</label>
             <input type="number" id="monto" placeholder="0">
@@ -1099,22 +1105,39 @@
             <div class="button-container-precierre">
             <button type="submit" onclick="submitPreCierreCaja()">APLICAR</button>
             </div>
-            <i class="fas fa-print print-icon-precierre"></i>
+            <div class="print-icon-precierre-container" onclick="printPreCierre()">
+                <i class="fas fa-print print-icon-precierre"></i>
+            </div>
         </form>
     </div>
 </div>
 
-<div id="movimientoDineroModal" class="modal">
+<!-- Modal de Movimiento de Dinero -->
+<div id="movimientoDineroModal" class="modal"> 
     <div class="modal-content">
-        <span class="close" onclick="closeMovimientoDineroModal()">&times;</span>
-        <form id="movimientoDineroForm" onsubmit="processMovimientoDinero(event)">
+        <!-- Botón de cierre del modal -->
+        <span class="close" onclick="cerrarModalMovimientoDinero()">&times;</span>
+        
+        <form id="movimientoDineroForm" method="post" action="{% url 'guardar_movimiento_dinero' %}">
+            {% csrf_token %}
             <label for="tipoMovimiento">Tipo de Movimiento:</label>
-            <select id="tipoMovimiento" name="tipoMovimiento">
+            <select id="tipoMovimiento" name="tipoMovimiento" required>
                 <option value="ingreso">Ingreso</option>
                 <option value="egreso">Egreso</option>
             </select>
-            <label for="monto">Monto:</label>
-            <input type="number" id="montoMovimiento" name="monto" placeholder="Monto">
+
+            <label for="fechaHoraMovimiento">Fecha y Hora:</label>
+            <input type="datetime-local" id="fechaHoraMovimiento" name="fechaHora" required>
+
+            <label for="usuarioMovimiento">Usuario:</label>
+            <input type="text" id="usuarioMovimiento" name="usuario" placeholder="Usuario" required>
+
+            <label for="notaMovimiento">Nota:</label>
+            <textarea id="notaMovimiento" name="nota" placeholder="Nota"></textarea>
+
+            <label for="montoMovimiento">Monto:</label>
+            <input type="number" id="montoMovimiento" name="monto" step="0.01" placeholder="Monto" required>
+
             <button type="submit">Realizar Movimiento</button>
         </form>
     </div>
@@ -1310,8 +1333,8 @@
             document.getElementById("movimientoDineroModal").style.display = "block";
         }
 
-        function closeMovimientoDineroModal() {
-            document.getElementById("movimientoDineroModal").style.display = "none";
+        function cerrarModalMovimientoDinero() {
+            document.getElementById('movimientoDineroModal').style.display = 'none';
         }
 
         function processPayment() {
@@ -2016,6 +2039,23 @@ function printPreCierre() {
 
 
 
+////////////////////////////////////////////////////////////////////////////////////
+
+function enviarMovimiento() {
+    // Opcional: validar datos antes, si se desea
+    // Por ejemplo, asegurar que fechaHora, usuario y monto no estén vacíos:
+    var fecha = document.getElementById('fechaHoraMovimiento').value;
+    var usuario = document.getElementById('usuarioMovimiento').value;
+    var monto = document.getElementById('montoMovimiento').value;
+
+    if (!fecha || !usuario || !monto) {
+        alert('Por favor, llene todos los campos obligatorios.');
+        return;
+    }
+
+    // Si todo está bien, se envía el formulario
+    document.getElementById('movimientoDineroForm').submit();
+}
      </script>
  </body>
  </html>
