@@ -304,6 +304,19 @@ a.sidebar-link {
     padding: 20px;
 }
 
+.icono-caja {
+    font-size: 34px;
+    color: #ac0909;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.icono-caja i {
+    margin-right: 10px;
+}
+
+
 .barra-busqueda,
 .barra-caja {
     display: flex;
@@ -348,7 +361,26 @@ a.sidebar-link {
     clear: both;
 }
 
+.invoice-details {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+}
 
+.invoice-details th,
+.invoice-details td {
+    padding: 10px;
+    border: 1px solid #0562f7;
+}
+
+.invoice-details th {
+    background-color: #4fc4f6;
+    color: #060607;
+}
+
+.invoice-details th.descripcion-col {
+    width: 300px; /* Ajusta el valor a tus necesidades */
+}
 
 #summaryTable {
     width: 60%;
@@ -450,17 +482,7 @@ a.sidebar-link {
     padding: 20px;
 }
 
-.icono-caja {
-    font-size: 34px;
-    color: #f3590c;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
 
-.icono-caja i {
-    margin-right: 10px;
-}
 
 .icon-bar {
     display: flex;
@@ -739,7 +761,7 @@ h2 {
     width: 60px;
     height: 60px;
     background-color: #05ae16;
-    color: #4b1010;
+    color: #f4f4f4;
     border: none;
     border-radius: 50%;
     font-size: 30px;
@@ -1166,6 +1188,26 @@ h2 {
     color: green;
 }
 
+.encabezado {
+    background-color: #007bff; /* Fondo azul */
+    color: #fff; /* Texto blanco */
+    padding: 15px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    text-align: center;
+
+}
+.informacion {
+    background-color: #f8f9fa; /* Fondo gris */
+    padding: 20px;
+}
+.titulo{
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+
 
 
 
@@ -1176,7 +1218,7 @@ h2 {
 }
 
 .form-section h4 {
-    background-color: #0174DF;
+    background-color: #0181dfba;
     color: white;
     padding: 10px;
     text-align: center;
@@ -1192,6 +1234,7 @@ h2 {
     border-radius: 5px;
     width: 100%;
     margin: 0 auto 20px;
+    font-size: 34px;
 }
 
 .form {

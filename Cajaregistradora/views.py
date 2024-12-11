@@ -22,7 +22,6 @@ def get_client_ip(request):
     return ip
 
 
-
 def Cajaregistradora_view(request):
     client_ip = get_client_ip(request)
     sucursal = "Sucursal Desconocida"
@@ -50,15 +49,16 @@ def Cajaregistradora_view(request):
     apertura_fecha = None
     apertura_hora = None
     apertura_monto = None
+    apertura_cajero = None  # Inicializamos la variable
 
     if caja_abierta_id:
         try:
             apertura = AperturaCaja.objects.get(id=caja_abierta_id)
-            # Fecha y hora de apertura
             apertura_fecha = apertura.fecha_hora_apertura.strftime("%d/%m/%Y")
             apertura_hora = apertura.fecha_hora_apertura.strftime("%H:%M:%S")
             apertura_monto = apertura.monto_inicial
-            caja_abierta_mensaje = f"La caja la abrió {apertura.cajero} con un monto inicial de {apertura_monto}, a las {apertura_hora}."
+            apertura_cajero = apertura.cajero  # Obtenemos el cajero
+            caja_abierta_mensaje = f"La caja la abrió {apertura_cajero} con un monto inicial de {apertura_monto}, a las {apertura_hora}."
         except AperturaCaja.DoesNotExist:
             del request.session['caja_abierta_id']
 
@@ -72,10 +72,12 @@ def Cajaregistradora_view(request):
         'caja_abierta_mensaje': caja_abierta_mensaje,
         'apertura_fecha': apertura_fecha,
         'apertura_hora': apertura_hora,
-        'apertura_monto': apertura_monto
+        'apertura_monto': apertura_monto,
+        'apertura_cajero': apertura_cajero
     }
 
     return render(request, 'Cajaregistradora.html', context)
+
 
 @csrf_exempt
 def guardar_factura(request):
