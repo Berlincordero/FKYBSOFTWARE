@@ -940,7 +940,13 @@
                     <option value="transfer">Transferencia</option>
                     <option value="credit">Pago a Crédito</option>
                 </select>
-                <label for="amount">Monto a Pagar:</label>
+                <label for="iva">IVA 13%:</label>
+                <input type="number" id="iva" placeholder="Monto" readonly>
+                <label for="montoAPagar">Monto a Pagar:</label>
+                <input type="number" id="montoAPagar" placeholder="Monto" readonly>
+        
+        
+                <label for="amount"> Pagar con:</label>
                 <input type="number" id="amount" placeholder="Monto">
                 <button onclick="procesarPago()">Procesar Pago</button>
 
@@ -2056,6 +2062,84 @@ function enviarMovimiento() {
     // Si todo está bien, se envía el formulario
     document.getElementById('movimientoDineroForm').submit();
 }
+
+
+// Actualizar los valores de IVA y Total en el modal de pago
+function cargarValoresPago() {
+    // Obtener la tabla de resumen por su ID
+    const resumenTable = document.getElementById('summaryTable');
+    if (!resumenTable) {
+        console.error('No se encontró la tabla con el ID "summaryTable".');
+        return;
+    }
+
+    // Verificar que la tabla tenga al menos 5 filas
+    // (Cantidad Productos, Subtotal, Descuento, IVA, Total)
+    if (resumenTable.rows.length < 5) {
+        console.error('La tabla "summaryTable" debe tener al menos 5 filas (Cantidad, Subtotal, Descuento, IVA, Total).');
+        return;
+    }
+
+    // Obtener los valores de IVA y Total desde la tabla de resumen
+    // Suponiendo que las filas están en el siguiente orden:
+    // 0: Cantidad Productos
+    // 1: Subtotal
+    // 2: Descuento
+    // 3: IVA
+    // 4: Total
+    const ivaText = resumenTable.rows[3].cells[1].textContent.replace('₡', '').trim(); // IVA
+    const totalText = resumenTable.rows[4].cells[1].textContent.replace('₡', '').trim(); // Total
+
+    // Asignar los valores al modal de pago usando IDs
+    const ivaInput = document.getElementById('iva');
+    const montoPagarInput = document.getElementById('montoAPagar');
+
+    if (ivaInput) {
+        ivaInput.value = ivaText;
+    } else {
+        console.error('No se encontró el campo con ID "iva" en el modal.');
+    }
+
+    if (montoPagarInput) {
+        montoPagarInput.value = totalText;
+    } else {
+        console.error('No se encontró el campo con ID "montoAPagar" en el modal.');
+    }
+}
+
+// Abrir el modal de pago y cargar los valores dinámicamente
+function openPaymentModal() {
+    cargarValoresPago(); // Cargar valores antes de mostrar el modal
+    const paymentModal = document.getElementById('paymentModal');
+    if (paymentModal) {
+        paymentModal.style.display = 'block';
+    } else {
+        console.error('No se encontró el Modal de Pago con el ID "paymentModal".');
+    }
+}
+
+// Cerrar el modal de pago
+function closePaymentModal() {
+    const paymentModal = document.getElementById('paymentModal');
+    if (paymentModal) {
+        paymentModal.style.display = 'none';
+    } else {
+        console.error('No se encontró el Modal de Pago con el ID "paymentModal".');
+    }
+
+    // Opcional: Limpiar los campos de IVA y Monto a Pagar
+    const ivaInput = document.getElementById('iva');
+    const montoPagarInput = document.getElementById('montoAPagar');
+
+    if (ivaInput) {
+        ivaInput.value = '';
+    }
+
+    if (montoPagarInput) {
+        montoPagarInput.value = '';
+    }
+}
+
      </script>
  </body>
  </html>

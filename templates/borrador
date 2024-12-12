@@ -666,6 +666,7 @@
 .btn-cancelar-unico:hover {
     background-color: #c82333;
 }
+///////////////////////////////////////////////
 
 .elliot-apertura-modal {
     display: none; 
@@ -675,17 +676,22 @@
     top: 0;
     width: 100%; 
     height: 100%; 
-    overflow: auto; 
     background-color: rgba(0,0,0,0.4);
+    /* No flex, ni otros estilos que dependan del contenido interno */
 }
 
 .elliot-apertura-modal-content {
-    background-color: #fefefe;
-    margin: 10% auto; 
-    padding: 20px;
-    border: 1px solid #888;
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    background-color: #fefefe; 
+    padding: 20px; 
+    border: 1px solid #888; 
     width: 300px; 
-    border-radius: 5px;
+    border-radius: 5px; 
+    box-sizing: border-box; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .elliot-apertura-close {
@@ -693,13 +699,13 @@
     float: right;
     font-size: 28px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .elliot-apertura-close:hover,
 .elliot-apertura-close:focus {
     color: black;
     text-decoration: none;
-    cursor: pointer;
 }
 
 .elliot-apertura-title {
@@ -721,12 +727,20 @@
 .elliot-apertura-label {
     display: block;
     margin-bottom: 5px;
+    font-weight: bold;
 }
 
 .elliot-apertura-input {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.elliot-apertura-input:focus {
+    outline: none;
+    border-color: #28a745;
 }
 
 .elliot-apertura-button {
@@ -737,27 +751,13 @@
     cursor: pointer;
     border-radius: 3px;
     text-align: center;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    margin-top: 10px;
 }
 
 .elliot-apertura-button:hover {
     background: #218838;
-}
-
-.messages-container {
-    width: 40%;
-    margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.message.success {
-    background-color: #d4edda; /* Un verde claro */
-    color: #155724; /* Verde más oscuro para el texto */
-    border: 1px solid #c3e6cb;
-    padding: 10px;
-    border-radius: 4px;
-    font-weight: bold;
 }
 
      </style>
@@ -766,17 +766,6 @@
     <div class="container">
         <!-- Contenedor de notificaciones -->
         <div id="notification" class="notification hidden"></div>
-
-         <!-- Aquí colocamos el bloque de mensajes -->
-     
-         {% if caja_abierta_mensaje %}
-         <div class="messages-container">
-             <div class="message success">
-                 {{ caja_abierta_mensaje }}
-             </div>
-         </div>
-     {% endif %}
-
 
      <div class="container">
          <div class="icono-caja">
@@ -966,6 +955,11 @@
                 <span>Configurar tiendas</span>
             </div>
             
+            <div class="menu-item" onclick="openAperturaCajaModal()">
+                <i class="fas fa-box-open"></i> <span>Abrir caja</span>
+            </div>
+
+
             <div class="menu-item" onclick="openPreCierreCajaModal()">
                 <i class="fas fa-cash-register"></i> <span>Precierre caja</span>
             </div>
@@ -977,114 +971,8 @@
             <div class="menu-item" onclick="openMovimientoDineroModal()">
                 <i class="fas fa-money-bill-alt"></i> <span>Movimiento de Dinero</span>
             </div>
-
-             <!-- Nuevo ítem de menú para abrir caja -->
-            <div class="menu-item" onclick="openAperturaCajaModal()">
-                <i class="fas fa-box-open"></i> <span>Abrir caja</span>
-            </div>
             
         </div>
-
- <!--modal de precierre-->
-    
- <div id="preCierreCajaModal" class="modal-caja">
-    <div class="modal-content">
-        <span class="close" onclick="closePreCierreCajaModal()">&times;</span>
-        <div class="info">
-            <!-- Mostrar la sucursal dinámica -->
-            <p>Sucursal: {% if sucursal %}{{ sucursal }}{% else %}Desconocida{% endif %}</p>
-            <!-- Mostrar la caja registradora dinámica -->
-            <p>Caja registradora: {% if terminal %}{{ terminal }}{% else %}Desconocida{% endif %}</p>
-        </div>
-        <div class="info">
-            <p>Fecha Apertura : {% if apertura_fecha %}{{ apertura_fecha }}{% else %}No disponible{% endif %}</p>
-        </div>
-        <div class="info">
-            <p>Hora Apertura : {% if apertura_hora %}{{ apertura_hora }}{% else %}No disponible{% endif %}</p>
-        </div> 
-        <p>Monto inicial en la caja: {% if apertura_monto %}{{ apertura_monto }}{% else %}No disponible{% endif %}</p>
-        <!-- Resto del modal igual -->
-
-        <label for="Movimiento-dinero">Transacciones del dia</label>
-        <div class="info">
-            <p>Impuestos: 135 652 CRC</p>
-            <p>Servicios 10% %  50 000 CRC</p>
-        </div>
-        <div class="info">
-            <p>Notas de debito: 0.0</p>
-        </div>
-        <div class="info">
-            <p>Ingreso Efectivo: 1000000.0</p>
-            <p>Ingreso Tarjetas: 70000.0</p>
-        </div>
-        <div class="info">
-            <p>Ingreso Sinpe/ trnasf: 15000.00</p>
-        </div>
-        <div class="info">
-            <p>Cantidad tiquetes: 35</p>
-            <p>Total de la Venta: 480000.00</p>
-        </div>
-        <label for="Movimiento-dinero">Movimiento de dinero</label>
-        <div class="invoice-info">
-            <table class="invoice-details">
-                <tr>
-                    <th>FECHA</th>
-                    <th>USUARIO</th>
-                    <th>Nota</th>
-                    <th>MONTO</th>
-                </tr>
-                <tr>
-                    <td>01-07-2011</td>
-                    <td></td>
-                    <td>SE RETIRA LA CANTIDAD DE </td>
-                    <td>1000000</td>
-                </tr>
-            </table>
-        </div>
-        <p>TOTAL MOVIMIENTOS :00.00 CRC </p>
-        <label for="ARQUEO DE CAJA">ARQUEO DE CAJA</label>
-        <label for="monto">Conteo Actual de Monto Efectivo:</label>
-        <input type="number" id="monto" placeholder="0">
-        <label for="monto">Monto Contado en Efectivo:</label>
-        <input type="number" id="monto" placeholder="0">
-        <label for="monto">Conteo Actual de Monto Tarjeta</label>
-        <input type="number" id="monto" placeholder="0">
-        <label for="monto">Monto Contado en Efectivo:</label>
-        <input type="number" id="monto" placeholder="0">
-        <div class="button-container-precierre">
-            <button type="submit" onclick="submitPreCierreCaja()">APLICAR</button>
-        </div>
-            <div class="print-icon-precierre-container" onclick="printPreCierre()">
-                <i class="fas fa-print print-icon-precierre"></i>
-            </div>
-            
-</div>
-
-        <!-- Modal de Apertura de Caja -->
-<div id="aperturaCajaModal" class="elliot-apertura-modal" style="display: none;">
-    <div class="elliot-apertura-modal-content">
-        <span class="elliot-apertura-close" onclick="closeAperturaCajaModal()">&times;</span>
-        <h2 class="elliot-apertura-title">Abrir Caja</h2>
-        <form method="POST" action="{% url 'abrir_caja_view' %}" class="elliot-apertura-form">
-            {% csrf_token %}
-            <div class="elliot-apertura-form-group">
-                <label for="cajero" class="elliot-apertura-label">Nombre del Cajero:</label>
-                <input type="text" name="cajero" id="cajero" class="elliot-apertura-input" required>
-            </div>
-            <div class="elliot-apertura-form-group">
-                <label for="monto_inicial" class="elliot-apertura-label">Monto Inicial:</label>
-                <input type="number" step="0.01" name="monto_inicial" id="monto_inicial" class="elliot-apertura-input" required>
-            </div>
-            <!-- La fecha/hora se registra automáticamente, no hace falta campo -->
-            <button type="submit" class="elliot-apertura-button">Abrir Caja</button>
-        </form>
-    </div>
-</div>
-
-
-
-
-
 
         <!-- Menú de usuario -->
         <div id="userMenu" class="user-menu">
@@ -1138,19 +1026,118 @@
         </div>
     
 
+     <!--modal de precierre-->
     
-
-<div id="movimientoDineroModal" class="modal">
+  <div id="preCierreCajaModal" class="modal-caja">
     <div class="modal-content">
-        <span class="close" onclick="closeMovimientoDineroModal()">&times;</span>
-        <form id="movimientoDineroForm" onsubmit="processMovimientoDinero(event)">
+        <span class="close" onclick="closePreCierreCajaModal()">&times;</span>
+        <div class="info">
+            <!-- Mostrar la sucursal dinámica -->
+            <p>Sucursal: {% if sucursal %}{{ sucursal }}{% else %}Desconocida{% endif %}</p>
+            <!-- Mostrar la caja registradora dinámica -->
+            <p>Caja registradora: {% if terminal %}{{ terminal }}{% else %}Desconocida{% endif %}</p>
+        </div>
+        <div class="info">
+            <p>Fecha Apertura : {% if apertura_fecha %}{{ apertura_fecha }}{% else %}No disponible{% endif %}</p>
+        </div>
+        <div class="info">
+            <p>Hora Apertura : {% if apertura_hora %}{{ apertura_hora }}{% else %}No disponible{% endif %}</p>
+        </div> 
+        <p>Monto inicial en la caja: {% if apertura_monto %}{{ apertura_monto }}{% else %}No disponible{% endif %}</p>
+        <p>Nombre del Cajero: {% if apertura_cajero %}{{ apertura_cajero }}{% else %}No disponible{% endif %}</p>
+
+       <label for="Movimiento-dinero">Transacciones del dia</label>
+        <div class="info">
+                <p>Impuestos: 135 652 CRC</p>
+                <p>Servicios 10% %  50 000 CRC</p>
+        </div>
+        <div class="info">
+            <p>Facturas provedor:5.00</p>
+            <p>Notas de debito: 0.0</p>
+        </div>
+        <div class="info">
+            <p>Ingreso Efectivo: 1000000.0</p>
+            <p>Ingreso Tarjetas: 70000.0</p>
+        </div>
+        <div class="info">
+            <p>Ingreso Sinpe/ trnasf: 15000.00</p>
+            <p>venta Credito: 0.0</p>
+        </div>
+        <div class="info">
+            <p>Cantidad tiquetes: 35</p>
+            <p>Total de la Venta: 480000.00</p>
+        </div>
+        <label for="Movimiento-dinero">Movimiento de dinero</label>
+        <div class="invoice-info">
+            <table class="invoice-details">
+                <thead>
+                    <tr>
+                        <th>FECHA</th>
+                        <th>USUARIO</th>
+                        <th>NOTA</th>
+                        <th>MONTO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for movimiento in movimientos %}
+                    <tr>
+                        <td>{{ movimiento.fecha_hora|date:"d-m-Y H:i" }}</td>
+                        <td>{{ movimiento.usuario }}</td>
+                        <td>{{ movimiento.nota }}</td>
+                        <td>{{ movimiento.monto }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <p>Total de todos los movimientos: {{ total_movimientos }} CRC</p>
+            <label for="ARQUEO DE CAJA">ARQUEO DE CAJA</label>
+            <label for="monto">Conteo Actual de Monto Efectivo:</label>
+            <input type="number" id="monto" placeholder="0">
+            <label for="monto">Monto Contado en Efectivo:</label>
+            <input type="number" id="monto" placeholder="0">
+            <label for="monto">Conteo Actual de Monto Tarjeta</label>
+            <input type="number" id="monto" placeholder="0">
+            <label for="monto">Monto Contado en Efectivo:</label>
+            <input type="number" id="monto" placeholder="0">
+            <!-- Botón con ícono de imprimir -->
+            <!-- Contenedor para el botón y el ícono -->
+            <div class="button-container-precierre">
+            <button type="submit" onclick="submitPreCierreCaja()">APLICAR</button>
+            </div>
+            <div class="print-icon-precierre-container" onclick="printPreCierre()">
+                <i class="fas fa-print print-icon-precierre"></i>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de Movimiento de Dinero -->
+<div id="movimientoDineroModal" class="modal"> 
+    <div class="modal-content">
+        <!-- Botón de cierre del modal -->
+        <span class="close" onclick="cerrarModalMovimientoDinero()">&times;</span>
+        
+        <form id="movimientoDineroForm" method="post" action="{% url 'guardar_movimiento_dinero' %}">
+            {% csrf_token %}
             <label for="tipoMovimiento">Tipo de Movimiento:</label>
-            <select id="tipoMovimiento" name="tipoMovimiento">
+            <select id="tipoMovimiento" name="tipoMovimiento" required>
                 <option value="ingreso">Ingreso</option>
                 <option value="egreso">Egreso</option>
             </select>
-            <label for="monto">Monto:</label>
-            <input type="number" id="montoMovimiento" name="monto" placeholder="Monto">
+
+            <label for="fechaHoraMovimiento">Fecha y Hora:</label>
+            <input type="datetime-local" id="fechaHoraMovimiento" name="fechaHora" required>
+
+            <label for="usuarioMovimiento">Usuario:</label>
+            <input type="text" id="usuarioMovimiento" name="usuario" placeholder="Usuario" required>
+
+            <label for="notaMovimiento">Nota:</label>
+            <textarea id="notaMovimiento" name="nota" placeholder="Nota"></textarea>
+
+            <label for="montoMovimiento">Monto:</label>
+            <input type="number" id="montoMovimiento" name="monto" step="0.01" placeholder="Monto" required>
+
             <button type="submit">Realizar Movimiento</button>
         </form>
     </div>
@@ -1171,25 +1158,40 @@
     </div>
 </div>
 
+<!-- Modal de Apertura de Caja -->
+<div id="aperturaCajaModal" class="elliot-apertura-modal" style="display: none;">
+    <div class="elliot-apertura-modal-content">
+        <span class="elliot-apertura-close" onclick="closeAperturaCajaModal()">&times;</span>
+        <h2 class="elliot-apertura-title">Abrir Caja</h2>
+        <form method="POST" action="{% url 'abrir_caja_view' %}" class="elliot-apertura-form">
+            {% csrf_token %}
+            <div class="elliot-apertura-form-group">
+                <label for="cajero" class="elliot-apertura-label">Nombre del Cajero:</label>
+                <input type="text" name="cajero" id="cajero" class="elliot-apertura-input" required>
+            </div>
+            <div class="elliot-apertura-form-group">
+                <label for="monto_inicial" class="elliot-apertura-label">Monto Inicial:</label>
+                <input type="number" step="0.01" name="monto_inicial" id="monto_inicial" class="elliot-apertura-input" required>
+            </div>
+            <button type="submit" class="elliot-apertura-button">Abrir Caja</button>
+        </form>
+    </div>
+</div>
+
 
 
      <script>
 
-
         function openAperturaCajaModal() {
-            document.getElementById('aperturaCajaModal').style.display = 'block';
+            var modal = document.getElementById('aperturaCajaModal');
+            modal.style.display = 'block';
         }
         
         function closeAperturaCajaModal() {
-            document.getElementById('aperturaCajaModal').style.display = 'none';
+            var modal = document.getElementById('aperturaCajaModal');
+            modal.style.display = 'none';
         }
-
-
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////
-
+        ///////////////////////////////////////////////
         document.addEventListener("DOMContentLoaded", function () {
             window.toggleModal = function (modalId) {
                 // Cerrar todos los modales antes de abrir uno nuevo
@@ -1232,6 +1234,9 @@
                 }
             });
         });
+
+
+        /////////////////////////////////////////////////////////////
         
          function toggleConfigMenu() {
              var configMenu = document.getElementById('configMenu');
@@ -1328,8 +1333,8 @@
             document.getElementById("movimientoDineroModal").style.display = "block";
         }
 
-        function closeMovimientoDineroModal() {
-            document.getElementById("movimientoDineroModal").style.display = "none";
+        function cerrarModalMovimientoDinero() {
+            document.getElementById('movimientoDineroModal').style.display = 'none';
         }
 
         function processPayment() {
@@ -1955,7 +1960,7 @@ function procesarPago() {
             alert('Error al procesar el pago.');
         });
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function printPreCierre() {
     // Seleccionar únicamente el contenido del modal de precierre
     const modalContent = document.querySelector("#preCierreCajaModal .modal-content");
@@ -2034,6 +2039,23 @@ function printPreCierre() {
 
 
 
+////////////////////////////////////////////////////////////////////////////////////
+
+function enviarMovimiento() {
+    // Opcional: validar datos antes, si se desea
+    // Por ejemplo, asegurar que fechaHora, usuario y monto no estén vacíos:
+    var fecha = document.getElementById('fechaHoraMovimiento').value;
+    var usuario = document.getElementById('usuarioMovimiento').value;
+    var monto = document.getElementById('montoMovimiento').value;
+
+    if (!fecha || !usuario || !monto) {
+        alert('Por favor, llene todos los campos obligatorios.');
+        return;
+    }
+
+    // Si todo está bien, se envía el formulario
+    document.getElementById('movimientoDineroForm').submit();
+}
      </script>
  </body>
  </html>
