@@ -494,6 +494,43 @@ td select[name="unidad"] option {
   margin-right: 10px; /* Espacio entre el ícono y el texto */
   vertical-align: middle; /* Alineación vertical con el texto */
 }
+
+
+
+/* Estilos para el Contenedor de Paginación */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+/* Estilos para los Botones de Página */
+.pagination-button,
+.page-number {
+    background-color: #3163f9;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.pagination-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.page-number.active {
+    background-color: #1b9f8e;
+}
+
+.page-number:hover:not(.active) {
+    background-color: #4caf50;
+}
     </style>
   </head>
   <body>
@@ -564,6 +601,7 @@ td select[name="unidad"] option {
           </tbody>
       </table>
   </div>
+  
 
   <button class="create-proforma" onclick="openModal()">+</button>
 
@@ -1234,6 +1272,112 @@ function prepararDatosProforma() {
   document.querySelector("#total-input").value = total;
   document.querySelector("#total-dolares-input").value = totalDolares;
 }
+////////////////////////////////////////////////////////////////////////////////////
+ // Función para filtrar la tabla de Proformas
+ function filterTable() {
+  // Obtener el valor de búsqueda, convertir a minúsculas y eliminar espacios en blanco
+  const query = document.getElementById('search').value.toLowerCase().trim();
+  
+  // Seleccionar todas las filas del cuerpo de la tabla de Proformas
+  const tableBody = document.querySelector('.proforma-list table tbody');
+  const rows = tableBody.querySelectorAll('tr');
+
+  rows.forEach(row => {
+      // Evitar filtrar la fila "No hay proformas registrados"
+      if (row.classList.contains('fila-vacia')) {
+          row.style.display = 'none';
+          return;
+      }
+
+      // Obtener los valores de los atributos data-
+      const cliente = row.dataset.cliente.toLowerCase();
+      const condicionVenta = row.dataset.condicion_venta.toLowerCase();
+      const detalles = row.dataset.detalles.toLowerCase();
+      const nota = row.dataset.nota.toLowerCase();
+      const total = row.dataset.total.toLowerCase();
+
+      // Verificar si el término de búsqueda está presente en alguna de las columnas relevantes
+      if (
+          cliente.includes(query) ||
+          condicionVenta.includes(query) ||
+          detalles.includes(query) ||
+          nota.includes(query) ||
+          total.includes(query)
+      ) {
+          row.style.display = ''; // Mostrar la fila
+      } else {
+          row.style.display = 'none'; // Ocultar la fila
+      }
+  });
+
+  // Manejar la visibilidad de la fila "No hay proformas registrados"
+  const anyVisible = Array.from(rows).some(row => !row.classList.contains('fila-vacia') && row.style.display !== 'none');
+  const emptyRow = tableBody.querySelector('.fila-vacia');
+  if (emptyRow) {
+      emptyRow.style.display = anyVisible ? 'none' : ''; // Mostrar si no hay proformas que coincidan
+  }
+}
+
+// Paso 2: Vincular la Función al Evento de Entrada
+document.getElementById('search').addEventListener('input', filterTable);
+
+// Resto de tus funciones existentes...
+
+// Función para abrir el modal
+function openModal() {
+  console.log("Abriendo el modal");
+  document.getElementById("proformaModal").style.display = "block";
+}
+
+// Función para cerrar los modales
+function closeModal() {
+  console.log("Cerrando el modal");
+  document.getElementById("proformaModal").style.display = "none";
+  document.getElementById("editarproformaModal").style.display = "none";
+}
+
+// Cerrar el modal cuando el usuario hace clic fuera del modal
+window.onclick = function(event) {
+  var createModal = document.getElementById("proformaModal");
+  var editModal = document.getElementById("editarproformaModal");
+
+  if (event.target === createModal) {
+      closeModal();
+  } else if (event.target === editModal) {
+      closeModal();
+  }
+}
+
+// Función para editar una proforma
+function editarProforma(id) {
+  // Seleccionar la fila correspondiente usando el ID
+  var row = document.getElementById("proforma-" + id);
+
+  // Obtener los datos de los atributos data-
+  var fecha = row.getAttribute("data-fecha");
+  var moneda = row.getAttribute("data-moneda");
+  var cliente = row.getAttribute("data-cliente");
+  var codigoActividad = row.getAttribute("data-codigo");
+  var medioPago = row.getAttribute("data-medio_pago");
+  var condicionVenta = row.getAttribute("data-condicion_venta");
+  var detalles = row.getAttribute("data-detalles");
+  var nota = row.getAttribute("data-nota");
+  var total = row.getAttribute("data-total");
+
+  // Llenar el formulario del modal de edición con estos datos
+  document.getElementById("editarfecha").value = fecha;
+  document.getElementById("editarmoneda").value = moneda;
+  document.getElementById("editarcliente").value = cliente;
+  document.getElementById("editarcodigoactividadeconomica").value = codigoActividad;
+  document.getElementById("editarmediopago").value = medioPago;
+  document.getElementById("editarcondicionventa").value = condicionVenta;
+  document.getElementById("editardetalles").value = detalles;
+  document.getElementById("editarnota").value = nota;
+
+  // Mostrar el modal de edición
+  document.getElementById("editarproformaModal").style.display = "block";
+}
+
 </script>
   </body>
 </html>

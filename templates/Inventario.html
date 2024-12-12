@@ -316,7 +316,7 @@ tbody td:hover {
           <span class="text">INVENTARIO</span>
           <div class="submenu">
             <div class="submenu-item">
-              <i class="fas fa-print" id="imprimir-icono" style="cursor: pointer;" onclick="imprimirTabla()"></i>PDF
+              <i class="fas fa-print" id="imprimir-icono" style="cursor: pointer;" onclick="imprimirTabla()"></i>
             </div>
             <div class="submenu-item">
               <a href="{% url 'exportar_productos_excel' %}">
@@ -325,19 +325,7 @@ tbody td:hover {
             </div>
           </div>
         </button>
-        <button type="button" class="nav-button">
-          <span class="icon">&#128190;</span>
-          <span class="text">CATÁLOGO CABYS</span>
-          <div class="submenu">
-            <div class="submenu-item">
-             SQL CABYS<i class="fa-solid fa-cloud-arrow-up" id="cargar-icono" onclick="document.getElementById('archivo-pgsql').click();"></i> 
-              <form id="formulario-carga" action="{% url 'subir_bd_pgsql' %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="file" id="archivo-pgsql" name="archivo_pgsql" accept=".sql,.dump,.pgsql" style="display: none;" onchange="enviarFormulario()">
-              </form>
-            </div>
-          </div>
-        </button>
+       
       </div>
       <div class="search-bar">
         <input type="text" id="filtroGeneral" placeholder="Busca producto por Nombre, cantidad o descripción" />
@@ -346,14 +334,14 @@ tbody td:hover {
   </div>
 
   <div>
-    <h2>Lista de Productos</h2> 
+   <br></br>
     <table id="productoTabla"  class="producto-tabla">
       <thead>
         <tr>
           <th>Nombre</th>
           <th>Cantidad</th>
           <th>Descripción</th>
-          <th>Código CABYS</th>
+          <th>Código </th>
           <th>Moneda</th>
           <th>Precio del Costo</th>
           <th>Precio de Venta</th>
@@ -479,7 +467,7 @@ tbody td:hover {
                     <input type="text" id="descripcionProducto" class="form-control" name="descripcionProducto"/>
                   </div> 
                   <div class="form-group">
-                    <label for="codigoCABYS">Código CABYS</label>
+                    <label for="codigoCABYS">Código </label>
                     <input type="text" id="codigoCABYS" class="form-control" name="codigoCABYS"/>
                   </div>
                 </div>
