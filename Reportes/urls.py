@@ -6,7 +6,6 @@ urlpatterns = [
     
     path('Ventas/', views.ventas, name='ventas'),
     path('CuentasCobrar/', views.cuentasCobrar, name='cuentasCobrar'),
-    path('detalle/<int:cuenta_id>/', views.obtenerDetalleCuenta, name='detalle_cuenta'),
     path('PagosFacturas/', views.pagosFacturas, name='pagosFacturas'),
     path('reporteUtilidades/', views.reporteUtilidades, name='reporteUtilidades'),
     path('cierreCaja/', views.cierreCaja, name='cierreCaja'),

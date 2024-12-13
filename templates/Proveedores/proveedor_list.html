@@ -1,6 +1,25 @@
 
 {% extends 'base.html' %}
 {% block content %}
+<style>
+    select.form-control {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        padding: 8px; /* Ajusta el padding */
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%; /* Asegúrate de que ocupe todo el ancho */
+        box-sizing: border-box;
+        white-space: nowrap; /* Evita el corte del texto */
+        overflow: hidden; /* Oculta contenido que desborda */
+        text-overflow: ellipsis; /* Agrega "..." si el texto es demasiado largo */
+    }
+    .form-group {
+        width: 100%; /* Asegura que los contenedores ocupen todo el ancho disponible */
+        margin-bottom: 1rem; /* Espaciado entre grupos */
+    }
+
+</style>
   
     <div class="container">
         <div class="header-proveedores">
@@ -16,7 +35,7 @@
             <table id="proveedoresTable" class="table table-striped table-bordered mt-3" style="width:100%">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>Editar</th>
                         <th>Código Proveedor</th>
                         <th>Nombre</th>
                         <th>Activo</th>
@@ -27,31 +46,36 @@
                 </thead>
                 <tbody>
                     {% for proveedor in proveedores %}
-                    <tr>                    
+                    <tr>
                         <td>
                             <a href="#" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" title="Editar proveedor" data-bs-target="#EditarProveedor"
-                            data-id="{{ proveedor.id_proveedor }}" 
-                            data-nombre_empresa="{{ proveedor.nombre_empresa }}"
-                            data-nombre="{{ proveedor.nombre }}"
-                            data-email="{{ proveedor.email }}"
-                            data-provincia="{{ proveedor.provincia }}"
-                            data-canton="{{ proveedor.canton }}"
-                            data-distrito="{{ proveedor.distrito }}"
-                            data-direccion_exacta="{{ proveedor.direccion_exacta }}"
-                            data-telefono1="{{ proveedor.telefono1 }}"
-                            data-telefono2="{{ proveedor.telefono2 }}"
-                            data-tipo-identificacion="{{ proveedor.tipo_identificacion }}"
-                            data-identificacion="{{ proveedor.identificacion }}">
-                                <i class="fas fa-edit"></i>
+                               data-id="{{ proveedor.id_proveedor }}" 
+                               data-nombre_empresa="{{ proveedor.nombre_empresa }}"
+                               data-nombre="{{ proveedor.nombre }}"
+                               data-email="{{ proveedor.email }}"
+                               data-provincia="{{ proveedor.provincia }}"
+                               data-canton="{{ proveedor.canton }}"
+                               data-distrito="{{ proveedor.distrito }}"
+                               data-direccion_exacta="{{ proveedor.direccion_exacta }}"
+                               data-telefono1="{{ proveedor.telefono1 }}"
+                               data-telefono2="{{ proveedor.telefono2 }}"
+                               data-tipo-identificacion="{{ proveedor.tipo_identificacion }}"
+                               data-identificacion="{{ proveedor.identificacion }}">
+                               <i class="fas fa-edit"></i>
                             </a>
                         </td>
                         <td>{{ proveedor.id_proveedor }}</td>
-                        <td>{{ proveedor.nombre_empresa }}</td>
+                        <td>{{ proveedor.nombre }}</td>
                         <td>{{ proveedor.activo|yesno:"Sí,No" }}</td>
                         <td>{{ proveedor.telefono1 }}</td>
                         <td>{{ proveedor.email }}</td>
                         <td>
-                            <a href="#" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" title="Detalles" data-bs-target="#DetalleProveedor"
+                            <a href="#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" title="Eliminar" data-bs-target="#EliminarProveedor" 
+                               data-id="{{ proveedor.id_proveedor }}" data-username="{{ proveedor.nombre }}">
+                               <i class="fa-solid fa-user-xmark"></i>
+                            </a>
+                            <!-- Botón de Detalle -->
+                            <a href="#" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" title="Detalles del proveedor" data-bs-target="#DetalleProveedor"
                                 data-id="{{ proveedor.id_proveedor }}" 
                                 data-fecha_ingreso="{{ proveedor.fecha_ingreso }}"
                                 data-nombre_empresa="{{ proveedor.nombre_empresa }}"
@@ -66,9 +90,6 @@
                                 data-tipo-identificacion="{{ proveedor.tipo_identificacion }}"
                                 data-identificacion="{{ proveedor.identificacion }}">
                                 <i class="fa-solid fa-eye"></i>
-                            </a>
-                            <a href="#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" title="Eliminar" data-bs-target="#EliminarProveedor" data-id="{{ proveedor.id_proveedor }}" data-username="{{ proveedor.nombre_empresa }}">
-                                <i class="fa-solid fa-user-xmark"></i>
                             </a>
                         </td>
                     </tr>
@@ -286,9 +307,9 @@
                             <div class="form-group">
                                 <label for="editarTipoIdentificacion">Tipo identificación:</label>
                                 <select id="editarTipoIdentificacion" name="tipo_identificacion" class="form-control" required>
-                                    <option value="Cedula">Cédula Física</option>
-                                    <option value="Cedula">Cédula Juridica</option>
-                                    <option value="Cedula">Cédula Otros</option><!-- Otras opciones -->
+                                    <option value="FISICA">Cédula Física</option>
+                                    <option value="JURIDICA">Cédula Jurídica</option>
+                                    <option value="OTROS">Otros</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -325,7 +346,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="editarDireccion_exacta">Dirección Exacta:</label>
+                                <label for="editardireccion_exacta">Dirección Exacta:</label>
                                 <input type="text" class="form-control" id="editardireccion_exacta" name="direccion_exacta" required>
                             </div>
                         </div>
@@ -367,7 +388,7 @@
             modal.find('#editarProvincia').val(button.getAttribute('data-provincia'));
             modal.find('#editarCanton').val(button.getAttribute('data-canton'));
             modal.find('#editarDistrito').val(button.getAttribute('data-distrito'));
-            modal.find('#editarDireccion_exacta').val(button.getAttribute('data-direccion_exacta'));
+            modal.find('#editardireccion_exacta').val(button.getAttribute('data-direccion_exacta')); // Este campo
             modal.find('#editarTelefono1').val(button.getAttribute('data-telefono1'));
             modal.find('#editarTelefono2').val(button.getAttribute('data-telefono2'));
             modal.find('#editarTipoIdentificacion').val(button.getAttribute('data-tipo-identificacion'));
@@ -428,7 +449,10 @@
                 pageLength: 5,
                 language: {
                     url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-                }
+                },
+                columnDefs: [
+                    { orderable: false, targets: [0, 6] } // Deshabilita el orden en las columnas de editar y acciones
+                ]
             });
     
             // Inicializar tooltips

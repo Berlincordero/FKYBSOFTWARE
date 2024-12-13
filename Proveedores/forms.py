@@ -2,17 +2,11 @@ from django import forms
 from .models import Proveedor
  
 class ProveedorForm(forms.ModelForm):
-    fecha_ingreso = forms.DateField(widget=forms.TextInput(attrs={
-        'class': 'form-control',
-        'type': 'date'
-    }))
-    
     class Meta:
         model = Proveedor
-        fields = ['id_proveedor', 'fecha_ingreso', 'nombre_empresa', 'tipo_identificacion', 'identificacion', 'nombre', 'email', 'provincia', 'canton', 'distrito', 'direccion_exacta', 'telefono1', 'telefono2']
+        exclude = ['fecha_ingreso'] 
         widgets = {
             'id_proveedor': forms.TextInput(attrs={'class': 'form-control'}),
-            'fecha_ingreso': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'nombre_empresa': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo_identificacion': forms.Select(attrs={'class': 'form-control'}),
             'identificacion': forms.TextInput(attrs={'class': 'form-control'}),

@@ -1,26 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container">
-    <h2>Perfil de Usuario</h2>
-    <div id="notification-container">
-        {% for message in messages %}
-            <div class="notification {{ message.tags }}">{{ message }}</div>
-        {% endfor %}
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">{{ user.username }}</h4>
-            <p class="card-text"><strong>Nombre:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-            <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
-            <p class="card-text"><strong>Rol:</strong> 
-                {% if user.role == 'admin' %}
-                    Administrador
-                {% else %}
-                    Usuario
-                {% endif %}
-            </p>
-            
-
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Notificaciones -->
+            <div id="notification-container" class="mb-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- Tarjeta del perfil -->
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="mb-0">Perfil de Usuario</h3>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <div class="rounded-circle bg-light d-flex justify-content-center align-items-center shadow mx-auto" 
+                             style="width: 150px; height: 150px;">
+                            <i class="fas fa-user text-primary" style="font-size: 5rem;"></i>
+                        </div>
+                    </div>
+                    <h4 class="card-title text-center text-primary mb-3">{{ user.username }}</h4>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <p><strong>Nombre:</strong></p>
+                            <p>{{ user.first_name }} {{ user.last_name }}</p>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>Email:</strong></p>
+                            <p>{{ user.email }}</p>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <p><strong>Rol:</strong></p>
+                            <p class="badge {% if user.role == 'admin' %}bg-success{% else %}bg-secondary{% endif %}">
+                                {% if user.role == 'admin' %}
+                                    Administrador
+                                {% else %}
+                                    Usuario
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </div>
 </div>

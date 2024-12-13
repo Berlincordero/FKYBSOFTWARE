@@ -112,16 +112,8 @@ def cuentasCobrar(request):
     # Manejar solicitudes GET
     cuentas = CuentaPorCobrar.objects.all()
     return render(request, 'Reportes/cuentasCobrar.html', {'cuentas': cuentas})
-@login_required
-def obtenerDetalleCuenta(request, cuenta_id):
-    cuenta = get_object_or_404(CuentaPorCobrar, id=cuenta_id)
-    return JsonResponse({
-        'cliente': cuenta.cliente,
-        'monto': str(cuenta.monto),
-        'fecha_vencimiento': cuenta.fecha_vencimiento.strftime('%Y-%m-%d'),
-        'descripcion': cuenta.descripcion,
-        'estado': cuenta.estado,
-    })
+
+
 
 @login_required
 def pagosFacturas(request):

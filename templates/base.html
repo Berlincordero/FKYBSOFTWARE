@@ -127,6 +127,7 @@
                         </li>
                         
                         <li class="sidebar-item">
+                            {% if user.role == 'admin' %}
                             <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#Reportes" aria-expanded="false">
                                 <i class="fa-solid fa-chart-line pe-2"></i>
                                 Reportes
@@ -135,14 +136,17 @@
                                 <a href="{% url 'ventas' %}" class="sidebar-link">
                                     <i class="fas fa-chart-line"></i> Reporte de ventas
                                 </a>
+                                <!-- 
                                 <a href="{% url 'cuentasCobrar' %}" class="sidebar-link"> <i class="fas fa-chart-line"></i> Cuentas por cobrar</a>
-                                <a href="{% url 'pagosFacturas' %}" class="sidebar-link"> <i class="fas fa-chart-line"></i> Pagos a facturas</a>
+                                <a href="{% url 'pagosFacturas' %}" class="sidebar-link"> <i class="fas fa-chart-line"></i> Pagos a facturas</a> 
+                                -->
                                 <a href="{% url 'reporteUtilidades' %}" class="sidebar-link"> <i class="fas fa-chart-line"></i> Reporte de Utilidades</a>
                                 <a href="{% url 'cierreCaja' %}" class="sidebar-link"> <i class="fas fa-chart-line"></i> Reporte de Cierre de Caja</a>
                                 <a href="{% url 'reporteProformas' %}" class="sidebar-link"> <i class="fas fa-chart-line"></i> Reporte de Proformas</a>
                                 <a href="{% url 'reportetransportes' %}" class="sidebar-link"> <i class="fas fa-chart-line"></i> Reporte de transportes</a>
 
                             </ul>
+                            {%endif%}
                         </li>
                        
                         <li class="sidebar-item">
@@ -192,14 +196,20 @@
                     <div class="navbar-collapse navbar">
                         <ul class="navbar-nav ">
                             <li class="nav-item dropdown">
-                                <a href="#"  class="nav-icon pe-md-0" onclick="toggleMenu(event)">
-                                    <img src="{% static 'img/banner.jpg' %}" alt="" class="avatar img-fluid rounded-circle">
+                                <a href="#" class="nav-icon pe-md-0" onclick="toggleMenu(event)">
+                                    <div class="rounded-circle bg-primary d-flex justify-content-center align-items-center" 
+                                         style="width: 40px; height: 40px;">
+                                        <i class="fas fa-user text-white" style="font-size: 1.2rem;"></i>
+                                    </div>
                                 </a>
                                 <div class="sub-menu-wrap " id="subMenu">
                                     <div class="sub-menu border rounded">
-                                        <div class="user-info">
-                                            <img src="{% static 'img/banner.jpg' %}">
-                                            <span><h3>Hola {{ request.user.first_name }}!</h3></span>
+                                        <div class="user-info d-flex align-items-center mb-3">
+                                            <div class="rounded-circle bg-primary d-flex justify-content-center align-items-center me-3" 
+                                                 style="width: 50px; height: 50px;">
+                                                <i class="fas fa-user text-white" style="font-size: 1.5rem;"></i>
+                                            </div>
+                                            <h3 class="mb-0">Hola {{ request.user.first_name }}!</h3>
                                         </div>
                                         <hr>
                                         <a href="{% url 'perfil_usuario' %}" class="dropdown-item sub-menu-link">

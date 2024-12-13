@@ -1,6 +1,5 @@
 from django.db import models
-from django.utils import timezone
- 
+
 class Proveedor(models.Model):
     CEDULA_CHOICES = [
         ('JURIDICA', 'Cédula Jurídica'),
@@ -8,8 +7,8 @@ class Proveedor(models.Model):
         ('OTROS', 'Otros'),
     ]
  
-    id_proveedor = models.AutoField(primary_key=True )
-    fecha_ingreso = models.DateField(default=timezone.now)
+    id_proveedor = models.AutoField(primary_key=True)
+    fecha_ingreso = models.DateField(auto_now_add=True)  
     nombre_empresa = models.CharField(max_length=255)
     tipo_identificacion = models.CharField(max_length=10, choices=CEDULA_CHOICES, default='FISICA')
     identificacion = models.CharField(max_length=50)
@@ -18,7 +17,7 @@ class Proveedor(models.Model):
     provincia = models.CharField(max_length=100)
     canton = models.CharField(max_length=100)
     distrito = models.CharField(max_length=100)
-    direccion_exacta = models.TextField(default= 'direccion' ,max_length=255)
+    direccion_exacta = models.TextField(default='direccion', max_length=255)
     telefono1 = models.CharField(max_length=20)
     telefono2 = models.CharField(max_length=20, blank=True, null=True)
     activo = models.BooleanField(default=True)

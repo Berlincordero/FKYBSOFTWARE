@@ -39,9 +39,9 @@
                     <tr>
                         <th>Cliente</th>
                         <th>Monto</th>
+                        <th>Descripción</th>
                         <th>Fecha de Vencimiento</th>
                         <th>Estado</th>
-                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,39 +49,17 @@
                     <tr>
                         <td>{{ cuenta.cliente }}</td>
                         <td>${{ cuenta.monto }}</td>
+                        <td>{{ cuenta.descripcion }}</td>
                         <td>{{ cuenta.fecha_vencimiento }}</td>
                         <td>{{ cuenta.estado }}</td>
-                        <td>
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#viewAccountModal">
-                                Ver Detalles
-                            </button>                    
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Modal para mostrar los detalles -->
-    <div class="modal fade" id="viewAccountModal" tabindex="-1" aria-labelledby="viewAccountModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewAccountModalLabel">Detalles de la Cuenta por Cobrar</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Cliente:</strong> Cliente de Prueba</p>
-                    <p><strong>Monto:</strong> $500.00</p>
-                    <p><strong>Fecha de Vencimiento:</strong> 2024-12-15</p>
-                    <p><strong>Descripción:</strong> Pago pendiente por servicios de mantenimiento.</p>
-                    <p><strong>Estado:</strong> Pendiente</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <!-- 3. Generar Reporte en PDF -->
     <div class="text-end my-4">
@@ -120,5 +98,6 @@
 
         window.viewAccountDetails = viewAccountDetails; // Exponer la función al ámbito global
     });
+    
 </script>
 {% endblock %}

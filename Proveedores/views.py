@@ -1,4 +1,5 @@
 
+from django.http import HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Proveedor
 from .forms import ProveedorForm
@@ -52,7 +53,9 @@ def editar_proveedor(request):
         proveedor = get_object_or_404(Proveedor, id_proveedor=proveedor_id)
         form = ProveedorForm(request.POST, instance=proveedor)
         if form.is_valid():
-            form.save()
+            proveedor = form.save(commit=False)  
+            proveedor.activo = True  
+            proveedor.save()  
             return redirect('proveedor_list') 
     return redirect('proveedor_list')
     
