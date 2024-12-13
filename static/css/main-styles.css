@@ -298,7 +298,7 @@ a.sidebar-link {
 /**********************************Estilos Personalizados de terminal*****************************************************/
 
 .container {
-    width: 100%;
+    width: 98%;
     max-width: 1600px;
     margin: 0 auto;
     padding: 20px;
@@ -1033,13 +1033,13 @@ h2 {
 
 .facturacion-caja-kike-fixed-icons button {
     background-color: #ffffff;
-    border: 1px solid #ddd;
+    
     color: #3163f9;
-    padding: 8px;
-    border-radius: 50%;
+ 
+   
     margin-left: 10px;
     cursor: pointer;
-    font-size: 1.5em;
+    font-size: 2.5em;
 }
 
 .facturacion-caja-kike-fixed-icons button img {
@@ -1070,6 +1070,27 @@ h2 {
     border-radius: 5px;
 }
 
+.facturacion-caja-kike-fixed-icons a.export-excel-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #28a745;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 35px; /* Ajusté el tamaño para que no sea demasiado grande */
+    margin-left: 50px;
+    transition: background-color 0.3s;
+}
+
+.facturacion-caja-kike-fixed-icons a.export-excel-button:hover {
+    background-color: rgb(155, 205, 248);
+}
+
+.facturacion-caja-kike-fixed-icons a.export-excel-button i {
+    margin-right: 5px;
+}
 
 /**********************************************************************************************************************/
 

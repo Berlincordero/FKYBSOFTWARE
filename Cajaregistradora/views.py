@@ -11,7 +11,8 @@ from .models import Factura, AperturaCaja
 from django.contrib import messages
 from .models import MovimientoDinero
 from django.db.models import Sum
-
+from django.http import HttpResponse
+from .models import PreCierre
 
 
 def get_client_ip(request):
@@ -163,3 +164,64 @@ def guardar_movimiento_dinero(request):
     else:
         # Si no es POST, simplemente redirige a la vista principal
         return redirect('Cajaregistradora_view')
+    
+    
+@csrf_exempt
+def guardar_precierre(request):
+    if request.method == 'POST':
+        try:
+            # Parsear los datos enviados en la solicitud
+            datos = json.loads(request.body)
+            print("Datos recibidos para PreCierre:", datos)  # Para depuración
+
+            # Obtener y validar la fecha
+            fecha_str = datos.get('fecha')
+            if not fecha_str:
+                return JsonResponse({'success': False, 'error': 'La fecha de apertura es requerida.'}, status=400)
+            try:
+                fecha_obj = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+            except ValueError:
+                return JsonResponse({'success': False, 'error': 'Formato de fecha inválido. Debe ser YYYY-MM-DD.'}, status=400)
+
+            # Obtener y validar la hora apertura
+            hora_apertura_str = datos.get('hora_apertura')
+            if hora_apertura_str and hora_apertura_str != "No disponible":
+                try:
+                    hora_apertura_obj = datetime.strptime(hora_apertura_str, '%H:%M:%S').time()
+                except ValueError:
+                    return JsonResponse({'success': False, 'error': 'Formato de hora inválido. Debe ser HH:MM:SS.'}, status=400)
+            else:
+                hora_apertura_obj = None
+
+            # Crear el registro del precierre en la base de datos
+            precierre = PreCierre.objects.create(
+                sucursal=datos.get('sucursal', 'Desconocida'),
+                caja_registradora=datos.get('caja_registradora', 'Desconocida'),
+                hora_apertura=hora_apertura_obj,
+                fecha=fecha_obj,
+                monto_inicial=datos.get('monto_inicial', 0.00),
+                cajero=datos.get('cajero', 'No disponible'),
+                impuestos=datos.get('impuestos', 0.00),
+                efectivo=datos.get('efectivo', 0.00),
+                facturas_proveedor=datos.get('facturas_proveedor', 0),
+                tarjetas=datos.get('tarjetas', 0.00),
+                simpe_movil=datos.get('simpe_movil', 0.00),
+                venta_credito=datos.get('venta_credito', 0.00),
+                movimientos=datos.get('movimientos', 0.00),
+                total_ventas=datos.get('total_ventas', 0.00),
+                cantidad_facturas=datos.get('cantidad_facturas', 0),
+                conteo_efectivo=datos.get('conteo_efectivo', 0.00),
+                conteo_tarjetas=datos.get('conteo_tarjetas', 0.00),
+                contado_efectivo=datos.get('contado_efectivo', 0.00),
+                contado_tarjetas=datos.get('contado_tarjetas', 0.00),
+            )
+
+            # Retornar una respuesta exitosa en formato JSON
+            return JsonResponse({'success': True, 'message': 'Precierre guardado con éxito.'})
+        except Exception as e:
+            # Retornar una respuesta de error en formato JSON
+            print(f"Error al guardar PreCierre: {e}")  # Para depuración
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+    # Si el método no es POST, retornar un error
+    return JsonResponse({'success': False, 'error': 'Método no permitido.'}, status=405)

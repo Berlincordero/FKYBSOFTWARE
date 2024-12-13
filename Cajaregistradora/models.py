@@ -56,3 +56,30 @@ class MovimientoDinero(models.Model):
 
     def __str__(self):
         return f"{self.tipo_movimiento} - {self.monto}"
+    
+    
+from django.db import models
+
+class PreCierre(models.Model):
+    sucursal = models.CharField(max_length=100, null=True, blank=True, default='Desconocida')
+    caja_registradora = models.CharField(max_length=100, null=True, blank=True, default='Desconocida')
+    hora_apertura = models.TimeField(null=True, blank=True)
+    fecha = models.DateField(null=True, blank=True)
+    monto_inicial = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    cajero = models.CharField(max_length=100, null=True, blank=True, default='No disponible')
+    impuestos = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    efectivo = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    facturas_proveedor = models.IntegerField(null=True, blank=True, default=0)
+    tarjetas = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    simpe_movil = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    venta_credito = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    movimientos = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    total_ventas = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    cantidad_facturas = models.IntegerField(null=True, blank=True, default=0)
+    conteo_efectivo = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    conteo_tarjetas = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    contado_efectivo = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    contado_tarjetas = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+
+    def __str__(self):
+        return f"PreCierre - {self.sucursal} - {self.fecha}"

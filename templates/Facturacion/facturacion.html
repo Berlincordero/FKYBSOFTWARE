@@ -1,82 +1,162 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% block content %}
-  <body>
-    <div class="facturacion-caja-kike-container">
-      <div class="facturacion-caja-kike-header">
+
+
+</style>
+
+<div class="facturacion-caja-kike-container">
+    <div class="facturacion-caja-kike-header">
         <h1>
-          <i class="fa-solid fa-circle-dollar-to-slot facturacion-caja-kike-icon"></i
-          >Facturación
+            <i class="fa-solid fa-circle-dollar-to-slot facturacion-caja-kike-icon"></i>
+            Facturación
         </h1>
         <div class="facturacion-caja-kike-fixed-icons">
-          <button title="Descargar">
-            <i class="fa fa-download"></i>
-          </button>
-          <button title="Imprimir">
-            <i class="fa fa-print"></i>
-          </button>
+            <a href="{% url 'export_facturas_excel' %}" title="Descargar Excel" class="export-excel-button">
+                <i class="fa fa-file-excel"></i> 
+            </a>
         </div>
         <div class="facturacion-caja-kike-search-box">
-          <input type="text" placeholder="Buscar Factura..." />
-          <button type="button" class="facturacion-caja-search-button">
-            <i class="fas fa-search"></i>
-          </button>
-
+            <input type="text" id="search-input" placeholder="Buscar por Cliente, Nº Factura o Descripción..." />
+           
         </div>
-      </div>
     </div>
+</div>
 
-    <table class="facturacion-caja-kike-table">
-      <thead>
-        <tr>
-          <th>Fecha</th>
-          <th>Numero Factura</th>
-          <th>Cliente</th>
-          <th>Codigo</th>
-          <th>Descripcion</th>
-          <th>Cantidad</th>
-          <th>Precio Venta</th>
-          <th>I.V.A</th>
-          <th>Total</th>
-          <th>Estado de La Factura</th>
-          <th>Tipo de Pago</th>
-          <th>Archivar</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tbody>
-          {% for factura in facturas %}
+<div class="facturacion-caja-kike-table-container">
+    <table class="facturacion-caja-kike-table" id="facturas-table">
+        <thead>
             <tr>
-              <td>{{ factura.fecha }}</td>
-              <td>{{ factura.numero_factura }}</td>
-              <td>{{ factura.cliente }}</td>
-              <td>{{ factura.codigo }}</td>
-              <td>{{ factura.descripcion }}</td>
-              <td>{{ factura.cantidad }}</td>
-              <td>₡{{ factura.precio_venta }}</td>
-              <td>₡{{ factura.iva }}</td>
-              <td>₡{{ factura.total }}</td>
-              <td>{{ factura.estado_factura }}</td>
-              <td>{{ factura.tipo_pago }}</td>
-              <td><button class="facturacion-caja-kike-archive-button">Archivar</button></td>
+                <th>Fecha</th>
+                <th>Numero Factura</th>
+                <th>Cliente</th>
+                <th>Codigo</th>
+                <th>Descripcion</th>
+                <th>Cantidad</th>
+                <th>Precio Venta</th>
+                <th>I.V.A</th>
+                <th>Total</th>
+                <th>Estado de La Factura</th>
+                <th>Tipo de Pago</th>
+                <th>Archivar</th>
             </tr>
-          {% endfor %}
+        </thead>
+        <tbody>
+            {% for factura in facturas %}
+                <tr>
+                    <td>{{ factura.fecha }}</td>
+                    <td>{{ factura.numero_factura }}</td>
+                    <td>{{ factura.cliente }}</td>
+                    <td>{{ factura.codigo }}</td>
+                    <td>{{ factura.descripcion }}</td>
+                    <td>{{ factura.cantidad }}</td>
+                    <td>₡{{ factura.precio_venta }}</td>
+                    <td>₡{{ factura.iva }}</td>
+                    <td>₡{{ factura.total }}</td>
+                    <td>{{ factura.estado_factura }}</td>
+                    <td>{{ factura.tipo_pago }}</td>
+                    <td>
+                        <button class="facturacion-caja-kike-archive-button" aria-label="Archivar fila">
+                            Archivar
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
-        </tr>
-        </tr>
-      </tbody>
     </table>
-  </body>
-</html>
+</div>
 
+<!-- Script para archivar filas y filtrar por múltiples campos -->
 <script>
-  // Agregar un evento de clic a todos los botones de archivar
-  document.querySelectorAll(".facturacion-caja-kike-archive-button").forEach(function (button) {
-    button.addEventListener("click", function () {
-      // Encontrar la fila padre de este botón y ocultarla
-      var row = button.closest("tr");
-      row.style.display = "none";
+    document.addEventListener("DOMContentLoaded", function() {
+        // Función para archivar filas
+        document.querySelectorAll(".facturacion-caja-kike-archive-button").forEach(function(button) {
+            button.addEventListener("click", function () {
+                if (confirm("¿Estás seguro de que deseas archivar esta fila?")) {
+                    var row = button.closest("tr");
+                    row.style.display = "none";
+                }
+            });
+        });
+
+        // Función para filtrar por Cliente, Número de Factura o Descripción
+        function filterTable() {
+            var input = document.getElementById("search-input");
+            var filter = input.value.trim().toLowerCase();
+            var table = document.getElementById("facturas-table");
+            var tr = table.getElementsByTagName("tr");
+
+            // Iterar sobre las filas de la tabla, excepto la primera (encabezado)
+            for (var i = 1; i < tr.length; i++) {
+                var tdCliente = tr[i].getElementsByTagName("td")[2]; // Índice 2 para 'Cliente'
+                var tdNumeroFactura = tr[i].getElementsByTagName("td")[1]; // Índice 1 para 'Número Factura'
+                var tdDescripcion = tr[i].getElementsByTagName("td")[4]; // Índice 4 para 'Descripción'
+                
+                if (tdCliente && tdNumeroFactura && tdDescripcion) {
+                    var txtCliente = tdCliente.textContent || tdCliente.innerText;
+                    var txtNumeroFactura = tdNumeroFactura.textContent || tdNumeroFactura.innerText;
+                    var txtDescripcion = tdDescripcion.textContent || tdDescripcion.innerText;
+                    
+                    if (
+                        txtCliente.toLowerCase().includes(filter) ||
+                        txtNumeroFactura.toLowerCase().includes(filter) ||
+                        txtDescripcion.toLowerCase().includes(filter)
+                    ) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Agregar evento de clic al botón de búsqueda
+        var searchButton = document.getElementById("search-button");
+        if (searchButton) {
+            searchButton.addEventListener("click", function () {
+                filterTable();
+            });
+        }
+
+        // Función para restablecer el filtro
+        function resetFilter() {
+            var input = document.getElementById("search-input");
+            input.value = ""; // Limpiar el campo de búsqueda
+            var table = document.getElementById("facturas-table");
+            var tr = table.getElementsByTagName("tr");
+
+            // Mostrar todas las filas
+            for (var i = 1; i < tr.length; i++) {
+                tr[i].style.display = "";
+            }
+        }
+
+        // Agregar evento de clic al botón de restablecer
+        var resetButton = document.getElementById("reset-button");
+        if (resetButton) {
+            resetButton.addEventListener("click", function () {
+                resetFilter();
+            });
+        }
+
+        // Función de debounce para optimizar el filtrado en tiempo real
+        function debounce(func, delay) {
+            let debounceTimer;
+            return function() {
+                const context = this;
+                const args = arguments;
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => func.apply(context, args), delay);
+            };
+        }
+
+        // Agregar evento 'keyup' con debounce para filtrar en tiempo real mientras el usuario escribe
+        var searchInput = document.getElementById("search-input");
+        if (searchInput) {
+            searchInput.addEventListener("keyup", debounce(function () {
+                filterTable();
+            }, 300)); // 300ms de retardo
+        }
     });
-  });
 </script>
 
 {% endblock %}

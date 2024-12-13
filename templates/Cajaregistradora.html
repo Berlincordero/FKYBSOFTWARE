@@ -786,12 +786,7 @@
                     <i class="fas fa-user" title="Clientes"></i>
                     <span><strong>Buscar Clientes</strong></span>
                 </div>
-                
-                <div class="icon-item" onclick="toggleModal('transportModal')">
-                    <i class="fas fa-truck" title="Transportes"></i>
-                    <span><strong>Transportes</strong></span>
-                </div>
-                
+
                 <div class="icon-item" onclick="toggleModal('providerModal')">
                     <i class="fas fa-boxes" title="Proveedores"></i>
                     <span><strong>Proveedores</strong></span>
@@ -957,8 +952,6 @@
         <div id="configMenu" class="config-menu">
             <span class="close-btn" onclick="toggleConfigMenu()">&times;</span>
             <div class="menu-item" onclick="abrirModalConfiguracion()">
-                <i class="fas fa-store"></i>
-                <span>Configurar tiendas</span>
             </div>
             
             <div class="menu-item" onclick="openAperturaCajaModal()">
@@ -969,11 +962,7 @@
             <div class="menu-item" onclick="openPreCierreCajaModal()">
                 <i class="fas fa-cash-register"></i> <span>Precierre caja</span>
             </div>
-    
-            <div class="menu-item">
-                <i class="fas fa-print"></i>
-                <span>Reimprimir cierre</span>
-            </div>
+            
             <div class="menu-item" onclick="openMovimientoDineroModal()">
                 <i class="fas fa-money-bill-alt"></i> <span>Movimiento de Dinero</span>
             </div>
@@ -1033,90 +1022,113 @@
     
 
      <!--modal de precierre-->
-    
-  <div id="preCierreCajaModal" class="modal-caja">
-    <div class="modal-content">
-        <span class="close" onclick="closePreCierreCajaModal()">&times;</span>
-        <div class="info">
-            <!-- Mostrar la sucursal dinámica -->
-            <p>Sucursal: {% if sucursal %}{{ sucursal }}{% else %}Desconocida{% endif %}</p>
-            <!-- Mostrar la caja registradora dinámica -->
-            <p>Caja registradora: {% if terminal %}{{ terminal }}{% else %}Desconocida{% endif %}</p>
-        </div>
-        <div class="info">
-            <p>Fecha Apertura : {% if apertura_fecha %}{{ apertura_fecha }}{% else %}No disponible{% endif %}</p>
-        </div>
-        <div class="info">
-            <p>Hora Apertura : {% if apertura_hora %}{{ apertura_hora }}{% else %}No disponible{% endif %}</p>
-        </div> 
-        <p>Monto inicial en la caja: {% if apertura_monto %}{{ apertura_monto }}{% else %}No disponible{% endif %}</p>
-        <p>Nombre del Cajero: {% if apertura_cajero %}{{ apertura_cajero }}{% else %}No disponible{% endif %}</p>
+     <div id="preCierreCajaModal" class="modal-caja">
+        <form id="preCierreCajaForm" method="POST">
+            {% csrf_token %}
+            <div class="modal-content">
+                <span class="close" onclick="closePreCierreCajaModal()">&times;</span>
+                <div class="info">
+                    <p>Sucursal: {% if sucursal %}{{ sucursal }}{% else %}Desconocida{% endif %}</p>
+                    <input type="hidden" name="sucursal" value="{{ sucursal }}">
+                    
+                    <p>Caja registradora: {% if terminal %}{{ terminal }}{% else %}Desconocida{% endif %}</p>
+                    <input type="hidden" name="caja_registradora" value="{{ terminal }}">
+                </div>
+                <div class="info">
+                    <p>Fecha Apertura: {% if apertura_fecha %}{{ apertura_fecha }}{% else %}No disponible{% endif %}</p>
+                    <input type="hidden" name="fecha" value="{{ apertura_fecha }}">
+                    <input type="hidden" name="fecha" id="fecha_oculta">
+                    <p>Hora Apertura: {% if apertura_hora %}{{ apertura_hora }}{% else %}No disponible{% endif %}</p>
+                    <input type="hidden" name="hora_apertura" value="{{ apertura_hora }}">
+                </div>
+                <p>Monto inicial en la caja: {% if apertura_monto %}{{ apertura_monto }}{% else %}0.00{% endif %}</p>
+                <input type="hidden" name="monto_inicial" value="{{ apertura_monto }}">
+                
+                <p>Nombre del Cajero: {% if apertura_cajero %}{{ apertura_cajero }}{% else %}No disponible{% endif %}</p>
+                <input type="hidden" name="cajero" value="{{ apertura_cajero }}">
 
-       <label for="Movimiento-dinero">Transacciones del dia</label>
-        <div class="info">
-                <p>Impuestos: 135 652 CRC</p>
-                <p>Servicios 10% %  50 000 CRC</p>
-        </div>
-        <div class="info">
-            <p>Facturas provedor:5.00</p>
-            <p>Notas de debito: 0.0</p>
-        </div>
-        <div class="info">
-            <p>Ingreso Efectivo: 1000000.0</p>
-            <p>Ingreso Tarjetas: 70000.0</p>
-        </div>
-        <div class="info">
-            <p>Ingreso Sinpe/ trnasf: 15000.00</p>
-            <p>venta Credito: 0.0</p>
-        </div>
-        <div class="info">
-            <p>Cantidad tiquetes: 35</p>
-            <p>Total de la Venta: 480000.00</p>
-        </div>
-        <label for="Movimiento-dinero">Movimiento de dinero</label>
-        <div class="invoice-info">
-            <table class="invoice-details">
-                <thead>
-                    <tr>
-                        <th>FECHA</th>
-                        <th>USUARIO</th>
-                        <th>NOTA</th>
-                        <th>MONTO</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for movimiento in movimientos %}
-                    <tr>
-                        <td>{{ movimiento.fecha_hora|date:"d-m-Y H:i" }}</td>
-                        <td>{{ movimiento.usuario }}</td>
-                        <td>{{ movimiento.nota }}</td>
-                        <td>{{ movimiento.monto }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <p>Total de todos los movimientos: {{ total_movimientos }} CRC</p>
-            <label for="ARQUEO DE CAJA">ARQUEO DE CAJA</label>
-            <label for="monto">Conteo Actual de Monto Efectivo:</label>
-            <input type="number" id="monto" placeholder="0">
-            <label for="monto">Monto Contado en Efectivo:</label>
-            <input type="number" id="monto" placeholder="0">
-            <label for="monto">Conteo Actual de Monto Tarjeta</label>
-            <input type="number" id="monto" placeholder="0">
-            <label for="monto">Monto Contado en Efectivo:</label>
-            <input type="number" id="monto" placeholder="0">
-            <!-- Botón con ícono de imprimir -->
-            <!-- Contenedor para el botón y el ícono -->
-            <div class="button-container-precierre">
-            <button type="submit" onclick="submitPreCierreCaja()">APLICAR</button>
-            </div>
-            <div class="print-icon-precierre-container" onclick="printPreCierre()">
-                <i class="fas fa-print print-icon-precierre"></i>
+                <!-- Campos de Movimiento de Dinero -->
+                <div class="info">
+                    <p>Impuestos: <input type="number" name="impuestos" step="0.01" value="0.00"></p>
+                </div>
+                <div class="info">
+                    <p>Efectivo: <input type="number" name="efectivo" step="0.01" value="0.00"></p>
+                </div>
+                <div class="info">
+                    <p>Facturas proveedor: <input type="number" name="facturas_proveedor" value="0"></p>
+                </div>
+                <div class="info">
+                    <p>Tarjetas: <input type="number" name="tarjetas" step="0.01" value="0.00"></p>
+                </div>
+                <div class="info">
+                    <p>Simpe móvil: <input type="number" name="simpe_movil" step="0.01" value="0.00"></p>
+                </div>
+                <div class="info">
+                    <p>Venta crédito: <input type="number" name="venta_credito" step="0.01" value="0.00"></p>
+                </div>
+                <div class="info">
+                <p>Movimientos: <input type="number" name="movimientos" step="0.01" value="{{ total_movimientos }}"></p>
+                </div>
+
+                <!-- Tabla de Movimientos -->
+                <label for="Movimiento-dinero">Movimiento de dinero</label>
+                <div class="invoice-info">
+                    <table class="invoice-details" id="tablaMovimientos">
+                        <thead>
+                            <tr>
+                                <th>FECHA</th>
+                                <th>USUARIO</th>
+                                <th>NOTA</th>
+                                <th>MONTO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for movimiento in movimientos %}
+                            <tr>
+                                <td>{{ movimiento.fecha_hora|date:"d-m-Y H:i" }}</td>
+                                <td>{{ movimiento.usuario }}</td>
+                                <td>{{ movimiento.nota }}</td>
+                                <td>{{ movimiento.monto }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <p>Total de todos los movimientos: {{ total_movimientos }} CRC</p>
+                    <div class="info">
+                        <p>Total ventas: <input type="number" name="total_ventas" step="0.01" value="0.00"></p>
+                    </div>
+                    <div class="info">
+                        <p>Cantidad facturas: <input type="number" name="cantidad_facturas" value="0"></p>
+                    </div>
+                    <div class="info">
+                        <p>Conteo efectivo: <input type="number" name="conteo_efectivo" step="0.01" value="0.00"></p>
+                    </div>
+                    <div class="info">
+                        <p>Conteo tarjetas: <input type="number" name="conteo_tarjetas" step="0.01" value="0.00"></p>
+                    </div>
+                    <div class="info">
+                        <p>Contado efectivo: <input type="number" name="contado_efectivo" step="0.01" value="0.00"></p>
+                    </div>
+                    <div class="info">
+                        <p>Contado tarjetas: <input type="number" name="contado_tarjetas" step="0.01" value="0.00"></p>
+                    </div>
+    
+                </div>
+
+                <div class="button-container-precierre">
+                    <button type="submit">APLICAR</button>
+                </div>
+                <div class="print-icon-precierre-container" onclick="printPreCierre()">
+                    <i class="fas fa-print print-icon-precierre"></i>
+                </div>
             </div>
         </form>
     </div>
-</div>
+
+    
+     
+
+
 
 <!-- Modal de Movimiento de Dinero -->
 <div id="movimientoDineroModal" class="modal"> 
@@ -1145,10 +1157,10 @@
             <input type="number" id="montoMovimiento" name="monto" step="0.01" placeholder="Monto" required>
 
             <button type="submit">Realizar Movimiento</button>
-        </form>
+        
     </div>
 </div>
-
+</form>
 
 
 <div id="modalEliminar" class="modal-eliminar-unico">
@@ -2139,6 +2151,66 @@ function closePaymentModal() {
         montoPagarInput.value = '';
     }
 }
+/////////////////////////////////////////////////////////////
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById('preCierreCajaForm');
+
+    // Convertir fecha de DD/MM/YYYY a YYYY-MM-DD
+    const fechaDisplay = "{{ apertura_fecha }}"; // Formato mostrado: DD/MM/YYYY
+    const fechaOculta = document.getElementById("fecha_oculta");
+
+    if (fechaDisplay) {
+        const partesFecha = fechaDisplay.split("/"); // Divide en [día, mes, año]
+        if (partesFecha.length === 3) {
+            const fechaFormateada = `${partesFecha[2]}-${partesFecha[1]}-${partesFecha[0]}`; // Formato YYYY-MM-DD
+            fechaOculta.value = fechaFormateada; // Asigna el valor al campo oculto
+        }
+    }
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Evita el envío normal del formulario
+
+        // Obtener el CSRF token
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        // Crear un objeto con los datos del formulario
+        const formData = new FormData(form);
+        const data = {};
+        formData.forEach((value, key) => {
+            if (['impuestos', 'efectivo', 'tarjetas', 'simpe_movil', 'venta_credito', 'movimientos', 'total_ventas', 'conteo_efectivo', 'conteo_tarjetas', 'contado_efectivo', 'contado_tarjetas'].includes(key)) {
+                data[key] = parseFloat(value) || 0.00;
+            } else if (['facturas_proveedor', 'cantidad_facturas'].includes(key)) {
+                data[key] = parseInt(value) || 0;
+            } else {
+                data[key] = value;
+            }
+        });
+
+        // Enviar los datos al backend usando fetch
+        fetch("{% url 'guardar_precierre' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    closePreCierreCajaModal();
+                    location.reload();
+                } else {
+                    alert(`Error: ${data.error}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error al guardar el precierre.');
+            });
+    });
+});
 
      </script>
  </body>

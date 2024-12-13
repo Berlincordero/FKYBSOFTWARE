@@ -1,2062 +1,238 @@
 {% extends 'base.html' %}
- {% block content %}
- 
- <!DOCTYPE html>
- <html lang="es">
- <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Factura</title>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-     <style>
-         
- 
-         .button-container-precierre {
-            width: 100%;
-            display: flex;
-             justify-content: center;
-             margin-top: 20px;
-         }
-
-
-
-        .print-icon-precierre {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-        cursor: pointer;  /* Cambia el cursor al pasar sobre el ícono */
-        font-size: 20px;  /* Ajusta el tamaño del ícono si es necesario */
-        color: #007bff;  /* Cambia el color del ícono si es necesario */
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
+        <link rel="stylesheet" href="styles.css" />
+        <title>Facturación - Precierre</title>
+    </head>
+    <style>
+        .facturacion-caja-shampoo-container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-         .button-container button {
-             margin: 0 10px;
-             padding: 10px 20px;
-             font-size: 16px;
-             border: none;
-             cursor: pointer;
-             color: #fff;
-         }
- 
-         .button-pagar {
-             background-color: #28a745; /* Color verde */
-         }
- 
-         .button-eliminar {
-             background-color: #dc3545; /* Color rojo */
-         }
- 
-         .button-credito {
-             background-color: #007bff; /* Color azul */
-         }
- 
-         .config-menu, .user-menu, .help-menu {
-             display: none;
-             position: absolute;
-             top: 50px;
-             right: 50px;
-             background-color: white;
-             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-             padding: 15px;
-             border-radius: 8px;
-             width: 250px;
-             z-index: 1;
-         }
- 
-         .config-menu .menu-item, .user-menu .menu-item, .help-menu .menu-item {
-             display: flex;
-             align-items: center;
-             margin-bottom: 15px;
-             cursor: pointer;
-             font-size: 18px;
-         }
- 
-         .config-menu .menu-item i, .user-menu .menu-item i, .help-menu .menu-item i {
-             margin-right: 10px;
-             font-size: 22px;
-         }
- 
-         .config-menu .menu-item:hover, .user-menu .menu-item:hover, .help-menu .menu-item:hover {
-             background-color: #f0f0f0;
-             border-radius: 5px;
-             padding: 5px;
-         }
- 
-         .close-btn {
-             position: absolute;
-             top: 10px;
-             right: 10px;
-             cursor: pointer;
-             font-size: 20px;
-         }
- 
-         .user-menu h2 {
-             margin-top: 0;
-             font-size: 20px;
-         }
- 
-         .user-menu .search-bar {
-             display: flex;
-             align-items: center;
-             margin-bottom: 15px;
-         }
- 
-         .user-menu .search-bar input {
-             width: 100%;
-             padding: 8px;
-             font-size: 16px;
-             border: 1px solid #ccc;
-             border-radius: 5px;
-             margin-right: 10px;
-         }
- 
-         .user-menu .search-bar button {
-             padding: 8px;
-             font-size: 16px;
-             border: none;
-             cursor: pointer;
-             background-color: #007bff;
-             color: white;
-             border-radius: 5px;
-         }
- 
-         .modal-caja {
-             display: none;
-             position: fixed;
-             z-index: 1000;
-             left: 0;
-             top: 0;
-             width: 100%;
-             height: 100%;
-             overflow: auto;
-             background-color: rgba(0, 0, 0, 0.5);
-         }
- 
-         .modal-content {
-             background-color: white;
-             margin: 15% auto;
-             padding: 20px;
-             border: 1px solid #888;
-             width: 80%;
-             max-width: 500px;
-             border-radius: 10px;
-         }
- 
-         .close {
-             color: #aaa;
-             float: right;
-             font-size: 28px;
-             font-weight: bold;
-             cursor: pointer;
-         }
- 
-         .close:hover, .close:focus {
-             color: black;
-         }
- 
-         .modal-content h2 {
-             margin-top: 0;
-         }
- 
-         .modal-content label {
-             display: block;
-             margin-top: 15px;
-             font-weight: bold;
-         }
- 
-         .modal-content select, .modal-content input {
-             width: 100%;
-             padding: 10px;
-             margin-top: 5px;
-             font-size: 16px;
-             border: 1px solid #ccc;
-             border-radius: 5px;
-         }
- 
-         .modal-content button {
-             display: block;
-             width: 100%;
-             padding: 10px;
-             margin-top: 20px;
-             font-size: 18px;
-             background-color: #28a745;
-             color: white;
-             border: none;
-             border-radius: 5px;
-             cursor: pointer;
-         }
- 
-         .modal-content button:hover {
-             background-color: #218838;
-         }
 
-         .info {
+        .facturacion-caja-shampoo-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
         }
-        
-        .info p {
-            margin-right: 20px; /* Ajusta el margen según sea necesario */
-        }
-        .button-container {
+
+        .facturacion-caja-shampoo-header h1 {
+            color: #f90;
+            margin: 0;
+            font-size: 24px;
             display: flex;
             align-items: center;
         }
-        
-        .print-icon {
-            margin-left: 8px; /* Ajusta el margen según sea necesario */
-            cursor: pointer;  /* Cambia el cursor al pasar sobre el ícono */
-            .barra-busqueda {
-                display: flex;
-                align-items: center;
-                width: 300px; /* Ajusta este valor según sea necesario */
-                margin-left: auto; /* Coloca la barra de búsqueda en el lado derecho */
-            }
-            
-            .container {
-                display: flex;
-                justify-content: flex-end; /* Alinea el contenido al final (derecha) */
-                padding: 10px; /* Añade padding si es necesario */
-            }
-            
-            .barra-busqueda {
-                display: flex;
-                align-items: center;
-                width: 300px; /* Ajusta este valor según sea necesario */
-            }
+
+        .facturacion-caja-shampoo-header .facturacion-caja-kike-icon {
+            font-size: 36px;
+            margin-right: 15px;
         }
-        
-            .barra-busqueda {
-    display: flex;
-    align-items: center;
-    width: 300px;
-    margin-left: auto;
-}
 
-.barra-busqueda input[type="text"] {
-    flex: 1;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-right: none;
-    border-radius: 4px 0 0 4px;
-}
-
-.barra-busqueda button {
-    padding: 10px;
-    background-color: #007BFF;
-    border: 1px solid #007BFF;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    color: white;
-    font-size: 16px;
-}
-
-
-.invoice-details .fa-trash {
-    background-color: #96c4f5;
-    color: red;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-}
-
-.thanks {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: black;
-    padding: 10px;
-}
-.thanks p {
-    margin: 0 10px;
-}
-.thanks .icons {
-    display: flex;
-    gap: 10px;
-}
-.thanks .icons i {
-    color: gray;
-    font-size: 24px;
-}
-
-/* Para la celda de "Cantidad" */
-.invoice-table .invoice-details th:nth-child(3),
-.invoice-table .invoice-details td:nth-child(3) {
-    width: 80px; /* Ajusta este valor según lo necesites */
-    text-align: center;
-}
-
-/* Para el campo de entrada dentro de la celda de "Cantidad" */
-.invoice-table .invoice-details td:nth-child(3) input[type="number"] {
-    width: 60px; /* Ajusta este valor según lo necesites */
-    padding: 5px; /* Ajusta el espacio interno si es necesario */
-    text-align: center; /* Centra el texto en el input */
-}
-
-.thanks-unique {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.icons-unique i {
-    font-size: 2rem;
-    margin: 0 10px;
-    color: #007bff; /* Color de los íconos de tarjeta */
-}
-
-.bank-icons-unique {
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.bank-icon-unique {
-    width: 60px; /* Ajusta el tamaño según tus necesidades */
-    height: auto;
-}
-
-.unique-observations {
-    margin-left: 25px;
-    background-color: #f0f8ff; /* Color de fondo personalizado */
-    border: 2px solid #4CAF50; /* Borde personalizado */
-    color: #333333; /* Color del texto */
-    padding: 10px;
-    font-family: Arial, sans-serif;
-    border-radius: 5px;
-    resize: none; /* Desactiva el redimensionamiento */
-}
-
-.unique-observations:focus {
-    border-color: #2E8B57; /* Cambia el color del borde al enfocar */
-    outline: none;
-    box-shadow: 0 0 5px rgba(46, 139, 87, 0.5); /* Sombra al enfocar */
-}
-
-.suggestions {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid #ccc;
-    max-height: 200px;
-    overflow-y: auto;
-    background: #fff;
-    position: absolute;
-    width: 100%;
-    z-index: 1000;
-}
-
-.suggestions li {
-    padding: 10px;
-    cursor: pointer;
-}
-
-.suggestions li:hover {
-    background: #f0f0f0;
-}
-
-
-.suggestions {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid #ccc;
-    max-height: 200px;
-    overflow-y: auto;
-    background: #fff;
-    position: absolute;
-    width: 300px;
-    z-index: 1000;
-}
-
-.suggestions li {
-    padding: 10px;
-    cursor: pointer;
-}
-
-.suggestions li:hover {
-    background: #f0f0f0;
-}
-
-/* Estilos para la notificación */
-.notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #4caf50; /* Fondo verde para éxito */
-    color: white;
-    padding: 15px 20px;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    font-size: 16px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    opacity: 0; /* Oculto por defecto */
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    transform: translateY(-20px); /* Movimiento hacia arriba para animación */
-}
-
-.notification.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.notification.visible {
-    opacity: 1;
-    transform: translateY(0); /* Aparece suavemente */
-    pointer-events: auto;
-}
-
-.notification .close-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-}
-.icon-bar {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-}
-
-.icon-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-}
-
-.icon-item i {
-    font-size: 24px; /* Tamaño del ícono */
-    margin-bottom: 5px; /* Espaciado entre ícono y texto */
-    color: #007bff; /* Color del ícono */
-}
-
-
-.icon-item span {
-    font-size: 14px; /* Tamaño del texto */
-    color: #333; /* Color del texto */
-}
-
-.custom-modal {
-    display: none; /* Oculto por defecto */
-    position: absolute; /* Para alinearlo relativo al ícono */
-    background-color: white; /* Fondo blanco */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-    padding: 15px; /* Espaciado interno */
-    border-radius: 8px; /* Bordes redondeados */
-    width: 250px; /* Ajustar tamaño */
-    z-index: 1000; /* Prioridad visual */
-    margin-top: 10px; /* Espaciado debajo del ícono */
-    left: 90%; /* Centrar horizontalmente */
-    transform: translateX(-50%); /* Ajustar al centro del ícono */
-    font-family: Arial, sans-serif; /* Tipografía consistente */
-}
-
-.custom-modal .close-btn {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #999;
-}
-
-/* Ajuste de título */
-.custom-modal h3 {
-    margin: 0 0 10px 0;
-    font-size: 16px;
-    color: #333; /* Texto más oscuro */
-}
-
-/* Estilo de entrada */
-.custom-modal input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    box-sizing: border-box; /* Para un mejor ajuste */
-}
-
-/* Sugerencias dentro del modal */
-.suggestions {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid #ccc; /* Bordes grises */
-    max-height: 150px; /* Altura máxima */
-    overflow-y: auto; /* Scroll si excede */
-    background: #fff; /* Fondo blanco */
-}
-
-.suggestions li {
-    padding: 8px;
-    font-size: 14px;
-    color: #333; /* Texto oscuro */
-    cursor: pointer;
-}
-
-.suggestions li:hover {
-    background: #f0f0f0; /* Fondo al pasar */
-}
-
-/* Íconos y etiquetas */
-.icon-bar {
-    display: flex;
-    justify-content: space-around; /* Espaciado uniforme */
-    margin-top: 20px; /* Espaciado superior */
-}
-
-.icon-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    position: relative; /* Para el modal */
-    text-align: center; /* Centrar texto */
-}
-
-.icon-item i {
-    font-size: 24px; /* Tamaño del ícono */
-    margin-bottom: 5px; /* Espaciado con el texto */
-    color: #007bff; /* Azul principal */
-}
-
-.icon-item span {
-    font-size: 14px; /* Tamaño del texto */
-    color: #333; /* Color del texto */
-}
-/////////////////////////////
-.suggestions {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 800px; /* Ajusta el ancho a tus necesidades */
-    background: #fff;
-    border: 1px solid #ccc;
-    margin-top: 85px; /* Espaciado superior */
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    z-index: 999;
-    max-height: 200px; /* Ajusta la altura máxima */
-    overflow-y: auto; /* Aparece scroll si la lista supera el max-height */
-}
-
-.suggestions li {
-    padding: 10px; /* Más espacio interno */
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s ease; /* Transición suave del hover */
-    line-height: 1.4; /* Un poco más de altura de línea para legibilidad */
-    word-wrap: break-word; /* Permite que el texto se ajuste a la línea */
-    white-space: normal; /* Evita que el texto se corte en una sola línea */
-}
-
-.suggestions li:hover {
-    background: #f0f0f0; /* Color suave al hacer hover */
-}
-
-
-.invoice-table .invoice-details th:nth-child(3), .invoice-table .invoice-details td:nth-child(3) {
-    width: 300px;
-    text-align: center;
-}
-
-
-.modal-eliminar-unico {
-    display: none; /* Oculto por defecto */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-contenido-unico {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    width: 300px;
-    text-align: center;
-    position: relative;
-}
-
-.modal-cerrar-unico {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    border: none;
-    background: none;
-}
-
-.modal-contenido-unico h3 {
-    margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.modal-contenido-unico p {
-    margin-bottom: 20px;
-    font-size: 14px;
-    color: #555;
-}
-
-.modal-contenido-unico input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.modal-botones {
-    display: flex;
-    justify-content: space-between;
-}
-
-.btn-confirmar-unico {
-    background-color: #28a745;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    flex: 1;
-    margin-right: 10px;
-}
-
-.btn-cancelar-unico {
-    background-color: #dc3545;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    flex: 1;
-}
-
-.btn-confirmar-unico:hover {
-    background-color: #218838;
-}
-
-.btn-cancelar-unico:hover {
-    background-color: #c82333;
-}
-///////////////////////////////////////////////
-
-.elliot-apertura-modal {
-    display: none; 
-    position: fixed; 
-    z-index: 9999; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    background-color: rgba(0,0,0,0.4);
-    /* No flex, ni otros estilos que dependan del contenido interno */
-}
-
-.elliot-apertura-modal-content {
-    position: absolute; 
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-    background-color: #fefefe; 
-    padding: 20px; 
-    border: 1px solid #888; 
-    width: 300px; 
-    border-radius: 5px; 
-    box-sizing: border-box; 
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.elliot-apertura-close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.elliot-apertura-close:hover,
-.elliot-apertura-close:focus {
-    color: black;
-    text-decoration: none;
-}
-
-.elliot-apertura-title {
-    margin-top: 0;
-    text-align: center;
-    font-size: 18px;
-    margin-bottom: 20px;
-}
-
-.elliot-apertura-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.elliot-apertura-form-group {
-    margin-bottom: 15px;
-}
-
-.elliot-apertura-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.elliot-apertura-input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-
-.elliot-apertura-input:focus {
-    outline: none;
-    border-color: #28a745;
-}
-
-.elliot-apertura-button {
-    background: #28a745;
-    border: none;
-    padding: 10px;
-    color: #ffffff;
-    cursor: pointer;
-    border-radius: 3px;
-    text-align: center;
-    font-weight: bold;
-    transition: background 0.3s ease;
-    margin-top: 10px;
-}
-
-.elliot-apertura-button:hover {
-    background: #218838;
-}
-
-     </style>
- </head>
- <body>
-    <div class="container">
-        <!-- Contenedor de notificaciones -->
-        <div id="notification" class="notification hidden"></div>
-
-     <div class="container">
-         <div class="icono-caja">
-            <div>
-                <i class="fas fa-cash-register"></i>
-                <span>{{ terminal }} - {{ sucursal }}</span>
-            </div>
-            <div class="icon-bar">
-                <div class="icon-item" onclick="toggleHelpMenu()">
-                    <i class="fas fa-question-circle" title="Ayuda"></i>
-                    <span><strong>Ayuda</strong></span>
+        .facturacion-caja-shampoo-header .facturacion-caja-shampoo-search-box {
+            display: flex;
+            align-items: center;
+        }
+
+        .facturacion-caja-shampoo-header input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .facturacion-caja-shampoo-header button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .facturacion-caja-shampoo-table-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .facturacion-caja-shampoo-table {
+            width: 100%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        .facturacion-caja-shampoo-table th,
+        .facturacion-caja-shampoo-table td {
+            border: 1px solid #95defd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .facturacion-caja-shampoo-table th {
+            background-color: #95defd;
+        }
+
+        .facturacion-caja-shampoo-table tr:hover {
+            background-color: hsl( 180, 1%, 83%);
+            transition: background-color 0.3s;
+        }
+
+        .facturacion-caja-shampoo-table td:hover {
+            background-color: #efc737;
+            transition: background-color 0.3s;
+        }
+
+        .facturacion-caja-shampoo-fixed-icons {
+            display: flex;
+        }
+
+        .facturacion-caja-shampoo-fixed-icons button {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            color: #3163f9;
+            padding: 8px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 1.5em;
+        }
+
+        .facturacion-caja-shampoo-fixed-icons button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .facturacion-caja-shampoo-status-icon {
+            font-size: 1.2em;
+            margin-left: 5px;
+        }
+
+        .facturacion-caja-shampoo-status-paid {
+            color: #28a745;
+        }
+
+        .facturacion-caja-shampoo-status-pending {
+            color: #dc3545;
+        }
+
+        .facturacion-caja-shampoo-archive-button {
+            background-color: #96c4f5;
+            color: blue;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+    </style>
+
+    <body>
+        <div class="facturacion-caja-shampoo-container">
+            <div class="facturacion-caja-shampoo-header">
+                <h1>
+                    <i class="fa-solid fa-circle-dollar-to-slot facturacion-caja-kike-icon"></i>
+                    Facturación - Precierres
+                </h1>
+                <div class="facturacion-caja-shampoo-fixed-icons">
+                    <button title="Descargar">
+                        <i class="fa fa-download"></i>
+                    </button>
+                    <button title="Imprimir">
+                        <i class="fa fa-print"></i>
+                    </button>
                 </div>
-                <div class="icon-item" onclick="toggleConfigMenu()">
-                    <i class="fas fa-cog" title="Configuración"></i>
-                    <span><strong>Configuración</strong></span>
-                </div>
-                <div class="icon-item" onclick="toggleUserMenu()">
-                    <i class="fas fa-user" title="Clientes"></i>
-                    <span><strong>Buscar Clientes</strong></span>
-                </div>
-                
-                <div class="icon-item" onclick="toggleModal('transportModal')">
-                    <i class="fas fa-truck" title="Transportes"></i>
-                    <span><strong>Transportes</strong></span>
-                </div>
-                
-                <div class="icon-item" onclick="toggleModal('providerModal')">
-                    <i class="fas fa-boxes" title="Proveedores"></i>
-                    <span><strong>Proveedores</strong></span>
-                </div>
-                
+                <div class="facturacion-caja-shampoo-search-box">
+                    <input type="text" placeholder="Buscar Factura..." />
+                    <button type="button" class="facturacion-caja-search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
             </div>
-            </div>
-         </div><br></br>
-        <br></br>
-
-        <div class="barra-busqueda" style="position: relative; max-width: 300px;">
-            <input 
-                type="text" 
-                id="buscar" 
-                placeholder="Buscar productos..." 
-                onkeyup="filtrarProductos()" 
-                style="width: 1200px;"
-            >
-            <button type="button" onclick="agregarProductoSeleccionado()">Buscar</button>
-        
-            <!-- Lista de sugerencias -->
-            <ul id="listaSugerencias" class="suggestions" style="display: none;"></ul>
-        </div>
-        <div id="contenido" class="contenido" >
-            <div class="header">
-                <div class="company-details">
-                    <p>FERRETERIA SAN JERONIMO<br />
-                    MORAVIA, SAN JOSÉ <br />
-                    TELEFONO : 2224 5602 <br />
-                    EMAIL: ferreteriaSanJeronimo@gmail.com</p>
-                </div>
-            </div>
-            <div class="invoice-info">
-                <table class="invoice-details">
-                    <tr>
-                        <th>FECHA</th>
-                        <th>NUMERO FACTURA</th>
-                        <th>CLIENTE</th>
-                    </tr>
-                    <tr>
-                        <td><span id="fechaHoraFactura">{{ fecha_hora_actual }}</span></td>
-                        <td><span id="numeroFactura">{{ numero_factura }}</span></td>
-                        <td><span id="clienteSeleccionado">Selecciona un cliente</span></td>
-                    </tr>
-                    
-                </table>
-            </div>
-            </div>
-            <div class="invoice-table">
-                <table class="invoice-details" id="invoiceTable">
-                    <tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Cantidad</th>
-                        <th>Precio de Venta</th>
-                        <th>Subtotal</th>
-                        <th>Acciones</th>
-                    </tr>
-                  
-                </table>
-            </div>
-            
-            <div class="tabla-subtotal">
-                <table class="tabla-subtotal" id="summaryTable">
-                    <tr>
-                        <td><strong>Cantidad Productos</strong></td>
-                        <td><strong>0.00</strong></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Subtotal</strong></td>
-                        <td><strong>₡0.00</strong></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Descuentos</strong></td>
-                        <td><strong>₡0.00</strong></td>
-                    </tr>
-                    <tr>
-                        <td><strong>IVA</strong></td>
-                        <td><strong>₡0.00</strong></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Total</strong></td>
-                        <td><strong>₡0.00</strong></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="observations">
-                <label for="observations-input">Observaciones:</label>
-                <textarea id="observations-input" name="observations" class="unique-observations" rows="4" cols="50" placeholder="Escriba sus observaciones aquí..."></textarea>
-            </div>
-                <br>
-                <div class="button-container">
-                    <button class="button-pagar" onclick="openPaymentModal()">Pagar</button>
-                 
-                </div>
-                <br>
-                <div class="thanks-unique">
-                    <div class="icons-unique">
-                        <i class="fab fa-cc-visa"></i>
-                        <i class="fab fa-cc-mastercard"></i>
-                    </div>
-                    <p>GRACIAS POR SU COMPRA</p>
-                    <!-- Nueva sección para los íconos de los bancos -->
-                    <div class="bank-icons-unique">
-                        {% load static %}
-                        <img src="{% static 'img/bac.jpg' %}" alt="BAC San José" class="bank-icon-unique">
-                        <img src="{% static 'img/bncr.jpg' %}" alt="Banco Nacional" class="bank-icon-unique">
-                        <img src="{% static 'img/bcr.jpeg' %}" alt="Banco Popular" class="bank-icon-unique">
-                        <img src="{% static 'img/bancopopular.png' %}" alt="Scotiabank" class="bank-icon-unique">
-                    </div>
-                </div>
-                
-            </div>
-
-
-        <!-- Modal de Pago -->
-        <div id="paymentModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closePaymentModal()">&times;</span>
-                <h2>Realizar Pago</h2>
-                <label for="paymentMethod">Tipo de precio:</label>
-                <select>
-                    <option value="Regular">Regular</option>
-                    <option value="Mayorista">Mayorista</option>
-                    <option value="Proveedor">Proveedor</option>
-                </select>
-                <label for="paymentMethod">Tipo de Moneda:</label>
-                <select>
-                    <option value="Colones">Colones</option>
-                    <option value="Dolares">Dólares</option>
-                </select>
-                <label for="paymentMethod">Descuento:</label>
-                <select>
-                    <option value="0">0%</option>
-                    <option value="5">5%</option>
-                    <option value="10">10%</option>
-                    <option value="15">15%</option>
-                    <option value="50">50%</option>
-                </select>
-                <label for="paymentMethod">Método de Pago:</label>
-                <select>
-                    <option value="creditCard">Tarjeta de Crédito o Débito</option>
-                    <option value="cash">Efectivo</option>
-                    <option value="transfer">Transferencia</option>
-                    <option value="credit">Pago a Crédito</option>
-                </select>
-                <label for="amount">Monto a Pagar:</label>
-                <input type="number" id="amount" placeholder="Monto">
-                <button onclick="procesarPago()">Procesar Pago</button>
-
-            </div>
-        </div>
- 
-        <!-- Menú de configuración -->
-        <div id="configMenu" class="config-menu">
-            <span class="close-btn" onclick="toggleConfigMenu()">&times;</span>
-            <div class="menu-item" onclick="abrirModalConfiguracion()">
-                <i class="fas fa-store"></i>
-                <span>Configurar tiendas</span>
-            </div>
-            
-            <div class="menu-item" onclick="openAperturaCajaModal()">
-                <i class="fas fa-box-open"></i> <span>Abrir caja</span>
-            </div>
-
-
-            <div class="menu-item" onclick="openPreCierreCajaModal()">
-                <i class="fas fa-cash-register"></i> <span>Precierre caja</span>
-            </div>
-    
-            <div class="menu-item">
-                <i class="fas fa-print"></i>
-                <span>Reimprimir cierre</span>
-            </div>
-            <div class="menu-item" onclick="openMovimientoDineroModal()">
-                <i class="fas fa-money-bill-alt"></i> <span>Movimiento de Dinero</span>
-            </div>
-            
         </div>
 
-        <!-- Menú de usuario -->
-        <div id="userMenu" class="user-menu">
-            <span class="close-btn" onclick="toggleUserMenu()">&times;</span>
-            <h2>Buscar cliente</h2>
-            <div class="search-bar">
-                <input 
-                    type="text" 
-                    id="buscarCliente" 
-                    placeholder="Ingrese el nombre del cliente..." 
-                    onkeyup="buscarCliente()"
-                >
-
-            </div>
-            <ul id="resultadosBusqueda" class="suggestions"></ul>
-        </div>
-
-       
-    <!-- Modal de Transportes -->
-<div id="transportModal" class="custom-modal">
-    <button class="close-btn" onclick="toggleModal('transportModal')">&times;</button>
-    <h3>Buscar Transporte</h3>
-    <input type="text" placeholder="Ingrese el transporte...">
-    <ul class="suggestions">
-        <!-- Resultados de búsqueda -->
-    </ul>
-</div>
-
-<!-- Modal de Proveedores -->
-<div id="providerModal" class="custom-modal">
-    <button class="close-btn" onclick="toggleModal('providerModal')">&times;</button>
-    <h3>Buscar Proveedor</h3>
-    <input type="text" id="buscarOrden" placeholder="Ingrese el proveedor u orden..." oninput="filtrarOrdenes()">
-    <ul id="listaSugerenciasOrdenes" class="suggestions" style="display: none;"></ul>
-    <button onclick="agregarOrdenSeleccionada()">Agregar Orden</button>
-</div>
-
-        <!-- Menú de ayuda -->
-        <div id="helpMenu" class="help-menu">
-            <span class="close-btn" onclick="toggleHelpMenu()">&times;</span>
-            <div class="menu-item">
-                <i class="fas fa-info-circle"></i>
-                <span>Instrucciones de uso:</span>
-            </div>
-            <div class="menu-item">
-                <span>1. Busque un producto para agregarlo</span>
-            </div>
-            <div class="menu-item">
-                <span>2. si aplicas el precierre este generara el cierre en fisico y el cierre automatico de la caja registradore</span>
-            </div>
-        </div>
-    
-
-     <!--modal de precierre-->
-    
-  <div id="preCierreCajaModal" class="modal-caja">
-    <div class="modal-content">
-        <span class="close" onclick="closePreCierreCajaModal()">&times;</span>
-        <div class="info">
-            <!-- Mostrar la sucursal dinámica -->
-            <p>Sucursal: {% if sucursal %}{{ sucursal }}{% else %}Desconocida{% endif %}</p>
-            <!-- Mostrar la caja registradora dinámica -->
-            <p>Caja registradora: {% if terminal %}{{ terminal }}{% else %}Desconocida{% endif %}</p>
-        </div>
-        <div class="info">
-            <p>Fecha Apertura : {% if apertura_fecha %}{{ apertura_fecha }}{% else %}No disponible{% endif %}</p>
-        </div>
-        <div class="info">
-            <p>Hora Apertura : {% if apertura_hora %}{{ apertura_hora }}{% else %}No disponible{% endif %}</p>
-        </div> 
-        <p>Monto inicial en la caja: {% if apertura_monto %}{{ apertura_monto }}{% else %}No disponible{% endif %}</p>
-        <p>Nombre del Cajero: {% if apertura_cajero %}{{ apertura_cajero }}{% else %}No disponible{% endif %}</p>
-
-       <label for="Movimiento-dinero">Transacciones del dia</label>
-        <div class="info">
-                <p>Impuestos: 135 652 CRC</p>
-                <p>Servicios 10% %  50 000 CRC</p>
-        </div>
-        <div class="info">
-            <p>Facturas provedor:5.00</p>
-            <p>Notas de debito: 0.0</p>
-        </div>
-        <div class="info">
-            <p>Ingreso Efectivo: 1000000.0</p>
-            <p>Ingreso Tarjetas: 70000.0</p>
-        </div>
-        <div class="info">
-            <p>Ingreso Sinpe/ trnasf: 15000.00</p>
-            <p>venta Credito: 0.0</p>
-        </div>
-        <div class="info">
-            <p>Cantidad tiquetes: 35</p>
-            <p>Total de la Venta: 480000.00</p>
-        </div>
-        <label for="Movimiento-dinero">Movimiento de dinero</label>
-        <div class="invoice-info">
-            <table class="invoice-details">
+        <div class="facturacion-caja-shampoo-table-container">
+            <table class="facturacion-caja-shampoo-table">
                 <thead>
                     <tr>
-                        <th>FECHA</th>
-                        <th>USUARIO</th>
-                        <th>NOTA</th>
-                        <th>MONTO</th>
+                        <th>Sucursal</th>
+                        <th>Caja registradora</th>
+                        <th>Hora apertura</th>
+                        <th>Fecha</th>
+                        <th>Monto Ini</th>
+                        <th>Cajero</th>
+                        <th>Impuestos</th>
+                        <th>Efectivo</th>
+                        <th>Facturas proveedor</th>
+                        <th>Tarjetas</th>
+                        <th>Simpe móvil</th>
+                        <th>Venta crédito</th>
+                        <th>Movimientos</th>
+                        <th>Total Ventas</th>
+                        <th>Cantidad facturas</th>
+                        <th>Conteo Efectivo</th>
+                        <th>Conteo Tarjetas</th>
+                        <th>Contado en Efectivo</th>
+                        <th>Contado en Tarjetas</th>
+                        <th>Archivar</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for movimiento in movimientos %}
+                    {% for precierre in precierres %}
                     <tr>
-                        <td>{{ movimiento.fecha_hora|date:"d-m-Y H:i" }}</td>
-                        <td>{{ movimiento.usuario }}</td>
-                        <td>{{ movimiento.nota }}</td>
-                        <td>{{ movimiento.monto }}</td>
+                        <td>{{ precierre.sucursal }}</td>
+                        <td>{{ precierre.caja_registradora }}</td>
+                        <td>{{ precierre.hora_apertura }}</td>
+                        <td>{{ precierre.fecha }}</td>
+                        <td>{{ precierre.monto_inicial }}</td>
+                        <td>{{ precierre.cajero }}</td>
+                        <td>{{ precierre.impuestos }}</td>
+                        <td>{{ precierre.efectivo }}</td>
+                        <td>{{ precierre.facturas_proveedor }}</td>
+                        <td>{{ precierre.tarjetas }}</td>
+                        <td>{{ precierre.simpe_movil }}</td>
+                        <td>{{ precierre.venta_credito }}</td>
+                        <td>{{ precierre.movimientos }}</td>
+                        <td>{{ precierre.total_ventas }}</td>
+                        <td>{{ precierre.cantidad_facturas }}</td>
+                        <td>{{ precierre.conteo_efectivo }}</td>
+                        <td>{{ precierre.conteo_tarjetas }}</td>
+                        <td>{{ precierre.contado_efectivo }}</td>
+                        <td>{{ precierre.contado_tarjetas }}</td>
+                        <td><button>Archivar</button></td>
                     </tr>
                     {% endfor %}
-                </tbody>
             </table>
         </div>
-        <p>Total de todos los movimientos: {{ total_movimientos }} CRC</p>
-            <label for="ARQUEO DE CAJA">ARQUEO DE CAJA</label>
-            <label for="monto">Conteo Actual de Monto Efectivo:</label>
-            <input type="number" id="monto" placeholder="0">
-            <label for="monto">Monto Contado en Efectivo:</label>
-            <input type="number" id="monto" placeholder="0">
-            <label for="monto">Conteo Actual de Monto Tarjeta</label>
-            <input type="number" id="monto" placeholder="0">
-            <label for="monto">Monto Contado en Efectivo:</label>
-            <input type="number" id="monto" placeholder="0">
-            <!-- Botón con ícono de imprimir -->
-            <!-- Contenedor para el botón y el ícono -->
-            <div class="button-container-precierre">
-            <button type="submit" onclick="submitPreCierreCaja()">APLICAR</button>
-            </div>
-            <div class="print-icon-precierre-container" onclick="printPreCierre()">
-                <i class="fas fa-print print-icon-precierre"></i>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Modal de Movimiento de Dinero -->
-<div id="movimientoDineroModal" class="modal"> 
-    <div class="modal-content">
-        <!-- Botón de cierre del modal -->
-        <span class="close" onclick="cerrarModalMovimientoDinero()">&times;</span>
-        
-        <form id="movimientoDineroForm" method="post" action="{% url 'guardar_movimiento_dinero' %}">
-            {% csrf_token %}
-            <label for="tipoMovimiento">Tipo de Movimiento:</label>
-            <select id="tipoMovimiento" name="tipoMovimiento" required>
-                <option value="ingreso">Ingreso</option>
-                <option value="egreso">Egreso</option>
-            </select>
-
-            <label for="fechaHoraMovimiento">Fecha y Hora:</label>
-            <input type="datetime-local" id="fechaHoraMovimiento" name="fechaHora" required>
-
-            <label for="usuarioMovimiento">Usuario:</label>
-            <input type="text" id="usuarioMovimiento" name="usuario" placeholder="Usuario" required>
-
-            <label for="notaMovimiento">Nota:</label>
-            <textarea id="notaMovimiento" name="nota" placeholder="Nota"></textarea>
-
-            <label for="montoMovimiento">Monto:</label>
-            <input type="number" id="montoMovimiento" name="monto" step="0.01" placeholder="Monto" required>
-
-            <button type="submit">Realizar Movimiento</button>
-        </form>
-    </div>
-</div>
-
-
-
-<div id="modalEliminar" class="modal-eliminar-unico">
-    <div class="modal-contenido-unico">
-        <span class="modal-cerrar-unico" onclick="cerrarModalEliminar()">&times;</span>
-        <h3>Confirmar Eliminación</h3>
-        <p>Ingrese el código de seguridad para confirmar la eliminación:</p>
-        <input type="password" id="codigoSeguridadUnico" placeholder="Código de seguridad" />
-        <div class="modal-botones">
-            <button class="btn-confirmar-unico" onclick="validarCodigoEliminar()">Confirmar</button>
-            <button class="btn-cancelar-unico" onclick="cerrarModalEliminar()">Cancelar</button>
-        </div>
-    </div>
-</div>
-
-<!-- Modal de Apertura de Caja -->
-<div id="aperturaCajaModal" class="elliot-apertura-modal" style="display: none;">
-    <div class="elliot-apertura-modal-content">
-        <span class="elliot-apertura-close" onclick="closeAperturaCajaModal()">&times;</span>
-        <h2 class="elliot-apertura-title">Abrir Caja</h2>
-        <form method="POST" action="{% url 'abrir_caja_view' %}" class="elliot-apertura-form">
-            {% csrf_token %}
-            <div class="elliot-apertura-form-group">
-                <label for="cajero" class="elliot-apertura-label">Nombre del Cajero:</label>
-                <input type="text" name="cajero" id="cajero" class="elliot-apertura-input" required>
-            </div>
-            <div class="elliot-apertura-form-group">
-                <label for="monto_inicial" class="elliot-apertura-label">Monto Inicial:</label>
-                <input type="number" step="0.01" name="monto_inicial" id="monto_inicial" class="elliot-apertura-input" required>
-            </div>
-            <button type="submit" class="elliot-apertura-button">Abrir Caja</button>
-        </form>
-    </div>
-</div>
-
-
-
-     <script>
-
-        function openAperturaCajaModal() {
-            var modal = document.getElementById('aperturaCajaModal');
-            modal.style.display = 'block';
-        }
-        
-        function closeAperturaCajaModal() {
-            var modal = document.getElementById('aperturaCajaModal');
-            modal.style.display = 'none';
-        }
-        ///////////////////////////////////////////////
-        document.addEventListener("DOMContentLoaded", function () {
-            window.toggleModal = function (modalId) {
-                // Cerrar todos los modales antes de abrir uno nuevo
-                closeAllModals();
-        
-                // Obtener el modal por su ID
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    modal.style.display = "block"; // Mostrar el modal
-                }
-            };
-        
-            window.closeModal = function (modalId) {
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    modal.style.display = "none"; // Ocultar el modal
-                }
-            };
-        
-            function closeAllModals() {
-                const modals = document.querySelectorAll(".custom-modal");
-                modals.forEach((modal) => {
-                    modal.style.display = "none";
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Agregar un evento de clic a todos los botones de archivar
+                document.querySelectorAll(".facturacion-caja-shampoo-archive-button").forEach(function (button) {
+                    button.addEventListener("click", function () {
+                        if (confirm("¿Estás seguro de que deseas archivar esta fila?")) {
+                            var row = button.closest("tr");
+                            row.style.display = "none";
+                        }
+                    });
                 });
-            }
-        
-            // Cerrar modales al hacer clic fuera de ellos
-            document.addEventListener("click", function (event) {
-                const modals = document.querySelectorAll(".custom-modal");
-                let clickedInside = false;
-        
-                modals.forEach((modal) => {
-                    if (modal.contains(event.target)) {
-                        clickedInside = true;
-                    }
-                });
-        
-                if (!clickedInside && !event.target.closest(".icon-item")) {
-                    closeAllModals();
-                }
             });
-        });
-
-
-        /////////////////////////////////////////////////////////////
-        
-         function toggleConfigMenu() {
-             var configMenu = document.getElementById('configMenu');
-             configMenu.style.display = configMenu.style.display === 'block' ? 'none' : 'block';
-         }
- 
-         function toggleUserMenu() {
-             var userMenu = document.getElementById('userMenu');
-             userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
-         }
- 
-         function toggleHelpMenu() {
-             var helpMenu = document.getElementById('helpMenu');
-             helpMenu.style.display = helpMenu.style.display === 'block' ? 'none' : 'block';
-         }
-
-
-        
-        function mostrarModal() {
-            var modal = document.getElementById('modalPago');
-            modal.style.display = 'block';
-        }
-
-        function cerrarModal() {
-            var modal = document.getElementById('modalPago');
-            modal.style.display = 'none';
-        }
-
-
-        function eliminarFila(button) {
-            var row = button.parentNode.parentNode.parentNode;
-            row.parentNode.removeChild(row);
-        }
-        
-        window.onclick = function(event) {
-            var modal = document.getElementById('modalPago');
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        }
- 
-         function openModal(modalId) {
-             var modal = document.getElementById(modalId);
-             modal.style.display = 'block';
-         }
- 
-         function closeModal(modalId) {
-             var modal = document.getElementById(modalId);
-             modal.style.display = 'none';
-         }
- 
-         function openPaymentModal() {
-             var paymentModal = document.getElementById('paymentModal');
-             paymentModal.style.display = 'block';
-         }
- 
-         function closePaymentModal() {
-             var paymentModal = document.getElementById('paymentModal');
-             paymentModal.style.display = 'none';
-         }
- 
-         function deleteRow(element) {
-             var row = element.parentNode.parentNode;
-             row.parentNode.removeChild(row);
-         }
- 
-         function buscarCliente() {
-             // Implementar la lógica de búsqueda de cliente aquí
-         }
-
-         function openPreCierreCajaModal() {
-            var modal = document.getElementById('preCierreCajaModal');
-            modal.style.display = 'block';
-        }
-
-        function closePreCierreCajaModal() {
-            var modal = document.getElementById('preCierreCajaModal');
-            modal.style.display = 'none';
-        }
-
-        function submitPayment() {
-            // Aquí puedes agregar la lógica para procesar el pago
-            closePaymentModal();
-            alert('Pago realizado con éxito.');
-        }
-
-        function submitPreCierreCaja() {
-            // Aquí puedes agregar la lógica para el pre-cierre de caja
-            closePreCierreCajaModal();
-            alert('Pre-cierre de caja realizado con éxito.');
-        }
-
-        function openMovimientoDineroModal() {
-            document.getElementById("movimientoDineroModal").style.display = "block";
-        }
-
-        function cerrarModalMovimientoDinero() {
-            document.getElementById('movimientoDineroModal').style.display = 'none';
-        }
-
-        function processPayment() {
-            // Lógica para procesar el pago
-            closePaymentModal();
-        }
-
-        function processMovimientoDinero(event) {
-            event.preventDefault();
-            // Lógica para procesar el movimiento de dinero
-            closeMovimientoDineroModal();
-        }
-
-        function mostrarContenido() {
-            var contenido = document.getElementById("contenido");
-            contenido.style.display = (contenido.style.display === "block") ? "none" : "block";
-        }
-
-        function deleteRow(btn) {
-            var row = btn.parentNode.parentNode;
-            row.parentNode.removeChild(row);
-        }
-       
-        function updateTotal(element) {
-            // Encuentra la fila que contiene el input
-            var row = element.closest('tr');
-        
-            // Obtiene el valor de la cantidad y el precio base
-            var quantity = parseInt(element.value);
-            var price = parseInt(row.cells[3].textContent);
-        
-            // Recalcula el total para esa fila
-            var total = quantity * price;
-            row.cells[5].textContent = total;
-        
-            // Aquí también puedes actualizar el resumen general, como el subtotal, IVA y total.
-        }
-        
-        function buscarCliente() {
-            const query = document.getElementById('buscarCliente').value;
-            const resultados = document.getElementById('resultadosBusqueda');
-        
-            if (query.length < 2) {
-                resultados.innerHTML = ''; // Limpia las sugerencias si el término es corto
-                return;
-            }
-        
-            // Realiza una solicitud GET al backend
-            fetch(`/clientes/buscar-clientes/?q=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    resultados.innerHTML = ''; // Limpia las sugerencias previas
-        
-                    if (data.length > 0) {
-                        data.forEach(cliente => {
-                            const li = document.createElement('li');
-                            li.textContent = `${cliente.nombre} ${cliente.primer_apellido} ${cliente.segundo_apellido}`;
-                            li.onclick = () => seleccionarCliente(cliente.id, cliente.nombre, cliente.primer_apellido, cliente.segundo_apellido);
-                            resultados.appendChild(li);
-                        });
-                    } else {
-                        resultados.innerHTML = '<li>No se encontraron resultados</li>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    resultados.innerHTML = '<li>Error en la búsqueda</li>';
-                });
-        }
-        
-        function seleccionarCliente(id, nombre, primer_apellido, segundo_apellido) {
-            const clienteCompleto = `${nombre} ${primer_apellido} ${segundo_apellido}`;
-
-            // Actualizar el valor en el campo CLIENTE de la tabla
-            document.getElementById('clienteSeleccionado').textContent = clienteCompleto;
-
-            // Mostrar notificación personalizada
-            mostrarNotificacion(`Cliente seleccionado: ${clienteCompleto}`);
-        }
-
-        function mostrarNotificacion(mensaje) {
-            const notification = document.getElementById('notification');
-            notification.textContent = mensaje;
-
-            // Agregar botón de cierre
-            const closeBtn = document.createElement('button');
-            closeBtn.classList.add('close-btn');
-            closeBtn.textContent = '×';
-            closeBtn.onclick = () => cerrarNotificacion();
-            notification.appendChild(closeBtn);
-
-            // Mostrar notificación
-            notification.classList.remove('hidden');
-            notification.classList.add('visible');
-
-            // Ocultar automáticamente después de 3 segundos
-            setTimeout(() => {
-                cerrarNotificacion();
-            }, 3000);
-        }
-
-        function cerrarNotificacion() {
-            const notification = document.getElementById('notification');
-            notification.classList.remove('visible');
-            notification.classList.add('hidden');
-            notification.innerHTML = ''; // Limpiar el contenido para evitar duplicados
-        }
-
-    /////////////////////////////////////////////////////////////////////////////////////////
-    
-// Convertimos los productos del contexto Django a un array de objetos JS
-const productos = [
-{% for producto in productos %}
-    {
-        "id": {{ producto.id }},
-        "codigo_cabys": "{{ producto.codigo_cabys|escapejs }}",
-        "nombre": "{{ producto.nombre|escapejs }}",
-        "descripcion": "{{ producto.descripcion|default:''|escapejs }}",
-        "precio_venta": "{{ producto.precio_venta }}"
-    },
-{% endfor %}
-];
-
-let productoSeleccionado = null;
-
-function filtrarProductos() {
-    const input = document.getElementById('buscar');
-    const filtro = input.value.toLowerCase();
-    const lista = document.getElementById('listaSugerencias');
-
-    if (!filtro) {
-        lista.innerHTML = '';
-        lista.style.display = 'none';
-        return;
-    }
-
-    const resultados = productos.filter(p => p.nombre.toLowerCase().includes(filtro));
-
-    lista.innerHTML = '';
-    resultados.forEach(p => {
-        const li = document.createElement('li');
-        li.textContent = `${p.nombre} - ${p.descripcion || 'Sin descripción'} - ${p.codigo_cabys} - ₡${p.precio_venta}`;
-        li.onclick = () => {
-            productoSeleccionado = p;
-            input.value = p.nombre;
-            lista.style.display = 'none';
-        };
-        lista.appendChild(li);
-    });
-
-    lista.style.display = resultados.length > 0 ? 'block' : 'none';
-}
-
-function agregarProductoSeleccionado() {
-    const { codigo_cabys, nombre, descripcion, precio_venta } = productoSeleccionado;
-    const precio = parseFloat(precio_venta);
-
-    const table = document.getElementById('invoiceTable');
-    const row = table.insertRow(-1);
-
-    row.innerHTML = `
-        <td>${codigo_cabys}</td>
-        <td>${nombre}</td>
-        <td>${descripcion}</td>
-        <td><input type="number" value="1" min="1" onchange="actualizarTotal(this, ${precio})"></td>
-        <td>₡${precio.toFixed(2)}</td>
-        <td>₡${(1 * precio).toFixed(2)}</td>
-        <td><button onclick="confirmarEliminacion(this)">Borrar</button></td>
-    `;
-
-    productoSeleccionado = null;
-    document.getElementById('buscar').value = '';
-}
-
-function actualizarTotal(input, precio) {
-    const row = input.closest('tr');
-    const cantidad = parseInt(input.value) || 1;
-    const totalCell = row.cells[5];
-    totalCell.textContent = `₡${(cantidad * precio).toFixed(2)}`;
-}
-
-function confirmarEliminacion(button) {
-    // Mostrar un cuadro de diálogo para ingresar el código de seguridad
-    const codigo = prompt("Ingrese el código de seguridad para borrar (será oculto con asteriscos):", "");
-
-    if (codigo === null) {
-        // El usuario canceló
-        return;
-    }
-
-    // Validar el código (puedes reemplazar '1234' por un valor dinámico o una API)
-    const codigoCorrecto = "1234"; // Código de ejemplo
-
-    if (codigo === codigoCorrecto) {
-        // Código correcto, eliminar la fila
-        eliminarFila(button);
-    } else {
-        // Código incorrecto, mostrar un mensaje de error
-        alert("El código ingresado es incorrecto. No se borrará la fila.");
-    }
-}
-
-function eliminarFila(button) {
-    const row = button.closest('tr');
-    row.parentNode.removeChild(row);
-}
-
-// --- Añadimos la funcionalidad de cerrar sin alterar el resto del código ---
-function cerrarSugerencias() {
-    const lista = document.getElementById('listaSugerencias');
-    lista.innerHTML = '';
-    lista.style.display = 'none';
-}
-
-// Cierra las sugerencias al hacer clic fuera de la lista y del input
-document.addEventListener('click', function(event) {
-    const lista = document.getElementById('listaSugerencias');
-    const input = document.getElementById('buscar');
-
-    if (lista.style.display === 'block' && 
-        !lista.contains(event.target) && 
-        event.target !== input) {
-        cerrarSugerencias();
-    }
-});
-////////////////////////////////////////////////////////////////////////////////////
-
-const ordenes = [
-{% for orden in ordenes_compra %}
-    {
-        "id": "{{ orden.id_orden }}",
-        "proveedor": "{{ orden.proveedor|escapejs }}", // Proveedor
-        "descripcion": "{{ orden.descripcion|escapejs }}",
-        "cantidad": {{ orden.cantidad }},
-        "precio_unitario": {{ orden.precio_unitario }},
-        "subtotal": "{{ orden.total }}"
-    },
-{% endfor %}
-];
-
-// Depuración: Imprime las órdenes en la consola del navegador
-console.log("Órdenes cargadas:", ordenes);
-
-let ordenSeleccionada = null;
-
-function filtrarOrdenes() {
-    const input = document.getElementById('buscarOrden');
-    const filtro = input.value.toLowerCase();
-    const lista = document.getElementById('listaSugerenciasOrdenes');
-
-    if (!filtro) {
-        lista.innerHTML = '';
-        lista.style.display = 'none';
-        return;
-    }
-
-    const resultados = ordenes.filter(o => 
-        o.proveedor.toLowerCase().includes(filtro)
-    );
-
-    lista.innerHTML = '';
-    resultados.forEach(o => {
-        const li = document.createElement('li');
-        li.textContent = `${o.descripcion || 'Sin descripción'} - Proveedor: ${o.proveedor} - Precio Unitario: ₡${o.precio_unitario.toFixed(2)}`;
-        li.onclick = () => {
-            ordenSeleccionada = o;
-            input.value = o.proveedor;
-            lista.style.display = 'none';
-        };
-        lista.appendChild(li);
-    });
-
-    lista.style.display = resultados.length > 0 ? 'block' : 'none';
-}
-
-function agregarOrdenSeleccionada() {
-    if (!ordenSeleccionada) {
-        alert('Por favor selecciona una orden antes de agregarla.');
-        return;
-    }
-
-    // Extraer los datos de la orden seleccionada
-    const { id, proveedor, descripcion, cantidad, precio_unitario } = ordenSeleccionada;
-
-    const table = document.getElementById('invoiceTable');
-    const row = table.insertRow(-1);
-
-    // Calcular el subtotal inicial basado en cantidad y precio_unitario
-    const subtotal = cantidad * precio_unitario;
-
-    // Llenar la fila con los campos acomodados
-    row.innerHTML = `
-        <td>${id}</td>                     <!-- Código -->
-        <td>${proveedor}</td>              <!-- Proveedor -->
-        <td>${descripcion}</td>            <!-- Descripción -->
-        <td><input type="number" value="${cantidad}" min="1" onchange="actualizarTotalOrden(this, ${precio_unitario})"></td> <!-- Cantidad -->
-        <td>₡${precio_unitario.toFixed(2)}</td>  <!-- Precio de Venta -->
-        <td>₡${subtotal.toFixed(2)}</td>    <!-- Subtotal -->
-        <td>
-            <button onclick="confirmarEliminacion(this)">Eliminar</button>
-        </td> <!-- Botón Eliminar -->
-    `;
-
-    ordenSeleccionada = null;
-    document.getElementById('buscarOrden').value = '';
-}
-
-function actualizarTotalOrden(input, precioUnitario) {
-    const row = input.closest('tr');
-    const cantidad = parseInt(input.value) || 1; // Si no hay valor, usa 1 como predeterminado
-    const subtotalCell = row.cells[5]; // Subtotal está en la sexta celda
-    const subtotal = cantidad * precioUnitario;
-
-    // Actualiza el subtotal en la tabla con el símbolo de colones
-    subtotalCell.textContent = `₡${subtotal.toFixed(2)}`;
-}
-
-let botonEliminarActual = null;
-
-function confirmarEliminacion(button) {
-    // Guardar el botón de la fila seleccionada
-    botonEliminarActual = button;
-
-    // Mostrar el modal
-    const modal = document.getElementById('modalEliminar');
-    modal.style.display = 'flex'; // Mostrar el modal
-}
-
-function cerrarModalEliminar() {
-    // Ocultar el modal
-    const modal = document.getElementById('modalEliminar');
-    modal.style.display = 'none';
-
-    // Limpiar el campo de código
-    document.getElementById('codigoSeguridadUnico').value = '';
-}
-
-function validarCodigoEliminar() {
-    const codigoIngresado = document.getElementById('codigoSeguridadUnico').value;
-    const codigoCorrecto = "1234"; // Código de ejemplo; reemplazar por validación del backend si es necesario
-
-    if (codigoIngresado === codigoCorrecto) {
-        // Código correcto, eliminar la fila
-        eliminarFila(botonEliminarActual);
-        cerrarModalEliminar();
-    } else {
-        // Código incorrecto, mostrar alerta
-        alert("El código ingresado es incorrecto. No se eliminará la fila.");
-    }
-}
-
-function eliminarFila(button) {
-    const row = button.closest('tr');
-    row.parentNode.removeChild(row);
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Función para actualizar el resumen general (productos y órdenes de compra)
-function actualizarResumen() {
-    const table = document.getElementById('invoiceTable');
-    const rows = table.rows;
-    let cantidadProductos = 0;
-    let subtotal = 0;
-
-    // Recorrer las filas de la tabla para calcular los totales
-    for (let i = 1; i < rows.length; i++) { // Ignorar la fila de encabezado
-        const cantidadInput = rows[i].cells[3].querySelector('input');
-        const cantidad = parseFloat(cantidadInput?.value || 1); // Predeterminado: 1
-        const precioUnitario = parseFloat(rows[i].cells[4].textContent.replace('₡', '').trim()) || 0;
-        const subtotalProducto = cantidad * precioUnitario;
-
-        // Actualizar el subtotal en la fila correspondiente
-        rows[i].cells[5].textContent = `₡${subtotalProducto.toFixed(2)}`;
-
-        cantidadProductos += cantidad;
-        subtotal += subtotalProducto;
-    }
-
-    // Obtener el descuento del modal
-    const descuentoSelect = document.querySelector('#paymentModal select:nth-of-type(3)');
-    const descuentoPorcentaje = parseFloat(descuentoSelect?.value || 0);
-    const descuentoMonto = (subtotal * descuentoPorcentaje) / 100;
-
-    // Calcular el IVA (13%)
-    const iva = (subtotal - descuentoMonto) * 0.13;
-
-    // Calcular el total final
-    const total = subtotal - descuentoMonto + iva;
-
-    // Actualizar la tabla de subtotales
-    const resumenTable = document.getElementById('summaryTable');
-    resumenTable.rows[0].cells[1].textContent = cantidadProductos.toFixed(2); // Cantidad de productos
-    resumenTable.rows[1].cells[1].textContent = `₡${subtotal.toFixed(2)}`; // Subtotal
-    resumenTable.rows[2].cells[1].textContent = `₡${descuentoMonto.toFixed(2)}`; // Descuento
-    resumenTable.rows[3].cells[1].textContent = `₡${iva.toFixed(2)}`; // IVA
-    resumenTable.rows[4].cells[1].textContent = `₡${total.toFixed(2)}`; // Total
-}
-
-// Función para agregar productos a la tabla
-function agregarProductoSeleccionado() {
-    if (!productoSeleccionado) {
-        alert('Selecciona un producto antes de agregar.');
-        return;
-    }
-
-    const { codigo_cabys, nombre, descripcion, precio_venta } = productoSeleccionado;
-    const precio = parseFloat(precio_venta);
-
-    const table = document.getElementById('invoiceTable');
-    const row = table.insertRow(-1);
-
-    // Crear la fila con los datos del producto
-    row.innerHTML = `
-        <td>${codigo_cabys}</td>
-        <td>${nombre}</td>
-        <td>${descripcion}</td>
-        <td><input type="number" value="1" min="1" onchange="actualizarTotal(this, ${precio})"></td>
-        <td>₡${precio.toFixed(2)}</td>
-        <td>₡${precio.toFixed(2)}</td>
-        <td><button onclick="eliminarFila(this)">Borrar</button></td>
-    `;
-
-    // Limpiar la selección
-    productoSeleccionado = null;
-    document.getElementById('buscar').value = '';
-
-    // Actualizar el resumen
-    actualizarResumen();
-}
-
-// Función para agregar órdenes de compra a la tabla
-function agregarOrdenSeleccionada() {
-    if (!ordenSeleccionada) {
-        alert('Selecciona una orden antes de agregar.');
-        return;
-    }
-
-    const { id, proveedor, descripcion, cantidad, precio_unitario } = ordenSeleccionada;
-    const precio = parseFloat(precio_unitario);
-    const subtotal = cantidad * precio;
-
-    const table = document.getElementById('invoiceTable');
-    const row = table.insertRow(-1);
-
-    // Crear la fila con los datos de la orden de compra
-    row.innerHTML = `
-        <td>${id}</td>
-        <td>${proveedor}</td>
-        <td>${descripcion}</td>
-        <td><input type="number" value="${cantidad}" min="1" onchange="actualizarTotal(this, ${precio})"></td>
-        <td>₡${precio.toFixed(2)}</td>
-        <td>₡${subtotal.toFixed(2)}</td>
-        <td><button onclick="eliminarFila(this)">Borrar</button></td>
-    `;
-
-    // Limpiar la selección
-    ordenSeleccionada = null;
-    document.getElementById('buscarOrden').value = '';
-
-    // Actualizar el resumen
-    actualizarResumen();
-}
-
-// Función para actualizar el total de una fila
-function actualizarTotal(input, precio) {
-    const row = input.closest('tr');
-    const cantidad = parseFloat(input.value) || 1;
-    const totalCell = row.cells[5];
-    totalCell.textContent = `₡${(cantidad * precio).toFixed(2)}`;
-
-    // Actualizar el resumen general
-    actualizarResumen();
-}
-
-// Función para eliminar una fila
-function eliminarFila(button) {
-    const row = button.closest('tr');
-    row.parentNode.removeChild(row);
-
-    // Actualizar el resumen tras eliminar la fila
-    actualizarResumen();
-}
-
-// Función para filtrar productos
-function filtrarProductos() {
-    const input = document.getElementById('buscar');
-    const filtro = input.value.toLowerCase();
-    const lista = document.getElementById('listaSugerencias');
-
-    if (!filtro) {
-        lista.innerHTML = '';
-        lista.style.display = 'none';
-        return;
-    }
-
-    const resultados = productos.filter(p => p.nombre.toLowerCase().includes(filtro));
-
-    lista.innerHTML = '';
-    resultados.forEach(p => {
-        const li = document.createElement('li');
-        li.textContent = `${p.nombre} - ${p.descripcion || 'Sin descripción'} - ${p.codigo_cabys} - ₡${p.precio_venta}`;
-        li.onclick = () => {
-            productoSeleccionado = p;
-            input.value = p.nombre;
-            lista.style.display = 'none';
-        };
-        lista.appendChild(li);
-    });
-
-    lista.style.display = resultados.length > 0 ? 'block' : 'none';
-}
-
-// Función para filtrar órdenes de compra
-function filtrarOrdenes() {
-    const input = document.getElementById('buscarOrden');
-    const filtro = input.value.toLowerCase();
-    const lista = document.getElementById('listaSugerenciasOrdenes');
-
-    if (!filtro) {
-        lista.innerHTML = '';
-        lista.style.display = 'none';
-        return;
-    }
-
-    const resultados = ordenes.filter(o => 
-        o.proveedor.toLowerCase().includes(filtro)
-    );
-
-    lista.innerHTML = '';
-    resultados.forEach(o => {
-        const li = document.createElement('li');
-        li.textContent = `${o.descripcion || 'Sin descripción'} - Proveedor: ${o.proveedor} - ₡${o.precio_unitario}`;
-        li.onclick = () => {
-            ordenSeleccionada = o;
-            input.value = o.proveedor;
-            lista.style.display = 'none';
-        };
-        lista.appendChild(li);
-    });
-
-    lista.style.display = resultados.length > 0 ? 'block' : 'none';
-}
-
-// Inicializar el resumen al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-    actualizarResumen();
-});
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-function procesarPago() {
-    const tipoPrecio = document.querySelector('#paymentModal select:nth-of-type(1)').value;
-    const tipoMoneda = document.querySelector('#paymentModal select:nth-of-type(2)').value;
-    const descuento = document.querySelector('#paymentModal select:nth-of-type(3)').value;
-    const metodoPago = document.querySelector('#paymentModal select:nth-of-type(4)').value;
-    const montoPagar = document.getElementById('amount').value;
-
-    // Obtener el cliente seleccionado
-    const clienteSeleccionado = document.getElementById('clienteSeleccionado').textContent.trim();
-    if (!clienteSeleccionado || clienteSeleccionado === 'Selecciona un cliente') {
-        alert('Por favor selecciona un cliente antes de procesar el pago.');
-        return;
-    }
-
-    const datosFactura = {
-        tipo_precio: tipoPrecio,
-        tipo_moneda: tipoMoneda,
-        descuento: descuento,
-        metodo_pago: metodoPago,
-        monto: montoPagar,
-        cliente: clienteSeleccionado, // Cliente añadido al objeto
-        productos: [],
-    };
-
-    // Recoger los productos de la tabla
-    const filas = document.querySelectorAll('#invoiceTable tr');
-    filas.forEach((fila, index) => {
-        if (index === 0) return; // Saltar el encabezado
-        const columnas = fila.querySelectorAll('td');
-
-        // Verificar si hay una entrada válida en el campo de cantidad
-        const cantidadInput = columnas[3].querySelector('input');
-        const cantidad = cantidadInput ? parseInt(cantidadInput.value) : 0;
-
-        if (isNaN(cantidad) || cantidad <= 0) {
-            alert(`Por favor, introduce una cantidad válida para el producto: ${columnas[1].textContent}`);
-            throw new Error('Cantidad no válida.');
-        }
-
-        datosFactura.productos.push({
-            codigo: columnas[0].textContent,
-            nombre: columnas[1].textContent,
-            descripcion: columnas[2].textContent,
-            cantidad: cantidad,
-            precio_venta: parseFloat(columnas[4].textContent.replace('₡', '').trim()),
-            subtotal: parseFloat(columnas[5].textContent.replace('₡', '').trim()),
-        });
-    });
-
-    // Enviar al backend
-    fetch('/Cajaregistradora/guardar_factura/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-        },
-        body: JSON.stringify(datosFactura),
-    })
-        .then(response => {
-            if (response.ok) {
-                alert('Factura guardada exitosamente.');
-                location.reload(); // Recargar la página para limpiar los datos
-            } else {
-                response.json().then(data => {
-                    alert(`Error al guardar la factura: ${data.message || 'Intenta nuevamente.'}`);
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al procesar el pago.');
-        });
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function printPreCierre() {
-    // Seleccionar únicamente el contenido del modal de precierre
-    const modalContent = document.querySelector("#preCierreCajaModal .modal-content");
-
-    // Clonar el contenido del modal
-    const modalClone = modalContent.cloneNode(true);
-
-    // Reemplazar los inputs por sus valores actuales
-    modalClone.querySelectorAll("input").forEach(input => {
-        const span = document.createElement("span");
-        span.textContent = input.value; // Capturar el valor actual del input
-        input.replaceWith(span); // Reemplazar input con texto plano
-    });
-
-    // Asegurarnos de eliminar cualquier botón, ícono de cerrar u otro elemento innecesario
-    modalClone.querySelectorAll(".close, button").forEach(el => el.remove());
-
-    // Crear una nueva ventana para la impresión
-    const printWindow = window.open("", "_blank", "width=300,height=400");
-
-    // Incluir estilos específicos para impresión
-    const printStyles = `
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                font-size: 14px;
-                margin: 0;
-                padding: 0;
-                width: 80mm; /* Ajustar para impresoras térmicas */
-            }
-            .modal-content {
-                box-shadow: none;
-                border: none;
-                margin: 0;
-                padding: 0;
-            }
-            .info p, .invoice-details {
-                margin: 5px 0;
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            table th, table td {
-                padding: 5px;
-                border: 1px solid #ddd;
-                text-align: left;
-            }
-            @page {
-                margin: 5mm;
-            }
-        </style>
-    `;
-
-    // Escribir el contenido clonado en la ventana de impresión
-    printWindow.document.write(`
-        <html>
-            <head>
-                <title>PreCierre</title>
-                ${printStyles}
-            </head>
-            <body>
-                <div class="modal-content">
-                    ${modalClone.innerHTML}
-                </div>
-            </body>
-        </html>
-    `);
-
-    // Finalizar la escritura e iniciar impresión
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
-}
-
-
-
-////////////////////////////////////////////////////////////////////////////////////
-
-function enviarMovimiento() {
-    // Opcional: validar datos antes, si se desea
-    // Por ejemplo, asegurar que fechaHora, usuario y monto no estén vacíos:
-    var fecha = document.getElementById('fechaHoraMovimiento').value;
-    var usuario = document.getElementById('usuarioMovimiento').value;
-    var monto = document.getElementById('montoMovimiento').value;
-
-    if (!fecha || !usuario || !monto) {
-        alert('Por favor, llene todos los campos obligatorios.');
-        return;
-    }
-
-    // Si todo está bien, se envía el formulario
-    document.getElementById('movimientoDineroForm').submit();
-}
-     </script>
- </body>
- </html>
+        </script>
+    </body>
+</html>
 {% endblock %}
