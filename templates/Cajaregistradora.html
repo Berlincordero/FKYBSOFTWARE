@@ -1907,6 +1907,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
 function procesarPago() {
     const tipoPrecio = document.querySelector('#paymentModal select:nth-of-type(1)').value;
     const tipoMoneda = document.querySelector('#paymentModal select:nth-of-type(2)').value;
@@ -1987,12 +1988,9 @@ function procesarPago() {
             }, 3000);
 
             const cambioInput = document.getElementById('cambio');
-            // Agregamos el símbolo de colones al cambio
             const cambio = (cambioInput && cambioInput.value) ? "₡" + cambioInput.value.replace('₡', '').trim() : "₡0.00";
 
             // Modal con el cambio por 10 segundos
-
-            // *** MODAL OVERLAY ESTILOS (TAMAÑO GRANDE) ***
             const modalOverlay = document.createElement('div');
             modalOverlay.style.position = 'fixed';
             modalOverlay.style.top = '0';
@@ -2005,32 +2003,29 @@ function procesarPago() {
             modalOverlay.style.alignItems = 'center';
             modalOverlay.style.zIndex = '9999';
 
-            // *** MODAL ESTILOS PARA QUE SEA GRANDE Y VISIBLE POR EL CLIENTE ***
             const modal = document.createElement('div');
             modal.style.background = '#fff';
-            modal.style.padding = '40px';        // Aumentamos el padding para mayor tamaño
+            modal.style.padding = '40px';        
             modal.style.border = '2px solid #333';
             modal.style.textAlign = 'center';
             modal.style.borderRadius = '5px';
-            modal.style.minWidth = '600px';       // Ancho mínimo más grande
-            modal.style.minHeight = '400px';      // Alto mínimo para que sea más grande
+            modal.style.minWidth = '600px';       
+            modal.style.minHeight = '400px';      
             modal.style.display = 'flex';
             modal.style.flexDirection = 'column';
             modal.style.justifyContent = 'center';
             modal.style.alignItems = 'center';
 
-            // *** TEXTO DEL TÍTULO CON FUENTE GRANDE ***
             const title = document.createElement('h2');
             title.innerText = 'Cambio';
             title.style.margin = '0 0 20px 0';
             title.style.fontFamily = 'Arial, sans-serif';
-            title.style.fontSize = '30px';       // Aumentamos el tamaño de la fuente
+            title.style.fontSize = '30px';       
             title.style.fontWeight = 'bold';
 
-            // *** TEXTO DEL CAMBIO EN GRANDE PARA QUE EL CLIENTE LO VEA FÁCILMENTE ***
             const p = document.createElement('p');
             p.innerText = 'Su cambio es: ' + cambio;
-            p.style.fontSize = '40px';           // Tamaño grande para que el cliente lo vea sin problema
+            p.style.fontSize = '40px';           
             p.style.fontFamily = 'Arial, sans-serif';
             p.style.margin = '0';
             p.style.fontWeight = 'bold';
@@ -2039,6 +2034,9 @@ function procesarPago() {
             modal.appendChild(p);
             modalOverlay.appendChild(modal);
             document.body.appendChild(modalOverlay);
+
+            // Llamamos a la función para imprimir la factura
+            printFactura();
 
             setTimeout(() => {
                 document.body.removeChild(modalOverlay);
@@ -2064,6 +2062,116 @@ function abrirGaveta() {
 }
 
 
+// Función para imprimir la factura (versión inicial sin cambios en la estructura)
+function printFactura() {
+    // Obtenemos los datos desde el DOM
+    const fecha = document.getElementById('fechaHoraFactura')?.textContent.trim() || '';
+    const numeroFactura = document.getElementById('numeroFactura')?.textContent.trim() || '';
+    const cliente = document.getElementById('clienteSeleccionado')?.textContent.trim() || '';
+
+    // Obtener la tabla de productos
+    const invoiceTable = document.getElementById('invoiceTable').cloneNode(true);
+    // Remover la columna de acciones antes de imprimir (la última columna)
+    for (let i = 0; i < invoiceTable.rows.length; i++) {
+        const row = invoiceTable.rows[i];
+        if (row.cells.length > 6) {
+            row.deleteCell(6); // Eliminar la celda de "Acciones"
+        }
+    }
+
+    // Obtener la tabla de subtotales
+    const summaryTable = document.getElementById('summaryTable').cloneNode(true);
+
+    // Crear una nueva ventana para la impresión
+    const printWindow = window.open("", "_blank", "width=300,height=400");
+
+    // Incluir estilos específicos para impresión
+    const printStyles = `
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                margin: 0;
+                padding: 0;
+                width: 80mm; /* Ajustar para impresoras térmicas */
+            }
+            .ticket-header {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .ticket-header p {
+                margin: 2px 0;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 5px 0;
+                table-layout: fixed; /* Para que las celdas respeten los anchos fijos */
+            }
+            table th, table td {
+                padding: 2px;
+                font-size: 12px;
+                word-wrap: break-word;
+            }
+            table th {
+                border-bottom: 1px solid #000;
+            }
+            /* Forzar la columna de cantidad a ser más estrecha */
+            table th:nth-child(4), table td:nth-child(4) {
+                width: 20px; 
+                overflow: hidden;
+            }
+            @page {
+                margin: 5mm;
+            }
+        </style>
+    `;
+
+    // Construir el contenido clonado en la ventana de impresión
+    const printContent = `
+        <div class="ticket-header">
+            <h1>FERRETERIA SAN JERONIMO</h1>
+            <p>MORAVIA, SAN JOSÉ</p>
+            <p>TEL: 2224 5602</p>
+            <p>EMAIL: ferreteriaSanJeronimo@gmail.com</p>
+            <p>--------------------------------------</p>
+        </div>
+
+        <p>Fecha: ${fecha}</p>
+        <p>Número Factura: ${numeroFactura}</p>
+        <p>Cliente: ${cliente}</p>
+        <p>--------------------------------------</p>
+
+        ${invoiceTable.outerHTML}
+
+        <p>--------------------------------------</p>
+
+        ${summaryTable.outerHTML}
+
+        <p>--------------------------------------</p>
+        <p>¡GRACIAS POR SU COMPRA!</p>
+        <p>--------------------------------------</p>
+    `;
+
+    // Escribir el contenido clonado en la ventana de impresión
+    printWindow.document.write(`
+        <html>
+            <head>
+                <title>Factura</title>
+                ${printStyles}
+            </head>
+            <body>
+                ${printContent}
+            </body>
+        </html>
+    `);
+
+    // Finalizar la escritura e iniciar impresión
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function printPreCierre() {
     // Seleccionar únicamente el contenido del modal de precierre
