@@ -928,6 +928,8 @@
                     <option value="15">15%</option>
                     <option value="50">50%</option>
                 </select>
+                <label for="discountAmountDisplay">Monto de Descuento:</label>
+                <input type="text" id="discountAmountDisplay" readonly style="background-color: #f0f0f0;">
                 <label for="paymentMethod">Método de Pago:</label>
                 <select>
                     <option value="creditCard">Tarjeta de Crédito o Débito</option>
@@ -939,8 +941,9 @@
                 <input type="number" id="iva" placeholder="Monto" readonly>
                 <label for="montoAPagar">Monto a Pagar:</label>
                 <input type="number" id="montoAPagar" placeholder="Monto" readonly>
-        
-        
+
+                <label for="cambio">su cambio es :</label>
+                <input type="number" id="cambio" placeholder="Monto" readonly>
                 <label for="amount"> Pagar con:</label>
                 <input type="number" id="amount" placeholder="Monto">
                 <button onclick="procesarPago()">Procesar Pago</button>
@@ -1904,7 +1907,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
 function procesarPago() {
     const tipoPrecio = document.querySelector('#paymentModal select:nth-of-type(1)').value;
     const tipoMoneda = document.querySelector('#paymentModal select:nth-of-type(2)').value;
@@ -1912,7 +1914,6 @@ function procesarPago() {
     const metodoPago = document.querySelector('#paymentModal select:nth-of-type(4)').value;
     const montoPagar = document.getElementById('amount').value;
 
-    // Obtener el cliente seleccionado
     const clienteSeleccionado = document.getElementById('clienteSeleccionado').textContent.trim();
     if (!clienteSeleccionado || clienteSeleccionado === 'Selecciona un cliente') {
         alert('Por favor selecciona un cliente antes de procesar el pago.');
@@ -1925,36 +1926,30 @@ function procesarPago() {
         descuento: descuento,
         metodo_pago: metodoPago,
         monto: montoPagar,
-        cliente: clienteSeleccionado, // Cliente añadido al objeto
-        productos: [],
+        cliente: clienteSeleccionado,
+        productos: []
     };
 
-    // Recoger los productos de la tabla
     const filas = document.querySelectorAll('#invoiceTable tr');
     filas.forEach((fila, index) => {
-        if (index === 0) return; // Saltar el encabezado
+        if (index === 0) return; // Fila de encabezado
         const columnas = fila.querySelectorAll('td');
-
-        // Verificar si hay una entrada válida en el campo de cantidad
         const cantidadInput = columnas[3].querySelector('input');
         const cantidad = cantidadInput ? parseInt(cantidadInput.value) : 0;
-
         if (isNaN(cantidad) || cantidad <= 0) {
             alert(`Por favor, introduce una cantidad válida para el producto: ${columnas[1].textContent}`);
             throw new Error('Cantidad no válida.');
         }
-
         datosFactura.productos.push({
             codigo: columnas[0].textContent,
             nombre: columnas[1].textContent,
             descripcion: columnas[2].textContent,
             cantidad: cantidad,
             precio_venta: parseFloat(columnas[4].textContent.replace('₡', '').trim()),
-            subtotal: parseFloat(columnas[5].textContent.replace('₡', '').trim()),
+            subtotal: parseFloat(columnas[5].textContent.replace('₡', '').trim())
         });
     });
 
-    // Enviar al backend
     fetch('/Cajaregistradora/guardar_factura/', {
         method: 'POST',
         headers: {
@@ -1963,21 +1958,112 @@ function procesarPago() {
         },
         body: JSON.stringify(datosFactura),
     })
-        .then(response => {
-            if (response.ok) {
-                alert('Factura guardada exitosamente.');
-                location.reload(); // Recargar la página para limpiar los datos
-            } else {
-                response.json().then(data => {
-                    alert(`Error al guardar la factura: ${data.message || 'Intenta nuevamente.'}`);
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al procesar el pago.');
-        });
+    .then(response => {
+        if (response.ok) {
+            alert('Factura guardada exitosamente.');
+
+            // Abrir gaveta (función ya agregada anteriormente)
+            abrirGaveta();
+
+            // Notificación flotante al guardar la factura con éxito
+            const notificacion = document.createElement('div');
+            notificacion.style.position = 'fixed';
+            notificacion.style.top = '20px';
+            notificacion.style.right = '20px';
+            notificacion.style.backgroundColor = '#4CAF50';
+            notificacion.style.color = '#fff';
+            notificacion.style.padding = '10px 20px';
+            notificacion.style.borderRadius = '5px';
+            notificacion.style.boxShadow = '0 0 5px rgba(0,0,0,0.3)';
+            notificacion.style.fontSize = '14px';
+            notificacion.style.zIndex = '9999';
+            notificacion.textContent = '¡La factura se guardó con éxito!';
+
+            document.body.appendChild(notificacion);
+            setTimeout(() => {
+                if (notificacion.parentNode) {
+                    notificacion.parentNode.removeChild(notificacion);
+                }
+            }, 3000);
+
+            const cambioInput = document.getElementById('cambio');
+            // Agregamos el símbolo de colones al cambio
+            const cambio = (cambioInput && cambioInput.value) ? "₡" + cambioInput.value.replace('₡', '').trim() : "₡0.00";
+
+            // Modal con el cambio por 10 segundos
+
+            // *** MODAL OVERLAY ESTILOS (TAMAÑO GRANDE) ***
+            const modalOverlay = document.createElement('div');
+            modalOverlay.style.position = 'fixed';
+            modalOverlay.style.top = '0';
+            modalOverlay.style.left = '0';
+            modalOverlay.style.width = '100%';
+            modalOverlay.style.height = '100%';
+            modalOverlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            modalOverlay.style.display = 'flex';
+            modalOverlay.style.justifyContent = 'center';
+            modalOverlay.style.alignItems = 'center';
+            modalOverlay.style.zIndex = '9999';
+
+            // *** MODAL ESTILOS PARA QUE SEA GRANDE Y VISIBLE POR EL CLIENTE ***
+            const modal = document.createElement('div');
+            modal.style.background = '#fff';
+            modal.style.padding = '40px';        // Aumentamos el padding para mayor tamaño
+            modal.style.border = '2px solid #333';
+            modal.style.textAlign = 'center';
+            modal.style.borderRadius = '5px';
+            modal.style.minWidth = '600px';       // Ancho mínimo más grande
+            modal.style.minHeight = '400px';      // Alto mínimo para que sea más grande
+            modal.style.display = 'flex';
+            modal.style.flexDirection = 'column';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+
+            // *** TEXTO DEL TÍTULO CON FUENTE GRANDE ***
+            const title = document.createElement('h2');
+            title.innerText = 'Cambio';
+            title.style.margin = '0 0 20px 0';
+            title.style.fontFamily = 'Arial, sans-serif';
+            title.style.fontSize = '30px';       // Aumentamos el tamaño de la fuente
+            title.style.fontWeight = 'bold';
+
+            // *** TEXTO DEL CAMBIO EN GRANDE PARA QUE EL CLIENTE LO VEA FÁCILMENTE ***
+            const p = document.createElement('p');
+            p.innerText = 'Su cambio es: ' + cambio;
+            p.style.fontSize = '40px';           // Tamaño grande para que el cliente lo vea sin problema
+            p.style.fontFamily = 'Arial, sans-serif';
+            p.style.margin = '0';
+            p.style.fontWeight = 'bold';
+
+            modal.appendChild(title);
+            modal.appendChild(p);
+            modalOverlay.appendChild(modal);
+            document.body.appendChild(modalOverlay);
+
+            setTimeout(() => {
+                document.body.removeChild(modalOverlay);
+                location.reload();
+            }, 10000);
+
+        } else {
+            response.json().then(data => {
+                alert(`Error al guardar la factura: ${data.message || 'Intenta nuevamente.'}`);
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al procesar el pago.');
+    });
 }
+
+// Función para abrir la gaveta de la caja (ya agregada antes)
+function abrirGaveta() {
+    console.log('Abriendo la gaveta de la caja registradora...');
+    // Aquí iría la lógica real para abrir la gaveta.
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function printPreCierre() {
     // Seleccionar únicamente el contenido del modal de precierre
@@ -2211,6 +2297,51 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     });
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    const discountSelect = document.querySelector('#paymentModal select:nth-of-type(3)');
+    const discountAmountDisplay = document.getElementById('discountAmountDisplay');
+
+    if (discountSelect && discountAmountDisplay) {
+        discountSelect.addEventListener('change', function() {
+            // Llamamos a las funciones existentes
+            actualizarResumen();
+            cargarValoresPago();
+
+            // Ahora obtenemos el monto de descuento desde la tabla summaryTable
+            const resumenTable = document.getElementById('summaryTable');
+            if (resumenTable && resumenTable.rows.length >= 3) {
+                // Fila 2 (index 2) corresponde a la fila de Descuentos
+                const discountCell = resumenTable.rows[2].cells[1].textContent.trim();
+                // Asignamos ese valor al campo de descuento
+                discountAmountDisplay.value = discountCell;
+            }
+        });
+    }
+});
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const pagarConInput = document.getElementById('amount');
+        const montoAPagarInput = document.getElementById('montoAPagar');
+        const cambioInput = document.getElementById('cambio');
+    
+        if (pagarConInput && montoAPagarInput && cambioInput) {
+            pagarConInput.addEventListener('input', function() {
+                const pagarCon = parseFloat(pagarConInput.value) || 0;
+                const montoAPagar = parseFloat(montoAPagarInput.value) || 0;
+                const cambio = pagarCon - montoAPagar;
+    
+                // Si el resultado es positivo, muestra el cambio con dos decimales, 
+                // de lo contrario muestra 0.
+                cambioInput.value = cambio > 0 ? cambio.toFixed(2) : 0;
+            });
+        }
+    });
+   
+    
+
+
 
      </script>
  </body>
