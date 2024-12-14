@@ -121,107 +121,107 @@
 </head>
 <body>
 
-<div class="reportecierrecaja-main-container">
-
-    <h1 class="reportecierrecaja-title">Reporte de Cierre de Caja</h1>
-
-    <div class="reportecierrecaja-search-container">
-        <input type="text" placeholder="Buscar...">
-        <button type="submit"><i class="fa fa-search"></i></button>
-    </div>
-
-    <div class="reportecierrecaja-info">
-        <div><span>Sucursal:</span> #1</div>
-        <div><span>Caja Registradora:</span> #1</div>
-        <div><span>Fecha Apertura:</span> 24 / 07 / 2024</div>
-        <div><span>Fecha Cierre:</span> 24 / 07 / 2024</div>
-        <div><span>Hora Apertura:</span> 08:00 AM</div>
-        <div><span>Hora Cierre:</span> 08:00 PM</div>
-        <div><span>Monto inicial en la caja:</span> 100000 CRC</div>
-    </div>
-
-    <div class="reportecierrecaja-transacciones">
-        <h2>Transacciones del Día</h2>
-        <div><span>Impuestos:</span> 135 652 CRC</div>
-        <div><span>Facturas Proveedor:</span> 5.00</div>
-        <div><span>Notas de Débito:</span> 0.0</div>
-        <div><span>Ingreso Efectivo:</span> 1 000 000.00 CRC</div>
-        <div><span>Ingreso Tarjetas:</span> 70 000.00 CRC</div>
-        <div><span>Ingreso Sinpe/ Transf:</span> 15 000.00 CRC</div>
-        <div><span>Venta Crédito:</span> 0.0 CRC</div>
-        <div><span>Cantidad Tiquetes:</span> 35</div>
-        <div><span>Total de la Venta:</span> 480 000.00 CRC</div>
-    </div>
-
-    <div class="reportecierrecaja-movimientos">
-        <h2>Movimiento de Dineros Reportados</h2>
-        <table class="reportecierrecaja-table">
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Usuario</th>
-                    <th>Nota</th>
-                    <th>Monto</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>01-07-2011</td>
-                    <td></td>
-                    <td>SE RETIRA LA CANTIDAD DE</td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-        <div><span>Total Movimientos:</span> 0.00 CRC</div>
-    </div>
-
-    <div class="reportecierrecaja-arqueo">
-        <h2>Arqueo de Caja</h2>
-        <div>
-            <span>Conteo Actual de Monto Efectivo:</span>
-            <input class="reportecierrecaja-input" type="text" value="0" readonly>
+    <div class="reportecierrecaja-main-container">
+        <h1 class="reportecierrecaja-title">Reporte de Cierre de Caja</h1>
+    
+        <!-- Filtro de Fecha -->
+        <div class="d-flex justify-content-end mb-3">
+            
+            <input type="date" id="fechaFiltro" class="form-control" 
+                   value="{{ fecha_actual|date:'Y-m-d' }}" 
+                   style="width: 200px;" 
+                   onchange="filtrarPorFecha(this.value)">
         </div>
-        <div>
-            <span>Monto Contado en Efectivo:</span>
-            <input class="reportecierrecaja-input" type="text" value="">
+    
+        <!-- Información de la Caja -->
+        <div class="reportecierrecaja-info">
+            <div><span>Sucursal:</span> {% if precierre %}{{ precierre.sucursal }}{% else %}N/A{% endif %}</div>
+            <div><span>Caja Registradora:</span> {% if precierre %}{{ precierre.caja_registradora }}{% else %}N/A{% endif %}</div>
+            <div><span>Fecha Apertura:</span> {% if apertura %}{{ apertura.fecha_hora_apertura|date:"d/m/Y" }}{% else %}N/A{% endif %}</div>
+            <div><span>Fecha Cierre:</span> {% if precierre %}{{ precierre.fecha|date:"d/m/Y" }}{% else %}N/A{% endif %}</div>
+            <div><span>Hora Apertura:</span> {% if precierre %}{{ precierre.hora_apertura|time:"H:i A" }}{% else %}N/A{% endif %}</div>
+            <div><span>Monto inicial en la caja:</span> {% if apertura %}{{ apertura.monto_inicial|floatformat:2 }} CRC{% else %}0.00 CRC{% endif %}</div>
         </div>
-        <div>
-            <span>Conteo Actual de Monto Tarjeta:</span>
-            <input class="reportecierrecaja-input" type="text" value="0" readonly>
+        
+        <div class="reportecierrecaja-transacciones">
+            <h2>Transacciones del Día</h2>
+            <div><span>Impuestos:</span> {% if precierre %}{{ precierre.impuestos|floatformat:2 }} CRC{% else %}0.00 CRC{% endif %}</div>
+            <div><span>Facturas Proveedor:</span> {% if precierre %}{{ precierre.facturas_proveedor }}{% else %}0{% endif %}</div>
+            <div><span>Ingreso Efectivo:</span> {% if precierre %}{{ precierre.efectivo|floatformat:2 }} CRC{% else %}0.00 CRC{% endif %}</div>
+            <div><span>Ingreso Tarjetas:</span> {% if precierre %}{{ precierre.tarjetas|floatformat:2 }} CRC{% else %}0.00 CRC{% endif %}</div>
+            <div><span>Ingreso Sinpe:</span> {% if precierre %}{{ precierre.simpe_movil|floatformat:2 }} CRC{% else %}0.00 CRC{% endif %}</div>
+            <div><span>Venta Crédito:</span> {% if precierre %}{{ precierre.venta_credito|floatformat:2 }} CRC{% else %}0.00 CRC{% endif %}</div>
+            <div><span>Total de la Venta:</span> {% if precierre %}{{ precierre.total_ventas|floatformat:2 }} CRC{% else %}0.00 CRC{% endif %}</div>
         </div>
+        
+        <div class="reportecierrecaja-movimientos">
+            <h2>Movimiento de Dineros Reportados</h2>
+            <table id="movimientosTable" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Fecha y Hora</th>
+                        <th>Usuario</th>
+                        <th>Tipo de Movimiento</th>
+                        <th>Nota</th>
+                        <th>Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if movimientos %}
+                        {% for movimiento in movimientos %}
+                            <tr>
+                                <td>{{ movimiento.fecha_hora|date:"d/m/Y H:i" }}</td>
+                                <td>{{ movimiento.usuario }}</td>
+                                <td>{{ movimiento.tipo_movimiento }}</td>
+                                <td>{{ movimiento.nota|default:"N/A" }}</td>
+                                <td>{{ movimiento.monto|floatformat:2 }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center">No hay movimientos registrados para esta fecha.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    
+        <!-- Generar Reporte PDF -->
+        <a href="{% url 'reporte_pdf_cierre' %}?fecha={{ fecha_actual|date:'Y-m-d' }}" class="btn btn-success">
+            Generar Reporte PDF
+        </a>
+    
+        
     </div>
-
-    <button class="reportecierrecaja-generate-button">Generar Reporte</button>
-
-    <div class="reportecierrecaja-chart-container">
-        <canvas id="ventasChart"></canvas>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const ctx = document.getElementById('ventasChart').getContext('2d');
-    const ventasChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Ingreso Efectivo', 'Ingreso Tarjetas', 'Ingreso Sinpe'],
-            datasets: [{
-                label: 'Monto en CRC',
-                data: [1000000, 70000, 15000],
-                backgroundColor: ['#4CAF50', '#FFC107', '#00ACC1']
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
+    
+    <!-- JavaScript para DataTable y Gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Inicializar DataTable
+            const table = $('#movimientosTable').DataTable({
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/Spanish.json"
                 }
+            });
+    
+            // Filtro por fecha
+            $('#fechaFiltro').on('change', function () {
+                const fechaSeleccionada = $(this).val();
+                window.location.href = `?fecha=${fechaSeleccionada}`;
+            });
+    
+            
+        });
+        function filtrarPorFecha(fecha) {
+            if (fecha) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('fecha', fecha);
+                window.location.href = url.toString();
             }
         }
-    });
-</script>
+        
+    </script>
 
 </body>
 </html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Cierre de Caja</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .totals {
+            margin-top: 20px;
+            font-size: 14px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <!-- Título del Reporte -->
+    <h1>Reporte de Cierre de Caja - {{ fecha_actual }}</h1>
+
+    <!-- Información de Apertura -->
+    <div class="section">
+        <h2>Información de Apertura</h2>
+        <table>
+            <tr>
+                <th>Cajero</th>
+                <th>Monto Inicial</th>
+                <th>Fecha y Hora de Apertura</th>
+            </tr>
+            <tr>
+                <td>
+                    {% if apertura %}
+                        {{ apertura.cajero }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    {% if apertura %}
+                        {{ apertura.monto_inicial|floatformat:2 }} CRC
+                    {% else %}
+                        0.00 CRC
+                    {% endif %}
+                </td>
+                <td>
+                    {% if apertura %}
+                        {{ apertura.fecha_hora_apertura }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Información de PreCierre -->
+    <div class="section">
+        <h2>Información del PreCierre</h2>
+        <table>
+            <tr>
+                <th>Sucursal</th>
+                <th>Caja Registradora</th>
+                <th>Hora Apertura</th>
+                <th>Monto Inicial</th>
+                <th>Impuestos</th>
+                <th>Total Ventas</th>
+            </tr>
+            <tr>
+                <td>
+                    {% if precierre %}
+                        {{ precierre.sucursal }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    {% if precierre %}
+                        {{ precierre.caja_registradora }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    {% if precierre %}
+                        {{ precierre.hora_apertura }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    {% if precierre %}
+                        {{ precierre.monto_inicial|floatformat:2 }} CRC
+                    {% else %}
+                        0.00 CRC
+                    {% endif %}
+                </td>
+                <td>
+                    {% if precierre %}
+                        {{ precierre.impuestos|floatformat:2 }} CRC
+                    {% else %}
+                        0.00 CRC
+                    {% endif %}
+                </td>
+                <td>
+                    {% if precierre %}
+                        {{ precierre.total_ventas|floatformat:2 }} CRC
+                    {% else %}
+                        0.00 CRC
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Movimientos del Día -->
+    <div class="section">
+        <h2>Movimientos de Dinero</h2>
+        {% if movimientos %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha y Hora</th>
+                    <th>Usuario</th>
+                    <th>Tipo de Movimiento</th>
+                    <th>Nota</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for movimiento in movimientos %}
+                <tr>
+                    <td>{{ movimiento.fecha_hora }}</td>
+                    <td>{{ movimiento.usuario }}</td>
+                    <td>{{ movimiento.tipo_movimiento }}</td>
+                    <td>{{ movimiento.nota }}</td>
+                    <td>{{ movimiento.monto|floatformat:2 }} CRC</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No hay movimientos registrados para esta fecha.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

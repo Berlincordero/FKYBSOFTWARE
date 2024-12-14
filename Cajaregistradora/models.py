@@ -58,7 +58,6 @@ class MovimientoDinero(models.Model):
         return f"{self.tipo_movimiento} - {self.monto}"
     
     
-from django.db import models
 
 class PreCierre(models.Model):
     sucursal = models.CharField(max_length=100, null=True, blank=True, default='Desconocida')

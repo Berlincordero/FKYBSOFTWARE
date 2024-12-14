@@ -9,6 +9,7 @@ urlpatterns = [
     path('PagosFacturas/', views.pagosFacturas, name='pagosFacturas'),
     path('reporteUtilidades/', views.reporteUtilidades, name='reporteUtilidades'),
     path('cierreCaja/', views.cierreCaja, name='cierreCaja'),
+    path('cierreCaja/filtrar/', views.filtrar_movimientos, name='filtrar_movimientos'),
     path('reporteProformas/', views.reporteProformas, name='reporteProformas'), 
     path('reporte-transportes/', views.reporteTransportes, name='reportetransportes'),
     path('reporte-cuentas-por-cobrar/', views.generar_pdf_cuentas_por_cobrar, name='reporte_cuentas_por_cobrar'),
@@ -20,5 +21,7 @@ urlpatterns = [
     path('descargar_factura/<str:numero_factura>/', views.descargar_factura, name='descargar_factura'),
     path('obtener_factura/<str:numero_factura>/', views.obtener_factura, name='obtener_factura'),
     path('descargar_reporte_utilidades/', views.descargar_reporte_utilidades, name='descargar_reporte_utilidades'),
+    path('cierreCaja/reporte_pdf/', views.generar_pdf_cierre_caja, name='reporte_pdf_cierre'),
+    
 
     ]

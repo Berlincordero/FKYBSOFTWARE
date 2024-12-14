@@ -9,7 +9,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Spacer, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 from Proforma.models import Proforma
-from Cajaregistradora.models import Factura
+from Cajaregistradora.models import Factura, MovimientoDinero, PreCierre, AperturaCaja
 from Inventario.models import Producto
 from transportes.models import Ruta
 from django.utils import timezone  
@@ -20,6 +20,11 @@ from datetime import datetime
 from reportlab.pdfgen import canvas
 from django.http import JsonResponse
 from decimal import Decimal
+from django.shortcuts import render
+from django.utils.timezone import now
+from django.http import JsonResponse
+from xhtml2pdf import pisa
+from django.template.loader import get_template
 
 
 
@@ -184,7 +189,38 @@ def reporteUtilidades(request):
 
 @login_required
 def cierreCaja(request):
-    return render(request, 'Reportes/cierreCaja.html')
+    fecha_str = request.GET.get('fecha')
+    if not fecha_str:
+        fecha_actual = datetime.now().date()
+        return redirect(f'/Reportes/cierreCaja/?fecha={fecha_actual}')
+
+    try:
+        fecha_actual = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+    except ValueError:
+        return render(request, 'Reportes/cierreCaja.html', {'error': 'Fecha inválida'})
+
+    precierre = PreCierre.objects.filter(fecha=fecha_actual).last()
+    movimientos = MovimientoDinero.objects.filter(fecha_hora__date=fecha_actual).order_by('-fecha_hora')
+    apertura = AperturaCaja.objects.filter(fecha_hora_apertura__date=fecha_actual).last()
+
+    context = {
+        'fecha_actual': fecha_actual,
+        'precierre': precierre,
+        'movimientos': movimientos,
+        'apertura': apertura,
+    }
+
+    return render(request, 'Reportes/cierreCaja.html', context)
+
+@login_required
+def filtrar_movimientos(request):
+    fecha = request.GET.get('fecha', now().date())
+    movimientos = MovimientoDinero.objects.filter(fecha_hora__date=fecha).values(
+        'fecha_hora', 'usuario', 'nota', 'monto', 'tipo_movimiento'
+    )
+    return JsonResponse(list(movimientos), safe=False)
+
+
 @login_required
 def reporteProformas(request):
     # Obtén todas las proformas con sus detalles
@@ -622,4 +658,25 @@ def descargar_reporte_utilidades(request):
     c.save()
     return response
 
+@login_required
+def generar_pdf_cierre_caja(request):
+    fecha_str = request.GET.get('fecha', datetime.now().date().isoformat())
+    fecha_actual = datetime.strptime(fecha_str, '%Y-%m-%d').date()
 
+    precierre = PreCierre.objects.filter(fecha=fecha_actual).last()
+    movimientos = MovimientoDinero.objects.filter(fecha_hora__date=fecha_actual).order_by('-fecha_hora')
+    apertura = AperturaCaja.objects.filter(fecha_hora_apertura__date=fecha_actual).last()
+
+    context = {
+        'fecha_actual': fecha_actual,
+        'precierre': precierre,
+        'movimientos': movimientos,
+        'apertura': apertura,
+    }
+
+    template = get_template('Reportes/pdf_cierre_caja.html')
+    html = template.render(context)
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="cierre_caja_{fecha_actual}.pdf"'
+    pisa.CreatePDF(html, dest=response)
+    return response
