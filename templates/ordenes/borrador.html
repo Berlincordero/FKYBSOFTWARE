@@ -79,93 +79,81 @@
 
     <!-- Modal de Agregar Orden -->
     <!-- Modal para Crear Orden de Compra -->
-<div class="modal fade" id="crearOrdenModal" tabindex="-1" aria-labelledby="crearOrdenModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="crearOrdenModalLabel">Crear Orden de Compra</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal fade" id="crearOrdenModal" tabindex="-1" aria-labelledby="crearOrdenModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="crearOrdenModalLabel">Crear Orden de Compra</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="id_usuario" class="form-label">ID Usuario:</label>
+                                <input type="text" class="form-control" name="id_usuario" id="id_usuario" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_proveedor" class="form-label">ID Proveedor:</label>
+                                <input type="text" class="form-control" name="id_proveedor" id="id_proveedor" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_producto" class="form-label">ID Producto:</label>
+                                <input type="text" class="form-control" name="id_producto" id="id_producto" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="descripcion" class="form-label">Descripción:</label>
+                                <input type="text" class="form-control" name="descripcion" id="descripcion" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="cantidad" class="form-label">Cantidad:</label>
+                                <input type="number" class="form-control" name="cantidad" id="cantidad" required />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="precio_unitario" class="form-label">Precio Unitario:</label>
+                                <input type="number" step="0.01" class="form-control" name="precio_unitario" id="precio_unitario" required />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="descuento" class="form-label">Descuento:</label>
+                                <select class="form-select" name="descuento" id="descuento">
+                                    {% for d in descuentos %}
+                                        <option value="{{ d }}">{{ d }}%</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="metodo_pago" class="form-label">Método de Pago:</label>
+                                <select class="form-select" name="metodo_pago" id="metodo_pago">
+                                    {% for metodo in metodos_pago %}
+                                        <option value="{{ metodo }}">{{ metodo }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="proveedor" class="form-label">Proveedor:</label>
+                                <input type="text" class="form-control" name="proveedor" id="proveedor" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="lugar_entrega" class="form-label">Lugar de Entrega:</label>
+                                <input type="text" class="form-control" name="lugar_entrega" id="lugar_entrega" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="notas" class="form-label">Notas:</label>
+                                <textarea class="form-control" name="notas" id="notas" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-end">
+                            <button type="submit" class="btn btn-success">Guardar Orden</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-            <form method="post">
-                {% csrf_token %}
-                
-                <div>
-                    <label for="id_usuario">ID Usuario:</label>
-                    <input type="text" name="id_usuario" id="id_usuario" required />
-                </div>
-                
-                <div>
-                    <label for="id_proveedor">ID Proveedor:</label>
-                    <input type="text" name="id_proveedor" id="id_proveedor" required />
-                </div>
-                
-                <div>
-                    <label for="id_producto">ID Producto:</label>
-                    <input type="text" name="id_producto" id="id_producto" required />
-                </div>
-            
-                <div>
-                    <label for="descripcion">Descripción:</label>
-                    <input type="text" name="descripcion" id="descripcion" />
-                </div>
-            
-                <div>
-                    <label for="cantidad">Cantidad:</label>
-                    <input type="number" name="cantidad" id="cantidad" required />
-                </div>
-            
-                <div>
-                    <label for="precio_unitario">Precio Unitario:</label>
-                    <input type="number" step="0.01" name="precio_unitario" id="precio_unitario" required />
-                </div>
-            
-                <div>
-                    <label for="descuento">Descuento:</label>
-                    <select name="descuento" id="descuento">
-                        {% for d in descuentos %}
-                            <option value="{{ d }}">{{ d }}%</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            
-                <div>
-                    <label for="metodo_pago">Método de Pago:</label>
-                    <select name="metodo_pago" id="metodo_pago">
-                        {% for metodo in metodos_pago %}
-                            <option value="{{ metodo }}">{{ metodo }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            
-                <div>
-                    <label for="proveedor">Proveedor:</label>
-                    <input type="text" name="proveedor" id="proveedor" />
-                </div>
-            
-                <div>
-                    <label for="lugar_entrega">Lugar de Entrega:</label>
-                    <input type="text" name="lugar_entrega" id="lugar_entrega" required />
-                </div>
-            
-                <div>
-                    <label for="notas">Notas:</label>
-                    <textarea name="notas" id="notas"></textarea>
-                </div>
-            
-                <div>
-                    <input type="submit" value="Guardar Orden" />
-                </div>
-            </form>
-        </div>
-      </div>
     </div>
-  </div>
+    
 
-    <div class="mt-3 d-flex justify-content-between">
-        <a href="{% url 'index' %}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Regresar al menú lateral</a>
-    </div>
-</div>
 
 <!-- Modal para Eliminar Orden -->
 <div class="modal fade" id="EliminarOrden" tabindex="-1" aria-labelledby="EliminarOrdenLabel" aria-hidden="true">
@@ -196,7 +184,7 @@
 <div class="modal fade" id="editarOrdenModal" tabindex="-1" aria-labelledby="editarOrdenModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="editarOrdenModalLabel">Editar Orden de Compra</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -204,70 +192,63 @@
                 <form id="editForm" method="post" action="{% url 'editar_orden' %}">
                     {% csrf_token %}
                     <input type="hidden" name="orden_id" id="orden_id_edit" />
-                    
-                    <div>
-                        <label for="id_usuario_edit">ID Usuario:</label>
-                        <input type="text" name="id_usuario" id="id_usuario_edit" required />
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="id_usuario_edit" class="form-label">ID Usuario:</label>
+                            <input type="text" class="form-control" name="id_usuario" id="id_usuario_edit" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="id_proveedor_edit" class="form-label">ID Proveedor:</label>
+                            <input type="text" class="form-control" name="id_proveedor" id="id_proveedor_edit" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="id_producto_edit" class="form-label">ID Producto:</label>
+                            <input type="text" class="form-control" name="id_producto" id="id_producto_edit" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="descripcion_edit" class="form-label">Descripción:</label>
+                            <input type="text" class="form-control" name="descripcion" id="descripcion_edit" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="cantidad_edit" class="form-label">Cantidad:</label>
+                            <input type="number" class="form-control" name="cantidad" id="cantidad_edit" required />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="precio_unitario_edit" class="form-label">Precio Unitario:</label>
+                            <input type="number" step="0.01" class="form-control" name="precio_unitario" id="precio_unitario_edit" required />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="descuento_edit" class="form-label">Descuento:</label>
+                            <select class="form-select" name="descuento" id="descuento_edit">
+                                {% for d in descuentos %}
+                                    <option value="{{ d }}">{{ d }}%</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="metodo_pago_edit" class="form-label">Método de Pago:</label>
+                            <select class="form-select" name="metodo_pago" id="metodo_pago_edit">
+                                {% for metodo in metodos_pago %}
+                                    <option value="{{ metodo }}">{{ metodo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="proveedor_edit" class="form-label">Proveedor:</label>
+                            <input type="text" class="form-control" name="proveedor" id="proveedor_edit" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lugar_entrega_edit" class="form-label">Lugar de Entrega:</label>
+                            <input type="text" class="form-control" name="lugar_entrega" id="lugar_entrega_edit" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="notas_edit" class="form-label">Notas:</label>
+                            <textarea class="form-control" name="notas" id="notas_edit" rows="3"></textarea>
+                        </div>
                     </div>
-                    
-                    <div>
-                        <label for="id_proveedor_edit">ID Proveedor:</label>
-                        <input type="text" name="id_proveedor" id="id_proveedor_edit" required />
-                    </div>
-                    
-                    <div>
-                        <label for="id_producto_edit">ID Producto:</label>
-                        <input type="text" name="id_producto" id="id_producto_edit" required />
-                    </div>
-                
-                    <div>
-                        <label for="descripcion_edit">Descripción:</label>
-                        <input type="text" name="descripcion" id="descripcion_edit" />
-                    </div>
-                
-                    <div>
-                        <label for="cantidad_edit">Cantidad:</label>
-                        <input type="number" name="cantidad" id="cantidad_edit" required />
-                    </div>
-                
-                    <div>
-                        <label for="precio_unitario_edit">Precio Unitario:</label>
-                        <input type="number" step="0.01" name="precio_unitario" id="precio_unitario_edit" required />
-                    </div>
-                
-                    <div>
-                        <label for="descuento_edit">Descuento:</label>
-                        <select name="descuento" id="descuento_edit">
-                            {% for d in descuentos %}
-                                <option value="{{ d }}">{{ d }}%</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                
-                    <div>
-                        <label for="metodo_pago_edit">Método de Pago:</label>
-                        <select name="metodo_pago" id="metodo_pago_edit">
-                            {% for metodo in metodos_pago %}
-                                <option value="{{ metodo }}">{{ metodo }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div>
-                        <label for="proveedor_edit">Proveedor:</label>
-                        <input type="text" name="proveedor" id="proveedor_edit" />
-                    </div>
-                    <div>
-                        <label for="lugar_entrega_edit">Lugar de Entrega:</label>
-                        <input type="text" name="lugar_entrega" id="lugar_entrega_edit" required />
-                    </div>
-                
-                    <div>
-                        <label for="notas_edit">Notas:</label>
-                        <textarea name="notas" id="notas_edit"></textarea>
-                    </div>
-                
-                    <div>
-                        <input type="submit" value="Actualizar Orden" />
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-success">Actualizar Orden</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                 </form>
             </div>
@@ -278,59 +259,64 @@
 
 <!-- Modal para Detalle de Orden -->
 <div class="modal fade" id="detalleOrdenModal" tabindex="-1" aria-labelledby="detalleOrdenModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5>Información de la Orden</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="encabezado">
+                <h5 class="titulo" id="detalleOrdenModalLabel">Información de la Orden</h5>
             </div>
-            <div class="modal-body">
-                
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <strong>ID Orden:</strong> <span id="detalle_id_orden"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>ID Usuario:</strong> <span id="detalle_id_usuario"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>ID Proveedor:</strong> <span id="detalle_id_proveedor"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>ID Producto:</strong> <span id="detalle_id_producto"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>Descripción:</strong> <span id="detalle_descripcion"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>Cantidad:</strong> <span id="detalle_cantidad"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>Precio Unitario:</strong> <span id="detalle_precio_unitario"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>Descuento:</strong> <span id="detalle_descuento"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>Método de Pago:</strong> <span id="detalle_metodo_pago"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>Lugar de Entrega:</strong> <span id="detalle_lugar_entrega"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>Notas:</strong> <span id="detalle_notas"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>Subtotal:</strong> <span id="detalle_subtotal"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <strong>Total:</strong> <span id="detalle_total"></span>
-                    </li>
-                </ul>
+            <div class="modal-body informacion">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-6"><strong>ID Orden:</strong></dt>
+                            <dd class="col-sm-6"><span id="detalle_id_orden"></span></dd>
+                            
+                            <dt class="col-sm-6"><strong>ID Usuario:</strong></dt>
+                            <dd class="col-sm-6"><span id="detalle_id_usuario"></span></dd>
+                            
+                            <dt class="col-sm-6"><strong>ID Proveedor:</strong></dt>
+                            <dd class="col-sm-6"><span id="detalle_id_proveedor"></span></dd>
+                            
+                            <dt class="col-sm-6"><strong>ID Producto:</strong></dt>
+                            <dd class="col-sm-6"><span id="detalle_id_producto"></span></dd>
+                            
+                            <dt class="col-sm-6"><strong>Descripción:</strong></dt>
+                            <dd class="col-sm-6"><span id="detalle_descripcion"></span></dd>
+                            
+                            <dt class="col-sm-6"><strong>Cantidad:</strong></dt>
+                            <dd class="col-sm-6"><span id="detalle_cantidad"></span></dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-6"><strong>Precio Unitario:</strong></dt>
+                            <dd class="col-sm-6"><span id="detalle_precio_unitario"></span></dd>
+                            
+                            <dt class="col-sm-6"><strong>Descuento:</strong></dt>
+                            <dd class="col-sm-6"><span id="detalle_descuento"></span></dd>
+                            
+                            <dt class="col-sm-6"><strong>Método de Pago:</strong></dt>
+                            <dd class="col-sm-6"><span id="detalle_metodo_pago"></span></dd>
+                            
+                            <dt class="col-sm-6"><strong>Lugar de Entrega:</strong></dt>
+                            <dd class="col-sm-6"><span id="detalle_lugar_entrega"></span></dd>
+                            
+                            <dt class="col-sm-6"><strong>Notas:</strong></dt>
+                            <dd class="col-sm-6"><span id="detalle_notas"></span></dd>
+                            
+                            <dt class="col-sm-6"><strong>Subtotal:</strong></dt>
+                            <dd class="col-sm-6"><span id="detalle_subtotal"></span></dd>
+                            
+                            <dt class="col-sm-6"><strong>Total:</strong></dt>
+                            <dd class="col-sm-6"><span id="detalle_total"></span></dd>
+                        </dl>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
@@ -400,25 +386,3 @@
                 
             
 {% endblock %}
-
-<!--
-def crear_orden(request):
-    descuentos = ['0', '5', '10', '15']  
-    metodos_pago = ['EFECTIVO', 'TARJETA', 'SINPE'] 
-
-    if request.method == 'POST':
-        form = OrdenDeCompraForm(request.POST)
-        if form.is_valid():
-            
-            form.save()
-            return redirect('lista_ordenes')  
-    else:
-        form = OrdenDeCompraForm()
-
-    
-    return render(request, 'ordenes/orden_de_compra.html', {
-        'form': form,
-        'descuentos': descuentos,
-        'metodos_pago': metodos_pago,
-    })
--->   

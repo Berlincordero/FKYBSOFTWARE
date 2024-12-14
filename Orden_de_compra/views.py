@@ -3,81 +3,70 @@ from django.shortcuts import render, redirect
 from .models import OrdenDeCompra
 from .forms import OrdenDeCompraForm  
 from decimal import Decimal
-
 from django.views.decorators.http import require_POST
 
+
 def lista_ordenes(request):
-    ordenes = OrdenDeCompra.objects.filter(activo=True)  # Corrige el acceso al método 'filter'
-    descuentos = ['0', '5', '10', '15']
-    metodos_pago = ['EFECTIVO', 'TARJETA', 'SINPE']
+    ordenes = OrdenDeCompra.objects.filter(activo=True)  # Filtrar órdenes activas
+    metodos_pago = ['EFECTIVO', 'TARJETA', 'SINPE']  # Métodos de pago disponibles
 
     if request.method == 'POST':
         form = OrdenDeCompraForm(request.POST)
+       
         if form.is_valid():
+            
             cantidad = form.cleaned_data['cantidad']
             precio_unitario = form.cleaned_data['precio_unitario']
-            descuento = form.cleaned_data['descuento']
-            metodo_pago = form.cleaned_data['metodo_pago']
-            
-            if not (0 <= descuento <= 30):
-                form.add_error('descuento', 'El descuento debe estar entre 0 y 30.')
-                return render(request, 'ordenes/orden_de_compra.html', {
-                    'form': form,
-                    'ordenes': ordenes,
-                    'descuentos': descuentos,
-                    'metodos_pago': metodos_pago
-                })
 
-            if metodo_pago not in metodos_pago:
-                form.add_error('metodo_pago', 'Método de pago no válido.')
-                return render(request, 'ordenes/orden_de_compra.html', {
-                    'form': form,
-                    'ordenes': ordenes,
-                    'descuentos': descuentos,
-                    'metodos_pago': metodos_pago
-                })
+            # Calcular el total
+            total = cantidad * precio_unitario
 
-            subtotal = cantidad * precio_unitario
-            total_descuento = subtotal * (descuento / Decimal(100))
-            subtotal_con_descuento = subtotal - total_descuento
-            total_iva = subtotal_con_descuento * (Decimal(form.cleaned_data.get('IVI', 0)) / Decimal(100))
-            total = subtotal_con_descuento + total_iva
-            
+            # Crear la orden con los datos ingresados
             orden = form.save(commit=False)
-            orden.subtotal = subtotal
+            
             orden.total = total
             orden.save()
 
-            return redirect('lista_ordenes')
+            return redirect('lista_ordenes')  # Redirigir a la lista de órdenes
     else:
         form = OrdenDeCompraForm()
 
     context = {
         'ordenes': ordenes,
         'form': form,
-        'descuentos': descuentos,
         'metodos_pago': metodos_pago,
     }
     return render(request, 'ordenes/orden_de_compra.html', context)
-    
+
+
+
 def crear_orden(request):
-    descuentos = ['0', '5', '10', '15']  
-    metodos_pago = ['EFECTIVO', 'TARJETA', 'SINPE'] 
+    metodos_pago = ['EFECTIVO', 'TARJETA', 'SINPE']  # Métodos de pago disponibles
+    proveedores = Proveedor.objects.all()  # Obtener todos los proveedores
 
     if request.method == 'POST':
         form = OrdenDeCompraForm(request.POST)
         if form.is_valid():
+            cantidad = form.cleaned_data['cantidad']
+            precio_unitario = form.cleaned_data['precio_unitario']
+
+            # Calcular el total
+            total = cantidad * precio_unitario
+
+            # Crear la orden con los datos ingresados
+            orden = form.save(commit=False)
+        
+            orden.total = total
+            orden.save()
             
-            form.save()
-            return redirect('lista_ordenes')  
+            return redirect('lista_ordenes')  # Redirigir a la lista de órdenes
     else:
         form = OrdenDeCompraForm()
 
-    
     return render(request, 'ordenes/orden_de_compra.html', {
         'form': form,
-        'descuentos': descuentos,
         'metodos_pago': metodos_pago,
+        'proveedores': proveedores,
     })
 
 
@@ -95,15 +84,13 @@ def editar_orden(request):
         orden_id = request.POST.get('orden_id')
         try:
             orden = OrdenDeCompra.objects.get(id_orden=orden_id)
-            orden.id_usuario = request.POST.get('id_usuario')
-            orden.id_proveedor = request.POST.get('id_proveedor')
-            orden.id_producto = request.POST.get('id_producto')
+            orden.usuario = request.user  # Asignar usuario logueado automáticamente
+            orden.producto = request.POST.get('producto')
             orden.descripcion = request.POST.get('descripcion')
-            orden.cantidad = request.POST.get('cantidad')
-            orden.precio_unitario = request.POST.get('precio_unitario')
-            orden.descuento = request.POST.get('descuento')
+            orden.cantidad = int(request.POST.get('cantidad'))
+            orden.precio_unitario = float(request.POST.get('precio_unitario'))
+            orden.proveedor = Proveedor.objects.get(id=request.POST.get('proveedor'))
             orden.metodo_pago = request.POST.get('metodo_pago')
-            orden.lugar_entrega = request.POST.get('lugar_entrega')
             orden.notas = request.POST.get('notas')
 
             orden.save()  # Guardar los cambios
@@ -114,9 +101,6 @@ def editar_orden(request):
 
 def detalle_orden(request, orden_id):
     orden = get_object_or_404(OrdenDeCompra, id=orden_id)
-    articulos = orden.articulos  # Accede a los artículos desde el campo JSON
-
     return render(request, 'ordenes/detalle_orden.html', {
-        'orden': orden,
-        'articulos': articulos,
+        'orden': orden,    
     })
