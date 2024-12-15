@@ -12,6 +12,7 @@ urlpatterns = [
     path('usuarios/editar_personal/<int:user_id>/', views.editar_personal, name='editar_personal'),
     path('usuarios/eliminar/<int:user_id>/', views.eliminar_personal, name='eliminar_personal'),
     path('perfil/', views.perfil_usuario, name='perfil_usuario'),
+    path('Usuarios/cambiar_contrasena/<int:user_id>/', views.cambiar_contrasena, name='cambiar_contrasena'),
 
     
 ]

@@ -3,9 +3,11 @@ from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib import messages
 
 from Usuarios.models import CustomUser
-from .forms import AgregarPersonalForm, EditarPersonalForm, EditarPerfilForm
+from .forms import AgregarPersonalForm, EditarPersonalForm, CambiarContrasenaForm
 from config.forms import LoginForm
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.hashers import make_password
+
 
 
 # Define el modelo de usuario configurado
@@ -49,21 +51,30 @@ def usuarios(request):
 @login_required
 def editar_personal(request, user_id):
     user = get_object_or_404(User, pk=user_id)
+
     if request.method == 'POST':
         form = EditarPersonalForm(request.POST, instance=user, request_user=request.user)
+
         if form.is_valid():
             form.save()
-            messages.success(request, 'Información actualizada correctamente.')
+            messages.success(request, "La información del usuario se ha actualizado correctamente.")
             return redirect('usuarios')
         else:
             if 'role' in form.errors:
-                messages.error(request, 'No puedes cambiar tu propio rol.')
+                messages.error(request, "No puedes cambiar tu propio rol.")
+            elif any(field in form.errors for field in ['username', 'first_name', 'last_name', 'email']):
+                messages.error(request, "No puedes cambiar tus propios datos personales.")
             else:
-                messages.error(request, 'Por favor, corrija los errores en el formulario.')
+                messages.error(request, "Por favor, corrija los errores en el formulario.")
     else:
         form = EditarPersonalForm(instance=user, request_user=request.user)
-    
-    return render(request, 'Usuarios/usuarios.html', {'form': form, 'users': User.objects.filter(is_active=True)})
+
+    return render(request, "Usuarios/usuarios.html", {
+        "form": form,
+        "users": User.objects.filter(is_active=True),
+    })
+
+
 @login_required
 def agregar_personal(request):
     users = User.objects.filter(is_active=True) 
@@ -111,3 +122,34 @@ def perfil_usuario(request):
     user = request.user
     is_admin = user.groups.filter(name='Admin').exists()  
     return render(request, 'Usuarios/perfil.html', {'user': user, 'is_admin': is_admin})
+
+
+@login_required
+def cambiar_contrasena(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+
+    # Verificar que el usuario actual no pueda cambiar su propia contraseña aquí si es necesario
+    if request.user == user:
+        messages.error(request, "No puedes cambiar tu propia contraseña.")
+        return redirect('usuarios')
+
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if not new_password or not confirm_password:
+            messages.error(request, "Por favor, completa ambos campos de contraseña.")
+            return redirect('usuarios')
+
+        if new_password != confirm_password:
+            messages.error(request, "Las contraseñas no coinciden.")
+            return redirect('usuarios')
+
+        # Actualizar la contraseña del usuario
+        user.password = make_password(new_password)
+        user.save()
+
+        messages.success(request, "La contraseña se ha actualizado correctamente.")
+        return redirect('usuarios')
+
+    return redirect('usuarios')

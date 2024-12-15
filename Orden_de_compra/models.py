@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 class OrdenDeCompra(models.Model):
     id_orden = models.AutoField(primary_key=True) 
-    usuario = models.CharField(max_length=255, unique=True)
-    producto = models.CharField(max_length=255, unique=True)
+    usuario = models.CharField(max_length=255)
+    producto = models.CharField(max_length=255)
     descripcion = models.TextField(help_text='Descripción del producto')
     cantidad = models.PositiveIntegerField()
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
@@ -17,7 +17,7 @@ class OrdenDeCompra(models.Model):
     notas = models.TextField(max_length=300)
     metodo_pago = models.CharField(max_length=20, default='EFECTIVO')  # Podrías omitir choices si no los usas
     total = models.DecimalField(
-        max_digits=10,
+        max_digits=15,
         decimal_places=2,
         blank=True,
         null=True,

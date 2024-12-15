@@ -66,6 +66,14 @@
                            data-username="{{ user.username }}">
                            <i class="fa-solid fa-user-xmark"></i>
                         </a>
+                        <button
+                                class="btn btn-outline-primary btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#CambiarContrasenaModal"
+                                data-id="{{ user.id }}">
+                                <i class="mdi mdi-lock-reset"></i> 
+                        </button>
+                        
                     </td>
                 </tr>
                 {% endfor %}
@@ -195,6 +203,44 @@
     </div>
 </div>
 
+<div class="modal fade" id="CambiarContrasenaModal" tabindex="-1" aria-labelledby="CambiarContrasenaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CambiarContrasenaLabel">Cambiar Contraseña</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="CambiarContrasenaForm" method="post" action="">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="NewPassword" class="form-label">Nueva Contraseña:</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="NewPassword" name="new_password" required>
+                            <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('NewPassword')">
+                                <i class="mdi mdi-eye-off-outline"></i> 
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ConfirmPassword" class="form-label">Confirma Nueva Contraseña:</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="ConfirmPassword" name="confirm_password" required>
+                            <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('ConfirmPassword')">
+                                <i class="mdi mdi-eye-off-outline"></i> 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Actualizar Contraseña</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
@@ -235,6 +281,14 @@
             var form = $("#EliminarPersonalForm");
             form.attr("action", "{% url 'eliminar_personal' 0 %}".replace("0", userId));
         });
+
+        $('#CambiarContrasenaModal').on('show.bs.modal', function (event) {
+            const button = $(event.relatedTarget); 
+            const userId = button.data('id'); 
+    
+            const form = $('#CambiarContrasenaForm');
+            form.attr('action', `{% url "cambiar_contrasena" 0 %}`.replace('0', userId)); 
+        });
     
         setTimeout(function() {
             const notifications = document.querySelectorAll('#notification-container .notification');
@@ -244,6 +298,22 @@
                 setTimeout(() => notification.remove(), 500); 
             });
         }, 5000); // 5 segundos
+        
     });
+    function togglePasswordVisibility(fieldId) {
+        const passwordField = document.getElementById(fieldId);
+        const buttonIcon = passwordField.nextElementSibling.querySelector('i');
+    
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            buttonIcon.classList.remove('mdi-eye-off-outline');
+            buttonIcon.classList.add('mdi-eye-outline'); // Cambiar al ícono de "mostrar"
+        } else {
+            passwordField.type = "password";
+            buttonIcon.classList.remove('mdi-eye-outline');
+            buttonIcon.classList.add('mdi-eye-off-outline'); // Cambiar al ícono de "ocultar"
+        }
+    }
+    
 </script>
 {% endblock %}

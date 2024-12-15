@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'css/external_login.css' %}">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.9.55/css/materialdesignicons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Login</title>
 </head>
@@ -15,7 +16,6 @@
         <div class="row">
             <div class="col-md-6 side-image">
                 <!-- image -->
-                <img src="images/white.png" alt="">
                 <div class=" text text-white">
                     <h1>Bienvenido <i>FKYBSOFTWARE</i></h1>
                 </div>
@@ -26,22 +26,19 @@
                     <form method="post" class="form-group">
                         {% csrf_token %}
                         
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger">
-                                {% for error in form.non_field_errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    
                         <div class="input-field">
-                            <input type="text" class="input" id="email" name="email" required="" autocomplete="off">
+                            <input type="text" class="input" id="email" name="email" required autocomplete="off">
                             <label for="email">Email</label>
                         </div>
-                        <div class="input-field">
-                            <input type="password" class="input" id="pass" name="password" required="">
+                        
+                        <div class="input-field password-container">
+                            <input type="password" class="input password-input" id="pass" name="password" required>
                             <label for="pass">Contraseña</label>
+                            <span class="toggle-password" onclick="togglePasswordVisibility('pass')">
+                                <i class="mdi mdi-eye-off-outline"></i>
+                            </span>
                         </div>
+                        
                         <div class="input-field">
                             <input type="submit" class="submit" value="Iniciar sesión">
                         </div>
@@ -60,6 +57,23 @@
                 alert.style.display = "none";
             }
         }, 10000); 
+        
     });
+    function togglePasswordVisibility(id) {
+        const input = document.getElementById(id);
+        const icon = input.nextElementSibling.querySelector("i");
+    
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("mdi-eye-off-outline");
+            icon.classList.add("mdi-eye-outline");
+        } else {
+            input.type = "password";
+            icon.classList.remove("mdi-eye-outline");
+            icon.classList.add("mdi-eye-off-outline");
+        }
+    }
+    
 </script>
+
 </html>
