@@ -60,13 +60,7 @@
                                data-año="{{ vehiculo.año }}">
                                Editar
                             </a>
-                            <!--<a href="#" class="btn btn-danger" 
-                               data-bs-toggle="modal" 
-                               data-bs-target="#confirmarEliminarModal" 
-                               data-id="{{ vehiculo.id_vehiculo }}" 
-                               data-nombre="{{ vehiculo.marca }}">
-                               Eliminar
-                            </a>-->
+                            <button onclick="eliminarVehiculo('{{ vehiculo.id_vehiculo }}')" class="btn btn-danger">Eliminar</button>
                         </td>
                     </tr>
                 {% endfor %}
@@ -121,25 +115,26 @@
         </div>
     </div>
 
-    <!-- Modal de confirmación de eliminación -->
-    <div class="modal fade" id="confirmarEliminarModal" tabindex="-1" aria-labelledby="confirmarEliminarModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <!-- Modal Confirmación de Eliminación -->
+    <style>#confirmDeleteModalLabel {
+        color: white !important;
+    }
+    </style>
+    <!-- Modal de Confirmación -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title w-100 text-center" id="confirmarEliminarModalLabel">Confirmar Eliminación</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
-                <form id="eliminarForm" method="post">
-                    {% csrf_token %}
-                    <div class="modal-body">
-                        <p>¿Estás seguro de que deseas eliminar el vehículo <strong id="vehiculoNombre"></strong>?</p>
-                        <input type="hidden" id="idVehiculoEliminar" name="id_vehiculo">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                    </div>
-                </form>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas eliminar este vehiculo?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
+                </div>
             </div>
         </div>
     </div>
@@ -158,10 +153,12 @@
         const modelo = button.getAttribute('data-modelo');
         const año = button.getAttribute('data-año');
 
+        // Si hay un ID, es modo de edición
         if (id) {
             form.action = "{% url 'transportes:editar_vehiculo' '0' %}".replace('0', id);
             document.getElementById('vehiculoModalLabel').innerText = 'Editar Vehículo';
             document.getElementById('id_vehiculo').value = id;
+            document.getElementById('id_vehiculo').disabled = true;  // Deshabilitar el campo id_vehiculo
             document.getElementById('marca').value = marca;
             document.getElementById('modelo').value = modelo;
             document.getElementById('año').value = año;
@@ -169,20 +166,45 @@
             form.action = "{% url 'transportes:agregar_vehiculo' %}";
             form.reset();
             document.getElementById('vehiculoModalLabel').innerText = 'Agregar Vehículo';
+            document.getElementById('id_vehiculo').disabled = false;  // Habilitar el campo id_vehiculo en el modo de agregar
         }
     });
+</script>
 
-    // Manejo del modal de eliminación de vehículo
-    const eliminarModal = document.getElementById('confirmarEliminarModal');
-    eliminarModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const id = button.getAttribute('data-id');
-        const nombre = button.getAttribute('data-nombre');
 
-        document.getElementById('vehiculoNombre').innerText = nombre;
-        document.getElementById('idVehiculoEliminar').value = id;
-        document.getElementById('eliminarForm').action = "{% url 'transportes:eliminar_vehiculo' '0' %}".replace('0', id);
-    });
+
+
+<script>
+    let vehiculoIdToDelete = null;
+
+function eliminarVehiculo(idVehiculo) {
+    // Guarda el ID del conductor a eliminar
+    vehiculoIdToDelete = idVehiculo;
+
+    // Muestra el modal de confirmación
+    const deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+    deleteModal.show();
+}
+
+// Manejador del botón "Eliminar" en el modal
+document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+    if (vehiculoIdToDelete) {
+        fetch(`/transportes/eliminar_vehiculo/${vehiculoIdToDelete}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload(); // Recarga la página después de eliminar
+            } else {
+                alert("Error al eliminar el vehiculo.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+});
 
 </script>
 

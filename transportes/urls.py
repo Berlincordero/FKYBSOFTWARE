@@ -2,7 +2,7 @@
 
 from django.urls import path
 from . import views
-from .views import editar_conductor, editar_ruta, eliminar_ruta, eliminar_todas_rutas, modulo_rutas, asignar_rutas, agregar_ruta
+from .views import editar_conductor, editar_ruta, eliminar_ruta, eliminar_todas_rutas, modulo_rutas, asignar_rutas, agregar_ruta, eliminar_conductor
 
 app_name = 'transportes'  # Agrega esta línea para definir el namespace
 
@@ -16,7 +16,7 @@ urlpatterns = [
     path('vehiculos/', views.modulo_vehiculos, name='modulo_vehiculos'),
     path('vehiculos/agregar/', views.agregar_vehiculo, name='agregar_vehiculo'),
     path('vehiculos/editar/<str:id_vehiculo>/', views.editar_vehiculo, name='editar_vehiculo'),
-    path('vehiculos/eliminar/<str:id_vehiculo>/', views.eliminar_vehiculo, name='eliminar_vehiculo'),
+    path('eliminar_vehiculo/<str:id_vehiculo>/', views.eliminar_vehiculo, name='eliminar_vehiculo'),
     
     
     path('editar_conductor/', editar_conductor, name='editar_conductor'),

@@ -1,6 +1,7 @@
 #transportes/views.py
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Conductor, ConductorEliminado, Vehiculo, Ruta, RutaEliminada
+from django.contrib.auth.decorators import login_required
+from .models import Conductor, ConductorEliminado, Vehiculo, Ruta, RutaEliminada, VehiculoEliminado
 from .forms import ConductorForm, VehiculoForm, RutaForm
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView
@@ -9,9 +10,9 @@ import datetime
 from django.contrib import messages
 from geografia.models import Provincia, Canton, Distrito
 
-
+@login_required
 def modulo_transportes(request):
-    conductores = Conductor.objects.all()  # Obtener todos los conductores
+    conductores = Conductor.objects.filter(activo=True)  # Obtener todos los conductores en activos
     vehiculos = Vehiculo.objects.all()  # Obtener todos los vehículos
     return render(request, 'modulo_transportes.html', {'conductores': conductores, 'vehiculos': vehiculos})
 
@@ -20,7 +21,7 @@ class ConductorListView(ListView):
     model = Conductor
     template_name = 'modulo_transportes.html'  # Nombre de tu plantilla
     context_object_name = 'conductores'  # Nombre que usaremos en la plantilla
-
+@login_required
 def agregar_conductor(request):
     if request.method == 'POST':
         id_conductor = request.POST.get('id_conductor')
@@ -47,37 +48,42 @@ def editar_conductor(request, id_conductor):
     conductor = get_object_or_404(Conductor, id_conductor=id_conductor)
     
     if request.method == 'POST':
-        form = ConductorForm(request.POST, instance=conductor)
-        if form.is_valid():
-            form.save()
-            return redirect('modulo_transportes')  # Redirigir a la lista de conductores
-    else:
-        form = ConductorForm(instance=conductor)
-
-    return render(request, 'editar_conductor.html', {'form': form})
-
+        conductor.nombre_conductor = request.POST['nombre_conductor']
+        conductor.apellidos_1 = request.POST['apellidos_1']
+        conductor.apellidos_2 = request.POST['apellidos_2']
+        conductor.save()
+        return redirect('transportes:modulo_transportes')
+    
+    return render(request, 'modulo_transportes.html', {'conductor': conductor})
 
 
 
 
 
+@login_required
 def eliminar_conductor(request, id_conductor):
-    conductor = get_object_or_404(Conductor, id_conductor=id_conductor)
-
     if request.method == 'POST':
-        # Guardar el conductor en la tabla de eliminados
-        ConductorEliminado.objects.create(conductor=conductor)
-        # Eliminar el conductor original
-        conductor.delete()
-        return redirect('modulo_transportes')  # Redirigir después de eliminar
+        conductor = get_object_or_404(Conductor, id_conductor=id_conductor)
+        ConductorEliminado.objects.create(
+            conductor=conductor,
+            fecha_eliminacion=timezone.now()
+        )
+        conductor.activo = False
+        conductor.save()
 
-    # Mostrar modal de confirmación si no es un POST
-    return render(request, 'modulo_transportes.html', {'conductores': Conductor.objects.all()})
+        messages.success(request, 'Conductor movido a eliminadas con éxito.')
+        return redirect('modulo_transportes')
+    return HttpResponse("Método no permitido", status=405)
+
 
 
 
 #                VEHICULOS   
-
+@login_required
+def modulo_vehiculos(request):
+    vehiculos = Vehiculo.objects.filter(activo=True)  # Obtener todos los vehículos
+    return render(request, 'modulo_vehiculos.html', {'vehiculos': vehiculos})
+@login_required
 def agregar_vehiculo(request):
     if request.method == 'POST':
         id_vehiculo = request.POST['id_vehiculo']  # Toma el número de placa ingresado
@@ -92,7 +98,7 @@ def agregar_vehiculo(request):
     return render(request, 'modulo_vehiculos.html')
 
 
-
+@login_required
 def editar_vehiculo(request, id_vehiculo):
     vehiculo = get_object_or_404(Vehiculo, id_vehiculo=id_vehiculo)
     
@@ -106,20 +112,20 @@ def editar_vehiculo(request, id_vehiculo):
     return render(request, 'modulo_vehiculos.html', {'vehiculo': vehiculo})
 
 
-
+@login_required
 def eliminar_vehiculo(request, id_vehiculo):
-    vehiculo = get_object_or_404(Vehiculo, id_vehiculo=id_vehiculo)
-    
     if request.method == 'POST':
-        vehiculo.delete()  # Eliminar el vehículo
-        return redirect('transportes:modulo_vehiculos')  # Redirigir a la lista de vehículos
+        vehiculo = get_object_or_404(Vehiculo, id_vehiculo=id_vehiculo)
+        VehiculoEliminado.objects.create(
+            vehiculo=vehiculo,
+            fecha_eliminacion=timezone.now()
+        )
+        vehiculo.activo = False
+        vehiculo.save()
 
-
-
-
-def modulo_vehiculos(request):
-    vehiculos = Vehiculo.objects.all()
-    return render(request, 'modulo_vehiculos.html', {'vehiculos': vehiculos})
+        messages.success(request, 'Vehiculo movido a eliminadas con éxito.')
+        return redirect('transportes:modulo_vehiculos')
+    return HttpResponse("Método no permitido", status=405)
 
 
 
@@ -127,7 +133,7 @@ def modulo_vehiculos(request):
 # Rutas #
 
 #transportes/views.py
-
+@login_required
 def modulo_rutas(request):
     # Si estás usando un campo 'activo' en el modelo Ruta
     rutas = Ruta.objects.filter(activo=True)  # Recupera todas las rutas sin filtrar  # Filtra por rutas activas
@@ -139,7 +145,7 @@ def modulo_rutas(request):
 
 
 
-
+@login_required
 def agregar_ruta(request):
     if request.method == 'POST':
         id_ruta = request.POST.get('id_ruta')
@@ -171,7 +177,7 @@ def agregar_ruta(request):
     else:
         return redirect('transportes:modulo_rutas')
 
-
+@login_required
 def eliminar_ruta(request, id):
     if request.method == 'POST':
         # Obtiene la ruta que quieres "eliminar"
@@ -194,7 +200,7 @@ def eliminar_ruta(request, id):
 
 
     
-    
+@login_required    
 def editar_ruta(request, id_ruta):
     ruta = get_object_or_404(Ruta, id_ruta=id_ruta)
     
@@ -218,12 +224,12 @@ def editar_ruta(request, id_ruta):
 
     return render(request, 'modulo_rutas.html', {'ruta': ruta})
 
-
+@login_required
 def asignar_rutas(request):
     # Obtener todas las provincias
     provincias = Provincia.objects.all()  
     return render(request, 'modulo_rutas.html', {'provincias': provincias})
-
+@login_required
 def eliminar_todas_rutas(request):
     if request.method == 'POST':
         Ruta.objects.all().delete()  # Elimina todas las rutas

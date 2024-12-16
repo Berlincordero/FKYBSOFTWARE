@@ -1,33 +1,58 @@
 # transportes/models.py
 
+
+#Conductores
 from django.db import models
 
 class Conductor(models.Model):
-    id_conductor = models.CharField(max_length=50, unique=True)
+    id_conductor = models.CharField(max_length=50,primary_key=True)
     nombre_conductor = models.CharField(max_length=100)
     apellidos_1 = models.CharField(max_length=100)
     apellidos_2 = models.CharField(max_length=100, blank=True)
+    activo = models.BooleanField(default=True)  # Campo para marcar rutas activas o no
 
     def __str__(self):
         return f"{self.nombre_conductor} {self.apellidos_1} {self.apellidos_2}"
+       
     
 class ConductorEliminado(models.Model):
     conductor = models.ForeignKey(Conductor, on_delete=models.CASCADE)
     fecha_eliminacion = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.conductor.nombre_conductor} {self.conductor.apellidos_1} {self.conductor.apellidos_2} - Eliminado en: {self.fecha_eliminacion}"
     
+    def __str__(self):
+        return f"Conductor {self.conductor.id_conductor} eliminada el {self.fecha_eliminacion}" 
+        
+    
+    
+#class ConductorEliminado(models.Model):
+    #conductor = models.ForeignKey(Conductor, on_delete=models.CASCADE)
+    #fecha_eliminacion = models.DateTimeField(auto_now_add=True)
 
-
+    #def __str__(self):
+        #return f"{self.conductor.nombre_conductor} {self.conductor.apellidos_1} {self.conductor.apellidos_2} - Eliminado en: {self.fecha_eliminacion}"
+    
+    
+# Vehiculos    
+    
 class Vehiculo(models.Model):
     id_vehiculo = models.CharField(max_length=20, primary_key=True)  # Cambiado a CharField
     marca = models.CharField(max_length=100)
     modelo = models.CharField(max_length=100)
     año = models.IntegerField()
+    activo = models.BooleanField(default=True)  # Campo para marcar rutas activas o no
 
     def __str__(self):
         return f"{self.marca} {self.modelo} ({self.año})"
+    
+class VehiculoEliminado(models.Model):
+    vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
+    fecha_eliminacion = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Vehiculo {self.vehiculo.id_vehiculo} eliminada el {self.fecha_eliminacion}"     
+    
+    
+# Rutas    
 
 class Ruta(models.Model):
     id_ruta = models.CharField(max_length=50, primary_key=True)

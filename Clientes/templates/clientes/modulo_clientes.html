@@ -77,9 +77,18 @@
             <td>{{ cliente.telefono }}</td>
             <td>{{ cliente.correo }}</td>
             <td>
+                <!-- Botón de editar con ícono -->
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editClientModal{{ cliente.id_cliente }}">
-                    Editar
+                    <i class="fas fa-pencil-alt"></i>
                 </button>
+                
+                <!-- Formulario de eliminar con ícono -->
+                <form method="POST" action="{% url 'clientes:eliminar_cliente' cliente.id_cliente %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
             </td>
         </tr>
         {% empty %}
@@ -163,6 +172,9 @@
     </div>
 </div>
 <!-- Modal Editar Cliente -->
+<style>#editClientModalLabel {
+    color: white !important;
+}</style>
 {% for cliente in clientes %}
 <div class="modal fade" id="editClientModal{{ cliente.id_cliente }}" tabindex="-1" aria-labelledby="editClientModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -176,7 +188,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="id_cliente" class="form-label">ID Cliente (Cédula)</label>
-                        <input type="text" class="form-control" name="id_cliente" value="{{ cliente.id_cliente }}" required>
+                        <input type="text" class="form-control" name="id_cliente" value="{{ cliente.id_cliente }}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
@@ -225,24 +237,25 @@
 </div>
 {% endfor %}
 <!-- Modal Confirmación de Eliminación -->
+<style>#confirmDeleteModalLabel {
+    color: white !important;
+}
+</style>
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <form method="post" id="deleteForm">
-            {% csrf_token %}
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title w-100 text-center" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    ¿Desea eliminar al cliente <span id="clientName"></span>?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger">Eliminar</button>
-                </div>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
-        </form>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este cliente ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -628,5 +641,42 @@
         });
     });
     
+</script>
+
+
+
+
+<script>
+    let clienteIdToDelete = null;
+
+function eliminarCliente(idCliente) {
+    // Guarda el ID del cliente a eliminar
+    clienteIdToDelete = idCliente;
+
+    // Muestra el modal de confirmación
+    const deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+    deleteModal.show();
+}
+
+// Manejador del botón "Eliminar" en el modal
+document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+    if (clienteIdToDelete) {
+        fetch(`/Clientes/eliminar_cliente/${clienteIdToDelete}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload(); // Recarga la página después de eliminar
+            } else {
+                alert("Error al eliminar el cliente.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+});
+
 </script>
 {% endblock %}
