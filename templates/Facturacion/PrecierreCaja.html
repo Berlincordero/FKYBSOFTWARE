@@ -137,6 +137,32 @@
         font-size: 16px;
         border-radius: 5px;
     }
+    .pagination-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 100px;
+        gap: 10px;
+    }
+
+    .pagination-controls button {
+        background-color: #3163f9;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 15px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .pagination-controls button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    .pagination-controls span {
+        font-size: 16px;
+    }
 </style>
 
 <div class="facturacion-caja-shampoo-container">
@@ -216,7 +242,11 @@
         </tbody>
     </table>
 </div>
-
+<div class="pagination-controls">
+    <button id="prevPageBtn">Anterior</button>
+    <span>Página <span id="currentPage">1</span> de <span id="totalPages">1</span></span>
+    <button id="nextPageBtn">Siguiente</button>
+</div>
 <!-- Mover el estilo CSS al archivo styles.css o incluirlo en el bloque de estilos de base.html -->
 
 <!-- Script para archivar filas -->
@@ -300,6 +330,62 @@
             });
         }
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const rowsPerPage = 5; // Número de filas por página
+        let currentPage = 1;
+
+        const table = document.getElementById("precierres-table");
+        const rows = Array.from(table.querySelectorAll("tbody tr"));
+        const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+        const currentPageSpan = document.getElementById("currentPage");
+        const totalPagesSpan = document.getElementById("totalPages");
+        const prevPageBtn = document.getElementById("prevPageBtn");
+        const nextPageBtn = document.getElementById("nextPageBtn");
+
+        function showPage(page) {
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+
+            rows.forEach((row, index) => {
+                row.style.display = index >= start && index < end ? "" : "none";
+            });
+
+            currentPageSpan.textContent = page;
+            prevPageBtn.disabled = page === 1;
+            nextPageBtn.disabled = page === totalPages;
+        }
+
+        function filterTable() {
+            const searchInput = document.getElementById("search-input").value.toLowerCase().trim();
+            rows.forEach((row) => {
+                const dateCell = row.querySelector("td:nth-child(4)");
+                const match = dateCell && dateCell.textContent.toLowerCase().includes(searchInput);
+                row.style.display = match ? "" : "none";
+            });
+        }
+
+        document.getElementById("search-input").addEventListener("input", filterTable);
+
+        prevPageBtn.addEventListener("click", function () {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        });
+
+        nextPageBtn.addEventListener("click", function () {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        });
+
+        showPage(currentPage);
+        totalPagesSpan.textContent = totalPages;
+    });
+
 </script>
 
 {% endblock %}

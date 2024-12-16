@@ -2,7 +2,7 @@
 {% block content %}
 
 
-</style>
+
 
 <div class="facturacion-caja-kike-container">
     <div class="facturacion-caja-kike-header">
@@ -63,6 +63,13 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
+
+
+<div class="pagination-controls">
+    <button id="prevPageBtn">Anterior</button>
+    <span>Página <span id="currentPage">1</span> de <span id="totalPages">1</span></span>
+    <button id="nextPageBtn">Siguiente</button>
 </div>
 
 <!-- Script para archivar filas y filtrar por múltiples campos -->
@@ -157,6 +164,37 @@
             }, 300)); // 300ms de retardo
         }
     });
+
+    // Paginación
+
+ document.addEventListener("DOMContentLoaded", function () {
+        const rowsPerPage = 5; // Número de filas por página
+        let currentPage = 1;
+
+        const table = document.getElementById("facturas-table");
+        const rows = Array.from(table.querySelectorAll("tbody tr"));
+        const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+        const currentPageSpan = document.getElementById("currentPage");
+        const totalPagesSpan = document.getElementById("totalPages");
+        const prevPageBtn = document.getElementById("prevPageBtn");
+        const nextPageBtn = document.getElementById("nextPageBtn");
+
+        function showPage(page) {
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+
+            rows.forEach((row, index) => {
+                row.style.display = index >= start && index < end ? "" : "none";
+            });
+
+            currentPageSpan.textContent = page;
+            prevPageBtn.disabled = page === 1;
+            nextPageBtn.disabled = page === totalPages;
+        }
+
+
+
 </script>
 
 {% endblock %}

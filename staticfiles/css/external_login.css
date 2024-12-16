@@ -153,4 +153,35 @@ span a:hover{
         max-width:420px;
         width: 100%;
     }
+    /* Contenedor del campo de contraseña */
+
 }
+
+/* Contenedor del campo de contraseña */
+.password-container {
+    position: relative; /* Posición relativa para colocar el ícono */
+}
+
+/* Ícono del ojo */
+.password-container .toggle-password {
+    position: absolute;
+    top: 40%; /* Centra verticalmente */
+    right: 10px; /* Espaciado a la derecha */
+    transform: translateY(-50%); /* Ajusta el centrado vertical */
+    cursor: pointer;
+    font-size: 20px;
+    color: #666;
+    transition: color 0.3s ease;
+}
+
+/* Cambia el color del ícono al pasar el mouse */
+.password-container .toggle-password:hover {
+    color: #743ae1;
+}
+
+/* Ajusta el padding del campo de entrada para evitar que el ícono lo cubra */
+.password-container .password-input {
+    padding-right: 40px; /* Espacio para el ícono */
+}
+
+

@@ -384,6 +384,7 @@ a.sidebar-link {
 
 #summaryTable {
     width: 60%;
+    font-size: 20px;
     border-collapse: collapse;
     /* Colapsa los bordes para evitar bordes adicionales */
     border: 1px solid #db8308;
@@ -1391,6 +1392,20 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #printableArea, #printableArea * {
+        visibility: visible;
+    }
+    #printableArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
 }
 
 

@@ -935,6 +935,7 @@
                     <option value="creditCard">Tarjeta de Crédito o Débito</option>
                     <option value="cash">Efectivo</option>
                     <option value="transfer">Transferencia</option>
+                    <option value="transfer">simpe movil</option>
                     <option value="credit">Pago a Crédito</option>
                 </select>
                 <label for="iva">IVA 13%:</label>
@@ -2024,7 +2025,7 @@ function procesarPago() {
             title.style.fontWeight = 'bold';
 
             const p = document.createElement('p');
-            p.innerText = 'Su cambio es: ' + cambio;
+            p.innerText = 'El cambio a Entregar es: ' + cambio;
             p.style.fontSize = '40px';           
             p.style.fontFamily = 'Arial, sans-serif';
             p.style.margin = '0';

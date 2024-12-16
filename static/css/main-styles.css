@@ -384,6 +384,7 @@ a.sidebar-link {
 
 #summaryTable {
     width: 60%;
+    font-size: 20px;
     border-collapse: collapse;
     /* Colapsa los bordes para evitar bordes adicionales */
     border: 1px solid #db8308;
@@ -1091,6 +1092,36 @@ h2 {
 .facturacion-caja-kike-fixed-icons a.export-excel-button i {
     margin-right: 5px;
 }
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    gap: 10px;
+}
+
+.pagination-controls button {
+    background-color: #3163f9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pagination-controls button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination-controls span {
+    font-size: 16px;
+}
+
+
+
 
 /**********************************************************************************************************************/
 

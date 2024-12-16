@@ -4,14 +4,14 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Lista de Proformas</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
     />
     <style>
-.container-proformas-kike {
+      .container-proformas-kike {
         width: 80%;
         margin: 0 auto;
         background-color: #fff;
@@ -96,31 +96,31 @@
       }
 
       tbody tr:hover {
-        background-color: hsl(180, 1%, 83%); /* Cambia el fondo de la fila al pasar el ratón */
-        transition: background-color 0.3s; /* Para una transición suave */
-    }
+        background-color: hsl(180, 1%, 83%);
+        transition: background-color 0.3s;
+      }
 
       tbody td:hover {
-        background-color: #efc737; /* Cambia el fondo de la celda al pasar el ratón */
-        transition: background-color 0.3s; /* Para una transición suave */
-    }
+        background-color: #efc737;
+        transition: background-color 0.3s;
+      }
 
+      td input[type="number"] {
+        width: 60px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        text-align: center;
+        outline: none;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
 
-    td input[type="number"] {
-      width: 60px; /* Ajusta el ancho del campo */
-      padding: 5px; /* Espaciado interno */
-      border: 1px solid #ccc; /* Borde ligero */
-      border-radius: 4px; /* Bordes redondeados */
-      font-size: 14px; /* Tamaño del texto */
-      text-align: center; /* Centrar el texto */
-      outline: none; /* Quita el contorno azul predeterminado */
-      transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Animación al enfocar */
-    }
+      td input[type="number"]:focus {
+        border-color: #007BFF;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
 
-    td input[type="number"]:focus {
-      border-color: #007BFF; /* Cambia el color del borde al enfocar */
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Agrega un efecto de sombra */
-    }
       .save-proforma,
       .create-proforma {
         padding: 10px 20px;
@@ -131,6 +131,7 @@
         font-size: 16px;
         margin-top: 20px;
       }
+
       .modal-proforma {
         display: none;
         position: fixed;
@@ -205,332 +206,322 @@
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
       }
 
-
       @media (min-width: 1200px) {
         .h1, h1 {
-            margin: auto;
-            color:#1b9f8e;
-            font-size: 2.5rem;
+          margin: auto;
+          color: #1b9f8e;
+          font-size: 2.5rem;
         }
-    }
-    .search-bar {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 20px;
-  }
+      }
 
-  .search-label {
-      margin-bottom: 5px; /* Espacio entre la etiqueta y la barra de búsqueda */
-      font-weight: bold;  /* Opcional: Negrita para la etiqueta */
-  }
+      .search-bar {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+      }
 
-  .search-input-wrapper {
-      display: flex;
-      align-items: center;
-  }
+      .search-label {
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
 
-  .search-input-wrapper input[type="text"] {
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid #ddd;
-      flex-grow: 1;
-      margin-right: 10px;
-  }
+      .search-input-wrapper {
+        display: flex;
+        align-items: center;
+      }
 
-  .search-input-wrapper button {
-      background-color: #4caf50;
-      border: none;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-  }
+      .search-input-wrapper input[type="text"] {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        flex-grow: 1;
+        margin-right: 10px;
+      }
 
-  .icono-proforma-formulario {
-      margin-right: 10px; /* Espacio entre el icono y el texto */
-      color: #826119e7
-  }
-  .moneda-unica {
-    background-color: #e0f7fa; /* Color de fondo personalizado */
-    border: 2px solid #00796b; /* Borde personalizado */
-    color: #004d40; /* Color del texto */
-    padding: 5px;
-    font-family: Arial, sans-serif;
-    border-radius: 5px;
-    width: 150px; /* Ancho fijo */
-    cursor: pointer;
-}
+      .search-input-wrapper button {
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-.moneda-unica:focus {
-    border-color: #004d40; /* Cambia el color del borde al enfocar */
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 77, 64, 0.5); /* Sombra al enfocar */
-}
+      .icono-proforma-formulario {
+        margin-right: 10px;
+        color: #826119e7;
+      }
 
-/* Contenedor de los iconos */
-.action-icons {
-    display: flex;
-    justify-content: center; /* Centra los iconos horizontalmente */
-    align-items: center; /* Centra los iconos verticalmente */
-    gap: 15px; /* Espacio entre los iconos */
-}
+      .moneda-unica {
+        background-color: #e0f7fa;
+        border: 2px solid #00796b;
+        color: #004d40;
+        padding: 5px;
+        font-family: Arial, sans-serif;
+        border-radius: 5px;
+        width: 150px;
+        cursor: pointer;
+      }
 
-/* Estilos generales para los iconos */
-.action-icons i {
-    cursor: pointer;
-    font-size: 20px;
-    color: #555;
-    transition: color 0.3s ease;
-}
+      .moneda-unica:focus {
+        border-color: #004d40;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 77, 64, 0.5);
+      }
 
-/* Cambia el color al pasar el mouse */
-.action-icons i:hover {
-    color: #007bff;
-}
+      .action-icons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+      }
 
-/* Efecto de presionado */
-.action-icons i:active {
-    transform: scale(0.95);
-}
+      .action-icons i {
+        cursor: pointer;
+        font-size: 20px;
+        color: #555;
+        transition: color 0.3s ease;
+      }
 
-.buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px; /* Ajusta la altura según tu diseño */
-}
+      .action-icons i:hover {
+        color: #007bff;
+      }
 
-.imprimir-proforma {
-  font-size: 35px;
-  color: #28a745;
-  cursor: pointer;
-  padding: 20px; /* Espacio alrededor del ícono */
-  transition: all 0.3s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+      .action-icons i:active {
+        transform: scale(0.95);
+      }
 
-.image-below-proforma {
-  text-align: center; /* Centers the image if needed */
-  margin-top: 15px;   /* Adjust for separation */
-}
+      .buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+      }
 
-.image-below-icon {
-  border-radius: 35px; /* Rounded corners */
-  width: 300px;       /* Adjust size as needed */
-  height: auto;      /* Keeps aspect ratio */
-}
+      .imprimir-proforma {
+        font-size: 35px;
+        color: #28a745;
+        cursor: pointer;
+        padding: 20px;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-button[onclick="mostrarModalProductos()"] {
-  background-color: #007BFF; /* Azul */
-  color: #fff; /* Texto blanco */
-  padding: 10px 20px; /* Espaciado interno */
-  font-size: 16px; /* Tamaño del texto */
-  border: none; /* Sin borde */
-  border-radius: 5px; /* Bordes redondeados */
-  cursor: pointer; /* Cambiar el cursor al pasar */
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Efecto suave */
-}
+      .image-below-proforma {
+        text-align: center;
+        margin-top: 15px;
+      }
 
-button[onclick="mostrarModalProductos()"]:hover {
-  background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
-  transform: scale(1.05); /* Ampliar ligeramente */
-}
+      .image-below-icon {
+        border-radius: 35px;
+        width: 300px;
+        height: auto;
+      }
 
-button[onclick="mostrarModalProductos()"]:active {
-  background-color: #003d80; /* Azul aún más oscuro al hacer clic */
-  transform: scale(0.95); /* Reducir ligeramente */
-}
+      button[onclick="mostrarModalProductos()"] {
+        background-color: #007BFF;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
 
-/* Estilo para el modal */
-#product-modal {
-  display: none; /* Oculto por defecto */
-  position: fixed; /* Posición fija */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Centrar en pantalla */
-  width: 400px; /* Ancho del modal */
-  padding: 20px; /* Espaciado interno */
-  background-color: #fff; /* Fondo blanco */
-  border: 1px solid #ccc; /* Borde gris claro */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
-  z-index: 1000; /* Asegurarse de que esté sobre otros elementos */
-  font-family: Arial, sans-serif; /* Fuente */
-}
+      button[onclick="mostrarModalProductos()"]:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+      }
 
-/* Estilo para el encabezado del modal */
-#product-modal h3 {
-  margin: 0;
-  margin-bottom: 20px; /* Espaciado debajo del encabezado */
-  font-size: 20px;
-  color: #007BFF; /* Azul */
-  text-align: center;
-}
+      button[onclick="mostrarModalProductos()"]:active {
+        background-color: #003d80;
+        transform: scale(0.95);
+      }
 
-/* Estilo para el select */
-#product-modal select {
-  width: 100%; /* Ancho completo */
-  padding: 10px; /* Espaciado interno */
-  font-size: 14px; /* Tamaño del texto */
-  border: 1px solid #ccc; /* Borde gris claro */
-  border-radius: 5px; /* Bordes redondeados */
-  margin-bottom: 20px; /* Espaciado debajo del select */
-}
+      #product-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        font-family: Arial, sans-serif;
+      }
 
-/* Estilo para los botones dentro del modal */
-#product-modal button {
-  background-color: #28a745; /* Verde */
-  color: #fff; /* Texto blanco */
-  padding: 10px 20px; /* Espaciado interno */
-  font-size: 14px; /* Tamaño del texto */
-  border: none; /* Sin borde */
-  border-radius: 5px; /* Bordes redondeados */
-  cursor: pointer; /* Cambiar el cursor al pasar */
-  margin-right: 10px; /* Espaciado entre botones */
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Efecto suave */
-}
+      #product-modal h3 {
+        margin: 0;
+        margin-bottom: 20px;
+        font-size: 20px;
+        color: #007BFF;
+        text-align: center;
+      }
 
-#product-modal button:hover {
-  background-color: #218838; /* Verde más oscuro al pasar el cursor */
-  transform: scale(1.05); /* Ampliar ligeramente */
-}
+      #product-modal select {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
 
-#product-modal button:active {
-  background-color: #1e7e34; /* Verde aún más oscuro al hacer clic */
-  transform: scale(0.95); /* Reducir ligeramente */
-}
+      #product-modal button {
+        background-color: #28a745;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 14px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
 
-/* Estilo para el botón de cerrar */
-#product-modal button[onclick="cerrarModalProductos()"] {
-  background-color: #dc3545; /* Rojo */
-}
+      #product-modal button:hover {
+        background-color: #218838;
+        transform: scale(1.05);
+      }
 
-#product-modal button[onclick="cerrarModalProductos()"]:hover {
-  background-color: #c82333; /* Rojo más oscuro */
-}
+      #product-modal button:active {
+        background-color: #1e7e34;
+        transform: scale(0.95);
+      }
 
+      #product-modal button[onclick="cerrarModalProductos()"] {
+        background-color: #dc3545;
+      }
 
-.totals {
-  margin-top: 20px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  font-family: Arial, sans-serif;
-}
+      #product-modal button[onclick="cerrarModalProductos()"]:hover {
+        background-color: #c82333;
+      }
 
-.totals h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-}
+      .totals {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        font-family: Arial, sans-serif;
+      }
 
-.total-item {
-  margin-bottom: 15px;
-  font-size: 18px;
-  color: #555;
-}
+      .totals h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+      }
 
-.total-item strong {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 16px;
-  color: #333;
-}
+      .total-item {
+        margin-bottom: 15px;
+        font-size: 18px;
+        color: #555;
+      }
 
-.total-item p {
-  font-size: 20px;
-  color: #007BFF; /* Azul para resaltar el monto */
-  margin: 0;
-  font-weight: bold;
-  text-align: left;
-}
+      .total-item strong {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 16px;
+        color: #333;
+      }
 
-#info-subtotal {
-  font-size: 15px; /* Tamaño de fuente más pequeño que un <h1> típico */
-  color: #D9534F; /* Color rojo para llamar la atención */
-  background-color: #F8D7DA; /* Fondo rosado claro para resaltar */
-  border: 1px solid #F5C6CB; /* Borde para definir el contenedor */
-  padding: 10px; /* Espaciado interno */
-  border-radius: 5px; /* Bordes redondeados */
-  margin: 20px 0; /* Separación vertical */
-  font-weight: bold; /* Texto en negrita */
-  text-align: center; /* Centrado del texto */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-}
+      .total-item p {
+        font-size: 20px;
+        color: #007BFF;
+        margin: 0;
+        font-weight: bold;
+        text-align: left;
+      }
 
-td select[name="unidad"] {
-  width: 180px; /* Ajusta el ancho del campo */
-  padding: 5px; /* Espaciado interno */
-  border: 1px solid #ccc; /* Borde ligero */
-  border-radius: 4px; /* Bordes redondeados */
-  font-size: 14px; /* Tamaño de texto */
-  background-color: #f9f9f9; /* Fondo claro */
-  color: #333; /* Color del texto */
-  outline: none; /* Quita el contorno azul predeterminado */
-  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Animación al enfocar */
-}
+      #info-subtotal {
+        font-size: 15px;
+        color: #D9534F;
+        background-color: #F8D7DA;
+        border: 1px solid #F5C6CB;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 20px 0;
+        font-weight: bold;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
 
-td select[name="unidad"]:focus {
-  border-color: #007BFF; /* Cambia el color del borde al enfocar */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Agrega un efecto de sombra */
-  background-color: #fff; /* Fondo blanco al enfocar */
-}
+      td select[name="unidad"] {
+        width: 180px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        background-color: #f9f9f9;
+        color: #333;
+        outline: none;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
 
-td select[name="unidad"] option {
-  font-size: 14px; /* Tamaño del texto en las opciones */
-  color: #555; /* Color del texto en las opciones */
-}
-.icono-caja-abierta {
-  font-size: 36px; /* Tamaño del ícono */
-  color: #865a27e7; /* Color del ícono */
-  margin-right: 10px; /* Espacio entre el ícono y el texto */
-  vertical-align: middle; /* Alineación vertical con el texto */
-}
+      td select[name="unidad"]:focus {
+        border-color: #007BFF;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        background-color: #fff;
+      }
 
+      td select[name="unidad"] option {
+        font-size: 14px;
+        color: #555;
+      }
 
+      .icono-caja-abierta {
+        font-size: 36px;
+        color: #865a27e7;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
 
-/* Estilos para el Contenedor de Paginación */
-.pagination-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    gap: 10px;
-}
+      .pagination-5lines {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 100px;
+      }
 
-/* Estilos para los Botones de Página */
-.pagination-button,
-.page-number {
-    background-color: #3163f9;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-}
+      .pagination-5lines button {
+        background-color: #3163f9;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 15px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
 
-.pagination-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
+      .pagination-5lines button:hover:not(:disabled) {
+        background-color: #1b9f8e;
+      }
 
-.page-number.active {
-    background-color: #1b9f8e;
-}
+      .pagination-5lines button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
 
-.page-number:hover:not(.active) {
-    background-color: #4caf50;
-}
+      .sin-datos {
+        text-align: center;
+        font-size: 18px;
+        color: #888;
+        font-style: italic;
+      }
+
     </style>
   </head>
   <body>
@@ -542,11 +533,10 @@ td select[name="unidad"] option {
       <div class="search-container">
         <input type="text" id="search" placeholder="Buscar por cliente" />
       </div>
-
     </div>
 
     <div class="proforma-list" style="width: 100%; margin: 20px auto;">
-      <table>
+      <table class="proforma-tabla">
           <thead>
               <tr>
                   <th>Fecha</th>
@@ -600,20 +590,25 @@ td select[name="unidad"] option {
             {% endfor %}
           </tbody>
       </table>
-  </div>
-  
+    </div>
 
-  <button class="create-proforma" onclick="openModal()">+</button>
+    <!-- Contenedor de paginación -->
+    <div class="pagination-5lines">
+      <button onclick="prevPage()" id="prevPageBtn">Anterior</button>
+      <span>Página <span id="paginaActual">1</span> de <span id="totalPaginas">1</span></span>
+      <button onclick="nextPage()" id="nextPageBtn">Siguiente</button>
+    </div>
 
-  <!-- Modal de Crear Proforma -->
-  <div id="proformaModal" class="modal-proforma" style="display: none;">
+    <button class="create-proforma" onclick="openModal()">+</button>
+
+    <!-- Modal de Crear Proforma -->
+    <div id="proformaModal" class="modal-proforma" style="display: none;">
       <div class="modal-content">
           <span class="close" onclick="closeModal()">&times;</span>
           <h1><i class="fas fa-file-invoice icono-proforma-formulario"></i>Formulario Proforma</h1>
           <form action="{% url 'crear_proforma' %}" method="POST">
               {% csrf_token %}
 
-              <!-- Información principal de la proforma -->
               <div class="header">
                   <div class="header-left">
                       <label for="fecha">Fecha:</label>
@@ -632,13 +627,11 @@ td select[name="unidad"] option {
                   </div>
               </div>
 
-              <!-- Información del cliente -->
               <div class="form-group">
                   <label for="cliente">Cliente:</label>
                   <input type="text" id="cliente" name="cliente" placeholder="Busca por nombre, cédula o teléfono">
               </div>
 
-              <!-- Código de actividad económica -->
               <div class="form-group">
                   <label for="codigo_actividad_economica">Código de Actividad Económica:</label>
                   <select id="codigo_actividad_economica" name="codigo_actividad_economica">
@@ -648,7 +641,6 @@ td select[name="unidad"] option {
                   </select>
               </div>
 
-              <!-- Medio de pago y condición de venta -->
               <div class="form-group">
                   <label for="medio_pago">Medio de pago:</label>
                   <select id="medio_pago" name="medio_pago">
@@ -667,7 +659,6 @@ td select[name="unidad"] option {
                   </select>
               </div>
 
-              <!-- Campos de detalles y nota -->
               <div class="form-group">
                   <label for="detalles">Detalles:</label>
                   <input type="text" id="detalles" name="detalles" placeholder="Detalles de la proforma">
@@ -677,13 +668,12 @@ td select[name="unidad"] option {
                   <input type="text" id="nota" name="nota" placeholder="Nota adicional">
               </div>
 
-              <!-- Tabla de detalles de línea -->
               <div class="line-details">
                   <h2>Detalles de línea</h2>
                   <h1 id="info-subtotal">
                     ¡Importante: El Subtotal, IVA y Total Neto se calculan automáticamente una vez
-                    colocado el descuento en 1 o más, en los productos de la tabla  que se vayan agregando se puede devolver a 0. Esto es para que el sistema calcule correctamente el total neto!
-                </h1>
+                    colocado el descuento en 1 o más, en los productos de la tabla!
+                  </h1>
                   <table id="line-items-table">
                       <thead>
                           <tr>
@@ -705,13 +695,11 @@ td select[name="unidad"] option {
                   </table>
               </div>
 
-              <!-- Botón para abrir el modal de selección de productos -->
               <button type="button" onclick="mostrarModalProductos()">Agregar Producto</button>
 
               <!-- Modal de Selección de Productos -->
               <div id="product-modal" style="display: none;">
                   <h3><i class="fas fa-box-open icono-caja-abierta"></i> Seleccionar Producto</h3>
-                  
                   <select id="product-select">
                       <!-- Opciones llenadas dinámicamente -->
                   </select>
@@ -738,31 +726,29 @@ td select[name="unidad"] option {
                     <strong>Total Neto en Dólares:</strong>
                     <p id="total-dolares" style="color: #007BFF; font-size: 20px;">$0.00</p>
                     <p id="tipo-cambio" style="color: #6c757d; font-size: 18px;">Tipo de cambio utilizado: ₡550.00 por $1</p>
-                    <p>Este tipo de Cambio esta Sujet0 al cambio actual en el Banco Central de Costa Rica </p> <!-- Tasa de cambio -->
+                    <p>Este tipo de Cambio está sujeto al cambio actual en el Banco Central de Costa Rica</p>
                 </div>
-            </div>
-            
-            <!-- Campos ocultos para enviar al backend -->
-            <input type="hidden" id="subtotal-input" name="subtotal">
-            <input type="hidden" id="descuento-input" name="descuento">
-            <input type="hidden" id="iva-input" name="iva">
-            <input type="hidden" id="total-input" name="total">
-            <input type="hidden" id="total-dolares-input" name="total_dolares">
-           <div class="buttons">
-           <button type="submit" class="save-proforma" onclick="prepararDatosProforma()">Guardar</button>
-           </div>
+              </div>
+
+              <input type="hidden" id="subtotal-input" name="subtotal">
+              <input type="hidden" id="descuento-input" name="descuento">
+              <input type="hidden" id="iva-input" name="iva">
+              <input type="hidden" id="total-input" name="total">
+              <input type="hidden" id="total-dolares-input" name="total_dolares">
+
+              <div class="buttons">
+                <button type="submit" class="save-proforma" onclick="prepararDatosProforma()">Guardar</button>
+              </div>
           </form>
           <div class="buttons-imprimir-proforma">
             <i class="fas fa-print imprimir-proforma" onclick="imprimirProforma()"></i>
-        </div>
-        <div class="image-below-proforma">
-          {% load static %}
-          <img src="{% static 'img/logo.jpg' %}" alt="Question Image" class="image-below-icon"/>
+          </div>
+          <div class="image-below-proforma">
+            {% load static %}
+            <img src="{% static 'img/logo.jpg' %}" alt="Question Image" class="image-below-icon"/>
+          </div>
       </div>
-      </div>
-  </div>
-
-
+    </div>
 
     <div id="editarproformaModal" class="modal-proforma" style="display: none;">
       <div class="modal-content">
@@ -780,31 +766,27 @@ td select[name="unidad"] option {
             </div>
             <div class="header-right">
               <p>
-                Venta al por menor artículos de ferretería
-                pinturas madera y
-                materiales para la construcción.
+                Venta al por menor artículos de ferretería,
+                pinturas, madera y materiales para la construcción.
               </p>
-              <p> este documento no es válido como factura ni documento fiscal</p>
+              <p>Este documento no es válido como factura ni documento fiscal</p>
             </div>
           </div>
-          <class="form-group">
-            <label for="editarcliente">Cliente:</label>
-            <input
-              type="text"
-              id="editarcliente"
-              name="cliente"
-              placeholder="Busca por nombre, cédula o teléfono"
-            /> 
+          <label for="editarcliente">Cliente:</label>
+          <input
+            type="text"
+            id="editarcliente"
+            name="cliente"
+            placeholder="Busca por nombre, cédula o teléfono"
+          /> 
 
           <div class="form-group">
-            <label for="editarcodigoactividadeconomica"
-              >Código-actividad-económica:</label
-            >
+            <label for="editarcodigoactividadeconomica">Código-actividad-económica:</label>
             <select id="editarcodigoactividadeconomica" name="codigo_actividad_economica">
               <option value="regular">Regular</option>
               <option value="especial">Especial</option>
               <option value="exento">Mayorista</option>
-          </select>
+            </select>
           </div>
           <div class="form-group">
             <label for="editarmediopago">Medio de pago:</label>
@@ -815,46 +797,37 @@ td select[name="unidad"] option {
               <option value="cheque">Cheque</option>
               <option value="deposito">Depósito</option>
               <option value="otros">Otros</option>
-          </select>
+            </select>
             <label for="editarcondicionventa">Condición de venta:</label>
             <select id="editarcondicionventa" name="condicion_venta">
               <option value="contado">Contado</option>
               <option value="credito">Crédito</option>
-          </select>
+            </select>
           </div>
-            <!-- Nuevos campos para Detalles y Nota -->
-            <div class="form-group">
+
+          <div class="form-group">
               <label for="editardetalles">Detalles:</label>
-              <input
-                type="text"
-                id="editardetalles"
-                name="detalles"
-                placeholder="Detalles de la proforma"
-              />
-            </div>
-            <div class="form-group">
+              <input type="text" id="editardetalles" name="detalles" placeholder="Detalles de la proforma" />
+          </div>
+          <div class="form-group">
               <label for="editarnota">Nota:</label>
-              <input
-                type="text"
-                id="editarnota"
-                name="nota"
-                placeholder="Nota adicional"
-              />
+              <input type="text" id="editarnota" name="nota" placeholder="Nota adicional" />
+          </div>
+
+          <div class="search-bar">
+            <label for="nota" class="search-label">Producto:</label>
+            <div class="search-input-wrapper">
+                <input type="text" id="nota" placeholder="Ingrese el nombre del producto">
+                <button><i class="fa fa-search"></i></button>
             </div>
-            <div class="search-bar">
-              <label for="nota" class="search-label">Producto:</label>
-              <div class="search-input-wrapper">
-                  <input type="text" id="nota" placeholder="Ingrese el nombre del producto">
-                  <button><i class="fa fa-search"></i></button>
-              </div>
           </div>
 
           <div class="line-details">
             <h2>Desglose de la Proforma</h2>
             <h1 id="info-subtotal">
               ¡Importante: El Subtotal, IVA y Total Neto se calculan automáticamente una vez
-              colocado el descuento en 1 o más, en los productos de la tabla  que se vayan agregando se puede devolver a 0. Esto es para que el sistema calcule correctamente el total neto!
-          </h1>
+              colocado el descuento en 1 o más!
+            </h1>
             <table id="line-items-table">
                 <thead>
                     <tr>
@@ -867,518 +840,425 @@ td select[name="unidad"] option {
                         <th>IVA</th>
                         <th>Total</th>
                         <th>Opciones</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <!-- Aquí se llenarán las filas dinámicamente -->
                 </tbody>
             </table>
-        </div>
+          </div>
 
-         <!-- Botón para abrir el modal de selección de productos -->
-              <button type="button" onclick="mostrarModalProductos()">Agregar Producto</button>
+          <!-- Eliminado el segundo modal de productos aquí para evitar duplicados -->
 
-              <!-- Modal de Selección de Productos -->
-              <div id="product-modal" style="display: none;">
-                  <h3>Seleccionar Producto</h3>
-                  <select id="product-select">
-                      <!-- Opciones llenadas dinámicamente -->
-                  </select>
-                  <button type="button" onclick="agregarProducto()">Agregar Producto</button>
-                  <button type="button" onclick="cerrarModalProductos()">Cerrar</button>
-              </div>
-  
-              <div class="totals">
-                <div class="total-item">
-                    <strong>Descuento aplicado :</strong>
-                    <p id="descuento">₡0.00</p>
-                </div>
-                <div class="total-item">
-                    <strong>Subtotal:</strong>
-                    <p id="subtotal">₡0.00</p>
-                </div>
-                <div class="total-item">
-                    <strong>IVA:</strong>
-                    <p id="iva">₡0.00</p>
-                </div>
-                <div class="total-item">
-                    <strong>Total Neto:</strong>
-                    <p id="total">₡0.00</p>
-                    <strong>Total Dolares</strong>
-                    <p id="total-dolares" style="color: #007BFF; font-size: 18px;">$0.00</p>
-                    <p id="tipo-cambio" style="color: #6c757d; font-size: 18px;">Tipo de cambio utilizado: ₡550.00 por $1</p> <!-- Tasa de cambio -->
-                </div>
+          <div class="totals">
+            <div class="total-item">
+                <strong>Descuento aplicado :</strong>
+                <p id="descuento">₡0.00</p>
             </div>
-            
-            <!-- Campos ocultos para enviar al backend -->
-            <input type="hidden" id="subtotal-input" name="subtotal">
-            <input type="hidden" id="descuento-input" name="descuento">
-            <input type="hidden" id="iva-input" name="iva">
-            <input type="hidden" id="total-input" name="total">
-            <input type="hidden" id="total-dolares-input" name="total_dolares">
+            <div class="total-item">
+                <strong>Subtotal:</strong>
+                <p id="subtotal">₡0.00</p>
+            </div>
+            <div class="total-item">
+                <strong>IVA:</strong>
+                <p id="iva">₡0.00</p>
+            </div>
+            <div class="total-item">
+                <strong>Total Neto:</strong>
+                <p id="total">₡0.00</p>
+                <strong>Total Dolares</strong>
+                <p id="total-dolares" style="color: #007BFF; font-size: 18px;">$0.00</p>
+                <p id="tipo-cambio" style="color: #6c757d; font-size: 18px;">Tipo de cambio utilizado: ₡550.00 por $1</p>
+            </div>
+          </div>
         
-        <div class="buttons">
-            <button type="submit" class="save-proforma" onclick="prepararDatosProforma()">Guardar</button>
-        </div>
+          <input type="hidden" id="subtotal-input" name="subtotal">
+          <input type="hidden" id="descuento-input" name="descuento">
+          <input type="hidden" id="iva-input" name="iva">
+          <input type="hidden" id="total-input" name="total">
+          <input type="hidden" id="total-dolares-input" name="total_dolares">
+      
+          <div class="buttons">
+              <button type="submit" class="save-proforma" onclick="prepararDatosProforma()">Guardar</button>
+          </div>
         </form>
-          <div class="buttons-imprimir-proforma">
-            <i class="fas fa-print imprimir-proforma" onclick="imprimirProforma()"></i>
+        <div class="buttons-imprimir-proforma">
+          <i class="fas fa-print imprimir-proforma" onclick="imprimirProforma()"></i>
         </div>
         <div class="image-below-proforma">
           {% load static %}
           <img src="{% static 'img/logo.jpg' %}" alt="Question Image" class="image-below-icon"/>
         </div>
-        </div>
       </div>
-
-
+    </div>
 
 
     <script>
+      function imprimirProforma() {
+        var contenido = document.getElementById('proformaModal').cloneNode(true);
 
-/////////////////
-function imprimirProforma() {
-  // Clonar el contenido del modal
-  var contenido = document.getElementById('proformaModal').cloneNode(true);
+        var infoSubtotal = contenido.querySelector('#info-subtotal');
+        if (infoSubtotal) {
+            infoSubtotal.remove();
+        }
 
-  // Eliminar el elemento con el ID 'info-subtotal' del contenido clonado
-  var infoSubtotal = contenido.querySelector('#info-subtotal');
-  if (infoSubtotal) {
-      infoSubtotal.remove();
-  }
+        var botonAgregarProducto = contenido.querySelector('button[onclick="mostrarModalProductos()"]');
+        if (botonAgregarProducto) {
+            botonAgregarProducto.remove();
+        }
 
-  // Eliminar el botón para agregar productos
-  var botonAgregarProducto = contenido.querySelector('button[onclick="mostrarModalProductos()"]');
-  if (botonAgregarProducto) {
-      botonAgregarProducto.remove();
-  }
-
-  // Crear una nueva ventana de impresión
-  var ventanaImpresion = window.open('', '', 'height=900,width=800');
-
-  // Escribir el contenido en la nueva ventana
-  ventanaImpresion.document.write('<html><head><title>Proforma</title>');
-
-  // Incluir el enlace a los iconos y estilos de impresión
-  ventanaImpresion.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
-  ventanaImpresion.document.write('<style>');
-
-  // Definir estilos específicos para la impresión
-  ventanaImpresion.document.write(`
-      @media print {
-          body {
-              font-family: Arial, sans-serif;
-              font-size: 20px; /* Tamaño de fuente más grande */
-              margin: 0;
-              padding: 40px; /* Aumentar el padding para dar más espacio */
+        var ventanaImpresion = window.open('', '', 'height=900,width=800');
+        ventanaImpresion.document.write('<html><head><title>Proforma</title>');
+        ventanaImpresion.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
+        ventanaImpresion.document.write('<style>');
+        ventanaImpresion.document.write(`
+          @media print {
+              body {
+                  font-family: Arial, sans-serif;
+                  font-size: 20px;
+                  margin: 0;
+                  padding: 40px;
+              }
+              .modal-content {
+                  width: 100%;
+                  margin: 0;
+                  padding: 20px;
+              }
+              h1, h2 {
+                  text-align: center;
+                  font-size: 24px;
+              }
+              table {
+                  width: 100%;
+                  border-collapse: collapse;
+                  font-size: 18px;
+              }
+              th, td {
+                  padding: 12px;
+                  border: 1px solid black;
+                  text-align: left;
+              }
+              th:last-child, td:last-child {
+               display: none;
+              }
+              td input[type="number"] {
+                  width: 60px;
+                  padding: 5px;
+                  border: 1px solid #ccc;
+                  border-radius: 4px;
+                  font-size: 14px;
+                  text-align: center;
+                  outline: none;
+                  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+              }
+              .header-right p {
+                  text-align: right;
+                  font-size: 18px;
+              }
+              .buttons, .buttons-imprimir-proforma, .close {
+                  display: none;
+              }
+              .image-below-icon {
+                  margin: 0 350px;
+                  border-radius: 35px;
+                  margin-top: 45px;
+                  width: 250px;
+              }
           }
-          .modal-content {
-              width: 100%;
-              margin: 0;
-              padding: 20px;
-          }
-          h1, h2 {
-              text-align: center;
-              font-size: 24px; /* Aumentar el tamaño de los títulos */
-          }
-          table {
-              width: 100%;
-              border-collapse: collapse;
-              font-size: 18px; /* Aumentar el tamaño del texto en las tablas */
-          }
-          th, td {
-              padding: 12px; /* Aumentar el padding de las celdas */
-              border: 1px solid black;
-              text-align: left;
-          }
-          th:last-child, td:last-child {
-           display: none;
-       }
-           td input[type="number"] {
-    width: 60px; /* Ajusta el ancho del campo */
-    padding: 5px; /* Espaciado interno */
-    border: 1px solid #ccc; /* Borde ligero */
-    border-radius: 4px; /* Bordes redondeados */
-    font-size: 14px; /* Tamaño del texto */
-    text-align: center; /* Centrar el texto */
-    outline: none; /* Quita el contorno azul predeterminado */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Animación al enfocar */
-}
-td input[type="number"]:focus {
-    border-color: #007BFF; /* Cambia el color del borde al enfocar */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Agrega un efecto de sombra */
-}
-td input[type="number"]::-webkit-inner-spin-button, 
-td input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none; /* Quita los botones de incremento/decremento */
-    margin: 0;
-}
-          .header-right p {
-              text-align: right;
-              font-size: 18px; /* Aumentar el tamaño del texto en el encabezado */
-          }
-          .buttons, .buttons-imprimir-proforma, .close {
-              display: none; /* Ocultar botones innecesarios */
-          }
-         .image-below-icon {
-          margin: 0 350px;
-          border-radius: 35px;
-          margin-right. 350px;
-          margin-top: 45px;   /* Adjust for separation */
-          width: 250px;       /* Adjust size as needed */
-          }
-      }
-  `);
-
-  ventanaImpresion.document.write('</style></head><body>');
-
-  // Añadir el contenido del modal
-  ventanaImpresion.document.body.appendChild(contenido);
-
-  // Cerrar el documento para que la impresión pueda proceder
-  ventanaImpresion.document.close();
-
-  // Esperar a que se cargue y luego lanzar la impresión
-  ventanaImpresion.onload = function() {
-      ventanaImpresion.focus();
-      ventanaImpresion.print();
-      ventanaImpresion.close(); // Cerrar la ventana después de imprimir
-  };
-}
-
-
-  // Función para abrir el modal
-  function openModal() {
-    console.log("Abriendo el modal");
-    document.getElementById("proformaModal").style.display = "block";
-  }
-
-  // Función para cerrar el modal
-  function closeModal() {
-    console.log("Cerrando el modal");
-    document.getElementById("proformaModal").style.display = "none";
-  }
-
-  // Cerrar el modal cuando el usuario hace clic fuera del modal
-  window.onclick = function(event) {
-    var modal = document.getElementById("proformaModal");
-    if (event.target === modal) {
-      console.log("Cerrando modal al hacer clic fuera");
-      closeModal();
-    }
-  }
-
-  function editarProforma(id) {
-    // Seleccionar la fila correspondiente usando el ID
-    var row = document.getElementById("proforma-" + id);
-
-    // Obtener los datos de los atributos data-
-    var fecha = row.getAttribute("data-fecha");
-    var moneda = row.getAttribute("data-moneda");
-    var cliente = row.getAttribute("data-cliente");
-    var codigoActividad = row.getAttribute("data-codigo");
-    var medioPago = row.getAttribute("data-medio_pago");
-    var condicionVenta = row.getAttribute("data-condicion_venta");
-    var detalles = row.getAttribute("data-detalles");
-    var nota = row.getAttribute("data-nota");
-    var total = row.getAttribute("data-total");
-
-    // Llenar el formulario del modal de edición con estos datos
-    document.getElementById("editarfecha").value = fecha;
-    document.getElementById("editarmoneda").value = moneda;
-    document.getElementById("editarcliente").value = cliente;
-    document.getElementById("editarcodigoactividadeconomica").value = codigoActividad;
-    document.getElementById("editarmediopago").value = medioPago;
-    document.getElementById("editarcondicionventa").value = condicionVenta;
-    document.getElementById("editardetalles").value = detalles;
-    document.getElementById("editarnota").value = nota;
-
-    // Mostrar el modal de edición
-    document.getElementById("editarproformaModal").style.display = "block";
-}
-
-// Función para cerrar los modales
-function closeModal() {
-    document.getElementById("proformaModal").style.display = "none";
-    document.getElementById("editarproformaModal").style.display = "none";
-}
-
-// Cerrar el modal cuando el usuario hace clic fuera del modal
-window.onclick = function(event) {
-    var createModal = document.getElementById("proformaModal");
-    var editModal = document.getElementById("editarproformaModal");
-
-    if (event.target === createModal) {
-        closeModal();
-    } else if (event.target === editModal) {
-        closeModal();
-    }
-}  
-
-function formatearColones(valor) {
-  return `₡${parseFloat(valor).toFixed(2)}`;
-}
-
-function formatearDolares(valor) {
-  return `$${parseFloat(valor).toFixed(2)}`;
-}
-
-function mostrarModalProductos() {
-  fetch("{% url 'obtener_productos' %}") // Llamada a la vista Django
-      .then(response => {
-          if (!response.ok) {
-              throw new Error("Error al obtener los productos");
-          }
-          return response.json();
-      })
-      .then(data => {
-          const select = document.querySelector("#product-select");
-          select.innerHTML = ""; // Limpia las opciones antes de llenarlas
-          data.forEach(producto => {
-              const option = `
-                  <option value="${producto.id}" 
-                          data-codigo="${producto.codigo_cabys}" 
-                          data-nombre="${producto.nombre}" 
-                          data-descripcion="${producto.descripcion}" 
-                          data-precio="${producto.precio_venta}">
-                      ${producto.codigo_cabys} - ${producto.nombre} - ₡${producto.precio_venta}
-                  </option>`;
-              select.insertAdjacentHTML("beforeend", option);
-          });
-          document.querySelector("#product-modal").style.display = "block";
-      })
-      .catch(error => console.error("Error al cargar productos:", error));
-}
-
-function agregarProducto() {
-  const select = document.querySelector("#product-select");
-  const selectedOption = select.options[select.selectedIndex];
-
-  if (!selectedOption) {
-      alert("Por favor, selecciona un producto.");
-      return;
-  }
-
-  const codigo = selectedOption.getAttribute("data-codigo");
-  const nombre = selectedOption.getAttribute("data-nombre");
-  const descripcion = selectedOption.getAttribute("data-descripcion") || "Sin descripción";
-  const precioVenta = parseFloat(selectedOption.getAttribute("data-precio"));
-
-  const tbody = document.querySelector("#line-items-table tbody");
-  const fila = `
-      <tr>
-          <td>${codigo}</td>
-          <td>${nombre}</td>
-          <td>${descripcion}</td>
-          <td><input type="number" value="1" min="1" onchange="updateTotal(this)"></td>
-          <td>
-              <select name="unidad" onchange="updateUnidad(this)">
-                  <option value="Unidad">Unidad</option>
-                  <option value="Kg">Kg</option>
-                  <option value="Litros">Litros</option>
-                  <option value="Tonelada">Tonelada</option>
-              </select>
-          </td>
-          <td>${formatearColones(precioVenta)}</td>
-          <td><input type="number" value="0" min="0" max="100" onchange="updateTotal(this)"></td>
-          <td class="descuento">₡0.00</td>
-          <td>${formatearColones(precioVenta)}</td>
-          <td class="action-icons">
-              <i class="fas fa-trash" onclick="eliminarFila(this)"></i>
-          </td>
-      </tr>`;
-  tbody.insertAdjacentHTML("beforeend", fila);
-
-  cerrarModalProductos();
-
-  // Actualizar los totales automáticamente
-  updateTotal();
-}
-
-function cerrarModalProductos() {
-  document.querySelector("#product-modal").style.display = "none";
-}
-
-function eliminarFila(elemento) {
-  elemento.closest("tr").remove();
-  actualizarSubtotal(); // Recalcular después de eliminar
-}
-
-function updateTotal(input = null) {
-  const fila = input ? input.closest("tr") : null;
-  const filas = fila ? [fila] : document.querySelectorAll("#line-items-table tbody tr");
-
-  filas.forEach(fila => {
-      const cantidad = parseFloat(fila.querySelector("td:nth-child(4) input").value) || 0;
-      const precioUnitario = parseFloat(fila.querySelector("td:nth-child(6)").textContent.replace("₡", "")) || 0;
-      const descuentoPorcentaje = parseFloat(fila.querySelector("td:nth-child(7) input").value) || 0;
-
-      if (descuentoPorcentaje < 0 || descuentoPorcentaje > 100) {
-          alert("El descuento debe estar entre 0% y 100%");
-          fila.querySelector("td:nth-child(7) input").value = 0;
-          return;
+        `);
+        ventanaImpresion.document.write('</style></head><body>');
+        ventanaImpresion.document.body.appendChild(contenido);
+        ventanaImpresion.document.close();
+        ventanaImpresion.onload = function() {
+            ventanaImpresion.focus();
+            ventanaImpresion.print();
+            ventanaImpresion.close();
+        };
       }
 
-      const subtotal = cantidad * precioUnitario;
-      const descuento = (subtotal * descuentoPorcentaje) / 100;
-      const total = subtotal - descuento;
-
-      fila.querySelector("td:nth-child(8)").textContent = formatearColones(descuento); // Descuento aplicado
-      fila.querySelector("td:nth-child(9)").textContent = formatearColones(total); // Total
-  });
-
-  actualizarSubtotal();
-}
-
-function actualizarSubtotal() {
-  const filas = document.querySelectorAll("#line-items-table tbody tr");
-
-  let subtotal = 0;
-  let descuento = 0;
-
-  filas.forEach(fila => {
-      const total = parseFloat(fila.querySelector("td:nth-child(9)").textContent.replace("₡", "")) || 0;
-      const descuentoFila = parseFloat(fila.querySelector("td:nth-child(8)").textContent.replace("₡", "")) || 0;
-      subtotal += total;
-      descuento += descuentoFila;
-  });
-
-  document.querySelector("#subtotal").textContent = formatearColones(subtotal);
-  document.querySelector("#descuento").textContent = formatearColones(descuento);
-
-  const iva = subtotal * 0.13;
-  document.querySelector("#iva").textContent = formatearColones(iva);
-
-  const totalNeto = subtotal + iva;
-  document.querySelector("#total").textContent = formatearColones(totalNeto);
-
-  // Convertir a dólares
-  const tasaCambio = 550; // Cambia esta tasa según la tasa actual
-  const totalDolares = totalNeto / tasaCambio;
-  document.querySelector("#total-dolares").textContent = formatearDolares(totalDolares);
-  document.querySelector("#tipo-cambio").textContent = `Tipo de cambio utilizado: ₡${tasaCambio.toFixed(2)} por $1`; // Actualizar texto del tipo de cambio
-  document.querySelector("#total-dolares-input").value = totalDolares.toFixed(2);
-}
-
-function prepararDatosProforma() {
-  const subtotal = parseFloat(document.querySelector("#subtotal").textContent.replace("₡", ""));
-  const descuento = parseFloat(document.querySelector("#descuento").textContent.replace("₡", ""));
-  const iva = parseFloat(document.querySelector("#iva").textContent.replace("₡", ""));
-  const total = parseFloat(document.querySelector("#total").textContent.replace("₡", ""));
-  const totalDolares = parseFloat(document.querySelector("#total-dolares-input").value);
-
-  document.querySelector("#subtotal-input").value = subtotal;
-  document.querySelector("#descuento-input").value = descuento;
-  document.querySelector("#iva-input").value = iva;
-  document.querySelector("#total-input").value = total;
-  document.querySelector("#total-dolares-input").value = totalDolares;
-}
-////////////////////////////////////////////////////////////////////////////////////
- // Función para filtrar la tabla de Proformas
- function filterTable() {
-  // Obtener el valor de búsqueda, convertir a minúsculas y eliminar espacios en blanco
-  const query = document.getElementById('search').value.toLowerCase().trim();
-  
-  // Seleccionar todas las filas del cuerpo de la tabla de Proformas
-  const tableBody = document.querySelector('.proforma-list table tbody');
-  const rows = tableBody.querySelectorAll('tr');
-
-  rows.forEach(row => {
-      // Evitar filtrar la fila "No hay proformas registrados"
-      if (row.classList.contains('fila-vacia')) {
-          row.style.display = 'none';
-          return;
+      function openModal() {
+        document.getElementById("proformaModal").style.display = "block";
       }
 
-      // Obtener los valores de los atributos data-
-      const cliente = row.dataset.cliente.toLowerCase();
-      const condicionVenta = row.dataset.condicion_venta.toLowerCase();
-      const detalles = row.dataset.detalles.toLowerCase();
-      const nota = row.dataset.nota.toLowerCase();
-      const total = row.dataset.total.toLowerCase();
+      function closeModal() {
+        document.getElementById("proformaModal").style.display = "none";
+        document.getElementById("editarproformaModal").style.display = "none";
+      }
 
-      // Verificar si el término de búsqueda está presente en alguna de las columnas relevantes
-      if (
-          cliente.includes(query) ||
-          condicionVenta.includes(query) ||
-          detalles.includes(query) ||
-          nota.includes(query) ||
-          total.includes(query)
-      ) {
-          row.style.display = ''; // Mostrar la fila
+      function editarProforma(id) {
+        var row = document.getElementById("proforma-" + id);
+        var fecha = row.getAttribute("data-fecha");
+        var moneda = row.getAttribute("data-moneda");
+        var cliente = row.getAttribute("data-cliente");
+        var codigoActividad = row.getAttribute("data-codigo");
+        var medioPago = row.getAttribute("data-medio_pago");
+        var condicionVenta = row.getAttribute("data-condicion_venta");
+        var detalles = row.getAttribute("data-detalles");
+        var nota = row.getAttribute("data-nota");
+
+        document.getElementById("editarfecha").value = fecha;
+        document.getElementById("editarmoneda").value = moneda;
+        document.getElementById("editarcliente").value = cliente;
+        document.getElementById("editarcodigoactividadeconomica").value = codigoActividad;
+        document.getElementById("editarmediopago").value = medioPago;
+        document.getElementById("editarcondicionventa").value = condicionVenta;
+        document.getElementById("editardetalles").value = detalles;
+        document.getElementById("editarnota").value = nota;
+
+        document.getElementById("editarproformaModal").style.display = "block";
+      }
+
+      function formatearColones(valor) {
+        return `₡${parseFloat(valor).toFixed(2)}`;
+      }
+
+      function formatearDolares(valor) {
+        return `$${parseFloat(valor).toFixed(2)}`;
+      }
+
+      function mostrarModalProductos() {
+        fetch("{% url 'obtener_productos' %}")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error al obtener los productos");
+                }
+                return response.json();
+            })
+            .then(data => {
+                const select = document.querySelector("#product-select");
+                select.innerHTML = "";
+                data.forEach(producto => {
+                    const option = `
+                        <option value="${producto.id}" 
+                                data-codigo="${producto.codigo_cabys}" 
+                                data-nombre="${producto.nombre}" 
+                                data-descripcion="${producto.descripcion}" 
+                                data-precio="${producto.precio_venta}">
+                            ${producto.codigo_cabys} - ${producto.nombre} - ₡${producto.precio_venta}
+                        </option>`;
+                    select.insertAdjacentHTML("beforeend", option);
+                });
+                document.querySelector("#product-modal").style.display = "block";
+            })
+            .catch(error => console.error("Error al cargar productos:", error));
+      }
+
+      function agregarProducto() {
+        const select = document.querySelector("#product-select");
+        const selectedOption = select.options[select.selectedIndex];
+
+        if (!selectedOption) {
+            alert("Por favor, selecciona un producto.");
+            return;
+        }
+
+        const codigo = selectedOption.getAttribute("data-codigo");
+        const nombre = selectedOption.getAttribute("data-nombre");
+        const descripcion = selectedOption.getAttribute("data-descripcion") || "Sin descripción";
+        const precioVenta = parseFloat(selectedOption.getAttribute("data-precio"));
+
+        const tbody = document.querySelector("#line-items-table tbody");
+        const fila = `
+            <tr>
+                <td>${codigo}</td>
+                <td>${nombre}</td>
+                <td>${descripcion}</td>
+                <td><input type="number" value="1" min="1" onchange="updateTotal(this)"></td>
+                <td>
+                    <select name="unidad">
+                        <option value="Unidad">Unidad</option>
+                        <option value="Kg">Kg</option>
+                        <option value="Litros">Litros</option>
+                        <option value="Tonelada">Tonelada</option>
+                    </select>
+                </td>
+                <td>${formatearColones(precioVenta)}</td>
+                <td><input type="number" value="0" min="0" max="100" onchange="updateTotal(this)"></td>
+                <td class="descuento">₡0.00</td>
+                <td>${formatearColones(precioVenta)}</td>
+                <td class="action-icons">
+                    <i class="fas fa-trash" onclick="eliminarFila(this)"></i>
+                </td>
+            </tr>`;
+        tbody.insertAdjacentHTML("beforeend", fila);
+
+        cerrarModalProductos();
+        updateTotal();
+      }
+
+      function cerrarModalProductos() {
+        document.querySelector("#product-modal").style.display = "none";
+      }
+
+      function eliminarFila(elemento) {
+        elemento.closest("tr").remove();
+        actualizarSubtotal();
+      }
+
+      function updateTotal(input = null) {
+        const fila = input ? input.closest("tr") : null;
+        const filas = fila ? [fila] : document.querySelectorAll("#line-items-table tbody tr");
+
+        filas.forEach(fila => {
+          const cantidad = parseFloat(fila.querySelector("td:nth-child(4) input").value) || 0;
+          const precioUnitario = parseFloat(fila.querySelector("td:nth-child(6)").textContent.replace("₡", "")) || 0;
+          const descuentoPorcentaje = parseFloat(fila.querySelector("td:nth-child(7) input").value) || 0;
+
+          if (descuentoPorcentaje < 0 || descuentoPorcentaje > 100) {
+              alert("El descuento debe estar entre 0% y 100%");
+              fila.querySelector("td:nth-child(7) input").value = 0;
+              return;
+          }
+
+          const subtotal = cantidad * precioUnitario;
+          const descuento = (subtotal * descuentoPorcentaje) / 100;
+          const total = subtotal - descuento;
+
+          fila.querySelector("td:nth-child(8)").textContent = formatearColones(descuento);
+          fila.querySelector("td:nth-child(9)").textContent = formatearColones(total);
+        });
+
+        actualizarSubtotal();
+      }
+
+      function actualizarSubtotal() {
+        const filas = document.querySelectorAll("#line-items-table tbody tr");
+        let subtotal = 0;
+        let descuento = 0;
+
+        filas.forEach(fila => {
+            const total = parseFloat(fila.querySelector("td:nth-child(9)").textContent.replace("₡", "")) || 0;
+            const descuentoFila = parseFloat(fila.querySelector("td:nth-child(8)").textContent.replace("₡", "")) || 0;
+            subtotal += total;
+            descuento += descuentoFila;
+        });
+
+        document.querySelector("#subtotal").textContent = formatearColones(subtotal);
+        document.querySelector("#descuento").textContent = formatearColones(descuento);
+
+        const iva = subtotal * 0.13;
+        document.querySelector("#iva").textContent = formatearColones(iva);
+
+        const totalNeto = subtotal + iva;
+        document.querySelector("#total").textContent = formatearColones(totalNeto);
+
+        const tasaCambio = 550;
+        const totalDolares = totalNeto / tasaCambio;
+        document.querySelector("#total-dolares").textContent = formatearDolares(totalDolares);
+        document.querySelector("#tipo-cambio").textContent = `Tipo de cambio utilizado: ₡${tasaCambio.toFixed(2)} por $1`;
+        document.querySelector("#total-dolares-input").value = totalDolares.toFixed(2);
+      }
+
+      function prepararDatosProforma() {
+        const subtotal = parseFloat(document.querySelector("#subtotal").textContent.replace("₡", ""));
+        const descuento = parseFloat(document.querySelector("#descuento").textContent.replace("₡", ""));
+        const iva = parseFloat(document.querySelector("#iva").textContent.replace("₡", ""));
+        const total = parseFloat(document.querySelector("#total").textContent.replace("₡", ""));
+        const totalDolares = parseFloat(document.querySelector("#total-dolares-input").value);
+
+        document.querySelector("#subtotal-input").value = subtotal;
+        document.querySelector("#descuento-input").value = descuento;
+        document.querySelector("#iva-input").value = iva;
+        document.querySelector("#total-input").value = total;
+        document.querySelector("#total-dolares-input").value = totalDolares;
+      }
+
+      function filterTable() {
+        const query = document.getElementById('search').value.toLowerCase().trim();
+        const tableBody = document.querySelector('.proforma-list table tbody');
+        const rows = tableBody.querySelectorAll('tr');
+
+        rows.forEach(row => {
+            if (row.classList.contains('fila-vacia')) {
+                row.style.display = 'none';
+                return;
+            }
+
+            const cliente = row.dataset.cliente.toLowerCase();
+            const condicionVenta = row.dataset.condicion_venta.toLowerCase();
+            const detalles = row.dataset.detalles.toLowerCase();
+            const nota = row.dataset.nota.toLowerCase();
+            const total = row.dataset.total.toLowerCase();
+
+            if (
+                cliente.includes(query) ||
+                condicionVenta.includes(query) ||
+                detalles.includes(query) ||
+                nota.includes(query) ||
+                total.includes(query)
+            ) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        const anyVisible = Array.from(rows).some(row => !row.classList.contains('fila-vacia') && row.style.display !== 'none');
+        const emptyRow = tableBody.querySelector('.fila-vacia');
+        if (emptyRow) {
+            emptyRow.style.display = anyVisible ? 'none' : '';
+        }
+      }
+
+      document.getElementById('search').addEventListener('input', filterTable);
+
+      const filasPorPagina = 5;
+      let paginaActual = 1;
+      const tabla = document.querySelector(".proforma-tabla").getElementsByTagName("tbody")[0];
+      let filas = Array.from(tabla.getElementsByTagName("tr"));
+      let totalPaginas = Math.ceil(filas.length / filasPorPagina);
+
+      function mostrarPagina(pagina) {
+        for (let i = 0; i < filas.length; i++) {
+          filas[i].style.display = "none";
+        }
+
+        const inicio = (pagina - 1) * filasPorPagina;
+        const fin = inicio + filasPorPagina;
+        for (let i = inicio; i < fin && i < filas.length; i++) {
+          filas[i].style.display = "";
+        }
+
+        document.getElementById("paginaActual").textContent = pagina;
+        document.getElementById("totalPaginas").textContent = totalPaginas;
+
+        document.getElementById("prevPageBtn").disabled = pagina === 1;
+        document.getElementById("nextPageBtn").disabled = pagina === totalPaginas;
+      }
+
+      function nextPage() {
+        if (paginaActual < totalPaginas) {
+          paginaActual++;
+          mostrarPagina(paginaActual);
+        }
+      }
+
+      function prevPage() {
+        if (paginaActual > 1) {
+          paginaActual--;
+          mostrarPagina(paginaActual);
+        }
+      }
+
+      if (filas.length > 0) {
+        mostrarPagina(paginaActual);
       } else {
-          row.style.display = 'none'; // Ocultar la fila
+        document.getElementById("totalPaginas").textContent = 1;
+        document.querySelector(".pagination-5lines").style.display = "none";
       }
-  });
 
-  // Manejar la visibilidad de la fila "No hay proformas registrados"
-  const anyVisible = Array.from(rows).some(row => !row.classList.contains('fila-vacia') && row.style.display !== 'none');
-  const emptyRow = tableBody.querySelector('.fila-vacia');
-  if (emptyRow) {
-      emptyRow.style.display = anyVisible ? 'none' : ''; // Mostrar si no hay proformas que coincidan
-  }
-}
+      // Unificar evento de cierre de modal al hacer clic fuera
+      window.addEventListener('click', function(event) {
+        var createModal = document.getElementById("proformaModal");
+        var editModal = document.getElementById("editarproformaModal");
 
-// Paso 2: Vincular la Función al Evento de Entrada
-document.getElementById('search').addEventListener('input', filterTable);
-
-// Resto de tus funciones existentes...
-
-// Función para abrir el modal
-function openModal() {
-  console.log("Abriendo el modal");
-  document.getElementById("proformaModal").style.display = "block";
-}
-
-// Función para cerrar los modales
-function closeModal() {
-  console.log("Cerrando el modal");
-  document.getElementById("proformaModal").style.display = "none";
-  document.getElementById("editarproformaModal").style.display = "none";
-}
-
-// Cerrar el modal cuando el usuario hace clic fuera del modal
-window.onclick = function(event) {
-  var createModal = document.getElementById("proformaModal");
-  var editModal = document.getElementById("editarproformaModal");
-
-  if (event.target === createModal) {
-      closeModal();
-  } else if (event.target === editModal) {
-      closeModal();
-  }
-}
-
-// Función para editar una proforma
-function editarProforma(id) {
-  // Seleccionar la fila correspondiente usando el ID
-  var row = document.getElementById("proforma-" + id);
-
-  // Obtener los datos de los atributos data-
-  var fecha = row.getAttribute("data-fecha");
-  var moneda = row.getAttribute("data-moneda");
-  var cliente = row.getAttribute("data-cliente");
-  var codigoActividad = row.getAttribute("data-codigo");
-  var medioPago = row.getAttribute("data-medio_pago");
-  var condicionVenta = row.getAttribute("data-condicion_venta");
-  var detalles = row.getAttribute("data-detalles");
-  var nota = row.getAttribute("data-nota");
-  var total = row.getAttribute("data-total");
-
-  // Llenar el formulario del modal de edición con estos datos
-  document.getElementById("editarfecha").value = fecha;
-  document.getElementById("editarmoneda").value = moneda;
-  document.getElementById("editarcliente").value = cliente;
-  document.getElementById("editarcodigoactividadeconomica").value = codigoActividad;
-  document.getElementById("editarmediopago").value = medioPago;
-  document.getElementById("editarcondicionventa").value = condicionVenta;
-  document.getElementById("editardetalles").value = detalles;
-  document.getElementById("editarnota").value = nota;
-
-  // Mostrar el modal de edición
-  document.getElementById("editarproformaModal").style.display = "block";
-}
-
-</script>
+        if (event.target === createModal) {
+            closeModal();
+        } else if (event.target === editModal) {
+            closeModal();
+        }
+      });
+    </script>
   </body>
 </html>
 
