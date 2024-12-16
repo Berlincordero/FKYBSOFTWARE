@@ -31,6 +31,20 @@
         </a>
     </div>
 
+    <!-- Filtro de número de conductores -->
+    <div>
+        <label for="filasTabla" class="form-label me-2">Mostrar:</label>
+        <select id="filasTabla" class="form-select form-select-sm d-inline" style="width: auto;">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+        </select>
+    </div>
+
     {% if vehiculos %}
     <div class="table-responsive">
         <table class="table table-striped table-hover">
@@ -207,5 +221,35 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', function (
 });
 
 </script>
+
+<script>
+    //Gestionar el filtro de cantidad de conductores mostrados
+    document.addEventListener('DOMContentLoaded', function () {
+        const filasTabla = document.getElementById('filasTabla');
+        const tablaCuerpo = document.querySelector('.table tbody');
+        const filas = Array.from(tablaCuerpo.querySelectorAll('tr'));
+
+        // Función para actualizar la cantidad de filas visibles
+        function actualizarFilas() {
+            const cantidad = parseInt(filasTabla.value);
+
+            // Mostrar solo las filas seleccionadas
+            filas.forEach((fila, index) => {
+                if (index < cantidad) {
+                    fila.style.display = ''; // Mostrar
+                } else {
+                    fila.style.display = 'none'; // Ocultar
+                }
+            });
+        }
+
+        // Actualizar filas cuando cambie el valor del desplegable
+        filasTabla.addEventListener('change', actualizarFilas);
+
+        // Mostrar solo las filas seleccionadas al cargar la página
+        actualizarFilas();
+    });
+</script>
+
 
 {% endblock %}

@@ -16,11 +16,11 @@ def modulo_transportes(request):
     vehiculos = Vehiculo.objects.all()  # Obtener todos los vehículos
     return render(request, 'modulo_transportes.html', {'conductores': conductores, 'vehiculos': vehiculos})
 
-
 class ConductorListView(ListView):
     model = Conductor
     template_name = 'modulo_transportes.html'  # Nombre de tu plantilla
     context_object_name = 'conductores'  # Nombre que usaremos en la plantilla
+    
 @login_required
 def agregar_conductor(request):
     if request.method == 'POST':
@@ -44,6 +44,7 @@ def agregar_conductor(request):
 
     return render(request, 'modulo_transportes.html')
 
+@login_required
 def editar_conductor(request, id_conductor):
     conductor = get_object_or_404(Conductor, id_conductor=id_conductor)
     
@@ -55,10 +56,6 @@ def editar_conductor(request, id_conductor):
         return redirect('transportes:modulo_transportes')
     
     return render(request, 'modulo_transportes.html', {'conductor': conductor})
-
-
-
-
 
 @login_required
 def eliminar_conductor(request, id_conductor):
@@ -75,14 +72,12 @@ def eliminar_conductor(request, id_conductor):
         return redirect('modulo_transportes')
     return HttpResponse("Método no permitido", status=405)
 
-
-
-
 #                VEHICULOS   
 @login_required
 def modulo_vehiculos(request):
     vehiculos = Vehiculo.objects.filter(activo=True)  # Obtener todos los vehículos
     return render(request, 'modulo_vehiculos.html', {'vehiculos': vehiculos})
+
 @login_required
 def agregar_vehiculo(request):
     if request.method == 'POST':
@@ -97,7 +92,6 @@ def agregar_vehiculo(request):
     
     return render(request, 'modulo_vehiculos.html')
 
-
 @login_required
 def editar_vehiculo(request, id_vehiculo):
     vehiculo = get_object_or_404(Vehiculo, id_vehiculo=id_vehiculo)
@@ -110,7 +104,6 @@ def editar_vehiculo(request, id_vehiculo):
         return redirect('transportes:modulo_vehiculos')
     
     return render(request, 'modulo_vehiculos.html', {'vehiculo': vehiculo})
-
 
 @login_required
 def eliminar_vehiculo(request, id_vehiculo):
@@ -127,12 +120,7 @@ def eliminar_vehiculo(request, id_vehiculo):
         return redirect('transportes:modulo_vehiculos')
     return HttpResponse("Método no permitido", status=405)
 
-
-
-
 # Rutas #
-
-#transportes/views.py
 @login_required
 def modulo_rutas(request):
     # Si estás usando un campo 'activo' en el modelo Ruta
@@ -140,10 +128,6 @@ def modulo_rutas(request):
     conductores = Conductor.objects.all()
     vehiculos = Vehiculo.objects.all()
     return render(request, 'modulo_rutas.html', {'rutas': rutas, 'conductores': conductores, 'vehiculos': vehiculos})
-
-
-
-
 
 @login_required
 def agregar_ruta(request):
@@ -196,10 +180,6 @@ def eliminar_ruta(request, id):
         messages.success(request, 'Ruta movida a eliminadas con éxito.')
         return redirect('transportes:modulo_rutas')
 
-
-
-
-    
 @login_required    
 def editar_ruta(request, id_ruta):
     ruta = get_object_or_404(Ruta, id_ruta=id_ruta)
@@ -229,6 +209,7 @@ def asignar_rutas(request):
     # Obtener todas las provincias
     provincias = Provincia.objects.all()  
     return render(request, 'modulo_rutas.html', {'provincias': provincias})
+
 @login_required
 def eliminar_todas_rutas(request):
     if request.method == 'POST':
