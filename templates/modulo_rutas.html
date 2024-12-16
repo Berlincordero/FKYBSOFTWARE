@@ -2,6 +2,12 @@
 {% load static %}
 {% load custom_filters %}
 {% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo Rutas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         body {
             background-color: #f8f9fa;
@@ -22,6 +28,7 @@
         }
     </style>
 </head>
+
 <div class="container mt-5">
     <h1 class="text-center">Rutas</h1>
 
@@ -99,21 +106,22 @@
         
         
     </table>
-    <a href="{% url 'transportes:modulo_transportes' %}" class="btn btn-secondary">Regresar</a>
+    <a href="{% url 'modulo_transportes' %}" class="btn btn-secondary">Regresar</a>
 </div>
 
 
 <!-- Modal Agregar Ruta -->
 <style>#addRouteModalLabel {
     color: white !important;
-}</style>
+}
+</style>
 <div class="modal fade" id="addRouteModal" tabindex="-1" aria-labelledby="addRouteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form method="post" action="{% url 'transportes:agregar_ruta' %}">
             {% csrf_token %}
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title w-100 text-center" id="addRouteModalLabel">Agregar Ruta</h5>
+                    <h5 class="modal-title" id="addRouteModalLabel">Agregar Ruta</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -163,7 +171,9 @@
                         <label for="nombre_conductor" class="form-label">Conductor</label>
                         <select class="form-select" name="nombre_conductor" required>
                             {% for conductor in conductores %}
+                            {% if conductor.activo %}
                             <option value="{{ conductor.id_conductor }}">{{ conductor.nombre_conductor }} {{ conductor.apellidos_1 }}</option>
+                            {% endif %}
                             {% endfor %}
                         </select>
                     </div>
@@ -171,7 +181,9 @@
                         <label for="id_vehiculo" class="form-label">Vehículo</label>
                         <select class="form-select" name="id_vehiculo" required>
                             {% for vehiculo in vehiculos %}
+                            {% if vehiculo.activo %}
                             <option value="{{ vehiculo.id_vehiculo }}">{{ vehiculo.marca }} {{ vehiculo.modelo }}</option>
+                            {% endif %}
                             {% endfor %}
                         </select>
                     </div>
@@ -186,6 +198,10 @@
 </div>
 
 <!-- Modal Editar Ruta -->
+<style>#editRouteModalLabel {
+    color: white !important;
+}
+</style>
 {% for ruta in rutas %}
 <div class="modal fade" id="editRouteModal{{ ruta.id_ruta }}" tabindex="-1" aria-labelledby="editRouteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -193,13 +209,13 @@
             {% csrf_token %}
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title w-100 text-center" id="editRouteModalLabel">Editar Ruta</h5>
+                    <h5 class="modal-title" id="editRouteModalLabel">Editar Ruta</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="id_ruta" class="form-label">ID Ruta (Factura)</label>
-                        <input type="text" class="form-control" name="id_ruta" value="{{ ruta.id_ruta }}" required>
+                        <input type="text" class="form-control" name="id_ruta" value="{{ ruta.id_ruta }}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="fecha_ruta" class="form-label">Fecha Ruta</label>
@@ -249,13 +265,17 @@
 {% endfor %}
 
 <!-- Modal Confirmación de Eliminación -->
+<style>#confirmDeleteModalLabel {
+    color: white !important;
+}
+</style>
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form method="post" id="deleteForm">
             {% csrf_token %}
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title w-100 text-center" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -270,6 +290,7 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function convertDateFormat(dateStr) {
         const dateParts = dateStr.split(" ");
@@ -705,26 +726,7 @@
         printWindow.document.close();
         printWindow.print();
     }
-
-    function filterClients() {
-        const input = document.getElementById("searchClient").value.toLowerCase();
-        const table = document.getElementById("clientsTable");
-        const rows = table.getElementsByTagName("tr");
-
-        for (let i = 1; i < rows.length; i++) {
-            const cells = rows[i].getElementsByTagName("td");
-            const idCell = cells[0];  // Cédula (id_cliente)
-            const nameCell = cells[1]; // Nombre
-            const idValue = idCell ? idCell.textContent.toLowerCase() : "";
-            const nameValue = nameCell ? nameCell.textContent.toLowerCase() : "";
-
-            if (idValue.indexOf(input) > -1 || nameValue.indexOf(input) > -1) {
-                rows[i].style.display = "";
-            } else {
-                rows[i].style.display = "none";
-            }
-        }
-    }
     
 </script>
+
 {% endblock %}

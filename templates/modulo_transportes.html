@@ -48,29 +48,25 @@
         </thead>
         <tbody>
             {% for conductor in conductores %}
+                {% if conductor.activo %}
                 <tr>
                     <td>{{ conductor.id_conductor }}</td>
                     <td>{{ conductor.nombre_conductor }}</td>
                     <td>{{ conductor.apellidos_1 }} {{ conductor.apellidos_2 }}</td>
                     <td>
-                        <a href="#" class="btn btn-warning" 
-                           data-bs-toggle="modal" 
-                           data-bs-target="#conductorModal" 
+                        <a href="#" class="btn btn-warning me-2" 
+                           data-bs-toggle="modal"
+                           data-bs-target="#conductorEditModal" 
                            data-id="{{ conductor.id_conductor }}" 
                            data-nombre="{{ conductor.nombre_conductor }}" 
                            data-apellido1="{{ conductor.apellidos_1 }}" 
                            data-apellido2="{{ conductor.apellidos_2 }}">
                            Editar
                         </a>
-                        <!--<a href="#" class="btn btn-danger" 
-                           data-bs-toggle="modal" 
-                           data-bs-target="#confirmarEliminarModal" 
-                           data-id="{{ conductor.id_conductor }}" 
-                           data-nombre="{{ conductor.nombre_conductor }}">
-                           Eliminar
-                        </a>-->
+                        <button onclick="eliminarConductor('{{ conductor.id_conductor }}')" class="btn btn-danger">Eliminar</button>
                     </td>
                 </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>
@@ -85,7 +81,7 @@
     </div>
 
     <!-- Modal para agregar/editar conductor -->
-     <style>#conductorModalLabel {
+    <style>#conductorModalLabel {
         color: white !important;
     }
     </style>
@@ -125,28 +121,105 @@
         </div>
     </div>
 
-    <!-- Modal de confirmación de eliminación -->
-    <div class="modal fade" id="confirmarEliminarModal" tabindex="-1" aria-labelledby="confirmarEliminarModalLabel" aria-hidden="true">
+    <!-- Modal para editar conductor -->
+    <style>#conductorEditModalLabel {
+        color: white !important;
+    }
+    </style>
+    <div class="modal fade" id="conductorEditModal" tabindex="-1" aria-labelledby="conductorEditModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title w-100 text-center" id="confirmarEliminarModalLabel">Confirmar Eliminación</h5>
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title w-100 text-center" id="conductorEditModalLabel">Editar Conductor</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="eliminarForm" method="post">
+                <form id="conductorEditForm" method="post">
                     {% csrf_token %}
                     <div class="modal-body">
-                        <p>¿Estás seguro de que deseas eliminar al conductor <strong id="conductorNombre"></strong>?</p>
-                        <input type="hidden" id="idConductorEliminar" name="id_conductor">
+                        <div class="mb-3">
+                            <label for="id_conductor" class="form-label">Número de Cédula</label>
+                            <input type="text" class="form-control" id="id_conductor_edit" name="id_conductor" disabled required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nombre_conductor" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre_conductor_edit" name="nombre_conductor" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellidos_1" class="form-label">Primer Apellido</label>
+                            <input type="text" class="form-control" id="apellidos_1_edit" name="apellidos_1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellidos_2" class="form-label">Segundo Apellido</label>
+                            <input type="text" class="form-control" id="apellidos_2_edit" name="apellidos_2">
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+        <script>
+            const conductorEditModal = document.getElementById('conductorEditModal');
+            const formEdit = document.getElementById('conductorEditForm');
+            // Modal para editar conductor
+            conductorEditModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const id = button.getAttribute('data-id');
+                const nombre = button.getAttribute('data-nombre');
+                const apellido1 = button.getAttribute('data-apellido1');
+                const apellido2 = button.getAttribute('data-apellido2');
+
+                if (id) {
+                    // Cambiar la acción del formulario
+                    formEdit.action = "{% url 'transportes:editar_conductor' '0' %}".replace('0', id);
+                    // Llenar los campos con los valores
+                    document.getElementById('conductorEditModalLabel').innerText = 'Editar Conductor';
+                    document.getElementById('id_conductor_edit').value = id;
+                    document.getElementById('nombre_conductor_edit').value = nombre;
+                    document.getElementById('apellidos_1_edit').value = apellido1;
+                    document.getElementById('apellidos_2_edit').value = apellido2;
+                }
+            });
+        </script>
+
+
+    
+
+
+
+    
+
+    
+
+
+    <!-- Modal Confirmación de Eliminación -->
+    <style>#confirmDeleteModalLabel {
+        color: white !important;
+    }
+    </style>
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas eliminar este conductor <span id="conductorName"></span>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     {% if error %}
         <div class="alert alert-danger mt-3" role="alert">
@@ -181,21 +254,45 @@
         }
     });
 
-    // Manejo del modal de eliminación de conductor
-    const eliminarModal = document.getElementById('confirmarEliminarModal');
-    eliminarModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const id = button.getAttribute('data-id');
-        const nombre = button.getAttribute('data-nombre');
-
-        document.getElementById('conductorNombre').innerText = nombre;
-        document.getElementById('idConductorEliminar').value = id;
-        document.getElementById('eliminarForm').action = "{% url 'transportes:eliminar_conductor' '0' %}".replace('0', id);
-    });
+    
 
 
 
     
+</script>
+
+<script>
+        let conductorIdToDelete = null;
+
+    function eliminarConductor(idConductor) {
+        // Guarda el ID del conductor a eliminar
+        conductorIdToDelete = idConductor;
+
+        // Muestra el modal de confirmación
+        const deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+        deleteModal.show();
+    }
+
+    // Manejador del botón "Eliminar" en el modal
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+        if (conductorIdToDelete) {
+            fetch(`/transportes/eliminar_conductor/${conductorIdToDelete}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload(); // Recarga la página después de eliminar
+                } else {
+                    alert("Error al eliminar el conductor.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    });
+
 </script>
 
 

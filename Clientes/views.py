@@ -1,3 +1,4 @@
+#Clientes/views
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .models import Cliente, ClienteEliminado
@@ -15,21 +16,10 @@ def modulo_clientes(request):
     clientes = Cliente.objects.filter(activo=True)  # Filtra solo clientes activos
     return render(request, 'clientes/modulo_clientes.html', {'clientes': clientes})
 # Vista para buscar clientes por cédula, nombre o apellido
-# Vista para eliminar el cliente lógicamente
-def eliminar_cliente(request, id_cliente):
-    
-    cliente = get_object_or_404(Cliente, id_cliente=id_cliente)
-    ClienteEliminado.objects.create(
-        cliente=cliente,
-        fecha_eliminacion=timezone.now()
-    )
-    cliente.activo = False
-    cliente.save()
-    
-    messages.success(request, f'Cliente {cliente.nombre} {cliente.primer_apellido} movido a eliminados con éxito.')
-    
-    # Redirigir al listado de clientes
-    return redirect('clientes:modulo_clientes')
+
+
+
+
     
 def agregar_cliente(request):
     if request.method == 'POST':
@@ -41,6 +31,31 @@ def agregar_cliente(request):
         form = ClienteForm()
     
     return render(request, 'clientes/agregar_cliente.html', {'form': form})
+
+def eliminar_cliente(request, id_cliente):
+    if request.method == 'POST':
+        try:
+            # Obtiene el cliente que deseas "eliminar"
+            cliente = get_object_or_404(Cliente, id_cliente=id_cliente)
+            
+            # Mueve el cliente a ClienteEliminado (si aplica)
+            ClienteEliminado.objects.create(
+                cliente=cliente, 
+                fecha_eliminacion=timezone.now()
+            )
+            
+            # Marca el cliente como inactivo
+            cliente.activo = False
+            cliente.save()
+
+            messages.success(request, 'Cliente eliminado con éxito.')
+        except Exception as e:
+            # Si ocurre un error, muestra un mensaje
+            messages.error(request, f'Error al eliminar el cliente: {str(e)}')
+
+        return redirect('clientes:modulo_clientes')
+
+
 def editar_cliente(request, id_cliente):
     # Obtener el cliente a editar
     cliente = get_object_or_404(Cliente, id_cliente=id_cliente)
