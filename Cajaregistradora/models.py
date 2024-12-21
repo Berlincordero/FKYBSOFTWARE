@@ -6,11 +6,15 @@ class AperturaCaja(models.Model):
     cajero = models.CharField(max_length=100)
     monto_inicial = models.DecimalField(max_digits=10, decimal_places=2)
     fecha_hora_apertura = models.DateTimeField(auto_now_add=True)
+    abierta = models.BooleanField(default=True)  # Campo existente para el estado de la caja
+    fecha_hora_cierre = models.DateTimeField(null=True, blank=True)  # Nuevo campo para la hora de cierre
+    codigo_seguridad = models.CharField(max_length=50, null=True, blank=True)  # Nuevo campo para el código de seguridad
 
     def __str__(self):
         return f"Apertura de caja por {self.cajero} el {self.fecha_hora_apertura}"
 
 class Factura(models.Model):
+    apertura_caja = models.ForeignKey(AperturaCaja, on_delete=models.SET_NULL, null=True, blank=True, related_name='facturas')
     fecha = models.DateTimeField(auto_now_add=True)
     numero_factura = models.CharField(max_length=50, unique=True, blank=True)
     cliente = models.CharField(max_length=100, blank=True, null=True)
@@ -26,7 +30,8 @@ class Factura(models.Model):
         choices=[('Pagada', 'Pagada'), ('Pendiente', 'Pendiente')],
         default='Pendiente'
     )
-    tipo_pago = models.CharField(max_length=20, default="Efectivo")  # Nuevo campo
+    metodo_pago = models.CharField(max_length=20, default="cash")  # valores: cash, creditCard, simpeMovil, credit, transfer
+    tipo_precio = models.CharField(max_length=20, default="Regular") # Regular, Mayorista, Proveedor
 
     def save(self, *args, **kwargs):
         if not self.numero_factura:
@@ -40,26 +45,24 @@ class Factura(models.Model):
         return f"Factura #{self.numero_factura} - Total: {self.total}"
 
 
-
-
 class MovimientoDinero(models.Model):
+    apertura_caja = models.ForeignKey(AperturaCaja, on_delete=models.SET_NULL, null=True, blank=True, related_name='movimientos')
     TIPO_CHOICES = [
         ('ingreso', 'Ingreso'),
         ('egreso', 'Egreso'),
     ]
-
     tipo_movimiento = models.CharField(choices=TIPO_CHOICES, max_length=10)
     fecha_hora = models.DateTimeField()
     usuario = models.CharField(max_length=100)
     nota = models.TextField(blank=True, null=True)
     monto = models.DecimalField(max_digits=10, decimal_places=2)
+    codigo_seguridad = models.CharField(max_length=50, null=True, blank=True)  # Nuevo campo
 
     def __str__(self):
         return f"{self.tipo_movimiento} - {self.monto}"
-    
-    
-
+# Cajaregistradora/models.py
 class PreCierre(models.Model):
+    apertura_caja = models.OneToOneField(AperturaCaja, on_delete=models.CASCADE, related_name='precierre')
     sucursal = models.CharField(max_length=100, null=True, blank=True, default='Desconocida')
     caja_registradora = models.CharField(max_length=100, null=True, blank=True, default='Desconocida')
     hora_apertura = models.TimeField(null=True, blank=True)
@@ -79,6 +82,7 @@ class PreCierre(models.Model):
     conteo_tarjetas = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
     contado_efectivo = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
     contado_tarjetas = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    codigo_seguridad = models.CharField(max_length=50, null=True, blank=True)  # Agregado
 
     def __str__(self):
         return f"PreCierre - {self.sucursal} - {self.fecha}"

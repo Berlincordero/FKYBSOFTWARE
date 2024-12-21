@@ -760,14 +760,51 @@
     background: #218838;
 }
 
+.messages {
+    margin: 20px;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.alert-error, .alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+
      </style>
  </head>
  <body>
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
     <div class="container">
+
+        
         <!-- Contenedor de notificaciones -->
         <div id="notification" class="notification hidden"></div>
 
      <div class="container">
+        <div id="estadoCaja" style="margin: 20px 0; font-weight: bold;">
+            Caja Cerrada
+        </div>
+        
+
          <div class="icono-caja">
             <div>
                 <i class="fas fa-cash-register"></i>
@@ -798,15 +835,15 @@
          </div><br></br>
         <br></br>
 
-        <div class="barra-busqueda" style="position: relative; max-width: 300px;">
+        <div class="barra-busqueda" style="position: relative; max-width: 500px;">
             <input 
                 type="text" 
                 id="buscar" 
                 placeholder="Buscar productos..." 
                 onkeyup="filtrarProductos()" 
-                style="width: 1200px;"
+                style="width: 1500px;"
             >
-            <button type="button" onclick="agregarProductoSeleccionado()">Buscar</button>
+            <button type="button"  class="funcionalidad-caja"     onclick="agregarProductoSeleccionado()">Buscar</button>
         
             <!-- Lista de sugerencias -->
             <ul id="listaSugerencias" class="suggestions" style="display: none;"></ul>
@@ -935,7 +972,7 @@
                     <option value="creditCard">Tarjeta de Crédito o Débito</option>
                     <option value="cash">Efectivo</option>
                     <option value="transfer">Transferencia</option>
-                    <option value="transfer">simpe movil</option>
+                    <option value="simpeMovil">simpe movil</option>
                     <option value="credit">Pago a Crédito</option>
                 </select>
                 <label for="iva">IVA 13%:</label>
@@ -947,10 +984,23 @@
                 <input type="number" id="cambio" placeholder="Monto" readonly>
                 <label for="amount"> Pagar con:</label>
                 <input type="number" id="amount" placeholder="Monto">
-                <button onclick="procesarPago()">Procesar Pago</button>
+                <button class="funcionalidad-caja" onclick="procesarPago()">Procesar Pago</button>
 
             </div>
         </div>
+
+        <!-- Modal de Código de Seguridad -->
+<div id="codigoSeguridadModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeCodigoSeguridadModal()">&times;</span>
+        <h2>Ingrese Código de Seguridad</h2>
+        <form id="codigoSeguridadForm">
+            <input type="password" id="codigoSeguridadInput" placeholder="Código de Seguridad" required>
+            <button type="submit">Validar</button>
+        </form>
+        <p id="codigoSeguridadError" style="color: red; display: none;">Código incorrecto. Inténtalo de nuevo.</p>
+    </div>
+</div>
  
         <!-- Menú de configuración -->
         <div id="configMenu" class="config-menu">
@@ -1006,7 +1056,7 @@
     <h3>Buscar Proveedor</h3>
     <input type="text" id="buscarOrden" placeholder="Ingrese el proveedor u orden..." oninput="filtrarOrdenes()">
     <ul id="listaSugerenciasOrdenes" class="suggestions" style="display: none;"></ul>
-    <button onclick="agregarOrdenSeleccionada()">Agregar Orden</button>
+    <button    class="funcionalidad-caja"  onclick="agregarOrdenSeleccionada()">Agregar Orden</button>
 </div>
 
         <!-- Menú de ayuda -->
@@ -1025,111 +1075,116 @@
         </div>
     
 
-     <!--modal de precierre-->
-     <div id="preCierreCajaModal" class="modal-caja">
-        <form id="preCierreCajaForm" method="POST">
-            {% csrf_token %}
-            <div class="modal-content">
-                <span class="close" onclick="closePreCierreCajaModal()">&times;</span>
-                <div class="info">
-                    <p>Sucursal: {% if sucursal %}{{ sucursal }}{% else %}Desconocida{% endif %}</p>
-                    <input type="hidden" name="sucursal" value="{{ sucursal }}">
-                    
-                    <p>Caja registradora: {% if terminal %}{{ terminal }}{% else %}Desconocida{% endif %}</p>
-                    <input type="hidden" name="caja_registradora" value="{{ terminal }}">
-                </div>
-                <div class="info">
-                    <p>Fecha Apertura: {% if apertura_fecha %}{{ apertura_fecha }}{% else %}No disponible{% endif %}</p>
-                    <input type="hidden" name="fecha" value="{{ apertura_fecha }}">
-                    <input type="hidden" name="fecha" id="fecha_oculta">
-                    <p>Hora Apertura: {% if apertura_hora %}{{ apertura_hora }}{% else %}No disponible{% endif %}</p>
-                    <input type="hidden" name="hora_apertura" value="{{ apertura_hora }}">
-                </div>
-                <p>Monto inicial en la caja: {% if apertura_monto %}{{ apertura_monto }}{% else %}0.00{% endif %}</p>
-                <input type="hidden" name="monto_inicial" value="{{ apertura_monto }}">
-                
-                <p>Nombre del Cajero: {% if apertura_cajero %}{{ apertura_cajero }}{% else %}No disponible{% endif %}</p>
-                <input type="hidden" name="cajero" value="{{ apertura_cajero }}">
-
-                <!-- Campos de Movimiento de Dinero -->
-                <div class="info">
-                    <p>Impuestos: <input type="number" name="impuestos" step="0.01" value="0.00"></p>
-                </div>
-                <div class="info">
-                    <p>Efectivo: <input type="number" name="efectivo" step="0.01" value="0.00"></p>
-                </div>
-                <div class="info">
-                    <p>Facturas proveedor: <input type="number" name="facturas_proveedor" value="0"></p>
-                </div>
-                <div class="info">
-                    <p>Tarjetas: <input type="number" name="tarjetas" step="0.01" value="0.00"></p>
-                </div>
-                <div class="info">
-                    <p>Simpe móvil: <input type="number" name="simpe_movil" step="0.01" value="0.00"></p>
-                </div>
-                <div class="info">
-                    <p>Venta crédito: <input type="number" name="venta_credito" step="0.01" value="0.00"></p>
-                </div>
-                <div class="info">
-                <p>Movimientos: <input type="number" name="movimientos" step="0.01" value="{{ total_movimientos }}"></p>
-                </div>
-
-                <!-- Tabla de Movimientos -->
-                <label for="Movimiento-dinero">Movimiento de dinero</label>
-                <div class="invoice-info">
-                    <table class="invoice-details" id="tablaMovimientos">
-                        <thead>
-                            <tr>
-                                <th>FECHA</th>
-                                <th>USUARIO</th>
-                                <th>NOTA</th>
-                                <th>MONTO</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for movimiento in movimientos %}
-                            <tr>
-                                <td>{{ movimiento.fecha_hora|date:"d-m-Y H:i" }}</td>
-                                <td>{{ movimiento.usuario }}</td>
-                                <td>{{ movimiento.nota }}</td>
-                                <td>{{ movimiento.monto }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <p>Total de todos los movimientos: {{ total_movimientos }} CRC</p>
-                    <div class="info">
-                        <p>Total ventas: <input type="number" name="total_ventas" step="0.01" value="0.00"></p>
-                    </div>
-                    <div class="info">
-                        <p>Cantidad facturas: <input type="number" name="cantidad_facturas" value="0"></p>
-                    </div>
-                    <div class="info">
-                        <p>Conteo efectivo: <input type="number" name="conteo_efectivo" step="0.01" value="0.00"></p>
-                    </div>
-                    <div class="info">
-                        <p>Conteo tarjetas: <input type="number" name="conteo_tarjetas" step="0.01" value="0.00"></p>
-                    </div>
-                    <div class="info">
-                        <p>Contado efectivo: <input type="number" name="contado_efectivo" step="0.01" value="0.00"></p>
-                    </div>
-                    <div class="info">
-                        <p>Contado tarjetas: <input type="number" name="contado_tarjetas" step="0.01" value="0.00"></p>
-                    </div>
     
-                </div>
+ <!--modal de precierre-->
+<div id="preCierreCajaModal" class="modal-caja">
+    <form id="preCierreCajaForm" method="POST">
+        {% csrf_token %}
+        <div class="modal-content">
+            <span class="close" onclick="closePreCierreCajaModal()">&times;</span>
+            <div class="info">
+                <p>Sucursal: {% if sucursal %}{{ sucursal }}{% else %}Desconocida{% endif %}</p>
+                <input type="hidden" name="sucursal" value="{{ sucursal }}">
 
-                <div class="button-container-precierre">
-                    <button type="submit">APLICAR</button>
-                </div>
-                <div class="print-icon-precierre-container" onclick="printPreCierre()">
-                    <i class="fas fa-print print-icon-precierre"></i>
-                </div>
+                <p>Caja registradora: {% if terminal %}{{ terminal }}{% else %}Desconocida{% endif %}</p>
+                <input type="hidden" name="caja_registradora" value="{{ terminal }}">
             </div>
-        </form>
-    </div>
+            <div class="info">
+                <p>Fecha Apertura: {% if apertura_fecha %}{{ apertura_fecha }}{% else %}No disponible{% endif %}</p>
+                <input type="hidden" name="fecha" value="{{ apertura_fecha }}">
+                <input type="hidden" name="fecha" id="fecha_oculta">
+                <p>Hora Apertura: {% if apertura_hora %}{{ apertura_hora }}{% else %}No disponible{% endif %}</p>
+                <input type="hidden" name="hora_apertura" value="{{ apertura_hora }}">
+            </div>
+            <p>Monto inicial en la caja: {% if apertura_monto %}{{ apertura_monto }}{% else %}0.00{% endif %}</p>
+            <input type="hidden" name="monto_inicial" value="{{ apertura_monto }}">
 
+            <p>Nombre del Cajero: {% if apertura_cajero %}{{ apertura_cajero }}{% else %}No disponible{% endif %}</p>
+            <input type="hidden" name="cajero" value="{{ apertura_cajero }}">
+
+            <!-- Campos de Movimiento de Dinero -->
+            <div class="info">
+                <p>Impuestos: <input type="number" name="impuestos" step="0.01" value="{{ impuestos_acumulados|default:"0.00" }}"></p>
+            </div>
+            <div class="info">
+                <p>Efectivo: <input type="number" name="efectivo" step="0.01" value="{{ efectivo_acumulado|default:"0.00" }}"></p>
+            </div>
+            <div class="info">
+                <p>Facturas proveedor: <input type="number" name="facturas_proveedor" value="{{ facturas_proveedor_acumulado|default:"0" }}"></p>
+            </div>
+            <div class="info">
+                <p>Tarjetas: <input type="number" name="tarjetas" step="0.01" value="{{ tarjetas_acumulado|default:"0.00" }}"></p>
+            </div>
+            <div class="info">
+                <p>Simpe móvil: <input type="number" name="simpe_movil" step="0.01" value="{{ simpe_movil_acumulado|default:"0.00" }}"></p>
+            </div>
+            <div class="info">
+                <p>Venta crédito: <input type="number" name="venta_credito" step="0.01" value="{{ venta_credito_acumulado|default:"0.00" }}"></p>
+            </div>
+            <div class="info">
+            <p>Movimientos: <input type="number" name="movimientos" step="0.01" value="{{ total_movimientos }}"></p>
+            </div>
+
+            <!-- Tabla de Movimientos -->
+            <label for="Movimiento-dinero">Movimiento de dinero</label>
+            <div class="invoice-info">
+                <table class="invoice-details" id="tablaMovimientos">
+                    <thead>
+                        <tr>
+                            <th>FECHA</th>
+                            <th>USUARIO</th>
+                            <th>NOTA</th>
+                            <th>MONTO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for movimiento in movimientos %}
+                        <tr>
+                            <td>{{ movimiento.fecha_hora|date:"d-m-Y H:i" }}</td>
+                            <td>{{ movimiento.usuario }}</td>
+                            <td>{{ movimiento.nota }}</td>
+                            <td>{{ movimiento.monto }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p>Total de todos los movimientos: {{ total_movimientos }} CRC</p>
+                <div class="info">
+                    <p>Total ventas: <input type="number" name="total_ventas" step="0.01" value="{{ total_ventas|default:"0.00" }}"></p>
+                </div>
+                <div class="info">
+                    <p>Cantidad facturas: <input type="number" name="cantidad_facturas" value="{{ cantidad_facturas|default:"0" }}"></p>
+                </div>
+                <div class="info">
+                    <p>Conteo efectivo: <input type="number" name="conteo_efectivo" step="0.01" value="{{ conteo_efectivo|default:"0.00" }}"></p>
+                </div>
+                <div class="info">
+                    <p>Conteo de Tarjetas: <input type="number" name="conteo_tarjetas_display" step="0.01" value="{{ conteo_tarjetas|default:"0.00" }}"></p>
+                </div>
+                <div class="info">
+                    <p>Contado efectivo: <input type="number" name="contado_efectivo" step="0.01" value="0.00"></p>
+                </div>
+                <div class="info">
+                    <p>Contado tarjetas: <input type="number" name="contado_tarjetas" step="0.01" value="0.00"></p>
+                </div>
+
+                <label for="codigoSeguridad">Código de Seguridad:</label>
+                <input type="password" id="codigoSeguridad" name="codigo_seguridad" placeholder="Código de Seguridad" required>
     
+    
+            </div>
+
+            <div class="button-container-precierre">
+                <button type="submit">APLICAR</button>
+            </div>
+            <div class="print-icon-precierre-container" onclick="printPreCierre()">
+                <i class="fas fa-print print-icon-precierre"></i>
+            </div>
+        </div>
+    </form>
+</div>
+
+ 
      
 
 
@@ -1144,7 +1199,6 @@
             {% csrf_token %}
             <label for="tipoMovimiento">Tipo de Movimiento:</label>
             <select id="tipoMovimiento" name="tipoMovimiento" required>
-                <option value="ingreso">Ingreso</option>
                 <option value="egreso">Egreso</option>
             </select>
 
@@ -1160,25 +1214,18 @@
             <label for="montoMovimiento">Monto:</label>
             <input type="number" id="montoMovimiento" name="monto" step="0.01" placeholder="Monto" required>
 
-            <button type="submit">Realizar Movimiento</button>
+            
+            <label for="codigoSeguridad">Código de Seguridad:</label>
+            <input type="password" id="codigoSeguridad" name="codigo_seguridad" placeholder="Código de Seguridad" required>
+
+            <button type="submit"   class="funcionalidad-caja"  >Realizar Movimiento</button>
         
     </div>
 </div>
 </form>
 
 
-<div id="modalEliminar" class="modal-eliminar-unico">
-    <div class="modal-contenido-unico">
-        <span class="modal-cerrar-unico" onclick="cerrarModalEliminar()">&times;</span>
-        <h3>Confirmar Eliminación</h3>
-        <p>Ingrese el código de seguridad para confirmar la eliminación:</p>
-        <input type="password" id="codigoSeguridadUnico" placeholder="Código de seguridad" />
-        <div class="modal-botones">
-            <button class="btn-confirmar-unico" onclick="validarCodigoEliminar()">Confirmar</button>
-            <button class="btn-cancelar-unico" onclick="cerrarModalEliminar()">Cancelar</button>
-        </div>
-    </div>
-</div>
+
 
 <!-- Modal de Apertura de Caja -->
 <div id="aperturaCajaModal" class="elliot-apertura-modal" style="display: none;">
@@ -1195,6 +1242,11 @@
                 <label for="monto_inicial" class="elliot-apertura-label">Monto Inicial:</label>
                 <input type="number" step="0.01" name="monto_inicial" id="monto_inicial" class="elliot-apertura-input" required>
             </div>
+
+            <div class="elliot-apertura-form-group">
+                <label for="codigo_seguridad" class="elliot-apertura-label">Código de Seguridad:</label>
+                <input type="password" name="codigo_seguridad" id="codigo_seguridad" class="elliot-apertura-input" placeholder="Escanea el código de seguridad" required>
+            </div>
             <button type="submit" class="elliot-apertura-button">Abrir Caja</button>
         </form>
     </div>
@@ -1207,6 +1259,7 @@
         function openAperturaCajaModal() {
             var modal = document.getElementById('aperturaCajaModal');
             modal.style.display = 'block';
+            document.getElementById('codigoSeguridadMovimiento').focus();
         }
         
         function closeAperturaCajaModal() {
@@ -1353,6 +1406,7 @@
 
         function openMovimientoDineroModal() {
             document.getElementById("movimientoDineroModal").style.display = "block";
+            document.getElementById('codigoSeguridadMovimiento').focus();
         }
 
         function cerrarModalMovimientoDinero() {
@@ -2448,7 +2502,80 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
    
-    
+    document.addEventListener("DOMContentLoaded", function () {
+        // Funciones para abrir y cerrar modales
+        function openModal(modalId) {
+            var modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            var modal = document.getElementById(modalId);
+            modal.style.display = 'none';
+        }
+
+        window.toggleModal = function (modalId) {
+            var modal = document.getElementById(modalId);
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none';
+            } else {
+                modal.style.display = 'block';
+            }
+        };
+
+        // Manejar clic fuera del modal para cerrarlo
+        window.onclick = function(event) {
+            var modals = document.querySelectorAll(".modal, .custom-modal, .elliot-apertura-modal");
+            modals.forEach(function(modal) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            });
+        }
+
+        // Función para actualizar el estado de la caja en la interfaz
+        function actualizarEstadoCaja() {
+            fetch("{% url 'verificar_caja_abierta' %}")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.abierta) {
+                        // Mostrar información de la caja abierta
+                        const datos = data.datos;
+                        document.getElementById('estadoCaja').textContent = `Caja Abierta - Cajero: ${datos.cajero}, Apertura: ${datos.fecha_hora_apertura}`;
+                        
+                        // Habilitar botones de funcionalidades
+                        habilitarFuncionesCaja();
+                    } else {
+                        // Mostrar estado de caja cerrada
+                        document.getElementById('estadoCaja').textContent = 'Caja Cerrada';
+                        
+                        // Deshabilitar botones de funcionalidades
+                        deshabilitarFuncionesCaja();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Funciones para habilitar/deshabilitar funcionalidades
+        function habilitarFuncionesCaja() {
+            const botones = document.querySelectorAll('.funcionalidad-caja');
+            botones.forEach(btn => {
+                btn.disabled = false;
+            });
+        }
+
+        function deshabilitarFuncionesCaja() {
+            const botones = document.querySelectorAll('.funcionalidad-caja');
+            botones.forEach(btn => {
+                btn.disabled = true;
+            });
+        }
+
+        // Llamada inicial para actualizar el estado de la caja
+        actualizarEstadoCaja();
+    });
 
 
 

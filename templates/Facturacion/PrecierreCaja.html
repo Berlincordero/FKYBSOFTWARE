@@ -204,10 +204,10 @@
                 <th>Total Ventas</th>
                 <th>Cantidad facturas</th>
                 <th>Conteo Efectivo</th>
-                <th>Conteo Tarjetas</th>
+              
                 <th>Contado en Efectivo</th>
                 <th>Contado en Tarjetas</th>
-                <th>Archivar</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -229,14 +229,8 @@
                 <td>{{ precierre.total_ventas }}</td>
                 <td>{{ precierre.cantidad_facturas }}</td>
                 <td>{{ precierre.conteo_efectivo }}</td>
-                <td>{{ precierre.conteo_tarjetas }}</td>
                 <td>{{ precierre.contado_efectivo }}</td>
                 <td>{{ precierre.contado_tarjetas }}</td>
-                <td>
-                    <button class="facturacion-caja-shampoo-archive-button" aria-label="Archivar fila">
-                        Archivar
-                    </button>
-                </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -251,17 +245,7 @@
 
 <!-- Script para archivar filas -->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Agregar un evento de clic a todos los botones de archivar
-        document.querySelectorAll(".facturacion-caja-shampoo-archive-button").forEach(function (button) {
-            button.addEventListener("click", function () {
-                if (confirm("¿Estás seguro de que deseas archivar esta fila?")) {
-                    var row = button.closest("tr");
-                    row.style.display = "none";
-                }
-            });
-        });
-    });
+
 
     // Agregar evento de clic al botón de imprimir
     document.addEventListener("DOMContentLoaded", function() {
@@ -274,17 +258,7 @@
         }
     });
 
-  document.addEventListener("DOMContentLoaded", function() {
-        // Función para archivar filas
-        document.querySelectorAll(".facturacion-caja-shampoo-archive-button").forEach(function(button) {
-            button.addEventListener("click", function () {
-                if (confirm("¿Estás seguro de que deseas archivar esta fila?")) {
-                    var row = button.closest("tr");
-                    row.style.display = "none";
-                }
-            });
-        });
-
+ 
         // Función para imprimir (si existe el botón de imprimir)
         var printButton = document.getElementById("print-button");
         if (printButton) {
@@ -389,3 +363,6 @@
 </script>
 
 {% endblock %}
+
+
+#Este Codigo tiene copyrights 2024 hecho y estructurado por Berlin Cordero Brenes derechos reservados 2024
