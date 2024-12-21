@@ -36,8 +36,23 @@
         </a>
     </div>
 
+    <!-- Filtro de número de conductores -->
+    <div>
+        <label for="conductoresPorPagina" class="form-label me-2">Mostrar:</label>
+        <select id="conductoresPorPagina" class="form-select" style="width: auto; display: inline-block;">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+        </select>
+        <span>conductores</span>
+    </div>
+
     {% if conductores %}
-    <table class="table table-striped table-bordered">
+    <table class="table table-striped table-bordered" id="conductoresTabla">
         <thead class="table-dark">
             <tr>
                 <th>ID Conductor</th>
@@ -294,6 +309,30 @@
     });
 
 </script>
+
+<script>
+    //Gestionar el filtro de cantidad de conductores mostrados
+    document.addEventListener('DOMContentLoaded', function () {
+        const conductoresTabla = document.getElementById('conductoresTabla');
+        const conductoresPorPagina = document.getElementById('conductoresPorPagina');
+        const filas = Array.from(conductoresTabla.querySelectorAll('tbody tr'));
+    
+        // Función para mostrar solo las filas seleccionadas
+        function actualizarTabla() {
+            const cantidad = parseInt(conductoresPorPagina.value);
+            filas.forEach((fila, index) => {
+                fila.style.display = index < cantidad ? '' : 'none';
+            });
+        }
+    
+        // Evento para actualizar la tabla al cambiar el select
+        conductoresPorPagina.addEventListener('change', actualizarTabla);
+    
+        // Inicializar la tabla al cargar la página
+        actualizarTabla();
+    });
+    </script>
+    
 
 
 {% endblock %}

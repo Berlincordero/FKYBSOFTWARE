@@ -44,6 +44,25 @@
     </div>
 </div>
 
+        <!-- Filtro de número de vehiculos -->
+            <div class="row mb-3">
+        <div class="col-md-6 d-flex align-items-center">
+            <label for="filterRows" class="form-label">Mostrar:</label>
+            <select id="filterRows" class="form-select" style="width: auto;" onchange="filterClientRows()">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+            </select>
+        </div>
+    </div>
+
+        
+
+
 
 
     <!-- Tabla de Clientes -->
@@ -679,4 +698,27 @@ document.getElementById('confirmDeleteBtn').addEventListener('click', function (
 });
 
 </script>
+
+<script>
+    function filterClientRows() {
+        const rowsToShow = parseInt(document.getElementById("filterRows").value);
+        const rows = document.querySelectorAll("#clientList tr");
+    
+        // Mostrar solo la cantidad seleccionada de filas
+        rows.forEach((row, index) => {
+            if (index < rowsToShow) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+    
+    // Mostrar las primeras 5 filas por defecto al cargar la página
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("filterRows").value = "5";
+        filterClientRows();
+    });
+    
+    </script>
 {% endblock %}

@@ -1,5 +1,6 @@
 #Clientes/views
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Cliente, ClienteEliminado
 from .forms import ClienteForm
@@ -11,16 +12,14 @@ from .models import Cliente  # Asegúrate de que el modelo Cliente esté bien de
 
 
 # Vista para mostrar todos los clientes
+@login_required
 def modulo_clientes(request):
     # Filtrar solo los clientes activos
     clientes = Cliente.objects.filter(activo=True)  # Filtra solo clientes activos
     return render(request, 'clientes/modulo_clientes.html', {'clientes': clientes})
 # Vista para buscar clientes por cédula, nombre o apellido
 
-
-
-
-    
+@login_required    
 def agregar_cliente(request):
     if request.method == 'POST':
         form = ClienteForm(request.POST)
@@ -32,6 +31,7 @@ def agregar_cliente(request):
     
     return render(request, 'clientes/agregar_cliente.html', {'form': form})
 
+@login_required  
 def eliminar_cliente(request, id_cliente):
     if request.method == 'POST':
         try:
@@ -55,7 +55,7 @@ def eliminar_cliente(request, id_cliente):
 
         return redirect('clientes:modulo_clientes')
 
-
+@login_required
 def editar_cliente(request, id_cliente):
     # Obtener el cliente a editar
     cliente = get_object_or_404(Cliente, id_cliente=id_cliente)
@@ -75,7 +75,7 @@ def editar_cliente(request, id_cliente):
 
 #--------------------parte de caja registradora para exportar clientes---------------------
 #---------------------hecho por Berlín---------------------
-
+@login_required
 def buscar_clientes(request):
     if request.method == "GET":
         query = request.GET.get('q', '').strip()  # Obtener el término de búsqueda
