@@ -1,7 +1,5 @@
 from django.shortcuts import render
 import requests
-# Create your views here.
-# hacienda_api/views.py
 from django.http import JsonResponse
 from .service import consultar_hacienda
 
@@ -9,6 +7,7 @@ def buscar_cliente(request):
     """
     Vista que recibe un parámetro 'cedula' por querystring 
     y llama a la API de Hacienda para obtener los datos.
+    que se observan abajo .....BCB.....
     """
     cedula = request.GET.get('cedula', None)
     if not cedula:

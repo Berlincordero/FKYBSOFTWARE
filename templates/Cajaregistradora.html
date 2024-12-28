@@ -1052,7 +1052,7 @@
                     placeholder="Ingrese la cédula del cliente..."
                 >
                 <!-- Agrega un botón de búsqueda -->
-                <button type="button" onclick="buscarClienteApi()">Buscar</button>
+                <button   class="funcionalidad-caja" type="button" onclick="buscarClienteApi()">Buscar</button>
             </div>
             <ul id="resultadosBusqueda" class="suggestions"></ul>
         </div>
@@ -1086,10 +1086,10 @@
             </div>
             <div class="menu-item">
                 <span>Hola Usuari(a) Siga las Instrucciones para empezar a usar la caja registradora, tambien si tienes alguna duda
-                      !!!Importante!! nunca deje la caja abierta si va a cerrar o salirse del sistema sino la caja queda abierta y no se puede usar esto es una medida de seguridad </span>
+                      !!!Importante!! nunca deje la caja abierta si va a cerrar o salirse del sistema por que sino la caja queda abierta y no se puede usar esto es una medida de seguridad </span>
             </div>
             <div class="menu-item">
-                <span>1. El sistema estara bloqueado todas las funciones de la caja en este caso hasta que se inicie en este caso se abra la caja</span>
+                <span>1. las funciones principales del sistema estaran bloqueadas en este caso hasta que se inicie o se abra la caja</span>
             </div>
             <div class="menu-item">
                 <span>2. Para iniciar el sistema de la caja se necesita el codigo de seguridad independiente del rol con que entre  o este registrado en el sistema vaya a opciones /abrir caja/</span>
@@ -1513,7 +1513,7 @@
                 document.getElementById('situacionTributaria').textContent = situacion;
           
                 // Mostrar un mensaje informativo en el UL (opcional)
-                resultados.innerHTML = `<li>Cliente encontrado: ${nombre}</li>`;
+                resultados.innerHTML = `<li><strong>Cliente encontrado: ${nombre}..... Nota: El Cliente Debe estar inscrito antes de enviar sus comprobantes electrónicos en formato XML para su validación.</strong> </li>`;
               })
               .catch(error => {
                 console.error('Error:', error);
@@ -1978,6 +1978,12 @@ function procesarPago() {
         return;
     }
 
+    // === OBTENER TAMBIÉN LOS VALORES QUE MOSTRAMOS EN EL ENCABEZADO ===
+    const tipoIdent = document.getElementById('tipoIdentificacion').textContent.trim();
+    const regimen = document.getElementById('regimen').textContent.trim();
+    const situacion = document.getElementById('situacionTributaria').textContent.trim();
+    // ==================================================================
+
     const datosFactura = {
         tipo_precio: tipoPrecio,
         tipo_moneda: tipoMoneda,
@@ -1985,6 +1991,9 @@ function procesarPago() {
         metodo_pago: metodoPago,
         monto: montoPagar,
         cliente: clienteSeleccionado,
+        tipo_identificacion: tipoIdent,
+        regimen: regimen,
+        situacion_tributaria: situacion,
         productos: []
     };
 

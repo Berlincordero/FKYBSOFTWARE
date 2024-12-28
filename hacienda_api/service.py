@@ -3,6 +3,7 @@ import requests
 
 def consultar_hacienda(cedula):
     """
+    Muy Importante!
     Llama a la API pública de Hacienda CR y devuelve un dict con:
       - success: bool
       - data: dict con el JSON recibido

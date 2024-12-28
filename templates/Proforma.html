@@ -4,7 +4,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lista de Proformas</title>
     <link
       rel="stylesheet"
@@ -14,7 +14,7 @@
       .container-proformas-kike {
         width: 80%;
         margin: 0 auto;
-        background-color:  #e0f0ff;
+        background-color: #e0f0ff;
         padding: 10px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -117,7 +117,7 @@
       }
 
       td input[type="number"]:focus {
-        border-color: #007BFF;
+        border-color: #007bff;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
       }
 
@@ -207,7 +207,8 @@
       }
 
       @media (min-width: 1200px) {
-        .h1, h1 {
+        .h1,
+        h1 {
           margin: auto;
           color: #1b9f8e;
           font-size: 2.5rem;
@@ -325,7 +326,7 @@
       }
 
       button[onclick="mostrarModalProductos()"] {
-        background-color: #007BFF;
+        background-color: #007bff;
         color: #fff;
         padding: 10px 20px;
         font-size: 16px;
@@ -365,7 +366,7 @@
         margin: 0;
         margin-bottom: 20px;
         font-size: 20px;
-        color: #007BFF;
+        color: #007bff;
         text-align: center;
       }
 
@@ -439,7 +440,7 @@
 
       .total-item p {
         font-size: 20px;
-        color: #007BFF;
+        color: #007bff;
         margin: 0;
         font-weight: bold;
         text-align: left;
@@ -447,9 +448,9 @@
 
       #info-subtotal {
         font-size: 15px;
-        color: #D9534F;
-        background-color: #F8D7DA;
-        border: 1px solid #F5C6CB;
+        color: #d9534f;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
         padding: 10px;
         border-radius: 5px;
         margin: 20px 0;
@@ -471,7 +472,7 @@
       }
 
       td select[name="unidad"]:focus {
-        border-color: #007BFF;
+        border-color: #007bff;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         background-color: #fff;
       }
@@ -521,7 +522,6 @@
         color: #888;
         font-style: italic;
       }
-
     </style>
   </head>
   <body>
@@ -535,255 +535,330 @@
       </div>
     </div>
 
-    <div class="proforma-list" style="width: 100%; margin: 20px auto;">
+    <div class="proforma-list" style="width: 100%; margin: 20px auto">
       <table class="proforma-tabla">
-          <thead>
-              <tr>
-                  <th>Fecha</th>
-                  <th>Moneda</th>
-                  <th>Cliente</th>
-                  <th>Tipo Identificacion</th>
-                  <th>Regimen Tributario</th>
-                  <th>Situacion tributaria</th>
-                  <th>Actividad Económica</th>
-                  <th>Medio de Pago</th>
-                  <th>Condición de Venta</th>
-                  <th>Detalles</th>
-                  <th>Total</th>
-                  <th>Opciones</th>
-              </tr>
-          </thead>
-          <tbody>
-            {% for proforma in proformas %}
-            <tr id="proforma-{{ proforma.id }}" 
-                data-fecha="{{ proforma.fecha }}" 
-                data-moneda="{{ proforma.moneda }}" 
-                data-cliente="{{ proforma.cliente }}"
-                data-tipo_identificacion="{{ proforma.tipo_identificacion }}"
-                data-regimen="{{ proforma.regimen }}"
-                data-situacion="{{ proforma.situacion }}"
-                data-codigo="{{ proforma.codigo_actividad_economica }}" 
-                data-medio_pago="{{ proforma.medio_pago }}" 
-                data-condicion_venta="{{ proforma.condicion_venta }}" 
-                data-detalles="{{ proforma.detalles }}" 
-                data-total="{{ proforma.total }}">
-
-                <td>{{ proforma.fecha }}</td>
-                <td>{{ proforma.moneda }}</td>
-                <td>{{ proforma.cliente }}</td>
-                <td>{{ proforma.tipo_identificacion }}</td>
-                <td>{{ proforma.regimen }}</td>
-                <td>{{ proforma.situacion }}</td>
-                <td>{{ proforma.codigo_actividad_economica }}</td>
-                <td>{{ proforma.medio_pago }}</td>
-                <td>{{ proforma.condicion_venta }}</td>
-                <td>{{ proforma.detalles }}</td>
-                <td>{{ proforma.total }}</td>
-                <td class="action-icons">
-                    <form action="{% url 'eliminar_proforma' proforma.pk %}" method="POST" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </form>
-                    <i class="fas fa-edit" onclick="editarProforma({{ proforma.id }})"></i>
-                </td>
-            </tr>
-            {% empty %}
-            <tr class="fila-vacia">
-                <td colspan="12" class="text-center"><strong>No hay proformas registrados</strong></td>
-            </tr>
-            {% endfor %}
-          </tbody>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Moneda</th>
+            <th>Cliente</th>
+            <th>Tipo Identificacion</th>
+            <th>Regimen Tributario</th>
+            <th>Situacion tributaria</th>
+            <th>Actividad Económica</th>
+            <th>Medio de Pago</th>
+            <th>Condición de Venta</th>
+            <th>Detalles</th>
+            <th>Total</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for proforma in proformas %}
+          <tr
+            id="proforma-{{ proforma.id }}"
+            data-fecha="{{ proforma.fecha }}"
+            data-moneda="{{ proforma.moneda }}"
+            data-cliente="{{ proforma.cliente }}"
+            data-tipo_identificacion="{{ proforma.tipo_identificacion }}"
+            data-regimen="{{ proforma.regimen }}"
+            data-situacion="{{ proforma.situacion }}"
+            data-codigo="{{ proforma.codigo_actividad_economica }}"
+            data-medio_pago="{{ proforma.medio_pago }}"
+            data-condicion_venta="{{ proforma.condicion_venta }}"
+            data-detalles="{{ proforma.detalles }}"
+            data-total="{{ proforma.total }}"
+          >
+            <td>{{ proforma.fecha }}</td>
+            <td>{{ proforma.moneda }}</td>
+            <td>{{ proforma.cliente }}</td>
+            <td>{{ proforma.tipo_identificacion }}</td>
+            <td>{{ proforma.regimen }}</td>
+            <td>{{ proforma.situacion }}</td>
+            <td>{{ proforma.codigo_actividad_economica }}</td>
+            <td>{{ proforma.medio_pago }}</td>
+            <td>{{ proforma.condicion_venta }}</td>
+            <td>{{ proforma.detalles }}</td>
+            <td>{{ proforma.total }}</td>
+            <td class="action-icons">
+              <form
+                action="{% url 'eliminar_proforma' proforma.pk %}"
+                method="POST"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </form>
+              <i
+                class="fas fa-edit"
+                onclick="editarProforma({{ proforma.id }})"
+              ></i>
+            </td>
+          </tr>
+          {% empty %}
+          <tr class="fila-vacia">
+            <td colspan="12" class="text-center">
+              <strong>No hay proformas registrados</strong>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
       </table>
     </div>
 
     <!-- Contenedor de paginación -->
     <div class="pagination-5lines">
       <button onclick="prevPage()" id="prevPageBtn">Anterior</button>
-      <span>Página <span id="paginaActual">1</span> de <span id="totalPaginas">1</span></span>
+      <span
+        >Página <span id="paginaActual">1</span> de
+        <span id="totalPaginas">1</span></span
+      >
       <button onclick="nextPage()" id="nextPageBtn">Siguiente</button>
     </div>
 
     <button class="create-proforma" onclick="openModal()">+</button>
 
     <!-- Modal de Crear Proforma -->
-    <div id="proformaModal" class="modal-proforma" style="display: none;">
+    <div id="proformaModal" class="modal-proforma" style="display: none">
       <div class="modal-content">
-          <span class="close" onclick="closeModal()">&times;</span>
-          <h1><i class="fas fa-file-invoice icono-proforma-formulario"></i>Formulario Proforma</h1>
-          <form action="{% url 'crear_proforma' %}" method="POST">
-              {% csrf_token %}
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h1>
+          <i class="fas fa-file-invoice icono-proforma-formulario"></i
+          >Formulario Proforma
+        </h1>
+        <form action="{% url 'crear_proforma' %}" method="POST">
+          {% csrf_token %}
 
-              <div class="header">
-                  <div class="header-left">
-                      <label for="fecha">Fecha:</label>
-                      <input type="date" class="form-control" id="fecha" name="fecha">
+          <div class="header">
+            <div class="header-left">
+              <label for="fecha">Fecha:</label>
+              <input type="date" class="form-control" id="fecha" name="fecha" />
 
-                      <label for="moneda">Moneda:</label>
-                      <select id="moneda" name="moneda" class="moneda-unica">
-                          <option value="CRC">Colones</option>
-                          <option value="USD">Dólares</option>
-                      </select>
-                  </div>
-                  <div class="header-right">
-                      <p>Ferreteria San jeronimo S.A, Moravia Telefono: 2224 4585</p>
-                      <p>Venta al por menor artículos de ferretería, pinturas, madera y materiales para la construcción.</p>
-                      <p>Este documento no es válido como factura ni documento fiscal.</p>
-                  </div>
-              </div>
-
-              <div class="form-group">
-                <label for="cliente">Cédula del Cliente:</label>
-                <input type="text" id="cliente" name="cliente" placeholder="Ingrese cédula">
-                <button type="button" onclick="buscarCliente()">Buscar</button>
-              </div>
-              
-              <div class="form-group">
-                <label for="nombre">Nombre del Cliente:</label>
-                <input type="text" id="nombre" name="nombre" readonly>
-              </div>
-              
-              <div class="form-group">
-                <label for="tipo_identificacion">Tipo de Identificación:</label>
-                <input type="text" id="tipo_identificacion" readonly>
-              </div>
-              
-              <div class="form-group">
-                <label for="regimen">Régimen:</label>
-                <input type="text" id="regimen" readonly>
-              </div>
-              
-              <div class="form-group">
-                <label for="situacion">Situación:</label>
-                <input type="text" id="situacion" readonly>
-              </div>
-           
-            
-              <div class="form-group">
-                  <label for="codigo_actividad_economica">Código de Actividad Económica:</label>
-                  <select id="codigo_actividad_economica" name="codigo_actividad_economica">
-                      <option value="regular">Regular</option>
-                      <option value="especial">Especial</option>
-                      <option value="exento">Exento</option>
-                  </select>
-              </div>
-
-              <div class="form-group">
-                  <label for="medio_pago">Medio de pago:</label>
-                  <select id="medio_pago" name="medio_pago">
-                      <option value="efectivo">Efectivo</option>
-                      <option value="tarjeta">Tarjeta</option>
-                      <option value="transferencia">Transferencia</option>
-                      <option value="cheque">Cheque</option>
-                      <option value="deposito">Depósito</option>
-                      <option value="otros">Otros</option>
-                  </select>
-
-                  <label for="condicion_venta">Condición de venta:</label>
-                  <select id="condicion_venta" name="condicion_venta">
-                      <option value="contado">Contado</option>
-                      <option value="credito">Crédito</option>
-                  </select>
-              </div>
-
-              <div class="form-group">
-                  <label for="detalles">Detalles:</label>
-                  <input type="text" id="detalles" name="detalles" placeholder="Detalles de la proforma">
-              </div>
-             
-
-              <div class="line-details">
-                  <h2>Detalles de línea</h2>
-                  <h1 id="info-subtotal">
-                    ¡Importante: El Subtotal, IVA y Total Neto se calculan automáticamente una vez
-                    colocado el descuento en 1 o más, en los productos de la tabla!
-                  </h1>
-                  <table id="line-items-table">
-                      <thead>
-                          <tr>
-                              <th>Código</th>
-                              <th>nombre</th>
-                              <th>Descripción</th>
-                              <th>Cantidad</th>
-                              <th>Unidad</th>
-                              <th>Precio Unitario</th>
-                              <th>Descuento %</th>
-                              <th>Descuento aplicado</th>
-                              <th>Total</th>
-                              <th>Opciones</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <!-- Aquí se llenarán las filas dinámicamente -->
-                      </tbody>
-                  </table>
-              </div>
-
-              <button type="button" onclick="mostrarModalProductos()">Agregar Producto</button>
-
-              <!-- Modal de Selección de Productos -->
-              <div id="product-modal" style="display: none;">
-                  <h3><i class="fas fa-box-open icono-caja-abierta"></i> Seleccionar Producto</h3>
-                  <select id="product-select">
-                      <!-- Opciones llenadas dinámicamente -->
-                  </select>
-                  <button type="button" onclick="agregarProducto()">Agregar Producto</button>
-                  <button type="button" onclick="cerrarModalProductos()">Cerrar</button>
-              </div>
-
-              <div class="totals">
-                <div class="total-item">
-                    <strong>Descuento aplicado :</strong>
-                    <p id="descuento">₡0.00</p>
-                </div>
-                <div class="total-item">
-                    <strong>Subtotal:</strong>
-                    <p id="subtotal">₡0.00</p>
-                </div>
-                <div class="total-item">
-                    <strong>IVA:</strong>
-                    <p id="iva">₡0.00</p>
-                </div>
-                <div class="total-item">
-                    <strong>Total Neto:</strong>
-                    <p id="total">₡0.00</p>
-                    <strong>Total Neto en Dólares:</strong>
-                    <p id="total-dolares" style="color: #007BFF; font-size: 20px;">$0.00</p>
-                    <p id="tipo-cambio" style="color: #6c757d; font-size: 18px;">Tipo de cambio utilizado: ₡550.00 por $1</p>
-                    <p>Este tipo de Cambio está sujeto al cambio actual en el Banco Central de Costa Rica</p>
-                </div>
-              </div>
-
-              <input type="hidden" id="subtotal-input" name="subtotal">
-              <input type="hidden" id="descuento-input" name="descuento">
-              <input type="hidden" id="iva-input" name="iva">
-              <input type="hidden" id="total-input" name="total">
-              <input type="hidden" id="total-dolares-input" name="total_dolares">
-
-              <div class="buttons">
-                <button type="submit" class="save-proforma" onclick="prepararDatosProforma()">Guardar</button>
-              </div>
-          </form>
-          <div class="buttons-imprimir-proforma">
-            <i class="fas fa-print imprimir-proforma" onclick="imprimirProforma()"></i>
+              <label for="moneda">Moneda:</label>
+              <select id="moneda" name="moneda" class="moneda-unica">
+                <option value="CRC">Colones</option>
+                <option value="USD">Dólares</option>
+              </select>
+            </div>
+            <div class="header-right">
+              <p>Ferreteria San jeronimo S.A, Moravia Telefono: 2224 4585</p>
+              <p>
+                Venta al por menor artículos de ferretería, pinturas, madera y
+                materiales para la construcción.
+              </p>
+              <p>
+                Este documento no es válido como factura ni documento fiscal.
+              </p>
+            </div>
           </div>
-          <div class="image-below-proforma">
-            {% load static %}
-            <img src="{% static 'img/logo.jpg' %}" alt="Question Image" class="image-below-icon"/>
+
+          <div class="form-group">
+            <label for="cliente"
+              >Cédula del Cliente: "Ingrese cédulas sin guiones ni
+              espacios"</label
+            >
+            <input
+              type="text"
+              id="cliente"
+              name="cliente"
+              placeholder="Ingrese cédulas sin guiones ni espacios"
+            />
+            <button type="button" onclick="buscarCliente()">Buscar</button>
           </div>
+
+          <div class="form-group">
+            <label for="nombre">Nombre del Cliente:</label>
+            <input type="text" id="nombre" name="nombre" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="tipo_identificacion">Tipo de Identificación:</label>
+            <input type="text" id="tipo_identificacion" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="regimen">Régimen:</label>
+            <input type="text" id="regimen" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="situacion">Situación:</label>
+            <input type="text" id="situacion" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="codigo_actividad_economica"
+              >Código de Actividad Económica:</label
+            >
+            <select
+              id="codigo_actividad_economica"
+              name="codigo_actividad_economica"
+            >
+              <option value="regular">Regular</option>
+              <option value="especial">Especial</option>
+              <option value="exento">Exento</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="medio_pago">Medio de pago:</label>
+            <select id="medio_pago" name="medio_pago">
+              <option value="efectivo">Efectivo</option>
+              <option value="tarjeta">Tarjeta</option>
+              <option value="transferencia">Transferencia</option>
+              <option value="cheque">Cheque</option>
+              <option value="deposito">Depósito</option>
+              <option value="otros">Otros</option>
+            </select>
+
+            <label for="condicion_venta">Condición de venta:</label>
+            <select id="condicion_venta" name="condicion_venta">
+              <option value="contado">Contado</option>
+              <option value="credito">Crédito</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="detalles">Detalles:</label>
+            <input
+              type="text"
+              id="detalles"
+              name="detalles"
+              placeholder="Detalles de la proforma"
+            />
+          </div>
+
+          <div class="line-details">
+            <h2>Detalles de línea</h2>
+            <h1 id="info-subtotal">
+              ¡Importante: El Subtotal, IVA y Total Neto se calculan
+              automáticamente una vez colocado el descuento en 1 o más, en los
+              productos de la tabla!
+            </h1>
+            <table id="line-items-table">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>nombre</th>
+                  <th>Descripción</th>
+                  <th>Cantidad</th>
+                  <th>Unidad</th>
+                  <th>Precio Unitario</th>
+                  <th>Descuento %</th>
+                  <th>Descuento aplicado</th>
+                  <th>Total</th>
+                  <th>Opciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Aquí se llenarán las filas dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+
+          <button type="button" onclick="mostrarModalProductos()">
+            Agregar Producto
+          </button>
+
+          <!-- Modal de Selección de Productos -->
+          <div id="product-modal" style="display: none">
+            <h3>
+              <i class="fas fa-box-open icono-caja-abierta"></i> Seleccionar
+              Producto
+            </h3>
+            <select id="product-select">
+              <!-- Opciones llenadas dinámicamente -->
+            </select>
+            <button type="button" onclick="agregarProducto()">
+              Agregar Producto
+            </button>
+            <button type="button" onclick="cerrarModalProductos()">
+              Cerrar
+            </button>
+          </div>
+
+          <div class="totals">
+            <div class="total-item">
+              <strong>Descuento aplicado :</strong>
+              <p id="descuento">₡0.00</p>
+            </div>
+            <div class="total-item">
+              <strong>Subtotal:</strong>
+              <p id="subtotal">₡0.00</p>
+            </div>
+            <div class="total-item">
+              <strong>IVA:</strong>
+              <p id="iva">₡0.00</p>
+            </div>
+            <div class="total-item">
+              <strong>Total Neto:</strong>
+              <p id="total">₡0.00</p>
+              <strong>Total Neto en Dólares:</strong>
+              <p id="total-dolares" style="color: #007bff; font-size: 20px">
+                $0.00
+              </p>
+              <p id="tipo-cambio" style="color: #6c757d; font-size: 18px">
+                Tipo de cambio utilizado: ₡550.00 por $1
+              </p>
+              <p>
+                Este tipo de Cambio está sujeto al cambio actual en el Banco
+                Central de Costa Rica
+              </p>
+            </div>
+          </div>
+
+          <input type="hidden" id="subtotal-input" name="subtotal" />
+          <input type="hidden" id="descuento-input" name="descuento" />
+          <input type="hidden" id="iva-input" name="iva" />
+          <input type="hidden" id="total-input" name="total" />
+          <input type="hidden" id="total-dolares-input" name="total_dolares" />
+
+          <div class="buttons">
+            <button
+              type="submit"
+              class="save-proforma"
+              onclick="prepararDatosProforma()"
+            >
+              Guardar
+            </button>
+          </div>
+        </form>
+        <div class="buttons-imprimir-proforma">
+          <i
+            class="fas fa-print imprimir-proforma"
+            onclick="imprimirProforma()"
+          ></i>
+        </div>
+        <div class="image-below-proforma">
+          {% load static %}
+          <img
+            src="{% static 'img/logo.jpg' %}"
+            alt="Question Image"
+            class="image-below-icon"
+          />
+        </div>
       </div>
     </div>
 
-    <div id="editarproformaModal" class="modal-proforma" style="display: none;">
+    <div id="editarproformaModal" class="modal-proforma" style="display: none">
       <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h1><i class="fas fa-file-invoice icono-proforma-formulario"></i> Editar Proforma</h1>
+        <h1>
+          <i class="fas fa-file-invoice icono-proforma-formulario"></i> Editar
+          Proforma
+        </h1>
         <form action="{% url 'editar_proforma' %}" method="POST">
           {% csrf_token %}
           <div class="header">
             <div class="header-left">
-              <input type="date" class="form-control" id="editarfecha" name="fecha">
+              <input
+                type="date"
+                class="form-control"
+                id="editarfecha"
+                name="fecha"
+              />
               <select id="editarmoneda" name="moneda" class="moneda-unica">
                 <option value="CRC">CRC</option>
                 <option value="USD">Dólares</option>
@@ -791,10 +866,12 @@
             </div>
             <div class="header-right">
               <p>
-                Venta al por menor artículos de ferretería,
-                pinturas, madera y materiales para la construcción.
+                Venta al por menor artículos de ferretería, pinturas, madera y
+                materiales para la construcción.
               </p>
-              <p>Este documento no es válido como factura ni documento fiscal</p>
+              <p>
+                Este documento no es válido como factura ni documento fiscal
+              </p>
             </div>
           </div>
           <label for="editarcliente">Cliente:</label>
@@ -803,13 +880,16 @@
             id="editarcliente"
             name="cliente"
             placeholder="Busca por nombre, cédula o teléfono"
-          /> 
-
-          
+          />
 
           <div class="form-group">
-            <label for="editarcodigoactividadeconomica">Código-actividad-económica:</label>
-            <select id="editarcodigoactividadeconomica" name="codigo_actividad_economica">
+            <label for="editarcodigoactividadeconomica"
+              >Código-actividad-económica:</label
+            >
+            <select
+              id="editarcodigoactividadeconomica"
+              name="codigo_actividad_economica"
+            >
               <option value="regular">Regular</option>
               <option value="especial">Especial</option>
               <option value="exento">Mayorista</option>
@@ -820,7 +900,7 @@
             <select id="editarmediopago" name="medio_pago">
               <option value="efectivo">Efectivo</option>
               <option value="tarjeta">Tarjeta</option>
-              <option value="transferencia">Transferencia</option>  
+              <option value="transferencia">Transferencia</option>
               <option value="cheque">Cheque</option>
               <option value="deposito">Depósito</option>
               <option value="otros">Otros</option>
@@ -833,41 +913,50 @@
           </div>
 
           <div class="form-group">
-              <label for="editardetalles">Detalles:</label>
-              <input type="text" id="editardetalles" name="detalles" placeholder="Detalles de la proforma" />
+            <label for="editardetalles">Detalles:</label>
+            <input
+              type="text"
+              id="editardetalles"
+              name="detalles"
+              placeholder="Detalles de la proforma"
+            />
           </div>
 
           <div class="search-bar">
             <label for="nota" class="search-label">Producto:</label>
             <div class="search-input-wrapper">
-                <input type="text" id="nota" placeholder="Ingrese el nombre del producto">
-                <button><i class="fa fa-search"></i></button>
+              <input
+                type="text"
+                id="nota"
+                placeholder="Ingrese el nombre del producto"
+              />
+              <button><i class="fa fa-search"></i></button>
             </div>
           </div>
 
           <div class="line-details">
             <h2>Desglose de la Proforma</h2>
             <h1 id="info-subtotal">
-              ¡Importante: El Subtotal, IVA y Total Neto se calculan automáticamente una vez
-              colocado el descuento en 1 o más!
+              ¡Importante: El Subtotal, IVA y Total Neto se calculan
+              automáticamente una vez colocado el descuento en 1 o más!
             </h1>
             <table id="line-items-table">
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Descripción</th>
-                        <th>Cantidad</th>
-                        <th>Unidad</th>
-                        <th>Precio Unitario</th>
-                        <th>Descuento</th>
-                        <th>IVA</th>
-                        <th>Total</th>
-                        <th>Opciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Aquí se llenarán las filas dinámicamente -->
-                </tbody>
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Descripción</th>
+                  <th>Cantidad</th>
+                  <th>Unidad</th>
+                  <th>Precio Unitario</th>
+                  <th>Descuento</th>
+                  <th>IVA</th>
+                  <th>Total</th>
+                  <th>Opciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Aquí se llenarán las filas dinámicamente -->
+              </tbody>
             </table>
           </div>
 
@@ -875,64 +964,87 @@
 
           <div class="totals">
             <div class="total-item">
-                <strong>Descuento aplicado :</strong>
-                <p id="descuento">₡0.00</p>
+              <strong>Descuento aplicado :</strong>
+              <p id="descuento">₡0.00</p>
             </div>
             <div class="total-item">
-                <strong>Subtotal:</strong>
-                <p id="subtotal">₡0.00</p>
+              <strong>Subtotal:</strong>
+              <p id="subtotal">₡0.00</p>
             </div>
             <div class="total-item">
-                <strong>IVA:</strong>
-                <p id="iva">₡0.00</p>
+              <strong>IVA:</strong>
+              <p id="iva">₡0.00</p>
             </div>
             <div class="total-item">
-                <strong>Total Neto:</strong>
-                <p id="total">₡0.00</p>
-                <strong>Total Dolares</strong>
-                <p id="total-dolares" style="color: #007BFF; font-size: 18px;">$0.00</p>
-                <p id="tipo-cambio" style="color: #6c757d; font-size: 18px;">Tipo de cambio utilizado: ₡550.00 por $1</p>
+              <strong>Total Neto:</strong>
+              <p id="total">₡0.00</p>
+              <strong>Total Dolares</strong>
+              <p id="total-dolares" style="color: #007bff; font-size: 18px">
+                $0.00
+              </p>
+              <p id="tipo-cambio" style="color: #6c757d; font-size: 18px">
+                Tipo de cambio utilizado: ₡550.00 por $1
+              </p>
             </div>
           </div>
-        
-          <input type="hidden" id="subtotal-input" name="subtotal">
-          <input type="hidden" id="descuento-input" name="descuento">
-          <input type="hidden" id="iva-input" name="iva">
-          <input type="hidden" id="total-input" name="total">
-          <input type="hidden" id="total-dolares-input" name="total_dolares">
-      
+
+          <input type="hidden" id="subtotal-input" name="subtotal" />
+          <input type="hidden" id="descuento-input" name="descuento" />
+          <input type="hidden" id="iva-input" name="iva" />
+          <input type="hidden" id="total-input" name="total" />
+          <input type="hidden" id="total-dolares-input" name="total_dolares" />
+
           <div class="buttons">
-              <button type="submit" class="save-proforma" onclick="prepararDatosProforma()">Guardar</button>
+            <button
+              type="submit"
+              class="save-proforma"
+              onclick="prepararDatosProforma()"
+            >
+              Guardar
+            </button>
           </div>
         </form>
         <div class="buttons-imprimir-proforma">
-          <i class="fas fa-print imprimir-proforma" onclick="imprimirProforma()"></i>
+          <i
+            class="fas fa-print imprimir-proforma"
+            onclick="imprimirProforma()"
+          ></i>
         </div>
         <div class="image-below-proforma">
           {% load static %}
-          <img src="{% static 'img/logo.jpg' %}" alt="Question Image" class="image-below-icon"/>
+          <img
+            src="{% static 'img/logo.jpg' %}"
+            alt="Question Image"
+            class="image-below-icon"
+          />
         </div>
       </div>
     </div>
 
     <script>
       function imprimirProforma() {
-        var contenido = document.getElementById('proformaModal').cloneNode(true);
+        var contenido = document
+          .getElementById("proformaModal")
+          .cloneNode(true);
 
-        var infoSubtotal = contenido.querySelector('#info-subtotal');
+        var infoSubtotal = contenido.querySelector("#info-subtotal");
         if (infoSubtotal) {
-            infoSubtotal.remove();
+          infoSubtotal.remove();
         }
 
-        var botonAgregarProducto = contenido.querySelector('button[onclick="mostrarModalProductos()"]');
+        var botonAgregarProducto = contenido.querySelector(
+          'button[onclick="mostrarModalProductos()"]'
+        );
         if (botonAgregarProducto) {
-            botonAgregarProducto.remove();
+          botonAgregarProducto.remove();
         }
 
-        var ventanaImpresion = window.open('', '', 'height=900,width=800');
-        ventanaImpresion.document.write('<html><head><title>Proforma</title>');
-        ventanaImpresion.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">');
-        ventanaImpresion.document.write('<style>');
+        var ventanaImpresion = window.open("", "", "height=900,width=800");
+        ventanaImpresion.document.write("<html><head><title>Proforma</title>");
+        ventanaImpresion.document.write(
+          '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">'
+        );
+        ventanaImpresion.document.write("<style>");
         ventanaImpresion.document.write(`
           @media print {
               body {
@@ -988,13 +1100,13 @@
               }
           }
         `);
-        ventanaImpresion.document.write('</style></head><body>');
+        ventanaImpresion.document.write("</style></head><body>");
         ventanaImpresion.document.body.appendChild(contenido);
         ventanaImpresion.document.close();
-        ventanaImpresion.onload = function() {
-            ventanaImpresion.focus();
-            ventanaImpresion.print();
-            ventanaImpresion.close();
+        ventanaImpresion.onload = function () {
+          ventanaImpresion.focus();
+          ventanaImpresion.print();
+          ventanaImpresion.close();
         };
       }
 
@@ -1020,7 +1132,8 @@
         document.getElementById("editarfecha").value = fecha;
         document.getElementById("editarmoneda").value = moneda;
         document.getElementById("editarcliente").value = cliente;
-        document.getElementById("editarcodigoactividadeconomica").value = codigoActividad;
+        document.getElementById("editarcodigoactividadeconomica").value =
+          codigoActividad;
         document.getElementById("editarmediopago").value = medioPago;
         document.getElementById("editarcondicionventa").value = condicionVenta;
         document.getElementById("editardetalles").value = detalles;
@@ -1038,17 +1151,17 @@
 
       function mostrarModalProductos() {
         fetch("{% url 'obtener_productos' %}")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Error al obtener los productos");
-                }
-                return response.json();
-            })
-            .then(data => {
-                const select = document.querySelector("#product-select");
-                select.innerHTML = "";
-                data.forEach(producto => {
-                    const option = `
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Error al obtener los productos");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            const select = document.querySelector("#product-select");
+            select.innerHTML = "";
+            data.forEach((producto) => {
+              const option = `
                         <option value="${producto.id}" 
                                 data-codigo="${producto.codigo_cabys}" 
                                 data-nombre="${producto.nombre}" 
@@ -1056,11 +1169,11 @@
                                 data-precio="${producto.precio_venta}">
                             ${producto.codigo_cabys} - ${producto.nombre} - ₡${producto.precio_venta}
                         </option>`;
-                    select.insertAdjacentHTML("beforeend", option);
-                });
-                document.querySelector("#product-modal").style.display = "block";
-            })
-            .catch(error => console.error("Error al cargar productos:", error));
+              select.insertAdjacentHTML("beforeend", option);
+            });
+            document.querySelector("#product-modal").style.display = "block";
+          })
+          .catch((error) => console.error("Error al cargar productos:", error));
       }
 
       function agregarProducto() {
@@ -1068,14 +1181,17 @@
         const selectedOption = select.options[select.selectedIndex];
 
         if (!selectedOption) {
-            alert("Por favor, selecciona un producto.");
-            return;
+          alert("Por favor, selecciona un producto.");
+          return;
         }
 
         const codigo = selectedOption.getAttribute("data-codigo");
         const nombre = selectedOption.getAttribute("data-nombre");
-        const descripcion = selectedOption.getAttribute("data-descripcion") || "Sin descripción";
-        const precioVenta = parseFloat(selectedOption.getAttribute("data-precio"));
+        const descripcion =
+          selectedOption.getAttribute("data-descripcion") || "Sin descripción";
+        const precioVenta = parseFloat(
+          selectedOption.getAttribute("data-precio")
+        );
 
         const tbody = document.querySelector("#line-items-table tbody");
         const fila = `
@@ -1117,25 +1233,34 @@
 
       function updateTotal(input = null) {
         const fila = input ? input.closest("tr") : null;
-        const filas = fila ? [fila] : document.querySelectorAll("#line-items-table tbody tr");
+        const filas = fila
+          ? [fila]
+          : document.querySelectorAll("#line-items-table tbody tr");
 
-        filas.forEach(fila => {
-          const cantidad = parseFloat(fila.querySelector("td:nth-child(4) input").value) || 0;
-          const precioUnitario = parseFloat(fila.querySelector("td:nth-child(6)").textContent.replace("₡", "")) || 0;
-          const descuentoPorcentaje = parseFloat(fila.querySelector("td:nth-child(7) input").value) || 0;
+        filas.forEach((fila) => {
+          const cantidad =
+            parseFloat(fila.querySelector("td:nth-child(4) input").value) || 0;
+          const precioUnitario =
+            parseFloat(
+              fila.querySelector("td:nth-child(6)").textContent.replace("₡", "")
+            ) || 0;
+          const descuentoPorcentaje =
+            parseFloat(fila.querySelector("td:nth-child(7) input").value) || 0;
 
           if (descuentoPorcentaje < 0 || descuentoPorcentaje > 100) {
-              alert("El descuento debe estar entre 0% y 100%");
-              fila.querySelector("td:nth-child(7) input").value = 0;
-              return;
+            alert("El descuento debe estar entre 0% y 100%");
+            fila.querySelector("td:nth-child(7) input").value = 0;
+            return;
           }
 
           const subtotal = cantidad * precioUnitario;
           const descuento = (subtotal * descuentoPorcentaje) / 100;
           const total = subtotal - descuento;
 
-          fila.querySelector("td:nth-child(8)").textContent = formatearColones(descuento);
-          fila.querySelector("td:nth-child(9)").textContent = formatearColones(total);
+          fila.querySelector("td:nth-child(8)").textContent =
+            formatearColones(descuento);
+          fila.querySelector("td:nth-child(9)").textContent =
+            formatearColones(total);
         });
 
         actualizarSubtotal();
@@ -1146,35 +1271,60 @@
         let subtotal = 0;
         let descuento = 0;
 
-        filas.forEach(fila => {
-            const total = parseFloat(fila.querySelector("td:nth-child(9)").textContent.replace("₡", "")) || 0;
-            const descuentoFila = parseFloat(fila.querySelector("td:nth-child(8)").textContent.replace("₡", "")) || 0;
-            subtotal += total;
-            descuento += descuentoFila;
+        filas.forEach((fila) => {
+          const total =
+            parseFloat(
+              fila.querySelector("td:nth-child(9)").textContent.replace("₡", "")
+            ) || 0;
+          const descuentoFila =
+            parseFloat(
+              fila.querySelector("td:nth-child(8)").textContent.replace("₡", "")
+            ) || 0;
+          subtotal += total;
+          descuento += descuentoFila;
         });
 
-        document.querySelector("#subtotal").textContent = formatearColones(subtotal);
-        document.querySelector("#descuento").textContent = formatearColones(descuento);
+        document.querySelector("#subtotal").textContent =
+          formatearColones(subtotal);
+        document.querySelector("#descuento").textContent =
+          formatearColones(descuento);
 
         const iva = subtotal * 0.13;
         document.querySelector("#iva").textContent = formatearColones(iva);
 
         const totalNeto = subtotal + iva;
-        document.querySelector("#total").textContent = formatearColones(totalNeto);
+        document.querySelector("#total").textContent =
+          formatearColones(totalNeto);
 
         const tasaCambio = 550;
         const totalDolares = totalNeto / tasaCambio;
-        document.querySelector("#total-dolares").textContent = formatearDolares(totalDolares);
-        document.querySelector("#tipo-cambio").textContent = `Tipo de cambio utilizado: ₡${tasaCambio.toFixed(2)} por $1`;
-        document.querySelector("#total-dolares-input").value = totalDolares.toFixed(2);
+        document.querySelector("#total-dolares").textContent =
+          formatearDolares(totalDolares);
+        document.querySelector(
+          "#tipo-cambio"
+        ).textContent = `Tipo de cambio utilizado: ₡${tasaCambio.toFixed(
+          2
+        )} por $1`;
+        document.querySelector("#total-dolares-input").value =
+          totalDolares.toFixed(2);
       }
 
       function prepararDatosProforma() {
-        const subtotal = parseFloat(document.querySelector("#subtotal").textContent.replace("₡", ""));
-        const descuento = parseFloat(document.querySelector("#descuento").textContent.replace("₡", ""));
-        const iva = parseFloat(document.querySelector("#iva").textContent.replace("₡", ""));
-        const total = parseFloat(document.querySelector("#total").textContent.replace("₡", ""));
-        const totalDolares = parseFloat(document.querySelector("#total-dolares-input").value);
+        const subtotal = parseFloat(
+          document.querySelector("#subtotal").textContent.replace("₡", "")
+        );
+        const descuento = parseFloat(
+          document.querySelector("#descuento").textContent.replace("₡", "")
+        );
+        const iva = parseFloat(
+          document.querySelector("#iva").textContent.replace("₡", "")
+        );
+        const total = parseFloat(
+          document.querySelector("#total").textContent.replace("₡", "")
+        );
+        const totalDolares = parseFloat(
+          document.querySelector("#total-dolares-input").value
+        );
 
         document.querySelector("#subtotal-input").value = subtotal;
         document.querySelector("#descuento-input").value = descuento;
@@ -1184,47 +1334,56 @@
       }
 
       function filterTable() {
-        const query = document.getElementById('search').value.toLowerCase().trim();
-        const tableBody = document.querySelector('.proforma-list table tbody');
-        const rows = tableBody.querySelectorAll('tr');
+        const query = document
+          .getElementById("search")
+          .value.toLowerCase()
+          .trim();
+        const tableBody = document.querySelector(".proforma-list table tbody");
+        const rows = tableBody.querySelectorAll("tr");
 
-        rows.forEach(row => {
-            if (row.classList.contains('fila-vacia')) {
-                row.style.display = 'none';
-                return;
-            }
+        rows.forEach((row) => {
+          if (row.classList.contains("fila-vacia")) {
+            row.style.display = "none";
+            return;
+          }
 
-            const cliente = row.dataset.cliente.toLowerCase();
-            const condicionVenta = row.dataset.condicion_venta.toLowerCase();
-            const detalles = row.dataset.detalles.toLowerCase();
-            const nota = row.dataset.nota.toLowerCase();
-            const total = row.dataset.total.toLowerCase();
+          const cliente = row.dataset.cliente.toLowerCase();
+          const condicionVenta = row.dataset.condicion_venta.toLowerCase();
+          const detalles = row.dataset.detalles.toLowerCase();
+          const nota = row.dataset.nota.toLowerCase();
+          const total = row.dataset.total.toLowerCase();
 
-            if (
-                cliente.includes(query) ||
-                condicionVenta.includes(query) ||
-                detalles.includes(query) ||
-                nota.includes(query) ||
-                total.includes(query)
-            ) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
+          if (
+            cliente.includes(query) ||
+            condicionVenta.includes(query) ||
+            detalles.includes(query) ||
+            nota.includes(query) ||
+            total.includes(query)
+          ) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
         });
 
-        const anyVisible = Array.from(rows).some(row => !row.classList.contains('fila-vacia') && row.style.display !== 'none');
-        const emptyRow = tableBody.querySelector('.fila-vacia');
+        const anyVisible = Array.from(rows).some(
+          (row) =>
+            !row.classList.contains("fila-vacia") &&
+            row.style.display !== "none"
+        );
+        const emptyRow = tableBody.querySelector(".fila-vacia");
         if (emptyRow) {
-            emptyRow.style.display = anyVisible ? 'none' : '';
+          emptyRow.style.display = anyVisible ? "none" : "";
         }
       }
 
-      document.getElementById('search').addEventListener('input', filterTable);
+      document.getElementById("search").addEventListener("input", filterTable);
 
       const filasPorPagina = 5;
       let paginaActual = 1;
-      const tabla = document.querySelector(".proforma-tabla").getElementsByTagName("tbody")[0];
+      const tabla = document
+        .querySelector(".proforma-tabla")
+        .getElementsByTagName("tbody")[0];
       let filas = Array.from(tabla.getElementsByTagName("tr"));
       let totalPaginas = Math.ceil(filas.length / filasPorPagina);
 
@@ -1243,7 +1402,8 @@
         document.getElementById("totalPaginas").textContent = totalPaginas;
 
         document.getElementById("prevPageBtn").disabled = pagina === 1;
-        document.getElementById("nextPageBtn").disabled = pagina === totalPaginas;
+        document.getElementById("nextPageBtn").disabled =
+          pagina === totalPaginas;
       }
 
       function nextPage() {
@@ -1268,45 +1428,50 @@
       }
 
       // Unificar evento de cierre de modal al hacer clic fuera
-      window.addEventListener('click', function(event) {
+      window.addEventListener("click", function (event) {
         var createModal = document.getElementById("proformaModal");
         var editModal = document.getElementById("editarproformaModal");
 
         if (event.target === createModal) {
-            closeModal();
+          closeModal();
         } else if (event.target === editModal) {
-            closeModal();
+          closeModal();
         }
       });
       ////////////////////////////////////////////////////
       function buscarCliente() {
-        const cedula = document.getElementById('cliente').value;
-    
+        const cedula = document.getElementById("cliente").value;
+
         if (!cedula) {
-          alert('Por favor, ingrese una cédula válida.');
+          alert("Por favor, ingrese una cédula válida.");
           return;
         }
-    
+
         // Llama a la vista de Django
         fetch(`/hacienda/buscar-cliente/?cedula=${cedula}`)
-          .then(response => response.json())
-          .then(data => {
+          .then((response) => response.json())
+          .then((data) => {
             if (data.success) {
               // Rellena los campos con los datos obtenidos
-              document.getElementById('nombre').value = data.nombre || 'No disponible';
-              document.getElementById('tipo_identificacion').value = data.tipo_identificacion || 'No disponible';
-              document.getElementById('regimen').value = data.regimen || 'No disponible';
-              document.getElementById('situacion').value = data.situacion || 'No disponible';
+              document.getElementById("nombre").value =
+                data.nombre || "No disponible";
+              document.getElementById("tipo_identificacion").value =
+                data.tipo_identificacion || "No disponible";
+              document.getElementById("regimen").value =
+                data.regimen || "No disponible";
+              document.getElementById("situacion").value =
+                data.situacion || "No disponible";
             } else {
-              alert(data.error || 'No se encontró información para esta cédula.');
+              alert(
+                data.error || "No se encontró información para esta cédula."
+              );
             }
           })
-          .catch(error => {
-            console.error('Error al realizar la consulta:', error);
-            alert('Ocurrió un error al consultar la API.');
+          .catch((error) => {
+            console.error("Error al realizar la consulta:", error);
+            alert("Ocurrió un error al consultar la API.");
           });
       }
-    
     </script>
   </body>
 </html>

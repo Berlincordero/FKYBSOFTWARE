@@ -150,13 +150,17 @@ def Cajaregistradora_view(request):
     return render(request, 'Cajaregistradora.html', context)
 
 
-
-
 @csrf_exempt
 def guardar_factura(request):
     if request.method == 'POST':
         try:
             datos = json.loads(request.body)
+
+            # (1) Extraer datos adicionales
+            tipo_ident = datos.get('tipo_identificacion', '')
+            regimen = datos.get('regimen', '')
+            situacion = datos.get('situacion_tributaria', '')
+
             productos = datos.get('productos', [])
             total_factura = Decimal('0.00')
 
@@ -170,13 +174,17 @@ def guardar_factura(request):
             tipo_precio = datos.get('tipo_precio', 'Regular')
             metodo_pago = datos.get('metodo_pago', 'cash')
 
-            # Obtener la caja abierta desde la sesión
+            # Obtener la caja abierta
             caja_abierta_id = request.session.get('caja_abierta_id')
             apertura_caja = AperturaCaja.objects.get(id=caja_abierta_id, abierta=True) if caja_abierta_id else None
 
+            # (2) Crear la factura y asignar esos campos
             factura = Factura.objects.create(
                 apertura_caja=apertura_caja,
                 cliente=datos.get('cliente', 'Cliente Desconocido'),
+                tipo_identificacion=tipo_ident,
+                regimen=regimen,
+                situacion_tributaria=situacion,
                 codigo=productos[0]['codigo'] if productos else '',
                 nombre=productos[0]['nombre'] if productos else '',
                 descripcion=productos[0]['descripcion'] if productos else '',
@@ -195,7 +203,7 @@ def guardar_factura(request):
             return JsonResponse({'success': False, 'message': str(e)}, status=500)
     else:
         return JsonResponse({'success': False, 'message': 'Método no permitido.'}, status=405)
-    
+
 
 
 def abrir_caja_view(request):
