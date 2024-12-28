@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import environ
+import requests 
 
 env = environ.Env()
 environ.Env.read_env()
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'geografia',
     'Orden_de_compra',
     'Clientes',
+    'hacienda_api',
     
 ]
 

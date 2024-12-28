@@ -74,7 +74,7 @@ def exportar_facturas_excel(request):
     headers = [
         'Fecha', 'Número Factura', 'Cliente', 'Código', 
         'Descripción', 'Cantidad', 'Precio Venta', 'I.V.A', 
-        'Total', 'Estado de la Factura', 'Tipo de Pago'
+        'Total', 'Estado de la Factura'
     ]
     ws.append(headers)
 
@@ -98,7 +98,7 @@ def exportar_facturas_excel(request):
                 factura.iva or 0.0,
                 factura.total or 0.0,
                 factura.estado_factura or '',
-                factura.tipo_pago or '',
+        
             ])
 
     # Definir la respuesta HTTP con el tipo de contenido de Excel

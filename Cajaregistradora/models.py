@@ -4,11 +4,11 @@ from django.utils.timezone import now
 
 class AperturaCaja(models.Model):
     cajero = models.CharField(max_length=100)
-    monto_inicial = models.DecimalField(max_digits=10, decimal_places=2)
+    monto_inicial = models.DecimalField(max_digits=100, decimal_places=2)
     fecha_hora_apertura = models.DateTimeField(auto_now_add=True)
     abierta = models.BooleanField(default=True)  # Campo existente para el estado de la caja
     fecha_hora_cierre = models.DateTimeField(null=True, blank=True)  # Nuevo campo para la hora de cierre
-    codigo_seguridad = models.CharField(max_length=50, null=True, blank=True)  # Nuevo campo para el código de seguridad
+    codigo_seguridad = models.CharField(max_length=100, null=True, blank=True)  # Nuevo campo para el código de seguridad
 
     def __str__(self):
         return f"Apertura de caja por {self.cajero} el {self.fecha_hora_apertura}"
@@ -16,22 +16,22 @@ class AperturaCaja(models.Model):
 class Factura(models.Model):
     apertura_caja = models.ForeignKey(AperturaCaja, on_delete=models.SET_NULL, null=True, blank=True, related_name='facturas')
     fecha = models.DateTimeField(auto_now_add=True)
-    numero_factura = models.CharField(max_length=50, unique=True, blank=True)
+    numero_factura = models.CharField(max_length=100, unique=True, blank=True)
     cliente = models.CharField(max_length=100, blank=True, null=True)
-    codigo = models.CharField(max_length=50)
-    nombre = models.CharField(max_length=50)
-    descripcion = models.CharField(max_length=50)
+    codigo = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=100)
     cantidad = models.IntegerField()
-    precio_venta = models.DecimalField(max_digits=10, decimal_places=2)
-    iva = models.DecimalField(max_digits=10, decimal_places=2)
-    total = models.DecimalField(max_digits=10, decimal_places=2)
+    precio_venta = models.DecimalField(max_digits=100, decimal_places=2)
+    iva = models.DecimalField(max_digits=100, decimal_places=2)
+    total = models.DecimalField(max_digits=100, decimal_places=2)
     estado_factura = models.CharField(
-        max_length=50,
+        max_length=100,
         choices=[('Pagada', 'Pagada'), ('Pendiente', 'Pendiente')],
         default='Pendiente'
     )
-    metodo_pago = models.CharField(max_length=20, default="cash")  # valores: cash, creditCard, simpeMovil, credit, transfer
-    tipo_precio = models.CharField(max_length=20, default="Regular") # Regular, Mayorista, Proveedor
+    metodo_pago = models.CharField(max_length=100, default="cash")  # valores: cash, creditCard, simpeMovil, credit, transfer
+    tipo_precio = models.CharField(max_length=100, default="Regular") # Regular, Mayorista, Proveedor
 
     def save(self, *args, **kwargs):
         if not self.numero_factura:
@@ -55,7 +55,7 @@ class MovimientoDinero(models.Model):
     fecha_hora = models.DateTimeField()
     usuario = models.CharField(max_length=100)
     nota = models.TextField(blank=True, null=True)
-    monto = models.DecimalField(max_digits=10, decimal_places=2)
+    monto = models.DecimalField(max_digits=1000, decimal_places=2)
     codigo_seguridad = models.CharField(max_length=50, null=True, blank=True)  # Nuevo campo
 
     def __str__(self):
@@ -69,19 +69,19 @@ class PreCierre(models.Model):
     fecha = models.DateField(null=True, blank=True)
     monto_inicial = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
     cajero = models.CharField(max_length=100, null=True, blank=True, default='No disponible')
-    impuestos = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
-    efectivo = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    impuestos = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
+    efectivo = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
     facturas_proveedor = models.IntegerField(null=True, blank=True, default=0)
-    tarjetas = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
-    simpe_movil = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
-    venta_credito = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
-    movimientos = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
-    total_ventas = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    tarjetas = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
+    simpe_movil = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
+    venta_credito = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
+    movimientos = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
+    total_ventas = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
     cantidad_facturas = models.IntegerField(null=True, blank=True, default=0)
-    conteo_efectivo = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
-    conteo_tarjetas = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
-    contado_efectivo = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
-    contado_tarjetas = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
+    conteo_efectivo = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
+    conteo_tarjetas = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
+    contado_efectivo = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
+    contado_tarjetas = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
     codigo_seguridad = models.CharField(max_length=50, null=True, blank=True)  # Agregado
 
     def __str__(self):

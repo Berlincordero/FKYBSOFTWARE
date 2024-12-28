@@ -14,8 +14,8 @@
       .container-proformas-kike {
         width: 80%;
         margin: 0 auto;
-        background-color: #fff;
-        padding: 20px;
+        background-color:  #e0f0ff;
+        padding: 10px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         margin-top: 50px;
@@ -542,11 +542,13 @@
                   <th>Fecha</th>
                   <th>Moneda</th>
                   <th>Cliente</th>
-                  <th>Código Actividad Económica</th>
+                  <th>Tipo Identificacion</th>
+                  <th>Regimen Tributario</th>
+                  <th>Situacion tributaria</th>
+                  <th>Actividad Económica</th>
                   <th>Medio de Pago</th>
                   <th>Condición de Venta</th>
                   <th>Detalles</th>
-                  <th>Nota</th>
                   <th>Total</th>
                   <th>Opciones</th>
               </tr>
@@ -556,22 +558,26 @@
             <tr id="proforma-{{ proforma.id }}" 
                 data-fecha="{{ proforma.fecha }}" 
                 data-moneda="{{ proforma.moneda }}" 
-                data-cliente="{{ proforma.cliente }}" 
+                data-cliente="{{ proforma.cliente }}"
+                data-tipo_identificacion="{{ proforma.tipo_identificacion }}"
+                data-regimen="{{ proforma.regimen }}"
+                data-situacion="{{ proforma.situacion }}"
                 data-codigo="{{ proforma.codigo_actividad_economica }}" 
                 data-medio_pago="{{ proforma.medio_pago }}" 
                 data-condicion_venta="{{ proforma.condicion_venta }}" 
                 data-detalles="{{ proforma.detalles }}" 
-                data-nota="{{ proforma.nota }}" 
                 data-total="{{ proforma.total }}">
 
                 <td>{{ proforma.fecha }}</td>
                 <td>{{ proforma.moneda }}</td>
                 <td>{{ proforma.cliente }}</td>
+                <td>{{ proforma.tipo_identificacion }}</td>
+                <td>{{ proforma.regimen }}</td>
+                <td>{{ proforma.situacion }}</td>
                 <td>{{ proforma.codigo_actividad_economica }}</td>
                 <td>{{ proforma.medio_pago }}</td>
                 <td>{{ proforma.condicion_venta }}</td>
                 <td>{{ proforma.detalles }}</td>
-                <td>{{ proforma.nota }}</td>
                 <td>{{ proforma.total }}</td>
                 <td class="action-icons">
                     <form action="{% url 'eliminar_proforma' proforma.pk %}" method="POST" style="display:inline;">
@@ -585,7 +591,7 @@
             </tr>
             {% empty %}
             <tr class="fila-vacia">
-                <td colspan="10" class="text-center">No hay proformas registrados</td>
+                <td colspan="12" class="text-center"><strong>No hay proformas registrados</strong></td>
             </tr>
             {% endfor %}
           </tbody>
@@ -628,10 +634,32 @@
               </div>
 
               <div class="form-group">
-                  <label for="cliente">Cliente:</label>
-                  <input type="text" id="cliente" name="cliente" placeholder="Busca por nombre, cédula o teléfono">
+                <label for="cliente">Cédula del Cliente:</label>
+                <input type="text" id="cliente" name="cliente" placeholder="Ingrese cédula">
+                <button type="button" onclick="buscarCliente()">Buscar</button>
               </div>
-
+              
+              <div class="form-group">
+                <label for="nombre">Nombre del Cliente:</label>
+                <input type="text" id="nombre" name="nombre" readonly>
+              </div>
+              
+              <div class="form-group">
+                <label for="tipo_identificacion">Tipo de Identificación:</label>
+                <input type="text" id="tipo_identificacion" readonly>
+              </div>
+              
+              <div class="form-group">
+                <label for="regimen">Régimen:</label>
+                <input type="text" id="regimen" readonly>
+              </div>
+              
+              <div class="form-group">
+                <label for="situacion">Situación:</label>
+                <input type="text" id="situacion" readonly>
+              </div>
+           
+            
               <div class="form-group">
                   <label for="codigo_actividad_economica">Código de Actividad Económica:</label>
                   <select id="codigo_actividad_economica" name="codigo_actividad_economica">
@@ -663,10 +691,7 @@
                   <label for="detalles">Detalles:</label>
                   <input type="text" id="detalles" name="detalles" placeholder="Detalles de la proforma">
               </div>
-              <div class="form-group">
-                  <label for="nota">Nota:</label>
-                  <input type="text" id="nota" name="nota" placeholder="Nota adicional">
-              </div>
+             
 
               <div class="line-details">
                   <h2>Detalles de línea</h2>
@@ -780,6 +805,8 @@
             placeholder="Busca por nombre, cédula o teléfono"
           /> 
 
+          
+
           <div class="form-group">
             <label for="editarcodigoactividadeconomica">Código-actividad-económica:</label>
             <select id="editarcodigoactividadeconomica" name="codigo_actividad_economica">
@@ -808,10 +835,6 @@
           <div class="form-group">
               <label for="editardetalles">Detalles:</label>
               <input type="text" id="editardetalles" name="detalles" placeholder="Detalles de la proforma" />
-          </div>
-          <div class="form-group">
-              <label for="editarnota">Nota:</label>
-              <input type="text" id="editarnota" name="nota" placeholder="Nota adicional" />
           </div>
 
           <div class="search-bar">
@@ -891,7 +914,6 @@
         </div>
       </div>
     </div>
-
 
     <script>
       function imprimirProforma() {
@@ -994,7 +1016,6 @@
         var medioPago = row.getAttribute("data-medio_pago");
         var condicionVenta = row.getAttribute("data-condicion_venta");
         var detalles = row.getAttribute("data-detalles");
-        var nota = row.getAttribute("data-nota");
 
         document.getElementById("editarfecha").value = fecha;
         document.getElementById("editarmoneda").value = moneda;
@@ -1003,7 +1024,6 @@
         document.getElementById("editarmediopago").value = medioPago;
         document.getElementById("editarcondicionventa").value = condicionVenta;
         document.getElementById("editardetalles").value = detalles;
-        document.getElementById("editarnota").value = nota;
 
         document.getElementById("editarproformaModal").style.display = "block";
       }
@@ -1258,6 +1278,35 @@
             closeModal();
         }
       });
+      ////////////////////////////////////////////////////
+      function buscarCliente() {
+        const cedula = document.getElementById('cliente').value;
+    
+        if (!cedula) {
+          alert('Por favor, ingrese una cédula válida.');
+          return;
+        }
+    
+        // Llama a la vista de Django
+        fetch(`/hacienda/buscar-cliente/?cedula=${cedula}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              // Rellena los campos con los datos obtenidos
+              document.getElementById('nombre').value = data.nombre || 'No disponible';
+              document.getElementById('tipo_identificacion').value = data.tipo_identificacion || 'No disponible';
+              document.getElementById('regimen').value = data.regimen || 'No disponible';
+              document.getElementById('situacion').value = data.situacion || 'No disponible';
+            } else {
+              alert(data.error || 'No se encontró información para esta cédula.');
+            }
+          })
+          .catch(error => {
+            console.error('Error al realizar la consulta:', error);
+            alert('Ocurrió un error al consultar la API.');
+          });
+      }
+    
     </script>
   </body>
 </html>

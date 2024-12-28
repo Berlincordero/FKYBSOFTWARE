@@ -1,5 +1,14 @@
 {% extends 'base.html' %} {% block content %}
 
+<style>
+  .facturacion-caja-kike-fixed-icons button {
+    background-color: #56df75;
+    color: #3163f9;
+    margin-left: 670px;
+    cursor: pointer;
+    font-size: 15px;
+}
+</style>
 <div class="facturacion-caja-kike-container">
   <div class="facturacion-caja-kike-header">
     <h1>
@@ -9,13 +18,9 @@
       Facturación
     </h1>
     <div class="facturacion-caja-kike-fixed-icons">
-      <a
-        href="{% url 'export_facturas_excel' %}"
-        title="Descargar Excel"
-        class="export-excel-button"
-      >
-        <i class="fa fa-file-excel"></i>
-      </a>
+      <button class="btn-export-facturas" onclick="location.href='{% url 'export_facturas_excel' %}'" title="Descargar Excel">
+        <i class="fa fa-file-excel"></i> Descargar Excel
+      </button>
     </div>
     <div class="facturacion-caja-kike-search-box">
       <input
@@ -41,7 +46,6 @@
         <th>I.V.A</th>
         <th>Total</th>
         <th>Estado de La Factura</th>
-        <th>Tipo de Pago</th>
         </tr>
     </thead>
     <tbody>
@@ -57,7 +61,6 @@
         <td>₡{{ factura.iva }}</td>
         <td>₡{{ factura.total }}</td>
         <td>{{ factura.estado_factura }}</td>
-        <td>{{ factura.tipo_pago }}</td>
         
       </tr>
       {% endfor %}
@@ -185,6 +188,7 @@
              prevPageBtn.disabled = page === 1;
              nextPageBtn.disabled = page === totalPages;
          }
+        });
 </script>
 
 {% endblock %}

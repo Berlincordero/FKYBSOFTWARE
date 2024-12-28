@@ -6,11 +6,10 @@ class Producto(models.Model):
     cantidad = models.PositiveIntegerField()
     descripcion = models.TextField(null=True, blank=True)
     codigo_cabys = models.CharField(max_length=20)
-    moneda = models.CharField(max_length=10, choices=[('CRC', 'Colones'), ('USD', 'Dólares')])
+    moneda = models.CharField(max_length=10, choices=[('CRC', 'Colones'), ('USD', 'Dólares'), ('EUR', 'Euros')])
     precio_costo = models.DecimalField(max_digits=10, decimal_places=2)
-    precio_venta = models.DecimalField(max_digits=10, decimal_places=2)
-    descuento = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    clasificacion = models.CharField(max_length=50)
+    precio_venta = models.DecimalField(max_digits=10, decimal_places=2) 
+    clasificacion = models.CharField(max_length=50,choices=[('Materiales', 'Materiales'),('Herramientas', 'Herramientas'),('Pinturas', 'Pinturas'),('Solventes', 'Solventes'),('Maderas', 'Maderas'),('Aceros', 'Aceros'),('Plásticos', 'Plásticos'),('Otros', 'Otros')])
     activo = models.BooleanField(default=True) 
     
 

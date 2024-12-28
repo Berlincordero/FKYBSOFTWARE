@@ -23,4 +23,5 @@ urlpatterns = [
     path('Proveedores/', include('Proveedores.urls')),  # Ruta para las URLs de la app Proveedores
     path('Orden_de_compra/', include('Orden_de_compra.urls')),  # Ruta para las URLs de la app Orden_de_compra
     path('clientes/', include('Clientes.urls')),
+    path('hacienda/', include('hacienda_api.urls')),
 ]

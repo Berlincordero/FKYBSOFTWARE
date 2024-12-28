@@ -561,13 +561,13 @@
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.2s ease; /* Transición suave del hover */
-    line-height: 1.4; /* Un poco más de altura de línea para legibilidad */
+    line-height: 2.4; /* Un poco más de altura de línea para legibilidad */
     word-wrap: break-word; /* Permite que el texto se ajuste a la línea */
     white-space: normal; /* Evita que el texto se corte en una sola línea */
 }
 
 .suggestions li:hover {
-    background: #f0f0f0; /* Color suave al hacer hover */
+    background:rgb(214, 244, 197); /* Color suave al hacer hover */
 }
 
 
@@ -780,6 +780,19 @@
     border-color: #f5c6cb;
 }
 
+.config-menu, .user-menu, .help-menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    width: 400px;
+    z-index: 1;
+}
+
 
      </style>
  </head>
@@ -817,7 +830,7 @@
                 </div>
                 <div class="icon-item" onclick="toggleConfigMenu()">
                     <i class="fas fa-cog" title="Configuración"></i>
-                    <span><strong>Configuración</strong></span>
+                    <span><strong>Opciones</strong></span>
                 </div>
                 <div class="icon-item" onclick="toggleUserMenu()">
                     <i class="fas fa-user" title="Clientes"></i>
@@ -863,11 +876,17 @@
                         <th>FECHA</th>
                         <th>NUMERO FACTURA</th>
                         <th>CLIENTE</th>
+                        <th>TIPO IDENTIFICACIÓN</th>
+                        <th>REGIMEN</th>
+                        <th>SITUACION TRIBUTARIA</th>
                     </tr>
                     <tr>
                         <td><span id="fechaHoraFactura">{{ fecha_hora_actual }}</span></td>
                         <td><span id="numeroFactura">{{ numero_factura }}</span></td>
                         <td><span id="clienteSeleccionado">Selecciona un cliente</span></td>
+                        <td><span id="tipoIdentificacion">Selecciona un cliente</span></td>
+                        <td><span id="regimen">selecciona un cliente</span></td>
+                        <td><span id="situacionTributaria">Selecciona un cliente</span></td>
                     </tr>
                     
                 </table>
@@ -876,13 +895,13 @@
             <div class="invoice-table">
                 <table class="invoice-details" id="invoiceTable">
                     <tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Cantidad</th>
-                        <th>Precio de Venta</th>
-                        <th>Subtotal</th>
-                        <th>Acciones</th>
+                        <th>CÓDIGO</th>
+                        <th>NOMBRE</th>
+                        <th>DESCRIPCIÓN</th>
+                        <th>CANTIDAD</th>
+                        <th>PRECIO DE VENTA</th>
+                        <th>SUBTOTAL</th>
+                        <th>ACCIONES</th>
                     </tr>
                   
                 </table>
@@ -1023,18 +1042,17 @@
             
         </div>
 
-        <!-- Menú de usuario -->
         <div id="userMenu" class="user-menu">
             <span class="close-btn" onclick="toggleUserMenu()">&times;</span>
-            <h2>Buscar cliente</h2>
+            <h2>Buscar cliente Ingrese el numero de cedula sin espacios</h2>
             <div class="search-bar">
                 <input 
                     type="text" 
                     id="buscarCliente" 
-                    placeholder="Ingrese el nombre del cliente..." 
-                    onkeyup="buscarCliente()"
+                    placeholder="Ingrese la cédula del cliente..."
                 >
-
+                <!-- Agrega un botón de búsqueda -->
+                <button type="button" onclick="buscarClienteApi()">Buscar</button>
             </div>
             <ul id="resultadosBusqueda" class="suggestions"></ul>
         </div>
@@ -1067,10 +1085,20 @@
                 <span>Instrucciones de uso:</span>
             </div>
             <div class="menu-item">
-                <span>1. Busque un producto para agregarlo</span>
+                <span>Hola Usuari(a) Siga las Instrucciones para empezar a usar la caja registradora, tambien si tienes alguna duda
+                      !!!Importante!! nunca deje la caja abierta si va a cerrar o salirse del sistema sino la caja queda abierta y no se puede usar esto es una medida de seguridad </span>
             </div>
             <div class="menu-item">
-                <span>2. si aplicas el precierre este generara el cierre en fisico y el cierre automatico de la caja registradore</span>
+                <span>1. El sistema estara bloqueado todas las funciones de la caja en este caso hasta que se inicie en este caso se abra la caja</span>
+            </div>
+            <div class="menu-item">
+                <span>2. Para iniciar el sistema de la caja se necesita el codigo de seguridad independiente del rol con que entre  o este registrado en el sistema vaya a opciones /abrir caja/</span>
+            </div>
+            <div class="menu-item">
+                <span>3. el sistema esta lo mas automatizado posible para que sea de facil uso las funciones estan formuladas con parametros especificos y formulas descritas en encabezado del campo en este caso del precierre </span>
+            </div>
+            <div class="menu-item">
+                <span>4. Cuando se aplica el precierre de caja el cual cuenta con codigo de seguridad tambien  el sistema se cerrara y bloqueara de inmediato hasta que se haga de nuevo la apertura o inicio dando por fin el turno</span>
             </div>
         </div>
     
@@ -1104,29 +1132,29 @@
 
             <!-- Campos de Movimiento de Dinero -->
             <div class="info">
-                <p>Impuestos: <input type="number" name="impuestos" step="0.01" value="{{ impuestos_acumulados|default:"0.00" }}"></p>
+                <p>Impuestos Recaudados(13% I.V.A incluye todos los metodos de pagos en el sistema): <input type="number" name="impuestos" step="0.01" value="{{ impuestos_acumulados|default:"0.00" }}"></p>
             </div>
             <div class="info">
                 <p>Efectivo: <input type="number" name="efectivo" step="0.01" value="{{ efectivo_acumulado|default:"0.00" }}"></p>
             </div>
             <div class="info">
-                <p>Facturas proveedor: <input type="number" name="facturas_proveedor" value="{{ facturas_proveedor_acumulado|default:"0" }}"></p>
+                <p>Facturas proveedor = Facturas Pagadas de la Caja registradora a Proveedores: <input type="number" name="facturas_proveedor" value="{{ facturas_proveedor_acumulado|default:"0" }}"></p>
             </div>
             <div class="info">
-                <p>Tarjetas: <input type="number" name="tarjetas" step="0.01" value="{{ tarjetas_acumulado|default:"0.00" }}"></p>
+                <p>Pagos en Tarjetas: <input type="number" name="tarjetas" step="0.01" value="{{ tarjetas_acumulado|default:"0.00" }}"></p>
             </div>
             <div class="info">
-                <p>Simpe móvil: <input type="number" name="simpe_movil" step="0.01" value="{{ simpe_movil_acumulado|default:"0.00" }}"></p>
+                <p>Pagos por Simpe móvil(incluye el 13% I.V.A): <input type="number" name="simpe_movil" step="0.01" value="{{ simpe_movil_acumulado|default:"0.00" }}"></p>
             </div>
             <div class="info">
-                <p>Venta crédito: <input type="number" name="venta_credito" step="0.01" value="{{ venta_credito_acumulado|default:"0.00" }}"></p>
+                <p>Ventas a  crédito(se suma al total de ventas pero no al total de efectivo): <input type="number" name="venta_credito" step="0.01" value="{{ venta_credito_acumulado|default:"0.00" }}"></p>
             </div>
             <div class="info">
-            <p>Movimientos: <input type="number" name="movimientos" step="0.01" value="{{ total_movimientos }}"></p>
+            <p>Movimientos de Dinero (Retiros): <input type="number" name="movimientos" step="0.01" value="{{ total_movimientos }}"></p>
             </div>
 
             <!-- Tabla de Movimientos -->
-            <label for="Movimiento-dinero">Movimiento de dinero</label>
+            <label for="Movimiento-dinero">Retiros de dinero</label>
             <div class="invoice-info">
                 <table class="invoice-details" id="tablaMovimientos">
                     <thead>
@@ -1148,21 +1176,18 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                <p>Total de todos los movimientos: {{ total_movimientos }} CRC</p>
+                <p>Total de todos los movimientos(Retiros de dinero en el sistema): {{ total_movimientos }} CRC</p>
                 <div class="info">
-                    <p>Total ventas: <input type="number" name="total_ventas" step="0.01" value="{{ total_ventas|default:"0.00" }}"></p>
+                    <p>Total ventas  = (efectivo acumulado + tarjetas acumulado + simpe movil acumulado + venta credito acumulado  - facturas proveedor acumulado): <input type="number" name="total_ventas" step="0.01" value="{{ total_ventas|default:"0.00" }}"></p>
                 </div>
                 <div class="info">
                     <p>Cantidad facturas: <input type="number" name="cantidad_facturas" value="{{ cantidad_facturas|default:"0" }}"></p>
                 </div>
                 <div class="info">
-                    <p>Conteo efectivo: <input type="number" name="conteo_efectivo" step="0.01" value="{{ conteo_efectivo|default:"0.00" }}"></p>
+                    <p>Conteo efectivo = Efectivo en Caja - Facturas Proveedor - ventas a credito:<input type="number" name="conteo_efectivo" step="0.01" value="{{ conteo_efectivo|default:"0.00" }}"></p>
                 </div>
                 <div class="info">
-                    <p>Conteo de Tarjetas: <input type="number" name="conteo_tarjetas_display" step="0.01" value="{{ conteo_tarjetas|default:"0.00" }}"></p>
-                </div>
-                <div class="info">
-                    <p>Contado efectivo: <input type="number" name="contado_efectivo" step="0.01" value="0.00"></p>
+                    <p>Contado efectivo en la caja : <input type="number" name="contado_efectivo" step="0.01" value="0.00"></p>
                 </div>
                 <div class="info">
                     <p>Contado tarjetas: <input type="number" name="contado_tarjetas" step="0.01" value="0.00"></p>
@@ -1205,8 +1230,8 @@
             <label for="fechaHoraMovimiento">Fecha y Hora:</label>
             <input type="datetime-local" id="fechaHoraMovimiento" name="fechaHora" required>
 
-            <label for="usuarioMovimiento">Usuario:</label>
-            <input type="text" id="usuarioMovimiento" name="usuario" placeholder="Usuario" required>
+            <label for="usuarioMovimiento">Administrador o Encargado:</label>
+            <input type="text" id="usuarioMovimiento" name="usuario" placeholder="Administrador o Encargado" required>
 
             <label for="notaMovimiento">Nota:</label>
             <textarea id="notaMovimiento" name="nota" placeholder="Nota"></textarea>
@@ -1449,75 +1474,52 @@
             // Aquí también puedes actualizar el resumen general, como el subtotal, IVA y total.
         }
         
-        function buscarCliente() {
-            const query = document.getElementById('buscarCliente').value;
+        function buscarClienteApi() {
+            const cedula = document.getElementById('buscarCliente').value.trim();
             const resultados = document.getElementById('resultadosBusqueda');
-        
-            if (query.length < 2) {
-                resultados.innerHTML = ''; // Limpia las sugerencias si el término es corto
-                return;
+          
+            // 1. Limpiar resultados anteriores
+            resultados.innerHTML = '';
+          
+            // 2. Validar longitud o formato de la cédula si lo deseas
+            if (cedula.length < 7) {
+              resultados.innerHTML = '<li>Ingresa al menos 7 dígitos para la cédula.</li>';
+              return;
             }
-        
-            // Realiza una solicitud GET al backend
-            fetch(`/clientes/buscar-clientes/?q=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    resultados.innerHTML = ''; // Limpia las sugerencias previas
-        
-                    if (data.length > 0) {
-                        data.forEach(cliente => {
-                            const li = document.createElement('li');
-                            li.textContent = `${cliente.nombre} ${cliente.primer_apellido} ${cliente.segundo_apellido}`;
-                            li.onclick = () => seleccionarCliente(cliente.id, cliente.nombre, cliente.primer_apellido, cliente.segundo_apellido);
-                            resultados.appendChild(li);
-                        });
-                    } else {
-                        resultados.innerHTML = '<li>No se encontraron resultados</li>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    resultados.innerHTML = '<li>Error en la búsqueda</li>';
-                });
-        }
-        
-        function seleccionarCliente(id, nombre, primer_apellido, segundo_apellido) {
-            const clienteCompleto = `${nombre} ${primer_apellido} ${segundo_apellido}`;
-
-            // Actualizar el valor en el campo CLIENTE de la tabla
-            document.getElementById('clienteSeleccionado').textContent = clienteCompleto;
-
-            // Mostrar notificación personalizada
-            mostrarNotificacion(`Cliente seleccionado: ${clienteCompleto}`);
-        }
-
-        function mostrarNotificacion(mensaje) {
-            const notification = document.getElementById('notification');
-            notification.textContent = mensaje;
-
-            // Agregar botón de cierre
-            const closeBtn = document.createElement('button');
-            closeBtn.classList.add('close-btn');
-            closeBtn.textContent = '×';
-            closeBtn.onclick = () => cerrarNotificacion();
-            notification.appendChild(closeBtn);
-
-            // Mostrar notificación
-            notification.classList.remove('hidden');
-            notification.classList.add('visible');
-
-            // Ocultar automáticamente después de 3 segundos
-            setTimeout(() => {
-                cerrarNotificacion();
-            }, 3000);
-        }
-
-        function cerrarNotificacion() {
-            const notification = document.getElementById('notification');
-            notification.classList.remove('visible');
-            notification.classList.add('hidden');
-            notification.innerHTML = ''; // Limpiar el contenido para evitar duplicados
-        }
+          
+            // 3. Llamar a la API de Hacienda
+            fetch(`https://api.hacienda.go.cr/fe/ae?identificacion=${cedula}`)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error(`Error al consultar Hacienda: ${response.status}`);
+                }
+                return response.json();
+              })
+              .then(data => {
+                if (!data.nombre) {
+                  resultados.innerHTML = '<li>No se encontró información para esta cédula.</li>';
+                  return;
+                }
+                // Extraer datos
+                const nombre = data.nombre;
+                const tipoIdentificacion = data.tipoIdentificacion || 'No disponible';
+                const regimen = data.regimen?.descripcion || 'No disponible';
+                const situacion = data.situacion?.estado || 'No disponible';
+          
+                // Rellenar campos de la factura (encabezado)
+                document.getElementById('clienteSeleccionado').textContent = nombre;
+                document.getElementById('tipoIdentificacion').textContent = tipoIdentificacion;
+                document.getElementById('regimen').textContent = regimen;
+                document.getElementById('situacionTributaria').textContent = situacion;
+          
+                // Mostrar un mensaje informativo en el UL (opcional)
+                resultados.innerHTML = `<li>Cliente encontrado: ${nombre}</li>`;
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                resultados.innerHTML = `<li>Error: ${error.message}</li>`;
+              });
+          }
 
     /////////////////////////////////////////////////////////////////////////////////////////
     

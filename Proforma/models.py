@@ -5,6 +5,9 @@ class Proforma(models.Model):
     fecha = models.DateField(auto_now_add=True)
     moneda = models.CharField(max_length=10, choices=[('CRC', 'Colones'), ('USD', 'Dólares')])
     cliente = models.CharField(max_length=100)
+    tipo_identificacion = models.CharField(max_length=10, null=True, blank=True)  # Nuevo campo
+    regimen = models.CharField(max_length=100, null=True, blank=True)  # Nuevo campo
+    situacion = models.CharField(max_length=100, null=True, blank=True)  # Nuevo campo
     codigo_actividad_economica = models.CharField(max_length=10, choices=[('regular', 'Regular'), ('especial', 'Especial' ), ('exento', 'Exento')])
     medio_pago = models.CharField(max_length=100, choices=[('efectivo', 'Efectivo'), ('tarjeta', 'Tarjeta'), ('transferencia', 'Transferencia'), 
                                                            ('cheque', 'Cheque'), ('deposito', 'Deposito'), ('otros', 'Otros')])

@@ -3,23 +3,18 @@
 {% block content %}
 
 <style>
-    .facturacion-caja-shampoo-container {
-        width: 80%;
-        margin: 20px auto;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
+    
     .facturacion-caja-shampoo-header {
         display: flex;
+        width: 80%;
+        margin: 0 auto;
         justify-content: space-between;
         align-items: center;
-        background-color: #fff;
+        background-color: #e0f0ff;
         border-radius: 10px;
         padding: 10px 20px;
-        margin-bottom: 20px;
+        margin-top: 20px;
+        margin-bottom: 70px;
     }
 
     .facturacion-caja-shampoo-header h1 {
@@ -54,7 +49,7 @@
         border-radius: 5px;
         color: #fff;
         cursor: pointer;
-        margin-right: 5px;
+        margin-left: 565px;
     }
 
     .facturacion-caja-shampoo-table-container {
@@ -172,11 +167,10 @@
             Facturación - Precierres
         </h1>
         <div class="facturacion-caja-shampoo-fixed-icons">
-            <!-- Cambiado de <button> a <a> -->
-            <a href="{% url 'export_precierres_excel' %}" title="Descargar" class="export-excel-button">
-                <i class="fa fa-file-excel"></i>
-            </a>
-        </div>
+            <button class="btn-export-excel" onclick="location.href='{% url 'export_precierres_excel' %}'" title="Descargar">
+              <i class="fa fa-file-excel"></i> Descargar Excel
+            </button>
+          </div>
         <div class="facturacion-caja-shampoo-search-box">
             <input type="text" id="search-input" placeholder="Buscar por Fecha (YYYY-MM-DD)" />
            

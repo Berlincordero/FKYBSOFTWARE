@@ -920,23 +920,15 @@ h2 {
 
 /***************************************************************************************************************************/
 
-.facturacion-caja-kike-container {
-    width: 80%;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
 .facturacion-caja-kike-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fff;
+    background-color: #e0f0ff;
     border-radius: 10px;
     padding: 10px 20px;
-    margin-bottom: 20px;
+    margin-bottom: 100px;
 }
 
 .facturacion-caja-kike-header h1 {
@@ -1000,6 +992,7 @@ h2 {
 .facturacion-caja-kike-table {
     width: 90%;
     margin: 20px auto;
+    margin-top: 55;
     border-collapse: collapse;
 }
 
@@ -1120,7 +1113,28 @@ h2 {
     font-size: 16px;
 }
 
-
+/* Botón de Descargar Facturas en Excel */
+.btn-export-facturas {
+    background-color: #007bff; /* Color azul */
+    color: #fff; /* Texto blanco */
+    border: none; /* Sin borde */
+    padding: 10px 20px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    display: inline-flex; /* Alinear icono y texto */
+    align-items: center; /* Centrar verticalmente */
+    font-size: 14px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-export-facturas i {
+    margin-right: 8px; /* Espacio entre el ícono y el texto */
+    font-size: 16px; /* Tamaño del ícono */
+  }
+  
+  .btn-export-facturas:hover {
+    background-color: #0056b3; /* Azul más oscuro */
+  }
 
 
 /**********************************************************************************************************************/

@@ -46,9 +46,31 @@
         color: red;
       }
       .nav-button {
-        position: relative;
+        
+        color: orange; /* Texto blanco */
+        border: none; /* Sin borde */
+        padding: 10px 20px; /* Espaciado interno */
+        border-radius: 5px; /* Bordes redondeados */
+        display: inline-flex; /* Alinear contenido en línea */
+        align-items: center; /* Centrar verticalmente */
+        font-size: 24px; /* Tamaño de fuente */
+        cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+        transition: background-color 0.3s ease;
       }
-
+      
+      .nav-button:hover {
+        background-color: #0056b3; /* Azul más oscuro */
+      }
+      
+      .icon-text {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px; /* Espacio entre el ícono y el texto */
+      }
+      
+      .icon-text i {
+        font-size: 40px; /* Tamaño del ícono */
+      }
       .submenu {
         display: none;
         position: absolute;
@@ -74,10 +96,7 @@
         margin-right: 8px;
       }
 
-      .submenu-item:hover {
-        background-color: #9ec3eb; /* Color azul para el hover */
-        color: #fff; /* Cambia el color del texto a blanco para mejor legibilidad */
-      }
+    
 
       #cargar-icono {
         position: center; /* Posición relativa para el ícono */
@@ -227,6 +246,16 @@
         margin-top: 10px; /* Espacio arriba */
       }
 
+      .pagination button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    .pagination span {
+        font-size: 16px;
+    }
+
+
       /* Cambiar color al pasar el mouse */
       .pagination button:hover {
         background-color: #e0a800; /* Color de fondo al pasar el mouse */
@@ -294,6 +323,59 @@
       tbody td:hover {
         background-color: #efc737; /* Celda en hover */
       }
+      .btn-export-excel {
+        background-color: #007bff; /* Color azul */
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-right: 10px; /* Espacio entre botones */
+        margin-left: 575px; /* Espacio entre botones */
+      }
+      
+      .btn-export-excel i {
+        margin-right: 8px;
+      }
+      
+      .btn-export-excel:hover {
+        background-color: #0056b3; /* Azul más oscuro */
+      }
+      
+      /* Botón de Imprimir PDF */
+      .btn-print-pdf {
+        background-color: #28a745; /* Color verde */
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      
+      .btn-print-pdf i {
+        margin-right: 8px;
+      }
+      
+      .btn-print-pdf:hover {
+        background-color: #1e7e34; /* Verde más oscuro */
+      }
+
+      .form-group input, .form-group select, .form-group textarea {
+        padding: 10px;
+        font-size: 18px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+        transition: border-color 0.3s;
+    }
       
     </style>
   </head>
@@ -302,23 +384,18 @@
       <div class="header">
         <div class="nav-buttons">
           <button type="button" class="nav-button">
-            <span class="icon"><i class="fas fa-box"></i></span>
-            <span class="text">MIS PRODUCTOS</span>
+            <span class="icon-text">
+              <i class="fas fa-box"></i> MIS PRODUCTOS
+            </span>
           </button>
-          <button type="button" class="nav-button">
-            <span class="icon">&#8645;</span>
-            <span class="text">INVENTARIO</span>
-            <div class="submenu">
-              <div class="submenu-item">
-                <i class="fas fa-print" id="imprimir-icono" style="cursor: pointer;" onclick="imprimirTabla()"></i>
-              </div>
-              <div class="submenu-item">
-                <a href="{% url 'exportar_productos_excel' %}">
-                  <i class="fas fa-download"></i> Descargar Excel
-                </a>
-              </div>
-            </div>
-          </button>
+          <div class="submenu-item">
+            <button class="btn-export-excel" onclick="location.href='{% url 'exportar_productos_excel' %}'">
+              <i class="fas fa-download"></i> Descargar Excel
+            </button>
+            <button class="btn-print-pdf" onclick="imprimirTabla()">
+              <i class="fas fa-print"></i> Imprimir PDF
+            </button>
+          </div>
         </div>
 
         <!-- Campo para filtrar productos (el lector láser se comporta como teclado) -->
@@ -355,7 +432,7 @@
           {% for producto in productos %}
           <tr>
             <td>{{ producto.nombre }}</td>
-            <td>{{ producto.cantidad }}</td>
+            <td><strong>{{ producto.cantidad }}</strong></td>
             <td>{{ producto.descripcion }}</td>
             <td>{{ producto.codigo_cabys }}</td>
 
@@ -414,13 +491,7 @@
               </form>
 
               <!-- Botón para Imprimir Código (sin margen extra) -->
-              <button
-                type="button"
-                class="btn btn-sm btn-secondary"
-                onclick="imprimirCodigoBarras('{{ producto.codigo_cabys }}')"
-              >
-                Imprimir Código
-              </button>
+              
             </td>
           </tr>
           {% empty %}
@@ -449,16 +520,16 @@
         <span style="color: red; font-size: 34px;">
           &#9888;
         </span>
-        Alertas De Inventario
+        Notificaciones de Cantidades
       </h3>
       <div style="display: flex; gap: 10px; align-items: center;">
         <div style="display: flex; align-items: center;">
-          <span style="display: inline-block; width: 16px; height: 15px; background-color: #ff4d4d; border-radius: 50%; margin-right: 5px;"></span>
-          Bajo
+          <span style="display: inline-block; width: 30px; height: 25px; background-color: #ff4d4d; border-radius: 50%; margin-right: 5px;"></span>
+          <strong>Bajo</strong>
         </div>
         <div style="display: flex; align-items: center;">
-          <span style="display: inline-block; width: 16px; height: 15px; background-color: #4dff4d; border-radius: 50%; margin-right: 5px;"></span>
-          Normal
+          <span style="display: inline-block; width: 30px; height: 25px; background-color: #4dff4d; border-radius: 50%; margin-right: 5px;"></span>
+          <strong>Normal</strong>
         </div>
       </div>
     </div>
@@ -491,7 +562,7 @@
                       <input type="text" id="descripcionProducto" class="form-control" name="descripcionProducto"/>
                     </div> 
                     <div class="form-group">
-                      <label for="codigoCABYS">Código CABYS</label>
+                      <label for="codigoCABYS">Código </label>
                       <input type="text" id="codigoCABYS" class="form-control" name="codigoCABYS"/>
                     </div>
 
@@ -509,7 +580,11 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="monedaProducto">Moneda</label>
-                      <input type="text" id="monedaProducto" class="form-control" name="monedaProducto"/>
+                      <select id="monedaProducto" class="form-control" name="monedaProducto">
+                        <option value="CRC">Colones</option>
+                        <option value="USD">Dólares</option>
+                        <option value="EUR">Euros</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="precioCosto">Precio del Costo</label>
@@ -521,16 +596,32 @@
                     </div>
                     <div class="form-group">
                       <label for="descuentoProducto">Descuento</label>
-                      <input type="number" id="descuentoProducto" class="form-control" name="descuentoProducto"/>
+                      <select id="descuentoProducto" class="form-control" name="descuentoProducto">
+                        <option value="0">0%</option>
+                        <option value="5">5%</option>
+                        <option value="10">10%</option>
+                        <option value="15">15%</option>
+                        <option value="20">20%</option>
+                        <option value="30">30%</option>
+                        <option value="50">50%</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="clasificacionProducto">Clasificación</label>
-                      <input type="text" id="clasificacionProducto" class="form-control" name="clasificacionProducto"/>
+                      <select id="clasificacionProducto" class="form-control" name="clasificacionProducto">
+                        <option value="Materiales">Materiales</option>
+                        <option value="Herramientas">Herramientas</option>
+                        <option value="Pinturas">Pinturas</option>
+                        <option value="Solventes">Solventes</option>
+                        <option value="Maderas">Maderas</option>
+                        <option value="Aceros">Aceros</option>
+                        <option value="Plasticos">Plásticos</option>
+                        <option value="Otros">Otros</option>
+                      </select>
                     </div>
-                  </div>
+                    
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                   <button type="submit" class="btn btn-primary">Guardar</button>
                 </div>
                   </form>
@@ -609,7 +700,6 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                   <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 </div>
                   </form>
@@ -797,34 +887,7 @@
         }
       }
 
-      // FUNCIÓN NUEVA: Imprimir código de barras sin previsualizar
-      function imprimirCodigoBarras(codigoCABYS) {
-        const nuevaVentana = window.open('', '_blank', 'width=400,height=300');
-        nuevaVentana.document.write(`
-          <html>
-            <head>
-              <title>Imprimir Código</title>
-              <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-            </head>
-            <body>
-              <svg id="barcode"></svg>
-              <script>
-                window.onload = function() {
-                  JsBarcode("#barcode", "${codigoCABYS}", {
-                    format: "CODE128",
-                    width: 2,
-                    height: 40,
-                    displayValue: true
-                  });
-                  window.print();
-                  window.close();
-                }
-              <\/script>
-            </body>
-          </html>
-        `);
-        nuevaVentana.document.close();
-      }
+      
     </script>
   </body>
 </html>

@@ -32,7 +32,6 @@ def editar_producto(request):
         producto.moneda = request.POST.get('monedaProducto')  
         producto.precio_costo = request.POST.get('precioCosto') 
         producto.precio_venta = request.POST.get('precioVenta')  
-        producto.descuento = request.POST.get('descuentoProducto') 
         producto.clasificacion = request.POST.get('clasificacionProducto')  
 
         producto.save()
@@ -50,7 +49,6 @@ def crear_producto(request):
         moneda = request.POST.get('monedaProducto')
         precio_costo = request.POST.get('precioCosto')
         precio_venta = request.POST.get('precioVenta')
-        descuento = request.POST.get('descuentoProducto')
         clasificacion = request.POST.get('clasificacionProducto')
         
         # Crear el nuevo producto
@@ -62,7 +60,6 @@ def crear_producto(request):
             moneda=moneda,
             precio_costo=precio_costo,
             precio_venta=precio_venta,
-            descuento=descuento,
             clasificacion=clasificacion
         )
         producto.save()
@@ -98,8 +95,7 @@ def exportar_productos_excel(request):
     # Añadir encabezados
     headers = [
         'Nombre', 'Cantidad','Descripción', 'Código CABYS', 
-        'Moneda', 'Precio del Costo', 'Precio de Venta', 'Descuento', 
-        'Clasificación'
+        'Moneda', 'Precio del Costo', 'Precio de Venta','Clasificación'
     ]
     ws.append(headers)
 
@@ -120,7 +116,6 @@ def exportar_productos_excel(request):
                 producto.moneda or '',
                 producto.precio_costo or 0.0,
                 producto.precio_venta or 0.0,
-                producto.descuento or 0,
                 producto.clasificacion or '',
                 
             ])

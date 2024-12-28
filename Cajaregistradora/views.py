@@ -117,7 +117,7 @@ def Cajaregistradora_view(request):
 
         # Conteo efectivo = Efectivo Acumulado - Movimientos - Facturas Proveedor
         # Todas las variables son Decimal, así que no hay problema de tipos
-        conteo_efectivo = efectivo_acumulado - total_movimientos - facturas_proveedor_acumulado
+        conteo_efectivo = efectivo_acumulado - total_movimientos - facturas_proveedor_acumulado - venta_credito_acumulado
 
     context = {
         'terminal': terminal,
@@ -206,7 +206,7 @@ def abrir_caja_view(request):
         monto_inicial = Decimal(monto_inicial_str)
 
         # Validar el código de seguridad
-        codigo_correcto = "1234"  # Reemplaza esto con el código real o lógica de validación
+        codigo_correcto = "KIK301"  # Reemplaza esto con el código real o lógica de validación
         if codigo_seguridad != codigo_correcto:
             # Si el código es incorrecto, añadir un mensaje de error
             messages.error(request, 'Código de seguridad incorrecto. No se puede abrir la caja.')
@@ -250,7 +250,7 @@ def guardar_movimiento_dinero(request):
             codigo_seguridad = request.POST.get('codigo_seguridad')  # Obtener la clave de seguridad
 
             # Validar el código de seguridad
-            codigo_correcto = "1234"  # Cambia esto a la clave que deseas validar
+            codigo_correcto = "KIK301"  # Cambia esto a la clave que deseas validar
             if codigo_seguridad != codigo_correcto:
                 # Si la clave es incorrecta, mostrar mensaje de error y detener la operación
                 messages.error(request, 'Código de seguridad incorrecto. No se puede realizar el movimiento.')
@@ -311,7 +311,7 @@ def guardar_precierre(request):
             codigo_seguridad = datos.get('codigo_seguridad')
 
             # Validar el código de seguridad
-            codigo_correcto = "1234"  # Reemplaza esto con tu lógica de validación real
+            codigo_correcto = "KIK301"  # Reemplaza esto con tu lógica de validación real
             if codigo_seguridad != codigo_correcto:
                 return JsonResponse({'success': False, 'message': 'Código de seguridad incorrecto.'}, status=403)
 
@@ -372,3 +372,7 @@ def verificar_caja_abierta(request):
             return JsonResponse({'abierta': False})
     else:
         return JsonResponse({'abierta': False})
+    
+    
+    
+#Este Codigo esta estructurado por Berlin Cordero Brenes derecho de autor 2024 
