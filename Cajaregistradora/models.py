@@ -16,7 +16,7 @@ class AperturaCaja(models.Model):
 class Factura(models.Model):
     apertura_caja = models.ForeignKey(AperturaCaja, on_delete=models.SET_NULL, null=True, blank=True, related_name='facturas')
     fecha = models.DateTimeField(auto_now_add=True)
-    numero_factura = models.CharField(max_length=100, unique=True, blank=True)
+    numero_factura = models.CharField(max_length=100, blank=True)
     cliente = models.CharField(max_length=100, blank=True, null=True)
     tipo_identificacion = models.CharField(max_length=10, blank=True, null=True)
     regimen = models.CharField(max_length=100, blank=True, null=True)

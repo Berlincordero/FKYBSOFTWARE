@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 
 <style>
+
   .facturacion-caja-kike-fixed-icons button {
     background-color: #56df75;
     color: #3163f9;
@@ -36,16 +37,16 @@
   <table class="facturacion-caja-kike-table" id="facturas-table">
     <thead>
       <tr>
-        <th>Fecha</th>
-        <th>Numero Factura</th>
-        <th>Cliente</th>
-        <th>Codigo</th>
-        <th>Descripcion</th>
-        <th>Cantidad</th>
-        <th>Precio Venta</th>
-        <th>I.V.A</th>
-        <th>Total</th>
-        <th>Estado de La Factura</th>
+        <tr>
+          <th>Fecha</th>
+          <th>Número Factura</th>
+          <th>Cliente</th>
+          <th>Códigos</th>
+          <th>Descripciones</th>
+          <th>Cantidades</th>
+          <th>Precios Venta</th>
+          <th>I.V.A (13%)</th>
+          <th>Total</th>
         </tr>
     </thead>
     <tbody>
@@ -54,16 +55,14 @@
         <td>{{ factura.fecha }}</td>
         <td>{{ factura.numero_factura }}</td>
         <td>{{ factura.cliente }}</td>
-        <td>{{ factura.codigo }}</td>
-        <td>{{ factura.descripcion }}</td>
-        <td>{{ factura.cantidad }}</td>
-        <td>₡{{ factura.precio_venta }}</td>
-        <td>₡{{ factura.iva }}</td>
-        <td>₡{{ factura.total }}</td>
-        <td>{{ factura.estado_factura }}</td>
-        
+        <td>{{ factura.codigos }}</td>
+        <td>{{ factura.descripciones }}</td>
+        <td>{{ factura.cantidades }}</td>
+        <td>{{ factura.precios_venta }}</td>
+        <td>₡{{ factura.iva_total }}</td>
+        <td>₡{{ factura.total_final }}</td>
       </tr>
-      {% endfor %}
+    {% endfor %}
     </tbody>
   </table>
 </div>

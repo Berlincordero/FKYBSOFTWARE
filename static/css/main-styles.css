@@ -995,9 +995,12 @@ h2 {
 
 .facturacion-caja-kike-table {
     width: 90%;
-    margin-top: 55%;
+    /* Eliminamos margin-top: 55% que comprimía la tabla hacia abajo */
+    margin-top: 0;            
     margin: 20px auto;
     border-collapse: collapse;
+    /* Opcional: para que las columnas conserven un ancho más estable */
+    table-layout: fixed;      
 }
 
 .facturacion-caja-kike-table th,
@@ -1005,6 +1008,12 @@ h2 {
     border: 1px solid #95defd;
     padding: 8px;
     text-align: left;
+
+    /* Hace que las celdas crezcan verticalmente 
+       y permita el salto de línea en textos largos */
+    vertical-align: top;      
+    white-space: pre-wrap;    
+    word-wrap: break-word;     
 }
 
 .facturacion-caja-kike-table th {

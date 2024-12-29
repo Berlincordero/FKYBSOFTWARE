@@ -3,19 +3,78 @@ from Cajaregistradora.models import Factura
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.utils.timezone import now
 from Cajaregistradora.models import PreCierre
 import pandas as pd
 import openpyxl
-
+from django.db.models import Sum
+from decimal import Decimal
 
 def facturacion(request):
-    facturas = Factura.objects.all()  # Obtener todas las facturas
-    context = {"facturas": facturas}
+    # 1. Obtenemos todas las facturas ordenadas
+    qs_facturas = Factura.objects.all().order_by('numero_factura', 'fecha')
+
+    # 2. Estructura para agrupar
+    facturas_agrupadas = {}
+
+    for f in qs_facturas:
+        key = (f.numero_factura, f.fecha.date()) 
+        # ^ Puede ser solo f.numero_factura si no necesitas agrupar por fecha
+
+        if key not in facturas_agrupadas:
+            facturas_agrupadas[key] = {
+                'fecha': f.fecha,
+                'numero_factura': f.numero_factura,
+                'cliente': f.cliente,
+                'estado_factura': f.estado_factura,
+                'codigos_str': [],
+                'descripciones_str': [],
+                'cantidades_str': [],
+                'precios_str': [],
+                'iva_total': Decimal('0.00'),
+                'total_final': Decimal('0.00')
+            }
+
+        # Concatenamos la info de cada ítem para esa factura
+        facturas_agrupadas[key]['codigos_str'].append(str(f.codigo))
+        facturas_agrupadas[key]['descripciones_str'].append(f.descripcion)
+        facturas_agrupadas[key]['cantidades_str'].append(str(f.cantidad))
+        facturas_agrupadas[key]['precios_str'].append(str(f.precio_venta))
+
+        # Sumamos IVA y total para mostrar un “total final” por factura
+        facturas_agrupadas[key]['iva_total'] += f.iva
+        facturas_agrupadas[key]['total_final'] += f.total
+
+    # 3. Convertir esos valores a una lista de facturas agrupadas
+    facturas_resultado = []
+    for key, datos in facturas_agrupadas.items():
+        # Convertir las listas en un solo string. Por ejemplo, “código1, código2, ...”
+        codigos_joined = ", ".join(datos['codigos_str'])
+        descripciones_joined = ", ".join(datos['descripciones_str'])
+        cantidades_joined = ", ".join(datos['cantidades_str'])
+        precios_joined = ", ".join(datos['precios_str'])
+
+        facturas_resultado.append({
+            'fecha': datos['fecha'],
+            'numero_factura': datos['numero_factura'],
+            'cliente': datos['cliente'],
+            'estado_factura': datos['estado_factura'],
+
+            # Deja en un solo string todos los codigos, descripciones, etc.
+            'codigos': codigos_joined,
+            'descripciones': descripciones_joined,
+            'cantidades': cantidades_joined,
+            'precios_venta': precios_joined,
+
+            'iva_total': datos['iva_total'],
+            'total_final': datos['total_final']
+        })
+
+    context = {'facturas': facturas_resultado}
     return render(request, 'Facturacion/facturacion.html', context)
+
 
 
 def PrecierreCaja(request):

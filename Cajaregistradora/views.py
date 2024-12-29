@@ -156,54 +156,88 @@ def guardar_factura(request):
         try:
             datos = json.loads(request.body)
 
-            # (1) Extraer datos adicionales
-            tipo_ident = datos.get('tipo_identificacion', '')
-            regimen = datos.get('regimen', '')
-            situacion = datos.get('situacion_tributaria', '')
-
+            # ... (datos generales de la factura)
             productos = datos.get('productos', [])
-            total_factura = Decimal('0.00')
+            if not productos:
+                return JsonResponse({
+                    'success': False,
+                    'message': 'No hay productos en la factura.'
+                }, status=400)
 
-            for producto in productos:
-                subtotal = Decimal(str(producto['subtotal']))
-                total_factura += subtotal
-
-            iva = total_factura * Decimal('0.13')
-            total_con_iva = total_factura + iva
-
-            tipo_precio = datos.get('tipo_precio', 'Regular')
-            metodo_pago = datos.get('metodo_pago', 'cash')
-
-            # Obtener la caja abierta
+            # Verificar si hay caja abierta, etc...
             caja_abierta_id = request.session.get('caja_abierta_id')
-            apertura_caja = AperturaCaja.objects.get(id=caja_abierta_id, abierta=True) if caja_abierta_id else None
+            if not caja_abierta_id:
+                return JsonResponse({
+                    'success': False,
+                    'message': 'No hay una caja abierta.'
+                }, status=400)
 
-            # (2) Crear la factura y asignar esos campos
-            factura = Factura.objects.create(
-                apertura_caja=apertura_caja,
-                cliente=datos.get('cliente', 'Cliente Desconocido'),
-                tipo_identificacion=tipo_ident,
-                regimen=regimen,
-                situacion_tributaria=situacion,
-                codigo=productos[0]['codigo'] if productos else '',
-                nombre=productos[0]['nombre'] if productos else '',
-                descripcion=productos[0]['descripcion'] if productos else '',
-                cantidad=len(productos),
-                precio_venta=total_factura,
-                iva=iva,
-                total=total_con_iva,
-                tipo_precio=tipo_precio,
-                metodo_pago=metodo_pago
-            )
+            apertura_caja = AperturaCaja.objects.get(id=caja_abierta_id, abierta=True)
 
-            return JsonResponse({'success': True, 'message': 'Factura guardada exitosamente.'})
+            # Generar número de factura (si no lo tienes, lo generas)
+            last_factura = Factura.objects.last()
+            if last_factura:
+                ultimo_numero = last_factura.numero_factura.split()[1]
+                new_number = int(ultimo_numero) + 1
+            else:
+                new_number = 0
+            numero_factura = f"F {new_number}"
+
+            # Para cada producto en la factura
+            for item in productos:
+                codigo = item.get('codigo', '')
+                nombre = item.get('nombre', '')
+                descripcion = item.get('descripcion', '')
+                cantidad_facturada = int(item.get('cantidad', 1))
+                precio_venta = Decimal(str(item.get('precio_venta', '0.00')))
+                subtotal = Decimal(str(item.get('subtotal', '0.00')))
+
+                # Calcula IVA y total por ítem
+                iva_linea = subtotal * Decimal('0.13')
+                total_linea = subtotal + iva_linea
+
+                # 1) Crear la línea de Factura
+                Factura.objects.create(
+                    apertura_caja=apertura_caja,
+                    cliente=datos.get('cliente', 'Cliente Desconocido'),
+                    tipo_identificacion=datos.get('tipo_identificacion', ''),
+                    regimen=datos.get('regimen', ''),
+                    situacion_tributaria=datos.get('situacion_tributaria', ''),
+                    codigo=codigo,
+                    nombre=nombre,
+                    descripcion=descripcion,
+                    cantidad=cantidad_facturada,
+                    precio_venta=precio_venta,
+                    iva=iva_linea,
+                    total=total_linea,
+                    tipo_precio=datos.get('tipo_precio', 'Regular'),
+                    metodo_pago=datos.get('metodo_pago', 'cash'),
+                    numero_factura=numero_factura,
+                )
+
+                # 2) Descontar del inventario
+                #    Buscar el producto por 'codigo_cabys' o el campo que uses de referencia 
+                producto_inventario = Producto.objects.filter(codigo_cabys=codigo, activo=True).first()
+                if producto_inventario:
+                    # Evita que la cantidad sea negativa
+                    nueva_cantidad = max(0, producto_inventario.cantidad - cantidad_facturada)
+                    producto_inventario.cantidad = nueva_cantidad
+                    producto_inventario.save()
+                else:
+                    # Si no existe el producto, o no está activo, puedes decidir si ignorar o lanzar un error
+                    pass
+
+            return JsonResponse({
+                'success': True,
+                'message': 'Factura guardada y stock actualizado exitosamente.'
+            })
+
         except AperturaCaja.DoesNotExist:
             return JsonResponse({'success': False, 'message': 'No hay una caja abierta.'}, status=400)
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)}, status=500)
     else:
         return JsonResponse({'success': False, 'message': 'Método no permitido.'}, status=405)
-
 
 
 def abrir_caja_view(request):
