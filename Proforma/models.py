@@ -1,4 +1,5 @@
 from django.db import models
+import json
 # Create your models here.
 
 class Proforma(models.Model):
@@ -23,18 +24,36 @@ class Proforma(models.Model):
     def __str__(self):
         return f"Proforma de {self.cliente} - {self.fecha}"
 
-# proforma.models
+  # Para mostrar detalles en JSON y usarlos en el "data-line-items"
+    def get_detalles_json(self):
+        detalles = self.detalle_proformas_proforma.all()
+        lista = []
+        for d in detalles:
+            lista.append({
+                "producto": d.producto,  # Aquí guardamos el NOMBRE
+                "descripcion": d.descripcion or "",
+                "cantidad": d.cantidad,
+                "precio_unitario": d.precio_unitario,
+                # 'descuento' se guarda como monto colones
+                "descuento": d.descuento,
+                "total": d.total
+            })
+        return json.dumps(lista)
+
+
 class DetalleProforma(models.Model):
-    proforma = models.ForeignKey(Proforma, on_delete=models.CASCADE, related_name='detalle_proformas_proforma')
-    producto = models.CharField(max_length=100)
+    proforma = models.ForeignKey(
+        Proforma,
+        on_delete=models.CASCADE,
+        related_name='detalle_proformas_proforma'
+    )
+    producto = models.CharField(max_length=100)  # Nombre del producto
     descripcion = models.TextField(null=True, blank=True)
     cantidad = models.PositiveIntegerField()
     precio_unitario = models.FloatField()
-    descuento = models.FloatField(default=0.0)
+    descuento = models.FloatField(default=0.0)  # Monto en colones
     total = models.FloatField()
 
     @property
     def subtotal(self):
         return self.cantidad * self.precio_unitario - self.descuento
-    
-    

@@ -1184,7 +1184,7 @@
                     <p>Cantidad facturas: <input type="number" name="cantidad_facturas" value="{{ cantidad_facturas|default:"0" }}"></p>
                 </div>
                 <div class="info">
-                    <p>Conteo efectivo = Efectivo en Caja - Facturas Proveedor - ventas a credito:<input type="number" name="conteo_efectivo" step="0.01" value="{{ conteo_efectivo|default:"0.00" }}"></p>
+                    <p>Conteo efectivo = (Efectivo en Caja - Facturas Proveedor - ventas a credito - Retiros de Dinero):<input type="number" name="conteo_efectivo" step="0.01" value="{{ conteo_efectivo|default:"0.00" }}"></p>
                 </div>
                 <div class="info">
                     <p>Contado efectivo en la caja : <input type="number" name="contado_efectivo" step="0.01" value="0.00"></p>
@@ -2594,3 +2594,8 @@ document.addEventListener("DOMContentLoaded", function() {
  </body>
  </html>
 {% endblock %}
+
+
+
+
+#Este codigo fue estruturado por Berlin Cordero Brenes copyrigth 2024

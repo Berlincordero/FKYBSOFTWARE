@@ -377,6 +377,35 @@
         transition: border-color 0.3s;
     }
       
+    .error-message {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none; /* Ocultar mensajes inicialmente */
+  }
+  
+  input:invalid {
+      border: 1px solid red; /* Cambiar el borde del input si no es válido */
+  }
+
+  .modal-header.bg-primary {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+  }
+
+  .btn-danger {
+    background-color:rgb(232, 29, 52);
+    border: none;
+  }
+
+  tbody td:hover {
+    background-color: #efc737;
+  }
     </style>
   </head>
   <body>
@@ -416,6 +445,7 @@
           <tr>
             <th>Nombre</th>
             <th>Cantidad</th>
+            <th>Unidad de Medida</th>
             <th>Descripción</th>
             <th>Código</th>
             <!-- COLUMNA: Código de Barra -->
@@ -432,6 +462,7 @@
           <tr>
             <td>{{ producto.nombre }}</td>
             <td><strong>{{ producto.cantidad }}</strong></td>
+            <td>{{ producto.unidad_medida }}</td>
             <td>{{ producto.descripcion }}</td>
             <td>{{ producto.codigo_cabys }}</td>
 
@@ -462,6 +493,7 @@
                     {{ producto.pk }},
                     '{{ producto.nombre }}',
                     {{ producto.cantidad }},
+                     {{producto.unidad_medida}},
                     '{{ producto.descripcion }}',
                     '{{ producto.codigo_cabys }}',
                     '{{ producto.moneda }}',
@@ -482,9 +514,12 @@
                 style="display:inline;"
               >
                 {% csrf_token %}
-                <button type="submit" class="btn btn-sm btn-danger">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
+                <button 
+                type="button" 
+                class="btn btn-sm btn-danger" 
+                onclick="confirmDelete('{% url 'eliminar_producto' producto.pk %}')">
+                <i class="fas fa-trash-alt"></i>
+              </button>
               </form>
 
               <!-- Botón para Imprimir Código (sin margen extra) -->
@@ -498,6 +533,32 @@
           {% endfor %}
         </tbody>
       </table>
+
+
+         <!-- Modal de Confirmación de Eliminación -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="confirmDeleteLabel">Confirmar Eliminación</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ¿Estás seguro de que deseas eliminar este producto de la tabla?
+            <br></br>
+            <strong>Por precaucion se respaldara en la base datos</strong>
+          </div>
+          <div class="modal-footer">
+            <form id="deleteForm" method="POST" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Eliminar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
         
       <div class="pagination">
         <button onclick="prevPage()">Anterior</button>
@@ -548,21 +609,36 @@
                     {% csrf_token %}
                     <div class="form-group">
                       <label for="nombreProducto">Nombre</label>
-                      <input type="text" id="nombreProducto" class="form-control" name="nombreProducto" />
-                    </div>
+                      <input type="text" id="nombreProducto" name="nombreProducto" class="form-control" required>
+                      <div class="error-message" id="error-nombre"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="cantidadProducto">Cantidad</label>
+                    <input type="number" id="cantidadProducto" name="cantidadProducto" class="form-control" required>
+                    <div class="error-message" id="error-cantidad"></div>
+                </div>
                     <div class="form-group">
-                      <label for="cantidadProducto">Cantidad</label>
-                      <input type="number" id="cantidadProducto" class="form-control" name="cantidadProducto"/>
-                    </div>
-                    <div class="form-group">
+                      <label for="unidadMedidaProducto">Unidad de Medida</label>
+                       <select id="unidadMedidaProducto" class="form-control" name="unidadMedidaProducto">
+                         <option value="Otros">Otros</option>
+                         <option value="Unidades">Unidades</option>
+                         <option value="Gramos">Gramos</option>
+                         <option value="Kilogramos">Kilogramos</option>
+                         <option value="Litros">Litros</option>
+                         <option value="Metros">Metros</option>
+                         <option value="Pulgadas">Pulgadas</option> 
+                       </select>
+                     </div>
+                     <div class="form-group">
                       <label for="descripcionProducto">Descripción</label>
-                      <input type="text" id="descripcionProducto" class="form-control" name="descripcionProducto"/>
-                    </div> 
-                    <div class="form-group">
-                      <label for="codigoCABYS">Código </label>
-                      <input type="text" id="codigoCABYS" class="form-control" name="codigoCABYS"/>
-                    </div>
-
+                      <input type="text" id="descripcionProducto" name="descripcionProducto" class="form-control" required>
+                      <div class="error-message" id="error-descripcion"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="codigoCABYS">Código</label>
+                    <input type="text" id="codigoCABYS" name="codigoCABYS" class="form-control" required>
+                    <div class="error-message" id="error-codigo"></div>
+                </div>
                     <!-- Botón para enfocar el campo con la pistola -->
                     <button 
                       type="button" 
@@ -584,13 +660,15 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="precioCosto">Precio del Costo X Unidad</label>
-                      <input type="number" id="precioCosto" class="form-control" name="precioCosto"/>
-                    </div>
-                    <div class="form-group">
-                      <label for="precioVenta">Precio de Venta X Unidad</label>
-                      <input type="number" id="precioVenta" class="form-control" name="precioVenta"/>
-                    </div>
+                      <label for="precioCosto">Precio de Costo x Unidad</label>
+                      <input type="number" id="precioCosto" name="precioCosto" class="form-control" required>
+                      <div class="error-message" id="error-costo"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="precioVenta">Precio de Venta x Unidad</label>
+                    <input type="number" id="precioVenta" name="precioVenta" class="form-control" required>
+                    <div class="error-message" id="error-venta"></div>
+                </div>
                     <div class="form-group">
                       <label for="clasificacionProducto">Clasificación</label>
                       <select id="clasificacionProducto" class="form-control" name="clasificacionProducto">
@@ -641,6 +719,18 @@
                       <label for="editarcantidadProducto">Cantidad</label>
                       <input type="number" id="editarcantidadProducto" class="form-control" name="cantidadProducto"/>
                     </div>
+                    <div class="form-group">
+                      <label for="editarunidadMedidaProducto">Unidad de Medida</label>
+                       <select id="editarunidadMedidaProducto" class="form-control" name="unidadMedidaProducto">
+                         <option value="Otros">Otros</option>
+                         <option value="Unidades">Unidades</option>
+                         <option value="Gramos">Gramos</option>
+                         <option value="Kilogramos">Kilogramos</option>
+                         <option value="Litros">Litros</option>
+                         <option value="Metros">Metros</option>
+                         <option value="Pulgadas">Pulgadas</option>
+                       </select>
+                     </div>
                     <div class="form-group">
                       <label for="editardescripcionProducto">Descripción</label>
                       <input type="text" id="editardescripcionProducto" class="form-control" name="descripcionProducto"/>
@@ -869,6 +959,7 @@
         document.getElementById('producto_id').value = id; 
         document.getElementById('editarnombreProducto').value = nombre;
         document.getElementById('editarcantidadProducto').value = cantidad;
+        document.getElementById('editarunidadMedida').value = unidadMedida;
         document.getElementById('editardescripcionProducto').value = descripcion;
         document.getElementById('editarcodigoCABYS').value = codigoCABYS;
         document.getElementById('editarmonedaProducto').value = moneda;
@@ -881,8 +972,87 @@
         }
       }
 
-      
+      document.getElementById('inventarioForm').addEventListener('submit', function(event) {
+        let isValid = true;
+    
+        const nombre = document.getElementById('nombreProducto');
+        const cantidad = document.getElementById('cantidadProducto');
+        const descripcion = document.getElementById('descripcionProducto');
+        const codigo = document.getElementById('codigoCABYS');
+        const costo = document.getElementById('precioCosto');
+        const venta = document.getElementById('precioVenta');
+    
+        // Validar cada campo
+        if (!nombre.value.trim()) {
+            showError('error-nombre', 'El nombre es requerido.');
+            isValid = false;
+        } else {
+            hideError('error-nombre');
+        }
+    
+        if (!cantidad.value || cantidad.value <= 0) {
+            showError('error-cantidad', 'La cantidad debe ser mayor a 0.');
+            isValid = false;
+        } else {
+            hideError('error-cantidad');
+        }
+    
+        if (!descripcion.value.trim()) {
+            showError('error-descripcion', 'La descripción es requerida.');
+            isValid = false;
+        } else {
+            hideError('error-descripcion');
+        }
+    
+        if (!codigo.value.trim()) {
+            showError('error-codigo', 'El código es requerido.');
+            isValid = false;
+        } else {
+            hideError('error-codigo');
+        }
+    
+        if (!costo.value || costo.value <= 0) {
+            showError('error-costo', 'El precio de costo debe ser mayor a 0.');
+            isValid = false;
+        } else {
+            hideError('error-costo');
+        }
+    
+        if (!venta.value || venta.value <= 0) {
+            showError('error-venta', 'El precio de venta debe ser mayor a 0.');
+            isValid = false;
+        } else {
+            hideError('error-venta');
+        }
+    
+        // Si no es válido, prevenir el envío del formulario
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+    
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+    }
+    
+    function hideError(elementId) {
+        const errorElement = document.getElementById(elementId);
+        errorElement.style.display = 'none';
+    }
+
+       // Función para asignar la URL de eliminación al formulario y mostrar el modal
+       function confirmDelete(deleteUrl) {
+        const deleteForm = document.getElementById('deleteForm');
+        deleteForm.action = deleteUrl; // Asigna la URL al formulario
+        $('#confirmDeleteModal').modal('show'); // Muestra el modal
+      }
+    
     </script>
   </body>
 </html>
 {% endblock %}
+
+
+#Berlin C.B

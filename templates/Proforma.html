@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% block content %}
 
 <!DOCTYPE html>
 <html lang="es">
@@ -164,7 +165,7 @@
         cursor: pointer;
       }
       .action-icons i {
-        background-color: #96c4f5;
+        background-color: rgb(211, 113, 7);
         color: red;
         border: none;
         padding: 10px 20px;
@@ -271,7 +272,7 @@
       .moneda-unica:focus {
         border-color: #004d40;
         outline: none;
-        box-shadow: 0 0 5px rgba(0, 77, 64, 0.5);
+        box-shadow: 0 0 5px rgba(64, 77, 0, 0.5);
       }
 
       .action-icons {
@@ -283,13 +284,14 @@
 
       .action-icons i {
         cursor: pointer;
-        font-size: 20px;
-        color: #555;
+        font-size: 15px;
+        color: white;
+        background-color: rgb(247, 88, 20);
         transition: color 0.3s ease;
       }
 
       .action-icons i:hover {
-        color: #007bff;
+        color: rgb(95, 230, 82);
       }
 
       .action-icons i:active {
@@ -303,15 +305,33 @@
         height: 100px;
       }
 
-      .imprimir-proforma {
-        font-size: 35px;
-        color: #28a745;
-        cursor: pointer;
-        padding: 20px;
-        transition: all 0.3s ease;
+      .buttons-imprimir-proforma {
         display: flex;
-        justify-content: center;
         align-items: center;
+        margin: 10px 0;
+      }
+
+      .btn-imprimir-proforma-berlin {
+        display: inline-flex;
+        align-items: center;
+        margin-left: 675px;
+        background-color: #007bff;
+        color: #fff;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        transition: background-color 0.3s;
+      }
+
+      .btn-imprimir-proforma-berlin i {
+        margin-right: 8px;
+      }
+
+      .btn-imprimir-proforma-berlin:hover {
+        background-color: #0056b3;
       }
 
       .image-below-proforma {
@@ -402,11 +422,11 @@
       }
 
       #product-modal button[onclick="cerrarModalProductos()"] {
-        background-color: #dc3545;
+        background-color: rgb(61, 13, 13);
       }
 
       #product-modal button[onclick="cerrarModalProductos()"]:hover {
-        background-color: #c82333;
+        background-color: hsl(0, 85.1%, 31.6%);
       }
 
       .totals {
@@ -522,6 +542,24 @@
         color: #888;
         font-style: italic;
       }
+
+      .berlin {
+        background-color: #1A73E8;
+        width: 200px;
+        color: #FFFFFF;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .berlin:hover {
+        background-color: #1765C1;
+      }
+
     </style>
   </head>
   <body>
@@ -625,8 +663,8 @@
       <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <h1>
-          <i class="fas fa-file-invoice icono-proforma-formulario"></i
-          >Formulario Proforma
+          <i class="fas fa-file-invoice icono-proforma-formulario"></i>
+          Formulario Proforma
         </h1>
         <form action="{% url 'crear_proforma' %}" method="POST">
           {% csrf_token %}
@@ -643,29 +681,31 @@
               </select>
             </div>
             <div class="header-right">
-              <p>Ferreteria San jeronimo S.A, Moravia Telefono: 2224 4585</p>
               <p>
-                Venta al por menor artículos de ferretería, pinturas, madera y
-                materiales para la construcción.
+                <strong
+                  >Ferreteria San jeronimo S.A, Moravia Telefono: 2224
+                  4585</strong
+                >
               </p>
               <p>
-                Este documento no es válido como factura ni documento fiscal.
+                <strong
+                  >Venta al por menor artículos de ferretería, pinturas, madera
+                  y materiales para la construcción.</strong
+                >
               </p>
+              <p><strong>Este documento no es válido como factura ni documento fiscal.</strong></p>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="cliente"
-              >Cédula del Cliente: "Ingrese cédulas sin guiones ni
-              espacios"</label
-            >
+            <label for="cliente">Cédula del Cliente:</label>
             <input
               type="text"
               id="cliente"
               name="cliente"
               placeholder="Ingrese cédulas sin guiones ni espacios"
             />
-            <button type="button" onclick="buscarCliente()">Buscar</button>
+            <button type="button" class="berlin" onclick="buscarCliente()">Buscar</button>
           </div>
 
           <div class="form-group">
@@ -733,9 +773,7 @@
           <div class="line-details">
             <h2>Detalles de línea</h2>
             <h1 id="info-subtotal">
-              ¡Importante: El Subtotal, IVA y Total Neto se calculan
-              automáticamente una vez colocado el descuento en 1 o más, en los
-              productos de la tabla!
+              ¡Importante: los productos se agregarán a continuación!
             </h1>
             <table id="line-items-table">
               <thead>
@@ -809,6 +847,7 @@
             </div>
           </div>
 
+          <!-- Inputs ocultos para total/subtotal/iva/desc -->
           <input type="hidden" id="subtotal-input" name="subtotal" />
           <input type="hidden" id="descuento-input" name="descuento" />
           <input type="hidden" id="iva-input" name="iva" />
@@ -826,10 +865,14 @@
           </div>
         </form>
         <div class="buttons-imprimir-proforma">
-          <i
-            class="fas fa-print imprimir-proforma"
+          <button
+            type="button"
+            class="btn-imprimir-proforma-berlin"
             onclick="imprimirProforma()"
-          ></i>
+          >
+            <i class="fas fa-print"></i>
+            <span>Imprimir Proforma</span>
+          </button>
         </div>
         <div class="image-below-proforma">
           {% load static %}
@@ -841,185 +884,282 @@
         </div>
       </div>
     </div>
+   
 
-    <div id="editarproformaModal" class="modal-proforma" style="display: none">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h1>
-          <i class="fas fa-file-invoice icono-proforma-formulario"></i> Editar
-          Proforma
-        </h1>
-        <form action="{% url 'editar_proforma' %}" method="POST">
-          {% csrf_token %}
-          <div class="header">
-            <div class="header-left">
-              <input
-                type="date"
-                class="form-control"
-                id="editarfecha"
-                name="fecha"
-              />
-              <select id="editarmoneda" name="moneda" class="moneda-unica">
-                <option value="CRC">CRC</option>
-                <option value="USD">Dólares</option>
-              </select>
-            </div>
-            <div class="header-right">
-              <p>
-                Venta al por menor artículos de ferretería, pinturas, madera y
-                materiales para la construcción.
-              </p>
-              <p>
-                Este documento no es válido como factura ni documento fiscal
-              </p>
-            </div>
-          </div>
-          <label for="editarcliente">Cliente:</label>
+
+   <!-- ========== MODAL DE EDITAR PROFORMA ========== -->
+<div id="editarproformaModal" class="modal-proforma" style="display: none">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h1>
+      <i class="fas fa-file-invoice icono-proforma-formulario"></i> Editar
+      Proforma
+    </h1>
+    <form action="" method="POST" id="formEditarProforma">
+      {% csrf_token %}
+      <div class="header">
+        <div class="header-left">
+          <input
+            type="date"
+            class="form-control"
+            id="editarfecha"
+            name="fecha"
+          />
+          <select id="editarmoneda" name="moneda" class="moneda-unica">
+            <option value="CRC">CRC</option>
+            <option value="USD">Dólares</option>
+          </select>
+        </div>
+        <div class="header-right">
+          <p>
+            Venta al por menor artículos de ferretería, pinturas, madera y
+            materiales para la construcción.
+          </p>
+          <p>
+            Este documento no es válido como factura ni documento fiscal
+          </p>
+        </div>
+      </div>
+
+      <input type="hidden" id="proformaIdEditar" name="proforma_id" />
+
+      <label for="editarcliente">Cliente:</label>
+      <input
+        type="text"
+        id="editarcliente"
+        name="cliente"
+        placeholder="Busca por nombre, cédula o teléfono"
+      />
+
+      <div class="form-group">
+        <label for="editarcodigoactividadeconomica"
+          >Código-actividad-económica:</label
+        >
+        <select
+          id="editarcodigoactividadeconomica"
+          name="codigo_actividad_economica"
+        >
+          <option value="regular">Regular</option>
+          <option value="especial">Especial</option>
+          <option value="exento">Mayorista</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="editarmediopago">Medio de pago:</label>
+        <select id="editarmediopago" name="medio_pago">
+          <option value="efectivo">Efectivo</option>
+          <option value="tarjeta">Tarjeta</option>
+          <option value="transferencia">Transferencia</option>
+          <option value="cheque">Cheque</option>
+          <option value="deposito">Depósito</option>
+          <option value="otros">Otros</option>
+        </select>
+        <label for="editarcondicionventa">Condición de venta:</label>
+        <select id="editarcondicionventa" name="condicion_venta">
+          <option value="contado">Contado</option>
+          <option value="credito">Crédito</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="editardetalles">Detalles:</label>
+        <input
+          type="text"
+          id="editardetalles"
+          name="detalles"
+          placeholder="Detalles de la proforma"
+        />
+      </div>
+
+      <div class="search-bar">
+        <label for="nota" class="search-label">Producto:</label>
+        <div class="search-input-wrapper">
           <input
             type="text"
-            id="editarcliente"
-            name="cliente"
-            placeholder="Busca por nombre, cédula o teléfono"
+            id="nota"
+            placeholder="Ingrese el nombre del producto"
           />
-
-          <div class="form-group">
-            <label for="editarcodigoactividadeconomica"
-              >Código-actividad-económica:</label
-            >
-            <select
-              id="editarcodigoactividadeconomica"
-              name="codigo_actividad_economica"
-            >
-              <option value="regular">Regular</option>
-              <option value="especial">Especial</option>
-              <option value="exento">Mayorista</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="editarmediopago">Medio de pago:</label>
-            <select id="editarmediopago" name="medio_pago">
-              <option value="efectivo">Efectivo</option>
-              <option value="tarjeta">Tarjeta</option>
-              <option value="transferencia">Transferencia</option>
-              <option value="cheque">Cheque</option>
-              <option value="deposito">Depósito</option>
-              <option value="otros">Otros</option>
-            </select>
-            <label for="editarcondicionventa">Condición de venta:</label>
-            <select id="editarcondicionventa" name="condicion_venta">
-              <option value="contado">Contado</option>
-              <option value="credito">Crédito</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="editardetalles">Detalles:</label>
-            <input
-              type="text"
-              id="editardetalles"
-              name="detalles"
-              placeholder="Detalles de la proforma"
-            />
-          </div>
-
-          <div class="search-bar">
-            <label for="nota" class="search-label">Producto:</label>
-            <div class="search-input-wrapper">
-              <input
-                type="text"
-                id="nota"
-                placeholder="Ingrese el nombre del producto"
-              />
-              <button><i class="fa fa-search"></i></button>
-            </div>
-          </div>
-
-          <div class="line-details">
-            <h2>Desglose de la Proforma</h2>
-            <h1 id="info-subtotal">
-              ¡Importante: El Subtotal, IVA y Total Neto se calculan
-              automáticamente una vez colocado el descuento en 1 o más!
-            </h1>
-            <table id="line-items-table">
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Descripción</th>
-                  <th>Cantidad</th>
-                  <th>Unidad</th>
-                  <th>Precio Unitario</th>
-                  <th>Descuento</th>
-                  <th>IVA</th>
-                  <th>Total</th>
-                  <th>Opciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Aquí se llenarán las filas dinámicamente -->
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Eliminado el segundo modal de productos aquí para evitar duplicados -->
-
-          <div class="totals">
-            <div class="total-item">
-              <strong>Descuento aplicado :</strong>
-              <p id="descuento">₡0.00</p>
-            </div>
-            <div class="total-item">
-              <strong>Subtotal:</strong>
-              <p id="subtotal">₡0.00</p>
-            </div>
-            <div class="total-item">
-              <strong>IVA:</strong>
-              <p id="iva">₡0.00</p>
-            </div>
-            <div class="total-item">
-              <strong>Total Neto:</strong>
-              <p id="total">₡0.00</p>
-              <strong>Total Dolares</strong>
-              <p id="total-dolares" style="color: #007bff; font-size: 18px">
-                $0.00
-              </p>
-              <p id="tipo-cambio" style="color: #6c757d; font-size: 18px">
-                Tipo de cambio utilizado: ₡550.00 por $1
-              </p>
-            </div>
-          </div>
-
-          <input type="hidden" id="subtotal-input" name="subtotal" />
-          <input type="hidden" id="descuento-input" name="descuento" />
-          <input type="hidden" id="iva-input" name="iva" />
-          <input type="hidden" id="total-input" name="total" />
-          <input type="hidden" id="total-dolares-input" name="total_dolares" />
-
-          <div class="buttons">
-            <button
-              type="submit"
-              class="save-proforma"
-              onclick="prepararDatosProforma()"
-            >
-              Guardar
-            </button>
-          </div>
-        </form>
-        <div class="buttons-imprimir-proforma">
-          <i
-            class="fas fa-print imprimir-proforma"
-            onclick="imprimirProforma()"
-          ></i>
-        </div>
-        <div class="image-below-proforma">
-          {% load static %}
-          <img
-            src="{% static 'img/logo.jpg' %}"
-            alt="Question Image"
-            class="image-below-icon"
-          />
+          <button><i class="fa fa-search"></i></button>
         </div>
       </div>
+
+      <div class="line-details">
+        <h2>Desglose de la Proforma</h2>
+        <h1 id="info-subtotal">
+          ¡Importante: El Subtotal, IVA y Total Neto se calculan
+          automáticamente una vez colocado el descuento en 1 o más!
+        </h1>
+        <table id="line-items-table-editar">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Descripción</th>
+              <th>Cantidad</th>
+              <th>Unidad</th>
+              <th>Precio Unitario</th>
+              <th>Descuento</th>
+              <th>IVA</th>
+              <th>Total</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Filas dinámicas al editar -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ========== BOTÓN: Agregar Producto (ahora idéntico al de Crear) ========== -->
+      <button type="button" onclick="mostrarModalProductosEditar()">
+        Agregar Producto
+      </button>
+
+      <!-- ========== MODAL DE PRODUCTOS (EDITAR) con los mismos estilos ========== -->
+      <div
+        id="product-modal-editar"
+        style="
+          display: none;
+          position: fixed;
+          z-index: 1000;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 400px;
+          padding: 20px;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          font-family: Arial, sans-serif;
+        "
+      >
+        <h3
+          style="
+            margin: 0;
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: #007bff;
+            text-align: center;
+          "
+        >
+          <i class="fas fa-box-open icono-caja-abierta"></i> Seleccionar Producto
+        </h3>
+
+        <select
+          id="product-select-editar"
+          style="
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+          "
+        >
+          <!-- Opciones llenadas dinámicamente -->
+        </select>
+        <button
+          type="button"
+          onclick="agregarProductoEditar()"
+          style="
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+          "
+        >
+          Agregar Producto
+        </button>
+        <button
+          type="button"
+          onclick="cerrarModalProductosEditar()"
+          style="
+            background-color: rgb(61, 13, 13);
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+          "
+        >
+          Cerrar
+        </button>
+      </div>
+      <!-- FIN: modal-editar con los mismos estilos del de Crear -->
+
+      <div class="totals">
+        <div class="total-item">
+          <strong>Descuento aplicado :</strong>
+          <p id="descuento-editar">₡0.00</p>
+        </div>
+        <div class="total-item">
+          <strong>Subtotal:</strong>
+          <p id="subtotal-editar">₡0.00</p>
+        </div>
+        <div class="total-item">
+          <strong>IVA:</strong>
+          <p id="iva-editar">₡0.00</p>
+        </div>
+        <div class="total-item">
+          <strong>Total Neto:</strong>
+          <p id="total-editar">₡0.00</p>
+          <strong>Total Dolares</strong>
+          <p id="total-dolares-editar" style="color: #007bff; font-size: 18px">
+            $0.00
+          </p>
+          <p id="tipo-cambio-editar" style="color: #6c757d; font-size: 18px">
+            Tipo de cambio utilizado: ₡550.00 por $1
+          </p>
+        </div>
+      </div>
+
+      <input type="hidden" id="subtotal-editar-input" name="subtotal" />
+      <input type="hidden" id="descuento-editar-input" name="descuento" />
+      <input type="hidden" id="iva-editar-input" name="iva" />
+      <input type="hidden" id="total-editar-input" name="total" />
+      <input
+        type="hidden"
+        id="total-dolares-editar-input"
+        name="total_dolares"
+      />
+
+      <div class="buttons">
+        <button
+          type="submit"
+          class="save-proforma"
+          onclick="prepararDatosProformaEditar()"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+    <div class="buttons-imprimir-proforma">
+      <button
+        type="button"
+        class="btn-imprimir-proforma-berlin"
+        onclick="imprimirProforma()"
+      >
+        <i class="fas fa-print"></i>
+        <span>Imprimir Proforma</span>
+      </button>
     </div>
+    <div class="image-below-proforma">
+      {% load static %}
+      <img
+        src="{% static 'img/logo.jpg' %}"
+        alt="Question Image"
+        class="image-below-icon"
+      />
+    </div>
+  </div>
+</div>
 
     <script>
       function imprimirProforma() {
@@ -1119,26 +1259,247 @@
         document.getElementById("editarproformaModal").style.display = "none";
       }
 
-      function editarProforma(id) {
-        var row = document.getElementById("proforma-" + id);
-        var fecha = row.getAttribute("data-fecha");
-        var moneda = row.getAttribute("data-moneda");
-        var cliente = row.getAttribute("data-cliente");
-        var codigoActividad = row.getAttribute("data-codigo");
-        var medioPago = row.getAttribute("data-medio_pago");
-        var condicionVenta = row.getAttribute("data-condicion_venta");
-        var detalles = row.getAttribute("data-detalles");
+      /***********************************************
+ * FUNCIÓN PRINCIPAL: editarProforma(id)
+ ***********************************************/
+function editarProforma(id) {
+  // 1) Setea el pk en un hidden (si lo usas en la vista)
+  document.getElementById("proformaIdEditar").value = id;
 
-        document.getElementById("editarfecha").value = fecha;
-        document.getElementById("editarmoneda").value = moneda;
-        document.getElementById("editarcliente").value = cliente;
-        document.getElementById("editarcodigoactividadeconomica").value =
-          codigoActividad;
-        document.getElementById("editarmediopago").value = medioPago;
-        document.getElementById("editarcondicionventa").value = condicionVenta;
-        document.getElementById("editardetalles").value = detalles;
+  // 2) Ajusta el <form> para apuntar a /Proforma/editar/<id>/
+  //    (asumiendo tu prefijo es "/Proforma/")
+  const formEditar = document.getElementById("formEditarProforma");
+  formEditar.action = `/Proforma/editar/${id}/`;
 
-        document.getElementById("editarproformaModal").style.display = "block";
+  // 3) Obtén datos de cabecera desde la fila
+  var row = document.getElementById("proforma-" + id);
+  var fecha = row.getAttribute("data-fecha");
+  var moneda = row.getAttribute("data-moneda");
+  var cliente = row.getAttribute("data-cliente");
+  var codigoActividad = row.getAttribute("data-codigo");
+  var medioPago = row.getAttribute("data-medio_pago");
+  var condicionVenta = row.getAttribute("data-condicion_venta");
+  var detalles = row.getAttribute("data-detalles");
+
+  // Asigna esos campos
+  document.getElementById("editarfecha").value = fecha;
+  document.getElementById("editarmoneda").value = moneda;
+  document.getElementById("editarcliente").value = cliente;
+  document.getElementById("editarcodigoactividadeconomica").value = codigoActividad;
+  document.getElementById("editarmediopago").value = medioPago;
+  document.getElementById("editarcondicionventa").value = condicionVenta;
+  document.getElementById("editardetalles").value = detalles;
+
+  // 4) Limpia la tabla #line-items-table-editar
+  const tbody = document.querySelector("#line-items-table-editar tbody");
+  tbody.innerHTML = "";
+
+  // 5) Llama a tu endpoint, e inserta filas en la tabla
+  fetch(`/Proforma/obtener_detalles_proforma/${id}/`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Error al obtener los detalles de la proforma");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      data.forEach((item) => {
+        // Calcula descuento como porcentaje
+        const subtotalSinDesc = item.cantidad * item.precio_unitario;
+        let descuentoPorcentaje = 0;
+        if (subtotalSinDesc > 0) {
+          descuentoPorcentaje = (item.descuento * 100) / subtotalSinDesc;
+        }
+
+        // Armamos la fila
+        const precioStr = `₡${item.precio_unitario.toFixed(2)}`;
+        const totalStr = `₡${item.total.toFixed(2)}`;
+        const nuevaFila = `
+          <tr>
+            <td>${item.producto}</td>
+            <td>${item.descripcion}</td>
+            <td>
+              <input type="number" value="${item.cantidad}" min="1" onchange="updateTotalEditar(this)">
+            </td>
+            <td>
+              <select name="unidad">
+                <option value="Unidad">Unidad</option>
+                <option value="Kg">Kg</option>
+                <option value="Litros">Litros</option>
+                <option value="Tonelada">Tonelada</option>
+              </select>
+            </td>
+            <td>${precioStr}</td>
+            <td>
+              <input type="number" value="${descuentoPorcentaje.toFixed(2)}" min="0" max="100" onchange="updateTotalEditar(this)">
+            </td>
+            <td>13%</td>
+            <td>${totalStr}</td>
+            <td class="action-icons">
+              <i class="fas fa-trash" onclick="eliminarFilaEditar(this)"></i>
+            </td>
+          </tr>
+        `;
+        tbody.insertAdjacentHTML("beforeend", nuevaFila);
+      });
+
+      // Recalcula Totales
+      actualizarSubtotalEditar();
+    })
+    .catch((error) => {
+      console.error("Error al obtener detalles:", error);
+      alert("No se pudieron cargar los detalles de la proforma.");
+    });
+
+  // Muestra el modal
+  document.getElementById("editarproformaModal").style.display = "block";
+}
+
+/***********************************************
+ * FUNCIÓN updateTotalEditar(input)
+ * Recalcula el total de UNA fila
+ ***********************************************/
+function updateTotalEditar(input) {
+  const fila = input.closest("tr");
+  const cantidad = parseFloat(
+    fila.querySelector("td:nth-child(3) input").value
+  ) || 0;
+  const precioUnitario = parseFloat(
+    fila.querySelector("td:nth-child(5)").textContent.replace("₡", "")
+  ) || 0;
+  const descuentoPorcentaje = parseFloat(
+    fila.querySelector("td:nth-child(6) input").value
+  ) || 0;
+
+  // Subtotal, descuento, total
+  const subtotal = cantidad * precioUnitario;
+  const descuento = (subtotal * descuentoPorcentaje) / 100;
+  const total = subtotal - descuento;
+
+  // Actualiza la celda "Total"
+  fila.querySelector("td:nth-child(8)").textContent = `₡${total.toFixed(2)}`;
+
+  // Recalcula el global
+  actualizarSubtotalEditar();
+}
+
+/***********************************************
+ * FUNCIÓN eliminarFilaEditar()
+ * Elimina la fila al hacer clic en el ícono trash
+ ***********************************************/
+function eliminarFilaEditar(elemento) {
+  elemento.closest("tr").remove();
+  actualizarSubtotalEditar();
+}
+
+/***********************************************
+ * FUNCIÓN actualizarSubtotalEditar()
+ * Suma TODAS las filas y muestra Subtotal, Descuento, IVA, y Total
+ ***********************************************/
+function actualizarSubtotalEditar() {
+  const filas = document.querySelectorAll("#line-items-table-editar tbody tr");
+  let subtotal = 0;
+  let descuentoAcum = 0;
+
+  filas.forEach((fila) => {
+    const precioUnitario = parseFloat(
+      fila.querySelector("td:nth-child(5)").textContent.replace("₡", "")
+    ) || 0;
+    const cantidad = parseFloat(
+      fila.querySelector("td:nth-child(3) input").value
+    ) || 0;
+    const descPorcentaje = parseFloat(
+      fila.querySelector("td:nth-child(6) input").value
+    ) || 0;
+
+    const tempSub = precioUnitario * cantidad;
+    const tempDesc = (tempSub * descPorcentaje) / 100;
+    const tempTotal = tempSub - tempDesc;
+
+    subtotal += tempTotal;
+    descuentoAcum += tempDesc;
+  });
+
+  // Muestra Subtotal y Descuento
+  document.getElementById("subtotal-editar").textContent = `₡${subtotal.toFixed(2)}`;
+  document.getElementById("descuento-editar").textContent = `₡${descuentoAcum.toFixed(2)}`;
+
+  // IVA
+  const iva = subtotal * 0.13;
+  document.getElementById("iva-editar").textContent = `₡${iva.toFixed(2)}`;
+
+  // Total Neto
+  const totalNeto = subtotal + iva;
+  document.getElementById("total-editar").textContent = `₡${totalNeto.toFixed(2)}`;
+
+  // Cálculo en Dólares
+  const tasaCambio = 550; // ajusta según necesites
+  const totalDolares = totalNeto / tasaCambio;
+  document.getElementById("total-dolares-editar").textContent = `$${totalDolares.toFixed(2)}`;
+
+  // Actualizamos también el texto del tipo de cambio
+  document.getElementById("tipo-cambio-editar").textContent =
+    `Tipo de cambio utilizado: ₡${tasaCambio.toFixed(2)} por $1`;
+}
+
+
+      //=====================================================================================================//
+      //=====================================================================================================//
+      // ============ NUEVA FUNCION que llena la tabla #line-items-table-editar con fetch ============
+      function cargarLineasEditar(proformaId) {
+        // Uso tu endpoint obtener_detalles_proforma
+        fetch(`/obtener_detalles_proforma/${proformaId}/`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Error al obtener detalles de la proforma");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            const tbody = document.querySelector("#line-items-table-editar tbody");
+            tbody.innerHTML = ""; // Limpia la tabla
+
+            data.forEach((item) => {
+              // item.descuento está en colones, supongamos que es "montoDesc"
+              let subtotalSinDesc = item.cantidad * item.precio_unitario;
+              let descuentoPorcentaje = 0;
+              if (subtotalSinDesc > 0) {
+                descuentoPorcentaje = (item.descuento * 100) / subtotalSinDesc;
+              }
+              let total = item.total;
+
+              const nuevaFila = `
+                <tr>
+                  <td>${item.producto}</td>
+                  <td>${item.descripcion}</td>
+                  <td>
+                    <input type="number" value="${item.cantidad}" min="1" onchange="updateTotalEditar(this)">
+                  </td>
+                  <td>
+                    <select name="unidad">
+                      <option value="Unidad">Unidad</option>
+                      <option value="Kg">Kg</option>
+                      <option value="Litros">Litros</option>
+                      <option value="Tonelada">Tonelada</option>
+                    </select>
+                  </td>
+                  <td>₡${item.precio_unitario.toFixed(2)}</td>
+                  <td>
+                    <input type="number" value="${descuentoPorcentaje.toFixed(2)}" min="0" max="100" onchange="updateTotalEditar(this)">
+                  </td>
+                  <td>13%</td>
+                  <td>₡${total.toFixed(2)}</td>
+                  <td class="action-icons">
+                    <i class="fas fa-trash" onclick="eliminarFilaEditar(this)"></i>
+                  </td>
+                </tr>
+              `;
+              tbody.insertAdjacentHTML("beforeend", nuevaFila);
+            });
+          })
+          .catch((error) => {
+            console.error("Error al cargar detalles:", error);
+          });
       }
 
       function formatearColones(valor) {
@@ -1309,6 +1670,7 @@
           totalDolares.toFixed(2);
       }
 
+      // === AQUI MODIFICAMOS para crear inputs hidden con la info de cada fila ===
       function prepararDatosProforma() {
         const subtotal = parseFloat(
           document.querySelector("#subtotal").textContent.replace("₡", "")
@@ -1331,8 +1693,74 @@
         document.querySelector("#iva-input").value = iva;
         document.querySelector("#total-input").value = total;
         document.querySelector("#total-dolares-input").value = totalDolares;
+
+        // 1) Elimina inputs antiguos para evitar duplicados
+        const oldLineFields = document.querySelectorAll('.line-item-fields');
+        oldLineFields.forEach(el => el.remove());
+
+        // 2) Agrega inputs hidden por cada fila de la tabla
+        const formCrear = document.querySelector('#proformaModal form');
+        const filasProductos = document.querySelectorAll('#line-items-table tbody tr');
+        filasProductos.forEach((fila) => {
+          const codigo = fila.querySelector('td:nth-child(1)').innerText.trim();
+          const nombre = fila.querySelector('td:nth-child(2)').innerText.trim();  // *** NUEVO ***
+          const descripcion = fila.querySelector('td:nth-child(3)').innerText.trim(); // *** NUEVO ***
+
+          const cantidad = parseFloat(
+            fila.querySelector('td:nth-child(4) input').value || 0
+          );
+          const descPorcentaje = parseFloat(
+            fila.querySelector('td:nth-child(7) input').value || 0
+          );
+          const precioTexto = fila
+            .querySelector('td:nth-child(6)')
+            .textContent.replace('₡','')
+            .trim();
+          const precioUnitario = parseFloat(precioTexto || 0);
+
+          // ======== NUEVO: Creamos inputs hidden para nombre/desc ===========
+          const inputNombre = document.createElement('input');
+          inputNombre.type = 'hidden';
+          inputNombre.name = `nombre_${codigo}`;
+          inputNombre.value = nombre;
+          inputNombre.classList.add('line-item-fields');
+          formCrear.appendChild(inputNombre);
+
+          const inputDesc = document.createElement('input');
+          inputDesc.type = 'hidden';
+          inputDesc.name = `descripcion_${codigo}`;
+          inputDesc.value = descripcion;
+          inputDesc.classList.add('line-item-fields');
+          formCrear.appendChild(inputDesc);
+          // ===============================================================
+
+          // cantidad_codigo
+          const inputCantidad = document.createElement('input');
+          inputCantidad.type = 'hidden';
+          inputCantidad.name = `cantidad_${codigo}`;
+          inputCantidad.value = cantidad;
+          inputCantidad.classList.add('line-item-fields');
+          formCrear.appendChild(inputCantidad);
+
+          // descuento_codigo
+          const inputDescuento = document.createElement('input');
+          inputDescuento.type = 'hidden';
+          inputDescuento.name = `descuento_${codigo}`;
+          inputDescuento.value = descPorcentaje;
+          inputDescuento.classList.add('line-item-fields');
+          formCrear.appendChild(inputDescuento);
+
+          // precio_codigo
+          const inputPrecio = document.createElement('input');
+          inputPrecio.type = 'hidden';
+          inputPrecio.name = `precio_${codigo}`;
+          inputPrecio.value = precioUnitario;
+          inputPrecio.classList.add('line-item-fields');
+          formCrear.appendChild(inputPrecio);
+        });
       }
 
+      // Para la paginación
       function filterTable() {
         const query = document
           .getElementById("search")
@@ -1350,8 +1778,8 @@
           const cliente = row.dataset.cliente.toLowerCase();
           const condicionVenta = row.dataset.condicion_venta.toLowerCase();
           const detalles = row.dataset.detalles.toLowerCase();
-          const nota = row.dataset.nota.toLowerCase();
-          const total = row.dataset.total.toLowerCase();
+          const nota = row.dataset.nota ? row.dataset.nota.toLowerCase() : "";
+          const total = row.dataset.total ? row.dataset.total.toLowerCase() : "";
 
           if (
             cliente.includes(query) ||
@@ -1427,7 +1855,6 @@
         document.querySelector(".pagination-5lines").style.display = "none";
       }
 
-      // Unificar evento de cierre de modal al hacer clic fuera
       window.addEventListener("click", function (event) {
         var createModal = document.getElementById("proformaModal");
         var editModal = document.getElementById("editarproformaModal");
@@ -1438,6 +1865,7 @@
           closeModal();
         }
       });
+
       ////////////////////////////////////////////////////
       function buscarCliente() {
         const cedula = document.getElementById("cliente").value;
@@ -1447,12 +1875,10 @@
           return;
         }
 
-        // Llama a la vista de Django
         fetch(`/hacienda/buscar-cliente/?cedula=${cedula}`)
           .then((response) => response.json())
           .then((data) => {
             if (data.success) {
-              // Rellena los campos con los datos obtenidos
               document.getElementById("nombre").value =
                 data.nombre || "No disponible";
               document.getElementById("tipo_identificacion").value =
@@ -1462,9 +1888,7 @@
               document.getElementById("situacion").value =
                 data.situacion || "No disponible";
             } else {
-              alert(
-                data.error || "No se encontró información para esta cédula."
-              );
+              alert(data.error || "No se encontró información para esta cédula.");
             }
           })
           .catch((error) => {
@@ -1472,6 +1896,122 @@
             alert("Ocurrió un error al consultar la API.");
           });
       }
+
+      // === EDICIÓN: similar idea de crear inputs hidden en la Proforma Editar ===
+      function prepararDatosProformaEditar() {
+        // Ejemplo sencillo: en la edición, no estás mostrando los mismos campos
+        // de detalle en tu HTML, pero la idea es la misma si los tuvieras.
+        // Se setean los totales hidden:
+        const subtotal = parseFloat(
+          document.querySelector("#subtotal-editar").textContent.replace("₡", "")
+        );
+        const descuento = parseFloat(
+          document
+            .querySelector("#descuento-editar")
+            .textContent.replace("₡", "")
+        );
+        const iva = parseFloat(
+          document.querySelector("#iva-editar").textContent.replace("₡", "")
+        );
+        const total = parseFloat(
+          document.querySelector("#total-editar").textContent.replace("₡", "")
+        );
+        const totalDolares = parseFloat(
+          document.querySelector("#total-dolares-editar-input").value || 0
+        );
+
+        document.querySelector("#subtotal-editar-input").value = subtotal;
+        document.querySelector("#descuento-editar-input").value = descuento;
+        document.querySelector("#iva-editar-input").value = iva;
+        document.querySelector("#total-editar-input").value = total;
+        document.querySelector("#total-dolares-editar-input").value =
+          totalDolares;
+
+        // Si tuvieras filas en la tabla #line-items-table-editar, harías algo similar
+        // a "prepararDatosProforma()" para crear hidden inputs con el nombre/desc/cant/etc.
+      }
+
+
+      function mostrarModalProductosEditar() {
+        // Mismo fetch que en crear:
+        fetch("{% url 'obtener_productos' %}")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Error al obtener los productos");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            const select = document.getElementById("product-select-editar");
+            select.innerHTML = "";
+            data.forEach((producto) => {
+              const option = `
+                <option value="${producto.id}"
+                        data-codigo="${producto.codigo_cabys}"
+                        data-nombre="${producto.nombre}"
+                        data-descripcion="${producto.descripcion}"
+                        data-precio="${producto.precio_venta}">
+                  ${producto.codigo_cabys} - ${producto.nombre} - ₡${producto.precio_venta}
+                </option>`;
+              select.insertAdjacentHTML("beforeend", option);
+            });
+            document.getElementById("product-modal-editar").style.display = "block";
+          })
+          .catch((error) => console.error("Error al cargar productos:", error));
+      }
+      
+      function cerrarModalProductosEditar() {
+        document.getElementById("product-modal-editar").style.display = "none";
+      }
+      
+      function agregarProductoEditar() {
+        const select = document.getElementById("product-select-editar");
+        const selectedOption = select.options[select.selectedIndex];
+      
+        if (!selectedOption) {
+          alert("Selecciona un producto.");
+          return;
+        }
+      
+        const codigo = selectedOption.getAttribute("data-codigo");
+        const descripcion =
+          selectedOption.getAttribute("data-descripcion") || "Sin descripción";
+        const precioVenta = parseFloat(selectedOption.getAttribute("data-precio")) || 0;
+      
+        const tbody = document.querySelector("#line-items-table-editar tbody");
+        const fila = `
+          <tr>
+            <td>${codigo}</td>
+            <td>${descripcion}</td>
+            <td>
+              <input type="number" value="1" min="1" onchange="updateTotalEditar(this)">
+            </td>
+            <td>
+              <select name="unidad">
+                <option value="Unidad">Unidad</option>
+                <option value="Kg">Kg</option>
+                <option value="Litros">Litros</option>
+                <option value="Tonelada">Tonelada</option>
+              </select>
+            </td>
+            <td>₡${precioVenta.toFixed(2)}</td>
+            <td>
+              <input type="number" value="0" min="0" max="100" onchange="updateTotalEditar(this)">
+            </td>
+            <td>13%</td>
+            <td>₡${precioVenta.toFixed(2)}</td>
+            <td class="action-icons">
+              <i class="fas fa-trash" onclick="eliminarFilaEditar(this)"></i>
+            </td>
+          </tr>`;
+        tbody.insertAdjacentHTML("beforeend", fila);
+      
+        cerrarModalProductosEditar();
+        // Podrías llamar a updateTotalEditar() si deseas recalcular de inmediato
+      }
+
+
+
     </script>
   </body>
 </html>

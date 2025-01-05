@@ -27,6 +27,7 @@ def editar_producto(request):
         # Actualiza los campos según los datos enviados
         producto.nombre = request.POST.get('nombreProducto')
         producto.cantidad = request.POST.get('cantidadProducto')
+        producto.unidad_medida = request.POST.get('unidadMedidaProducto')
         producto.descripcion = request.POST.get('descripcionProducto') 
         producto.codigo_cabys = request.POST.get('codigoCABYS')  
         producto.moneda = request.POST.get('monedaProducto')  
@@ -44,6 +45,7 @@ def crear_producto(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombreProducto')
         cantidad = request.POST.get('cantidadProducto')
+        unidad_medida = request.POST.get('unidadMedidaProducto')
         descripcion = request.POST.get('descripcionProducto')
         codigo_cabys = request.POST.get('codigoCABYS')
         moneda = request.POST.get('monedaProducto')
@@ -55,6 +57,7 @@ def crear_producto(request):
         producto = Producto.objects.create(
             nombre=nombre,
             cantidad=cantidad,
+            unidad_medida=unidad_medida,
             descripcion=descripcion,
             codigo_cabys=codigo_cabys,
             moneda=moneda,
@@ -94,7 +97,7 @@ def exportar_productos_excel(request):
 
     # Añadir encabezados
     headers = [
-        'Nombre', 'Cantidad','Descripción', 'Código CABYS', 
+        'Nombre', 'Cantidad','unidadMedida','Descripción', 'Código CABYS', 
         'Moneda', 'Precio del Costo', 'Precio de Venta','Clasificación'
     ]
     ws.append(headers)
@@ -111,6 +114,7 @@ def exportar_productos_excel(request):
             ws.append([
                 producto.nombre or '',
                 producto.cantidad or 0,
+                producto.unidad_medida or '',
                 producto.descripcion or '',
                 producto.codigo_cabys or '',
                 producto.moneda or '',

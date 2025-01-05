@@ -26,7 +26,7 @@ def editar_proforma(request, pk):
     proforma = get_object_or_404(Proforma, pk=pk)
 
     if request.method == 'POST':
-        # Recibir y actualizar los datos del formulario
+        # 1) Actualiza los datos de cabecera
         proforma.fecha = request.POST.get('fecha')
         proforma.moneda = request.POST.get('moneda')
         proforma.cliente = request.POST.get('cliente')
@@ -34,15 +34,43 @@ def editar_proforma(request, pk):
         proforma.medio_pago = request.POST.get('medio_pago')
         proforma.condicion_venta = request.POST.get('condicion_venta')
         proforma.detalles = request.POST.get('detalles')
-        proforma.subtotal = 1000  # Este es solo un ejemplo; reemplaza por el cálculo adecuado
-        proforma.descuento = 0    # Este es solo un ejemplo; reemplaza por el cálculo adecuado
-        proforma.iva = 130        # Este es solo un ejemplo; reemplaza por el cálculo adecuado
-        proforma.total = 1130     # Este es solo un ejemplo; reemplaza por el cálculo adecuado
-
+        proforma.subtotal = float(request.POST.get('subtotal', 0.0) or 0.0)
+        proforma.descuento = float(request.POST.get('descuento', 0.0) or 0.0)
+        proforma.iva = float(request.POST.get('iva', 0.0) or 0.0)
+        proforma.total = float(request.POST.get('total', 0.0) or 0.0)
         proforma.save()
-         # Redirigir a la página de lista de proformas
+
+        # Eliminar detalles viejos
+        DetalleProforma.objects.filter(proforma=proforma).delete()
+
+        # Crear de nuevo
+        for key, value in request.POST.items():
+            if key.startswith('cantidad_'):
+                codigo_producto = key.split('_', 1)[1]
+                cantidad = int(value)
+                descuento_item = float(request.POST.get(f"descuento_{codigo_producto}", 0.0))
+                precio_unitario = float(request.POST.get(f"precio_{codigo_producto}", 0.0))
+
+                nombre_producto = request.POST.get(f"nombre_{codigo_producto}", codigo_producto)
+                descripcion_producto = request.POST.get(f"descripcion_{codigo_producto}", "")
+
+                sub_item = cantidad * precio_unitario
+                monto_desc = (sub_item * descuento_item) / 100.0
+                total_item = sub_item - monto_desc
+
+                DetalleProforma.objects.create(
+                    proforma=proforma,
+                    producto=nombre_producto,
+                    descripcion=descripcion_producto,
+                    cantidad=cantidad,
+                    precio_unitario=precio_unitario,
+                    descuento=monto_desc,
+                    total=total_item
+                )
+
         return redirect('lista_proforma')
-    return render(request, 'Proforma.html')
+
+    return redirect('lista_proforma')
 
 
 def crear_proforma(request):
@@ -100,23 +128,31 @@ def crear_proforma(request):
 
         # Guardar los productos de detalle de la proforma
         for key, value in request.POST.items():
-            if key.startswith('cantidad_'):  # Solo los campos de cantidad
-                producto = key.split('_')[1]  # Extraer el nombre del producto desde el campo
+            if key.startswith('cantidad_'):
+                codigo_producto = key.split('_', 1)[1]
                 cantidad = int(value)
-                descuento_item = float(request.POST.get(f"descuento_{producto}", 0.0))
-                precio_unitario = float(request.POST.get(f"precio_{producto}", 0.0))
-                total_item = cantidad * precio_unitario - descuento_item
+                descuento_item = float(request.POST.get(f"descuento_{codigo_producto}", 0.0))
+                precio_unitario = float(request.POST.get(f"precio_{codigo_producto}", 0.0))
+
+                # Leer el nombre y descripción
+                nombre_producto = request.POST.get(f"nombre_{codigo_producto}", codigo_producto)
+                descripcion_producto = request.POST.get(f"descripcion_{codigo_producto}", "")
+
+                sub_item = cantidad * precio_unitario
+                monto_desc = (sub_item * descuento_item) / 100.0  # si desc_item es %
+                total_item = sub_item - monto_desc
 
                 DetalleProforma.objects.create(
                     proforma=proforma,
-                    producto=producto,
+                    producto=nombre_producto,  # Guardamos el nombre
+                    descripcion=descripcion_producto,
                     cantidad=cantidad,
-                    descuento=descuento_item,
                     precio_unitario=precio_unitario,
+                    descuento=monto_desc,  # Monto en colones
                     total=total_item
                 )
 
-        return redirect('lista_proforma')  # Redirigir después de guardar la proforma
+        return redirect('lista_proforma')
 
     return render(request, 'Proforma.html')
 
@@ -127,3 +163,20 @@ def eliminar_proforma(request, pk):
     proforma.save()
     return redirect('lista_proforma')  
 
+
+
+def obtener_detalles_proforma(request, proforma_id):
+    print("=== LLAMANDO obtener_detalles_proforma ===")  # <-- 
+    proforma = get_object_or_404(Proforma, pk=proforma_id)
+    detalles = DetalleProforma.objects.filter(proforma=proforma)
+    data = []
+    for d in detalles:
+        data.append({
+            "producto": d.producto,
+            "descripcion": d.descripcion or "",
+            "cantidad": d.cantidad,
+            "precio_unitario": d.precio_unitario,
+            "descuento": d.descuento,
+            "total": d.total,
+        })
+    return JsonResponse(data, safe=False)
