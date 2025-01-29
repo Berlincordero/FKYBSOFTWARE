@@ -51,37 +51,53 @@
         <span>conductores</span>
     </div>
 
+    <!-- Filtro de estado -->
+    <div class="mb-3">
+        <label for="filtroEstado" class="form-label me-2">Estado:</label>
+        <select id="filtroEstado" class="form-select" style="width: auto; display: inline-block;">
+            <option value="todos" selected>Todos</option>
+            <option value="activos">Activos</option>
+            <option value="inactivos">Inactivos</option>
+        </select>
+    </div>
+
+
     {% if conductores %}
-    <table class="table table-striped table-bordered" id="conductoresTabla">
-        <thead class="table-dark">
+    <table class="table table-bordered" id="conductoresTabla">
+        <thead>
             <tr>
-                <th>ID Conductor</th>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>Acciones</th>
+                <th style="background-color: #0D6EFD; color: white;">ID Conductor</th>
+                <th style="background-color: #0D6EFD; color: white;">Nombre</th>
+                <th style="background-color: #0D6EFD; color: white;">Apellidos</th>
+                <th style="background-color: #0D6EFD; color: white;">Contacto</th>
+                <th style="background-color: #0D6EFD; color: white;">Estado</th>
+                <th style="background-color: #0D6EFD; color: white;">Acciones</th>
             </tr>
         </thead>
         <tbody>
             {% for conductor in conductores %}
-                {% if conductor.activo %}
-                <tr>
+                <tr data-estado="{% if conductor.activo %}activo{% else %}inactivo{% endif %}">
                     <td>{{ conductor.id_conductor }}</td>
                     <td>{{ conductor.nombre_conductor }}</td>
                     <td>{{ conductor.apellidos_1 }} {{ conductor.apellidos_2 }}</td>
+                    <td>{{ conductor.telefono }}</td>
                     <td>
-                        <a href="#" class="btn btn-warning me-2" 
-                           data-bs-toggle="modal"
-                           data-bs-target="#conductorEditModal" 
-                           data-id="{{ conductor.id_conductor }}" 
-                           data-nombre="{{ conductor.nombre_conductor }}" 
-                           data-apellido1="{{ conductor.apellidos_1 }}" 
-                           data-apellido2="{{ conductor.apellidos_2 }}">
-                           Editar
-                        </a>
-                        <button onclick="eliminarConductor('{{ conductor.id_conductor }}')" class="btn btn-danger">Eliminar</button>
+                        {% if conductor.activo %}
+                            <span class="badge bg-success">Activo</span>
+                        {% else %}
+                            <span class="badge bg-danger">Inactivo</span>
+                        {% endif %}
+                    </td>
+                    
+                    <td>
+                        {% if conductor.activo %}
+                            <button onclick="eliminarConductor('{{ conductor.id_conductor }}')" class="btn btn-danger">Desactivar</button>
+                        {% else %}
+                        <button onclick="activarConductor('{{ conductor.id_conductor }}', '{{ conductor.nombre_conductor }}')" class="btn btn-success">Activar</button>
+                        {% endif %}   
+                         
                     </td>
                 </tr>
-                {% endif %}
             {% endfor %}
         </tbody>
     </table>
@@ -93,7 +109,9 @@
     <div class="d-flex justify-content-start mt-4">
         <a href="{% url 'transportes:modulo_vehiculos' %}" class="btn btn-primary me-2">Ver Vehículos</a>
         <a href="{% url 'transportes:modulo_rutas' %}" class="btn btn-success"><i class="fa fa-route"></i> Asignar Rutas</a>
+        <a href="{% url 'transportes:modulo_vehiculos' %}" class="btn btn-secondary" > Conductores Archivados</a>
     </div>
+    
 
     <!-- Modal para agregar/editar conductor -->
     <style>#conductorModalLabel {
@@ -125,6 +143,10 @@
                         <div class="mb-3">
                             <label for="apellidos_2" class="form-label">Segundo Apellido</label>
                             <input type="text" class="form-control" id="apellidos_2" name="apellidos_2">
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -167,6 +189,11 @@
                             <label for="apellidos_2" class="form-label">Segundo Apellido</label>
                             <input type="text" class="form-control" id="apellidos_2_edit" name="apellidos_2">
                         </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="telefono_edit" name="telefono">
+                        </div>
+                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -187,6 +214,7 @@
                 const nombre = button.getAttribute('data-nombre');
                 const apellido1 = button.getAttribute('data-apellido1');
                 const apellido2 = button.getAttribute('data-apellido2');
+                const telefono = button.getAttribute('data-telefono');
 
                 if (id) {
                     // Cambiar la acción del formulario
@@ -197,18 +225,10 @@
                     document.getElementById('nombre_conductor_edit').value = nombre;
                     document.getElementById('apellidos_1_edit').value = apellido1;
                     document.getElementById('apellidos_2_edit').value = apellido2;
+                    document.getElementById('telefono_edit').value = telefono;
                 }
             });
         </script>
-
-
-    
-
-
-
-    
-
-    
 
 
     <!-- Modal Confirmación de Eliminación -->
@@ -220,20 +240,41 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar la Desactivación</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    ¿Estás seguro de que deseas eliminar este conductor <span id="conductorName"></span>?
+                    ¿Estás seguro de que deseas desactivar este conductor <span id="conductorName"></span>?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Desactivar</button>
                 </div>
             </div>
         </div>
     </div>
 
+     <!-- Modal Confirmación de Activación -->
+    <style>#confirmActiveModalLabel {
+        color: white !important;
+    }</style>
+    <div class="modal fade" id="confirmActiveModal" tabindex="-1" aria-labelledby="confirmActiveModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmActiveModalLabel">Confirmar Activación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas activar este conductor <span id="conductorNameActivate"></span>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" id="confirmActiveBtn">Activar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     {% if error %}
@@ -242,6 +283,8 @@
         </div>
     {% endif %}
 </div>
+
+
 
 <script>
     // Manejo del modal de conductor
@@ -254,6 +297,7 @@
         const nombre = button.getAttribute('data-nombre');
         const apellido1 = button.getAttribute('data-apellido1');
         const apellido2 = button.getAttribute('data-apellido2');
+        const telefono = button.getAttribute('data-telefono');
 
         if (id) {
             form.action = "{% url 'transportes:editar_conductor' '0' %}".replace('0', id);
@@ -262,6 +306,7 @@
             document.getElementById('nombre_conductor').value = nombre;
             document.getElementById('apellidos_1').value = apellido1;
             document.getElementById('apellidos_2').value = apellido2;
+            document.getElementById('telefono').value = telefono;
         } else {
             form.action = "{% url 'transportes:agregar_conductor' %}";
             form.reset();
@@ -269,11 +314,6 @@
         }
     });
 
-    
-
-
-
-    
 </script>
 
 <script>
@@ -310,6 +350,43 @@
 
 </script>
 
+
+
+<script>
+    let conductorIdToActivate = null;
+
+    function activarConductor(idConductor, nombreConductor) {
+        // Guarda el ID del conductor a activar
+        conductorIdToActivate = idConductor;
+    
+        // Muestra el modal de confirmación y actualiza el nombre en el modal
+        document.getElementById("conductorNameActivate").innerText = nombreConductor;
+        const activeModal = new bootstrap.Modal(document.getElementById('confirmActiveModal'));
+        activeModal.show();
+    }
+    
+    // Manejador del botón "Activar" en el modal
+    document.getElementById('confirmActiveBtn').addEventListener('click', function () {
+        if (conductorIdToActivate) {
+            fetch(`/transportes/activar_conductor/${conductorIdToActivate}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload(); // Recarga la página después de activar
+                } else {
+                    alert("Error al activar el conductor.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    });
+    
+</script>
+
 <script>
     //Gestionar el filtro de cantidad de conductores mostrados
     document.addEventListener('DOMContentLoaded', function () {
@@ -332,7 +409,35 @@
         actualizarTabla();
     });
     </script>
+
+
+    <script>
+            // Escucha el cambio en el filtro
+    document.getElementById("filtroEstado").addEventListener("change", function () {
+        var estadoSeleccionado = this.value;
+        var filas = document.querySelectorAll("#conductoresTabla tbody tr");
+
+        filas.forEach(function (fila) {
+            var estado = fila.getAttribute("data-estado");
+
+            // Normaliza los valores
+            if (estado === "true") estado = "activo";
+            if (estado === "false") estado = "inactivo";
+
+            if (estadoSeleccionado === "todos") {
+                fila.style.display = "";
+            } else if (estadoSeleccionado === "activos" && estado === "activo") {
+                fila.style.display = "";
+            } else if (estadoSeleccionado === "inactivos" && estado === "inactivo") {
+                fila.style.display = "";
+            } else {
+                fila.style.display = "none";
+            }
+        });
+    });
+      
+    </script>
+
+
     
-
-
 {% endblock %}

@@ -54,6 +54,14 @@
         </div>
     </div>
 
+    <!-- Filtro de estado -->
+    <select id="filtroEstado" onchange="location = this.value;">
+        <option value="?estado=todos" {% if request.GET.estado == 'todos' %}selected{% endif %}>Todos</option>
+        <option value="?estado=activos" {% if request.GET.estado == 'activos' %}selected{% endif %}>Activos</option>
+        <option value="?estado=inactivos" {% if request.GET.estado == 'inactivos' %}selected{% endif %}>Inactivos</option>
+    </select>
+    
+
     <!-- Tabla de Rutas -->
     <table class="table table-bordered" id="routesTable">
         <thead>
@@ -66,13 +74,14 @@
                 <th>Dirección Exacta</th>
                 <th>Conductor</th>
                 <th>Vehículo</th>
+                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             {% if rutas %}
                 {% for ruta in rutas %}
-                <tr>
+                <tr data-estado="{{ ruta.activo|yesno:'true,false' }}">
                     <td>{{ ruta.id_ruta }}</td>
                     <td>{{ ruta.fecha_ruta }}</td>
                     <td>{{ ruta.provincia }}</td>
@@ -82,12 +91,19 @@
                     <td>{{ ruta.nombre_conductor }} {{ ruta.apellido_1 }}</td>
                     <td>{{ ruta.id_vehiculo }}</td>
                     <td>
-                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editRouteModal{{ ruta.id_ruta }}">
-                            <i class="fa fa-pencil"></i>
-                        </button>
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="setDeleteForm('{{ ruta.id_ruta }}', '{% url 'transportes:eliminar_ruta' ruta.id_ruta %}')">
-                            <i class="fa fa-trash"></i>
-                        </button>                        
+                        {% if ruta.activo %}
+                            <span class="badge bg-success">Activo</span>
+                        {% else %}
+                            <span class="badge bg-danger">Inactivo</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if ruta.activo %}
+                            <button onclick="eliminarRuta('{{ ruta.id_ruta }}')" class="btn btn-danger">Desactivar</button>
+                        {% else %}
+                            <button onclick="activarRuta('{{ ruta.id_ruta }}')" class="btn btn-success">Activar</button>
+                        {% endif %}
+
                     </td>
                 </tr>
                 {% endfor %}
@@ -278,31 +294,44 @@
 </div>
 {% endfor %}
 
-<!-- Modal Confirmación de Eliminación -->
-<style>#confirmDeleteModalLabel {
-    color: white !important;
-}
-</style>
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <form method="post" id="deleteForm">
-            {% csrf_token %}
+    <!-- Modal Confirmación de Eliminación -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ¿Desea eliminar la ruta <span id="routeId"></span>?
+                    ¿Estás seguro de que deseas desactivar esta ruta?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Desactivar</button>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+
+    <!-- Modal Confirmación de Activación -->
+    <div class="modal fade" id="confirmActivateModal" tabindex="-1" aria-labelledby="confirmActivateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="confirmActivateModalLabel">Confirmar Activación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas activar esta ruta?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" id="confirmActivateButton">Activar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -771,6 +800,112 @@
         actualizarFilas();
     });
 </script>
+
+<script>
+    let rutaIdToDelete = null;
+
+    function eliminarRuta(idRuta) {
+        if (confirm('¿Estás seguro de que deseas desactivar esta ruta?')) {
+            fetch(`/transportes/eliminar_ruta/${idRuta}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload(); // Recarga la página para reflejar los cambios
+                } else {
+                    alert('Error al desactivar la ruta');
+                }
+            })
+            .catch(error => alert('Error de conexión'));
+        }
+    }
+    
+
+</script>
+
+
+
+<script>
+let rutaIdToActivate = null;
+
+function activarRuta(idRuta) {
+    if (confirm('¿Estás seguro de que deseas activar esta ruta?')) {
+        fetch(`/transportes/activar_ruta/${idRuta}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload(); // Recarga la página para reflejar los cambios
+            } else {
+                alert('Error al activar la ruta');
+            }
+        })
+        .catch(error => alert('Error de conexión'));
+    }
+}
+
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("filtroEstado").addEventListener("change", function () {
+            var estadoSeleccionado = this.value;
+            var filas = document.querySelectorAll("#routesTable tbody tr");
+    
+            filas.forEach(function (fila) {
+                var estado = fila.getAttribute("data-estado");
+    
+                // Normaliza los valores
+                if (estado === "true") estado = "activo";
+                if (estado === "false") estado = "inactivo";
+    
+                // Filtra según el estado seleccionado
+                if (estadoSeleccionado === "todos") {
+                    fila.style.display = "";  // Mostrar todas
+                } else if (estadoSeleccionado === "activos" && estado === "activo") {
+                    fila.style.display = "";  // Mostrar solo activas
+                } else if (estadoSeleccionado === "inactivos" && estado === "inactivo") {
+                    fila.style.display = "";  // Mostrar solo inactivas
+                } else {
+                    fila.style.display = "none";  // Ocultar las que no coinciden
+                }
+            });
+        });
+    });
+    
+    <script>
+        function eliminarRuta(id) {
+            document.getElementById('confirmDeleteBtn').setAttribute('onclick', `confirmarEliminacion(${id})`);
+            var myModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+            myModal.show();
+        }
+        
+        function activarRuta(id) {
+            document.getElementById('confirmActivateBtn').setAttribute('onclick', `confirmarActivacion(${id})`);
+            var myModal = new bootstrap.Modal(document.getElementById('confirmActivateModal'));
+            myModal.show();
+        }
+        
+        function confirmarEliminacion(id) {
+            // Aquí debes hacer la petición para eliminar la ruta
+            console.log('Eliminando ruta con ID:', id);
+        }
+        
+        function confirmarActivacion(id) {
+            // Aquí debes hacer la petición para activar la ruta
+            console.log('Activando ruta con ID:', id);
+        }
+        
+    </script>
+
+
 
 
 {% endblock %}

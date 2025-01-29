@@ -6,7 +6,7 @@ from .models import Conductor, Vehiculo, Ruta
 class ConductorForm(forms.ModelForm):
     class Meta:
         model = Conductor
-        fields = ['id_conductor', 'nombre_conductor', 'apellidos_1', 'apellidos_2']
+        fields = ['id_conductor', 'nombre_conductor', 'apellidos_1', 'apellidos_2','telefono']
         
 class VehiculoForm(forms.ModelForm):
     class Meta:

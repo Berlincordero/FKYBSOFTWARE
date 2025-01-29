@@ -9,6 +9,7 @@ from django.utils import timezone
 import datetime
 from django.contrib import messages
 from geografia.models import Provincia, Canton, Distrito
+from django.http import JsonResponse
 
 @login_required
 def modulo_transportes(request):
@@ -28,13 +29,15 @@ def agregar_conductor(request):
         nombre_conductor = request.POST.get('nombre_conductor')
         apellidos_1 = request.POST.get('apellidos_1')
         apellidos_2 = request.POST.get('apellidos_2')
+        telefono = request.POST.get('telefono') #29/01/2024
 
         try:
             nuevo_conductor = Conductor(
                 id_conductor=id_conductor,
                 nombre_conductor=nombre_conductor,
                 apellidos_1=apellidos_1,
-                apellidos_2=apellidos_2
+                apellidos_2=apellidos_2,
+                telefono=telefono #29/01/2025
             )
             nuevo_conductor.save()
             return redirect('modulo_transportes')
@@ -52,6 +55,7 @@ def editar_conductor(request, id_conductor):
         conductor.nombre_conductor = request.POST['nombre_conductor']
         conductor.apellidos_1 = request.POST['apellidos_1']
         conductor.apellidos_2 = request.POST['apellidos_2']
+        conductor.telefono = request.POST['telefono'] #29/01/2025
         conductor.save()
         return redirect('transportes:modulo_transportes')
     
@@ -61,11 +65,18 @@ def editar_conductor(request, id_conductor):
 def eliminar_conductor(request, id_conductor):
     if request.method == 'POST':
         conductor = get_object_or_404(Conductor, id_conductor=id_conductor)
-        ConductorEliminado.objects.create(
-            conductor=conductor,
-            fecha_eliminacion=timezone.now()
-        )
         conductor.activo = False
+        conductor.save()
+
+        messages.success(request, 'Conductor movido a eliminadas con éxito.')
+        return redirect('modulo_transportes')
+    return HttpResponse("Método no permitido", status=405)
+
+@login_required
+def activar_conductor(request, id_conductor):
+    if request.method == 'POST':
+        conductor = get_object_or_404(Conductor, id_conductor=id_conductor)
+        conductor.activo = True
         conductor.save()
 
         messages.success(request, 'Conductor movido a eliminadas con éxito.')
@@ -123,11 +134,22 @@ def eliminar_vehiculo(request, id_vehiculo):
 # Rutas #
 @login_required
 def modulo_rutas(request):
-    # Si estás usando un campo 'activo' en el modelo Ruta
-    rutas = Ruta.objects.filter(activo=True)  # Recupera todas las rutas sin filtrar  # Filtra por rutas activas
+    # Obtenemos todas las rutas
+    rutas = Ruta.objects.all()
+
+    # Filtrar por estado si el filtro es activo o inactivo
+    estado = request.GET.get('estado', 'todos')  # Si no hay filtro, por defecto 'todos'
+    
+    if estado == 'activos':
+        rutas = rutas.filter(activo=True)  # Filtrar solo rutas activas
+    elif estado == 'inactivos':
+        rutas = rutas.filter(activo=False)  # Filtrar solo rutas inactivas
+    
     conductores = Conductor.objects.all()
     vehiculos = Vehiculo.objects.all()
+
     return render(request, 'modulo_rutas.html', {'rutas': rutas, 'conductores': conductores, 'vehiculos': vehiculos})
+
 
 @login_required
 def agregar_ruta(request):
@@ -160,6 +182,17 @@ def agregar_ruta(request):
         return redirect('transportes:modulo_rutas')
     else:
         return redirect('transportes:modulo_rutas')
+    
+@login_required
+def activar_ruta(request, id_ruta):
+    if request.method == 'POST':
+        ruta = get_object_or_404(Ruta, id_ruta=id_ruta)
+        ruta.activo = True
+        ruta.save()
+
+        messages.success(request, 'Ruta activada.')
+        return redirect('modulo_rutas')
+    return HttpResponse("Método no permitido", status=405)    
 
 @login_required
 def eliminar_ruta(request, id):

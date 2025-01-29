@@ -9,6 +9,7 @@ class Conductor(models.Model):
     nombre_conductor = models.CharField(max_length=100)
     apellidos_1 = models.CharField(max_length=100)
     apellidos_2 = models.CharField(max_length=100, blank=True)
+    telefono = models.CharField(max_length=15) # 29/01/2025
     activo = models.BooleanField(default=True)  # Campo para marcar rutas activas o no
 
     def __str__(self):
