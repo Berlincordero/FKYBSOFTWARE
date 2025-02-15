@@ -2,6 +2,8 @@ from pathlib import Path
 import os
 import environ
 import requests 
+import dj_database_url
+from pathlib import Path
 
 env = environ.Env()
 environ.Env.read_env()
@@ -77,16 +79,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fkybsoftware',
-        'USER': 'postgres',
-        'PASSWORD': 'kik301',
-        'HOST': 'localhost',  # o la dirección de tu servidor PostgreSQL
-        'PORT': '5432',  # el puerto por defecto de PostgreSQL es 5432
+if os.environ.get('DATABASE_URL'):
+    # Si DATABASE_URL está definida (en Heroku)
+    DATABASES = {
+        'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
     }
-}
+else:
+    # Si no, usa la configuración local
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'fkybsoftware',
+            'USER': 'postgres',
+            'PASSWORD': 'admin',
+            'HOST': 'localhost',  # o la dirección de tu servidor PostgreSQL
+            'PORT': '5432',  # el puerto por defecto de PostgreSQL es 5432
+        }
+    }
 
 
 AUTH_PASSWORD_VALIDATORS = [
