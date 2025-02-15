@@ -149,8 +149,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -172,7 +171,6 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 AUTH_USER_MODEL = 'Usuarios.CustomUser'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ALLOWED_HOSTS = ['https://fkyb-db89139f94fe.herokuapp.com/', 'localhost', '127.0.0.1']
 
