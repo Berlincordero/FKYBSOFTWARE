@@ -173,5 +173,5 @@ SESSION_SAVE_EVERY_REQUEST = True
 AUTH_USER_MODEL = 'Usuarios.CustomUser'
 
 
-ALLOWED_HOSTS = ['https://fkyb-db89139f94fe.herokuapp.com/', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['https://fkyb-db89139f94fe.herokuapp.com/', 'https://fkyb-db89139f94fe.herokuapp.com/', 'localhost', '127.0.0.1']
 
