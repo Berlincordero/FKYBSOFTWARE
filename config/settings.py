@@ -173,5 +173,13 @@ SESSION_SAVE_EVERY_REQUEST = True
 AUTH_USER_MODEL = 'Usuarios.CustomUser'
 
 
-ALLOWED_HOSTS = ['https://fkyb-db89139f94fe.herokuapp.com/', 'https://fkyb-db89139f94fe.herokuapp.com/', 'localhost', '127.0.0.1']
+# Obtener el dominio de Heroku dinámicamente
+HEROKU_APP_NAME = os.environ.get('HEROKU_APP_NAME', '')
+
+# Configurar ALLOWED_HOSTS
+ALLOWED_HOSTS = [
+    f'{HEROKU_APP_NAME}.herokuapp.com',  # Dominio de Heroku
+    'localhost',                         # desarrollo local
+    '127.0.0.1',                         # desarrollo local
+]
 
