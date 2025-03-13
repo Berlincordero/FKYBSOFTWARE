@@ -6,72 +6,57 @@
   <head>
     <link
       rel="stylesheet"
-      
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     >
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-      
     <!-- Librería para generar códigos de barra (JsBarcode) -->
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-
     <style>
-      .btn-action {
-        border: none;
-        background: none;
-        cursor: pointer;
-        margin: center;
-        margin-right: 10px; /* Adjust the spacing here */
+      /* Contenedor general */
+      .container {
+        width: 100%;
+        padding: 0 15px;
+        box-sizing: border-box;
       }
-      
-      .code-list li {
+      /* Encabezado principal */
+      .header {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
+        justify-content: space-between;
+        margin: 20px 0;
       }
-
-      .code-list li i {
-        margin-right: 8px;
-      }
-
-      .fa-save {
-        color: blue;
-      }
-
-      .fa-barcode {
-        color: red;
-      }
-
-      .fa-box {
-        color: red;
-      }
-      .fa-eye {
-        color: red;
+      /* Botones de navegación y acciones */
+      .nav-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
       }
       .nav-button {
-        
-        color: orange; /* Texto blanco */
-        border: none; /* Sin borde */
-        padding: 10px 20px; /* Espaciado interno */
-        border-radius: 5px; /* Bordes redondeados */
-        display: inline-flex; /* Alinear contenido en línea */
-        align-items: center; /* Centrar verticalmente */
-        font-size: 24px; /* Tamaño de fuente */
-        cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+        color: orange;
+        background: none;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 24px;
+        cursor: pointer;
         transition: background-color 0.3s ease;
       }
-      
       .nav-button:hover {
-        background-color: #0056b3; /* Azul más oscuro */
+        background-color: #0056b3;
       }
-      
       .icon-text {
         display: inline-flex;
         align-items: center;
-        gap: 8px; /* Espacio entre el ícono y el texto */
+        gap: 8px;
       }
-      
       .icon-text i {
-        font-size: 40px; /* Tamaño del ícono */
+        font-size: 40px;
       }
+      /* Submenú: se muestra al hacer hover sobre el botón */
       .submenu {
         display: none;
         position: absolute;
@@ -82,202 +67,108 @@
         padding: 10px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       }
-
       .nav-button:hover .submenu {
         display: block;
       }
-
       .submenu-item {
         display: flex;
         align-items: center;
         padding: 5px 0;
       }
-
       .submenu-item i {
         margin-right: 8px;
       }
-
-    
-
+      /* Botones de acción (guardar, imprimir, etc.) */
+      .btn-action {
+        border: none;
+        background: none;
+        cursor: pointer;
+        margin-right: 10px;
+      }
+      .fa-save { color: blue; }
+      .fa-barcode, .fa-box, .fa-eye { color: red; }
+      /* Icono con efecto hover */
       #cargar-icono {
-        position: center; /* Posición relativa para el ícono */
-        margin: 0px 10px; /* Espaciado alrededor del ícono */
-        font-size: 24px; /* Tamaño específico para este ícono */
-        color: #3498db; /* Color azul único */
-        margin-left: 45px; /* Espaciado adecuado alrededor del ícono */
-        cursor: pointer; /* Indicador de que el ícono es clickeable */
-        transition: color 0.3s ease, transform 0.3s ease; /* Suavizado en hover */
+        font-size: 24px;
+        color: #3498db;
+        cursor: pointer;
+        transition: color 0.3s ease, transform 0.3s ease;
       }
-      
       #cargar-icono:hover {
-        color: #1d6fa5; /* Cambio de color en hover */
-        transform: scale(1.2); /* Ligeramente más grande al hacer hover */
+        color: #1d6fa5;
+        transform: scale(1.2);
       }
-
       #imprimir-icono {
-        font-size: 24px; /* Tamaño del ícono */
+        font-size: 24px;
         cursor: pointer;
-        transition: color 0.3s, transform 0.3s; /* Transición suave para el color y la transformación */
-        margin-left: 18px; /* Espaciado derecho */
+        transition: color 0.3s, transform 0.3s;
+        margin-left: 18px;
       }
-
-      /* Estilos para el botón de cerrar */
-      .modal-imagen-tabla .close {
-        position: absolute;
-        top: 15px;
-        right: 35px;
-        color: white;
-        font-size: 40px;
-        font-weight: bold;
-        cursor: pointer;
-      }
-
-      @media (min-width: 1200px) {
-        .h2, h2 {
-          color: orange;
-          font-size: 2rem;
-        }
-      }
-
-      .hidden {
-        display: none;
-      }
-
-      .icono-caja-abierta {
-        font-size: 36px; /* Tamaño del ícono */
-        color: #865a27e7; /* Color del ícono */
-        margin-right: 10px; /* Espacio entre el ícono y el texto */
-        vertical-align: middle; /* Alineación vertical con el texto */
-      }
-
-      /* Estilos adicionales para la tabla */
+      /* Estilos para la tabla de productos */
       .producto-tabla {
-        width: 100%; /* Ajusta el ancho de la tabla */
+        width: 100%;
         margin: 20px auto;
         border-collapse: collapse;
         font-size: 16px;
-        text-align: center; /* Centrar el texto dentro de las celdas */
+        text-align: center;
+        overflow-x: auto;
       }
-
-      /* Estilo para los encabezados de la tabla */
       .producto-tabla thead {
         background-color: #97e89f;
         color: white;
       }
-
-      .producto-tabla th, 
+      .producto-tabla th,
       .producto-tabla td {
-        padding: 4px;
-        
+        padding: 8px;
+        border: 1px solid #95defd;
+        vertical-align: middle;
       }
-      th {
-        color: black;
+      .producto-tabla th {
         background-color: #95defd;
+        color: black;
       }
-
-      tbody tr:hover {
-        background-color: hsl(180, 1%, 83%); /* Cambia el fondo de la fila al pasar el ratón */
-        transition: background-color 0.3s; /* Para una transición suave */
-      }
-
-      tbody td:hover {
-        background-color: #efc737; /* Cambia el fondo de la celda al pasar el ratón */
-        transition: background-color 0.3s; /* Para una transición suave */
-      }
-
-      /* Alternar color de fondo para las filas */
-      .producto-tabla tbody tr:nth-child(even) {
+      tbody tr:nth-child(even) {
         background-color: #f2f2f2;
       }
-
-      /* Cambiar el color al pasar el cursor sobre una fila */
-      .producto-tabla tbody tr:hover {
+      tbody tr:hover {
         background-color: #f1f1f1;
+        transition: background-color 0.3s;
       }
-
-      /* Alinear texto dentro de las celdas */
-      .producto-tabla th, 
-      .producto-tabla td {
-        vertical-align: middle; /* Alinear verticalmente */
+      tbody td:hover {
+        background-color: #efc737;
+        transition: background-color 0.3s;
       }
-
+      /* Estilos para la subida de imágenes */
       .image-upload {
         position: relative;
         display: inline-block;
       }
-
       .image-upload-label {
         display: inline-block;
         padding: 10px 15px;
-        background-color: #007bff; /* Color de fondo */
-        color: white; /* Color del texto */
-        border-radius: 5px; /* Bordes redondeados */
-        cursor: pointer; /* Cambia el cursor al pasar por encima */
-        transition: background-color 0.3s; /* Efecto de transición */
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
       }
-
       .image-upload-label:hover {
-        background-color: #0056b3; /* Color al pasar el mouse */
+        background-color: #0056b3;
       }
-
       .file-input {
-        display: none; /* Ocultar el input original */
+        display: none;
       }
-
+      /* Estilos para paginación */
       .pagination {
-        color: blue; /* Color del texto */
         display: flex;
-        align-items: center; /* Alinear verticalmente los elementos */
-        justify-content: center; /* Centrar horizontalmente */
-        margin: 20px 0; /* Espaciado arriba y abajo */
-        margin-top: 60px; /* Espaciado arriba */
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0 60px 0;
+        flex-wrap: wrap;
+        gap: 10px;
       }
-
-      /* Estilos para los botones */
       .pagination button {
         background-color: #007bff;
-        border: none; /* Sin borde */
-        color: white; /* Color del texto */
-        padding: 8px 12px; /* Espaciado interno */
-        font-size: 14px; /* Tamaño de fuente */
-        cursor: pointer; /* Cambia el cursor al pasar el mouse */
-        border-radius: 4px; /* Esquinas redondeadas */
-        transition: background-color 0.3s ease; /* Transición de color */
-        margin: 0 5px; /* Espacio entre botones */
-        margin-top: 10px; /* Espacio arriba */
-      }
-
-      .pagination button:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
-    }
-
-    .pagination span {
-        font-size: 16px;
-    }
-
-
-      /* Cambiar color al pasar el mouse */
-      .pagination button:hover {
-        background-color: #e0a800; /* Color de fondo al pasar el mouse */
-      }
-
-      /* Estilos para el texto de la página actual */
-      #paginaActual,
-      #totalPaginas {
-        margin: 0 10px; /* Espacio a los lados */
-        font-weight: bold; /* Negrita */
-        font-size: 16px; /* Tamaño de fuente */
-      }
-
-      /* Estilo para la barra inclinada */
-      .pagination span {
-        margin: 0 5px; /* Espacio alrededor de la barra inclinada */
-      }
-
-      /* Estilos generales para el botón */
-      .btn-warning {
-        background-color: #ffc107;
         border: none;
         color: white;
         padding: 8px 12px;
@@ -285,132 +176,113 @@
         cursor: pointer;
         border-radius: 4px;
         transition: background-color 0.3s ease;
+        margin: 5px;
       }
-
-      /* Cambiar color al pasar el mouse */
-      .btn-warning:hover {
-        background-color: #e0a800;
+      .pagination button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
       }
-
-      /* Estilos para el ícono de Font Awesome */
-      .btn-warning i.fas {
-        margin-right: 5px; /* Espacio entre el ícono y el texto */
+      .pagination span, #paginaActual, #totalPaginas {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0 5px;
       }
-    
-      /* Estilos para un botón más pequeño si solo tiene el ícono */
-      .btn-warning-icon-only {
-        padding: 8px;
-        width: 31px;
-        height: 31px;
+      /* Botones Exportar Excel e Imprimir PDF */
+      .btn-export-excel, .btn-print-pdf {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
         display: inline-flex;
-        justify-content: center;
         align-items: center;
-        font-size: 18px;
-      }
-
-      /* Cambio de color del ícono cuando se pasa el mouse */
-      .btn-warning-icon-only:hover i.fas {
-        color: #e0a800;
-      }
-
-      /* Estilos adicionales si solo hay el ícono, quitar el margen a la derecha */
-      .btn-warning-icon-only i.fas {
-        margin-right: 0;
-      }
-      svg#barcode {
-        width: 0;
-        height: 0;
-      }
-      tbody td:hover {
-        background-color: #efc737; /* Celda en hover */
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-right: 10px;
       }
       .btn-export-excel {
-        background-color: #007bff; /* Color azul */
+        background-color: #007bff;
         color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        display: inline-flex;
-        align-items: center;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        margin-right: 10px; /* Espacio entre botones */
-        margin-left: 575px; /* Espacio entre botones */
       }
-      
-      .btn-export-excel i {
-        margin-right: 8px;
-      }
-      
       .btn-export-excel:hover {
-        background-color: #0056b3; /* Azul más oscuro */
+        background-color: #0056b3;
       }
-      
-      /* Botón de Imprimir PDF */
+      .btn-export-excel i { margin-right: 8px; }
       .btn-print-pdf {
-        background-color: #28a745; /* Color verde */
+        background-color: #28a745;
         color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        display: inline-flex;
-        align-items: center;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
       }
-      
-      .btn-print-pdf i {
-        margin-right: 8px;
-      }
-      
       .btn-print-pdf:hover {
-        background-color: #1e7e34; /* Verde más oscuro */
+        background-color: #1e7e34;
       }
-
-      .form-group input, .form-group select, .form-group textarea {
+      /* Formularios y validaciones */
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
         padding: 10px;
         font-size: 18px;
         border: 1px solid #ccc;
         border-radius: 4px;
         outline: none;
         transition: border-color 0.3s;
-    }
-      
-    .error-message {
-      color: red;
-      font-size: 12px;
-      margin-top: 5px;
-      display: none; /* Ocultar mensajes inicialmente */
-  }
-  
-  input:invalid {
-      border: 1px solid red; /* Cambiar el borde del input si no es válido */
-  }
-
-  .modal-header.bg-primary {
-    background-color: #007bff;
-    color: white;
-  }
-
-  .btn-secondary {
-    background-color: #6c757d;
-    border: none;
-  }
-
-  .btn-danger {
-    background-color:rgb(232, 29, 52);
-    border: none;
-  }
-
-  tbody td:hover {
-    background-color: #efc737;
-  }
+      }
+      .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+        display: none;
+      }
+      input:invalid {
+        border: 1px solid red;
+      }
+      .modal-header.bg-primary {
+        background-color: #007bff;
+        color: white;
+      }
+      .btn-secondary { background-color: #6c757d; border: none; }
+      .btn-danger { background-color: rgb(232, 29, 52); border: none; }
+      /* Responsividad */
+      @media (min-width: 768px) {
+        .header {
+          flex-wrap: nowrap;
+          justify-content: space-between;
+        }
+        .search-bar {
+          flex: 1;
+          text-align: right;
+        }
+      }
+      @media (min-width: 1200px) {
+        .nav-button {
+          font-size: 26px;
+        }
+        .producto-tabla th,
+        .producto-tabla td {
+          padding: 12px;
+        }
+      }
+      @media (min-width: 1600px) {
+        .pagination span,
+        #paginaActual, #totalPaginas {
+          font-size: 18px;
+        }
+      }
+      /* Aseguramos que ningún elemento tenga márgenes fijos que rompan la adaptabilidad */
+      .btn-export-excel {
+        margin: 0; /* Se elimina margen fijo para adaptar en contenedores flexibles */
+      }
+      .search-bar input {
+        width: 100%;
+        max-width: 400px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
     </style>
   </head>
   <body>
     <div class="container">
+      <!-- Encabezado con navegación y barra de búsqueda -->
       <div class="header">
         <div class="nav-buttons">
           <button type="button" class="nav-button">
@@ -427,8 +299,7 @@
             </button>
           </div>
         </div>
-
-        <!-- Campo para filtrar productos (el lector láser se comporta como teclado) -->
+        <!-- Barra de búsqueda -->
         <div class="search-bar">
           <input 
             type="text" 
@@ -437,133 +308,114 @@
           />
         </div>
       </div>
-    </div>
 
-    <div>
       <br>
-      <table id="productoTabla" class="producto-tabla">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Cantidad</th>
-            <th>Unidad de Medida</th>
-            <th>Descripción</th>
-            <th>Código</th>
-            <!-- COLUMNA: Código de Barra -->
-            <th>Código de Barra</th>
-            <th>Moneda</th>
-            <th>Costo x unidad</th>
-            <th>Venta x unidad</th>
-            <th>Clasificación</th>
-            <th>Opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for producto in productos %}
-          <tr>
-            <td>{{ producto.nombre }}</td>
-            <td><strong>{{ producto.cantidad }}</strong></td>
-            <td>{{ producto.unidad_medida }}</td>
-            <td>{{ producto.descripcion }}</td>
-            <td>{{ producto.codigo_cabys }}</td>
+      <!-- Tabla de Productos -->
+      <div style="overflow-x: auto;">
+        <table id="productoTabla" class="producto-tabla">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Cantidad</th>
+              <th>Unidad de Medida</th>
+              <th>Descripción</th>
+              <th>Código</th>
+              <th>Código de Barra</th>
+              <th>Moneda</th>
+              <th>Costo x unidad</th>
+              <th>Venta x unidad</th>
+              <th>Clasificación</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for producto in productos %}
+            <tr>
+              <td>{{ producto.nombre }}</td>
+              <td><strong>{{ producto.cantidad }}</strong></td>
+              <td>{{ producto.unidad_medida }}</td>
+              <td>{{ producto.descripcion }}</td>
+              <td>{{ producto.codigo_cabys }}</td>
+              <!-- Generar el código de barras con JsBarcode -->
+              <td>
+                <svg id="barcode-{{ producto.pk }}"></svg>
+                <script>
+                  JsBarcode("#barcode-{{ producto.pk }}", "{{ producto.codigo_cabys|escapejs }}", {
+                    format: "CODE128",
+                    width: 1,
+                    height: 20,
+                    displayValue: true
+                  });
+                </script>
+              </td>
+              <td>{{ producto.moneda }}</td>
+              <td>{{ producto.precio_costo }}</td>
+              <td>{{ producto.precio_venta }}</td>
+              <td>{{ producto.clasificacion }}</td>
+              <td>
+                {% if producto.pk %}
+                  <button type="button" class="btn btn-warning btn-warning-icon-only"
+                    onclick="cargarDatosProducto(
+                      {{ producto.pk }},
+                      '{{ producto.nombre }}',
+                      {{ producto.cantidad }},
+                      '{{ producto.descripcion }}',
+                      '{{ producto.codigo_cabys }}',
+                      '{{ producto.moneda }}',
+                      {{ producto.precio_costo }},
+                      {{ producto.precio_venta }},
+                      '{{ producto.clasificacion }}'
+                    ); $('#editarproducto').modal('show');">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                {% else %}
+                  <p>Error: producto sin identificador.</p>
+                {% endif %}
+                <form action="{% url 'eliminar_producto' producto.pk %}" method="POST" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('{% url 'eliminar_producto' producto.pk %}')">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% empty %}
+            <tr class="fila-vacia">
+              <td colspan="11" class="text-center">No hay productos registrados</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
-            <!-- Generar el código de barras con JsBarcode -->
-            <td>
-              <!-- Contenedor (SVG) para el código de barras -->
-              <svg id="barcode-{{ producto.pk }}"></svg>
-              <script>
-                // Generamos la barra
-                JsBarcode("#barcode-{{ producto.pk }}", "{{ producto.codigo_cabys|escapejs }}", {
-                  format: "CODE128",
-                  width: 1,
-                  height: 20,
-                  displayValue: true
-                });
-              </script>
-            </td>
-
-            <td>{{ producto.moneda }}</td>
-            <td>{{ producto.precio_costo }}</td>
-            <td>{{ producto.precio_venta }}</td>
-            <td>{{ producto.clasificacion }}</td>
-            <td>
-              <!-- Botón para editar -->
-              {% if producto.pk %}
-                <button type="button" class="btn btn-warning btn-warning-icon-only"
-                  onclick="cargarDatosProducto(
-                    {{ producto.pk }},
-                    '{{ producto.nombre }}',
-                    {{ producto.cantidad }},
-                     {{producto.unidad_medida}},
-                    '{{ producto.descripcion }}',
-                    '{{ producto.codigo_cabys }}',
-                    '{{ producto.moneda }}',
-                    {{ producto.precio_costo }},
-                    {{ producto.precio_venta }},
-                    '{{ producto.clasificacion }}'
-                  ); $('#editarproducto').modal('show');">
-                  <i class="fas fa-edit"></i>
-                </button>
-              {% else %}
-                <p>Error: producto sin identificador.</p>
-              {% endif %}
-              
-              <!-- Botón para eliminar -->
-              <form 
-                action="{% url 'eliminar_producto' producto.pk %}" 
-                method="POST" 
-                style="display:inline;"
-              >
-                {% csrf_token %}
-                <button 
-                type="button" 
-                class="btn btn-sm btn-danger" 
-                onclick="confirmDelete('{% url 'eliminar_producto' producto.pk %}')">
-                <i class="fas fa-trash-alt"></i>
+      <!-- Modal de Confirmación de Eliminación -->
+      <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title" id="confirmDeleteLabel">Confirmar Eliminación</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
               </button>
+            </div>
+            <div class="modal-body">
+              ¿Estás seguro de que deseas eliminar este producto de la tabla?<br>
+              <strong>Por precaución se respaldará en la base de datos</strong>
+            </div>
+            <div class="modal-footer">
+              <form id="deleteForm" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Eliminar</button>
               </form>
-
-              <!-- Botón para Imprimir Código (sin margen extra) -->
-              
-            </td>
-          </tr>
-          {% empty %}
-          <tr class="fila-vacia">
-            <td colspan="11" class="text-center">No hay productos registrados</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-
-
-         <!-- Modal de Confirmación de Eliminación -->
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header bg-primary text-white">
-            <h5 class="modal-title" id="confirmDeleteLabel">Confirmar Eliminación</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            ¿Estás seguro de que deseas eliminar este producto de la tabla?
-            <br></br>
-            <strong>Por precaucion se respaldara en la base datos</strong>
-          </div>
-          <div class="modal-footer">
-            <form id="deleteForm" method="POST" style="display: inline;">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-danger">Eliminar</button>
-            </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-        
+
+      <!-- Paginación -->
       <div class="pagination">
         <button onclick="prevPage()">Anterior</button>
-        <span id="paginaActual"></span>Pagina De<span id="totalPaginas"></span>
+        <span id="paginaActual"></span> Página de <span id="totalPaginas"></span>
         <button onclick="nextPage()">Siguiente</button>
       </div>
 
@@ -572,23 +424,22 @@
       <button class="add-button btn btn-success" data-toggle="modal" data-target="#productModal">
         <i class="fa fa-plus"></i>
       </button>
-    </div>
 
-    <div id="alertas" style="margin-top: 20px;">
-      <h3 style="display: flex; align-items: center; gap: 10px;">
-        <span style="color: red; font-size: 34px;">
-          &#9888;
-        </span>
-        Notificaciones de Cantidades
-      </h3>
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <div style="display: flex; align-items: center;">
-          <span style="display: inline-block; width: 30px; height: 25px; background-color: #ff4d4d; border-radius: 50%; margin-right: 5px;"></span>
-          <strong>Bajo</strong>
-        </div>
-        <div style="display: flex; align-items: center;">
-          <span style="display: inline-block; width: 30px; height: 25px; background-color: #4dff4d; border-radius: 50%; margin-right: 5px;"></span>
-          <strong>Normal</strong>
+      <!-- Notificaciones de Cantidades -->
+      <div id="alertas" style="margin-top: 20px;">
+        <h3 style="display: flex; align-items: center; gap: 10px;">
+          <span style="color: red; font-size: 34px;">&#9888;</span>
+          Notificaciones de Cantidades
+        </h3>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <div style="display: flex; align-items: center;">
+            <span style="display: inline-block; width: 30px; height: 25px; background-color: #ff4d4d; border-radius: 50%; margin-right: 5px;"></span>
+            <strong>Bajo</strong>
+          </div>
+          <div style="display: flex; align-items: center;">
+            <span style="display: inline-block; width: 30px; height: 25px; background-color: #4dff4d; border-radius: 50%; margin-right: 5px;"></span>
+            <strong>Normal</strong>
+          </div>
         </div>
       </div>
     </div>
@@ -612,84 +463,77 @@
                       <label for="nombreProducto">Nombre</label>
                       <input type="text" id="nombreProducto" name="nombreProducto" class="form-control" required>
                       <div class="error-message" id="error-nombre"></div>
-                  </div>
-                  <div class="form-group">
-                    <label for="cantidadProducto">Cantidad</label>
-                    <input type="number" id="cantidadProducto" name="cantidadProducto" class="form-control" required>
-                    <div class="error-message" id="error-cantidad"></div>
-                </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="cantidadProducto">Cantidad</label>
+                      <input type="number" id="cantidadProducto" name="cantidadProducto" class="form-control" required>
+                      <div class="error-message" id="error-cantidad"></div>
+                    </div>
                     <div class="form-group">
                       <label for="unidadMedidaProducto">Unidad de Medida</label>
-                       <select id="unidadMedidaProducto" class="form-control" name="unidadMedidaProducto">
-                         <option value="Otros">Otros</option>
-                         <option value="Unidades">Unidades</option>
-                         <option value="Gramos">Gramos</option>
-                         <option value="Kilogramos">Kilogramos</option>
-                         <option value="Litros">Litros</option>
-                         <option value="Metros">Metros</option>
-                         <option value="Pulgadas">Pulgadas</option> 
-                       </select>
-                     </div>
-                     <div class="form-group">
-                      <label for="descripcionProducto">Descripción</label>
-                      <input type="text" id="descripcionProducto" name="descripcionProducto" class="form-control" required>
-                      <div class="error-message" id="error-descripcion"></div>
-                  </div>
-                  <div class="form-group">
-                    <label for="codigoCABYS">Código</label>
-                    <input type="text" id="codigoCABYS" name="codigoCABYS" class="form-control" required>
-                    <div class="error-message" id="error-codigo"></div>
-                </div>
-                    <!-- Botón para enfocar el campo con la pistola -->
-                    <button 
-                      type="button" 
-                      class="btn btn-info" 
-                      onclick="enfocarCampo('codigoCABYS')"
-                      style="margin-bottom:10px;"
-                    >
-                      <i class="fas fa-barcode"></i> Escanear Código
-                    </button>
-
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="monedaProducto">Moneda</label>
-                      <select id="monedaProducto" class="form-control" name="monedaProducto">
-                        <option value="CRC">Colones</option>
-                        <option value="USD">Dólares</option>
-                        <option value="EUR">Euros</option>
+                      <select id="unidadMedidaProducto" class="form-control" name="unidadMedidaProducto">
+                        <option value="Otros">Otros</option>
+                        <option value="Unidades">Unidades</option>
+                        <option value="Gramos">Gramos</option>
+                        <option value="Kilogramos">Kilogramos</option>
+                        <option value="Litros">Litros</option>
+                        <option value="Metros">Metros</option>
+                        <option value="Pulgadas">Pulgadas</option>
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="precioCosto">Precio de Costo x Unidad</label>
-                      <input type="number" id="precioCosto" name="precioCosto" class="form-control" required>
-                      <div class="error-message" id="error-costo"></div>
+                      <label for="descripcionProducto">Descripción</label>
+                      <input type="text" id="descripcionProducto" name="descripcionProducto" class="form-control" required>
+                      <div class="error-message" id="error-descripcion"></div>
+                    </div>
+                    <div class="form-group">
+                      <label for="codigoCABYS">Código</label>
+                      <input type="text" id="codigoCABYS" name="codigoCABYS" class="form-control" required>
+                      <div class="error-message" id="error-codigo"></div>
+                    </div>
+                    <!-- Botón para enfocar el campo con la pistola -->
+                    <button type="button" class="btn btn-info" onclick="enfocarCampo('codigoCABYS')" style="margin-bottom:10px;">
+                      <i class="fas fa-barcode"></i> Escanear Código
+                    </button>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="monedaProducto">Moneda</label>
+                    <select id="monedaProducto" class="form-control" name="monedaProducto">
+                      <option value="CRC">Colones</option>
+                      <option value="USD">Dólares</option>
+                      <option value="EUR">Euros</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="precioCosto">Precio de Costo x Unidad</label>
+                    <input type="number" id="precioCosto" name="precioCosto" class="form-control" required>
+                    <div class="error-message" id="error-costo"></div>
                   </div>
                   <div class="form-group">
                     <label for="precioVenta">Precio de Venta x Unidad</label>
                     <input type="number" id="precioVenta" name="precioVenta" class="form-control" required>
                     <div class="error-message" id="error-venta"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="clasificacionProducto">Clasificación</label>
+                    <select id="clasificacionProducto" class="form-control" name="clasificacionProducto">
+                      <option value="Materiales">Materiales</option>
+                      <option value="Herramientas">Herramientas</option>
+                      <option value="Pinturas">Pinturas</option>
+                      <option value="Solventes">Solventes</option>
+                      <option value="Maderas">Maderas</option>
+                      <option value="Aceros">Aceros</option>
+                      <option value="Plasticos">Plásticos</option>
+                      <option value="Otros">Otros</option>
+                    </select>
+                  </div>
                 </div>
-                    <div class="form-group">
-                      <label for="clasificacionProducto">Clasificación</label>
-                      <select id="clasificacionProducto" class="form-control" name="clasificacionProducto">
-                        <option value="Materiales">Materiales</option>
-                        <option value="Herramientas">Herramientas</option>
-                        <option value="Pinturas">Pinturas</option>
-                        <option value="Solventes">Solventes</option>
-                        <option value="Maderas">Maderas</option>
-                        <option value="Aceros">Aceros</option>
-                        <option value="Plasticos">Plásticos</option>
-                        <option value="Otros">Otros</option>
-                      </select>
-                    </div>
-                    
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
-                  </form>
               </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -722,16 +566,16 @@
                     </div>
                     <div class="form-group">
                       <label for="editarunidadMedidaProducto">Unidad de Medida</label>
-                       <select id="editarunidadMedidaProducto" class="form-control" name="unidadMedidaProducto">
-                         <option value="Otros">Otros</option>
-                         <option value="Unidades">Unidades</option>
-                         <option value="Gramos">Gramos</option>
-                         <option value="Kilogramos">Kilogramos</option>
-                         <option value="Litros">Litros</option>
-                         <option value="Metros">Metros</option>
-                         <option value="Pulgadas">Pulgadas</option>
-                       </select>
-                     </div>
+                      <select id="editarunidadMedidaProducto" class="form-control" name="unidadMedidaProducto">
+                        <option value="Otros">Otros</option>
+                        <option value="Unidades">Unidades</option>
+                        <option value="Gramos">Gramos</option>
+                        <option value="Kilogramos">Kilogramos</option>
+                        <option value="Litros">Litros</option>
+                        <option value="Metros">Metros</option>
+                        <option value="Pulgadas">Pulgadas</option>
+                      </select>
+                    </div>
                     <div class="form-group">
                       <label for="editardescripcionProducto">Descripción</label>
                       <input type="text" id="editardescripcionProducto" class="form-control" name="descripcionProducto"/>
@@ -740,56 +584,47 @@
                       <label for="editarcodigoCABYS">Código CABYS</label>
                       <input type="text" id="editarcodigoCABYS" class="form-control" name="codigoCABYS"/>
                     </div>
-
                     <!-- Botón para enfocar el campo con la pistola -->
-                    <button 
-                      type="button" 
-                      class="btn btn-info" 
-                      onclick="enfocarCampo('editarcodigoCABYS')"
-                      style="margin-bottom:10px;"
-                    >
+                    <button type="button" class="btn btn-info" onclick="enfocarCampo('editarcodigoCABYS')" style="margin-bottom:10px;">
                       <i class="fas fa-barcode"></i> Escanear Código
                     </button>
-
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="editarmonedaProducto">Moneda</label>
+                    <select id="editarmonedaProducto" class="form-control" name="monedaProducto">
+                      <option value="CRC">Colones</option>
+                      <option value="USD">Dólares</option>
+                      <option value="EUR">Euros</option>
+                    </select>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="editarmonedaProducto">Moneda</label>
-                      <select id="editarmonedaProducto" class="form-control" name="monedaProducto">
-                        <option value="CRC">Colones</option>
-                        <option value="USD">Dólares</option>
-                        <option value="EUR">Euros</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="editarprecioCosto">Precio del Costo</label>
-                      <input type="number" id="editarprecioCosto" class="form-control" name="precioCosto"/>
-                    </div>
-                    <div class="form-group">
-                      <label for="editarprecioVenta">Precio de Venta</label>
-                      <input type="number" id="editarprecioVenta" class="form-control" name="precioVenta"/>
-                    </div>
-                    <div class="form-group">
-                      <label for="editarclasificacionProducto">Clasificación</label>
-                      <select id="editarclasificacionProducto" class="form-control" name="clasificacionProducto">
-                        <option value="Materiales">Materiales</option>
-                        <option value="Herramientas">Herramientas</option>
-                        <option value="Pinturas">Pinturas</option>
-                        <option value="Solventes">Solventes</option>
-                        <option value="Maderas">Maderas</option>
-                        <option value="Aceros">Aceros</option>
-                        <option value="Plásticos">Plásticos</option>
-                        <option value="Otros">Otros</option>
-                      </select>
-                    </div>
-                    
+                  <div class="form-group">
+                    <label for="editarprecioCosto">Precio del Costo</label>
+                    <input type="number" id="editarprecioCosto" class="form-control" name="precioCosto"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="editarprecioVenta">Precio de Venta</label>
+                    <input type="number" id="editarprecioVenta" class="form-control" name="precioVenta"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="editarclasificacionProducto">Clasificación</label>
+                    <select id="editarclasificacionProducto" class="form-control" name="clasificacionProducto">
+                      <option value="Materiales">Materiales</option>
+                      <option value="Herramientas">Herramientas</option>
+                      <option value="Pinturas">Pinturas</option>
+                      <option value="Solventes">Solventes</option>
+                      <option value="Maderas">Maderas</option>
+                      <option value="Aceros">Aceros</option>
+                      <option value="Plásticos">Plásticos</option>
+                      <option value="Otros">Otros</option>
+                    </select>
                   </div>
                 </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                </div>
-                  </form>
               </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -802,26 +637,23 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-      // Al presionar "Escanear Código", enfocamos el input donde se escribirá lo escaneado
+      // Al presionar "Escanear Código", se enfoca el input correspondiente
       function enfocarCampo(campoId) {
         document.getElementById(campoId).focus();
       }
 
-      // Asignar evento al campo de filtro general
+      // Filtro de la tabla (el lector láser actúa como teclado)
       document.getElementById("filtroGeneral").addEventListener("input", filtrarTabla);
-
       function filtrarTabla() {
         const filtro = document.getElementById("filtroGeneral").value.toLowerCase();
         const tabla = document.getElementById("productoTabla").getElementsByTagName("tbody")[0];
         const filas = tabla.getElementsByTagName("tr");
-
         for (let i = 0; i < filas.length; i++) {
           const celdas = filas[i].getElementsByTagName("td");
           if (celdas.length > 2) {
             const nombre = celdas[0].textContent.toLowerCase();
             const cantidad = celdas[1].textContent.toLowerCase();
             const descripcion = celdas[2].textContent.toLowerCase();
-
             if (nombre.includes(filtro) || cantidad.includes(filtro) || descripcion.includes(filtro)) {
               filas[i].style.display = "";
             } else {
@@ -831,18 +663,15 @@
         }
       }
 
+      // Paginación de la tabla
       const filasPorPagina = 5;
       let paginaActual = 1;
       const tabla = document.querySelector(".producto-tabla").getElementsByTagName("tbody")[0];
       let filas = Array.from(tabla.getElementsByTagName("tr")); 
       let totalPaginas = Math.ceil(filas.length / filasPorPagina);
-
       function mostrarPagina(pagina) {
-        ordenarFilasPorCantidad(); // Ordenar antes de mostrar
-
-        for (let i = 0; i < filas.length; i++) {
-          filas[i].style.display = "none";
-        }
+        // Se puede incluir ordenamiento o filtrado previo si es necesario
+        filas.forEach(fila => fila.style.display = "none");
         const inicio = (pagina - 1) * filasPorPagina;
         const fin = inicio + filasPorPagina;
         for (let i = inicio; i < fin && i < filas.length; i++) {
@@ -850,27 +679,23 @@
         }
         document.getElementById("paginaActual").textContent = pagina;
         document.getElementById("totalPaginas").textContent = totalPaginas;
-
         verificarAlertasCantidad();
       }
-
       function nextPage() {
         if (paginaActual < totalPaginas) {
           paginaActual++;
           mostrarPagina(paginaActual);
         }
       }
-
       function prevPage() {
         if (paginaActual > 1) {
           paginaActual--;
           mostrarPagina(paginaActual);
         }
       }
-
       mostrarPagina(paginaActual);
-
-
+      
+      // Notificaciones según la cantidad
       function verificarAlertasCantidad() {
         filas.forEach(fila => {
           const celdas = fila.getElementsByTagName('td');
@@ -887,37 +712,22 @@
         });
       }
 
-      function ordenarFilasPorCantidad() {
-        filas.sort((a, b) => {
-          const cantidadA = parseInt(a.children[1].textContent);
-          const cantidadB = parseInt(b.children[1].textContent);
-
-          if (cantidadA <= 10 && cantidadB > 10) {
-            return -1;
-          } else if (cantidadA > 10 && cantidadB <= 10) {
-            return 1;
-          }
-          return 0;
-        });
-        filas.forEach(fila => tabla.appendChild(fila));
-      }
-
-      contarProductos();
+      // Contador de productos
       function contarProductos() {
         const tablaBody = document.getElementById("productoTabla").getElementsByTagName("tbody")[0];
         const filasExistentes = tablaBody.getElementsByTagName("tr");
-
         let totalProductos = 0;
         for (let i = 0; i < filasExistentes.length; i++) {
           if (!filasExistentes[i].classList.contains("fila-vacia")) {
             totalProductos++;
           }
         }
-
         const textoContador = `${totalProductos} producto(s) registrado(s) en la tabla(s).`;
         document.getElementById("contador-productos").textContent = textoContador;
       }
+      contarProductos();
 
+      // Función para imprimir la tabla en PDF
       function imprimirTabla() {
         const tablaHtml = document.querySelector('.producto-tabla').outerHTML;
         const ventanaImpresion = window.open('', '_blank', 'width=1200,height=600');
@@ -956,26 +766,16 @@
         ventanaImpresion.close();
       }
 
-      function cargarDatosProducto(id, nombre, cantidad, descripcion, codigoCABYS, moneda, precioCosto, precioVenta, clasificacion) {
-        document.getElementById('producto_id').value = id; 
-        document.getElementById('editarnombreProducto').value = nombre;
-        document.getElementById('editarcantidadProducto').value = cantidad;
-        document.getElementById('editarunidadMedida').value = unidadMedida;
-        document.getElementById('editardescripcionProducto').value = descripcion;
-        document.getElementById('editarcodigoCABYS').value = codigoCABYS;
-        document.getElementById('editarmonedaProducto').value = moneda;
-        document.getElementById('editarprecioCosto').value = precioCosto;
-        document.getElementById('editarprecioVenta').value = precioVenta;
-        document.getElementById('editarclasificacionProducto').value = clasificacion;
-
-        if (window.history.replaceState) {
-          window.history.replaceState(null, null, window.location.href);
-        }
+      // Función para asignar la URL de eliminación al formulario y mostrar el modal
+      function confirmDelete(deleteUrl) {
+        const deleteForm = document.getElementById('deleteForm');
+        deleteForm.action = deleteUrl;
+        $('#confirmDeleteModal').modal('show');
       }
 
-      document.getElementById('inventarioForm').addEventListener('submit', function(event) {
+      // Validación del formulario de creación de producto
+      document.getElementById('inventarioForm')?.addEventListener('submit', function(event) {
         let isValid = true;
-    
         const nombre = document.getElementById('nombreProducto');
         const cantidad = document.getElementById('cantidadProducto');
         const descripcion = document.getElementById('descripcionProducto');
@@ -983,77 +783,81 @@
         const costo = document.getElementById('precioCosto');
         const venta = document.getElementById('precioVenta');
     
-        // Validar cada campo
         if (!nombre.value.trim()) {
-            showError('error-nombre', 'El nombre es requerido.');
-            isValid = false;
+          showError('error-nombre', 'El nombre es requerido.');
+          isValid = false;
         } else {
-            hideError('error-nombre');
+          hideError('error-nombre');
         }
     
         if (!cantidad.value || cantidad.value <= 0) {
-            showError('error-cantidad', 'La cantidad debe ser mayor a 0.');
-            isValid = false;
+          showError('error-cantidad', 'La cantidad debe ser mayor a 0.');
+          isValid = false;
         } else {
-            hideError('error-cantidad');
+          hideError('error-cantidad');
         }
     
         if (!descripcion.value.trim()) {
-            showError('error-descripcion', 'La descripción es requerida.');
-            isValid = false;
+          showError('error-descripcion', 'La descripción es requerida.');
+          isValid = false;
         } else {
-            hideError('error-descripcion');
+          hideError('error-descripcion');
         }
     
         if (!codigo.value.trim()) {
-            showError('error-codigo', 'El código es requerido.');
-            isValid = false;
+          showError('error-codigo', 'El código es requerido.');
+          isValid = false;
         } else {
-            hideError('error-codigo');
+          hideError('error-codigo');
         }
     
         if (!costo.value || costo.value <= 0) {
-            showError('error-costo', 'El precio de costo debe ser mayor a 0.');
-            isValid = false;
+          showError('error-costo', 'El precio de costo debe ser mayor a 0.');
+          isValid = false;
         } else {
-            hideError('error-costo');
+          hideError('error-costo');
         }
     
         if (!venta.value || venta.value <= 0) {
-            showError('error-venta', 'El precio de venta debe ser mayor a 0.');
-            isValid = false;
+          showError('error-venta', 'El precio de venta debe ser mayor a 0.');
+          isValid = false;
         } else {
-            hideError('error-venta');
+          hideError('error-venta');
         }
     
-        // Si no es válido, prevenir el envío del formulario
         if (!isValid) {
-            event.preventDefault();
+          event.preventDefault();
         }
-    });
+      });
     
-    function showError(elementId, message) {
+      function showError(elementId, message) {
         const errorElement = document.getElementById(elementId);
         errorElement.textContent = message;
         errorElement.style.display = 'block';
-    }
-    
-    function hideError(elementId) {
-        const errorElement = document.getElementById(elementId);
-        errorElement.style.display = 'none';
-    }
-
-       // Función para asignar la URL de eliminación al formulario y mostrar el modal
-       function confirmDelete(deleteUrl) {
-        const deleteForm = document.getElementById('deleteForm');
-        deleteForm.action = deleteUrl; // Asigna la URL al formulario
-        $('#confirmDeleteModal').modal('show'); // Muestra el modal
       }
     
+      function hideError(elementId) {
+        const errorElement = document.getElementById(elementId);
+        errorElement.style.display = 'none';
+      }
+
+      // Función para cargar datos del producto en el modal de edición
+      function cargarDatosProducto(id, nombre, cantidad, descripcion, codigoCABYS, moneda, precioCosto, precioVenta, clasificacion) {
+        document.getElementById('producto_id').value = id; 
+        document.getElementById('editarnombreProducto').value = nombre;
+        document.getElementById('editarcantidadProducto').value = cantidad;
+        document.getElementById('editarunidadMedidaProducto').value = ''; // Ajustar según la lógica necesaria
+        document.getElementById('editardescripcionProducto').value = descripcion;
+        document.getElementById('editarcodigoCABYS').value = codigoCABYS;
+        document.getElementById('editarmonedaProducto').value = moneda;
+        document.getElementById('editarprecioCosto').value = precioCosto;
+        document.getElementById('editarprecioVenta').value = precioVenta;
+        document.getElementById('editarclasificacionProducto').value = clasificacion;
+        if (window.history.replaceState) {
+          window.history.replaceState(null, null, window.location.href);
+        }
+      }
     </script>
   </body>
 </html>
 {% endblock %}
-
-
-#Berlin C.B

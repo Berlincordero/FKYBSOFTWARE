@@ -3,354 +3,373 @@
 {% block content %}
 
 <style>
-    /* Contenedor principal */
-    .facturacion-caja-shampoo-container {
-        width: 100%;
-        padding: 0 15px;
-        box-sizing: border-box;
-    }
+  /* Contenedor principal */
+  .facturacion-caja-shampoo-container {
+    width: 100%;
+    padding: 0 15px;
+    box-sizing: border-box;
+  }
 
-    /* Cabecera con Flexbox para una distribución responsiva */
-    .facturacion-caja-shampoo-header {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        max-width: 1200px;
-        width: 90%;
-        margin: 20px auto 70px auto;
-        background-color: #e0f0ff;
-        border-radius: 10px;
-        padding: 10px 20px;
-    }
+  /* Cabecera con Flexbox para distribución responsiva */
+  .facturacion-caja-shampoo-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    width: 90%;
+    margin: 20px auto 70px auto;
+    background-color: #e0f0ff;
+    border-radius: 10px;
+    padding: 10px 20px;
+  }
 
-    /* Título centrado en móviles y alineado a la izquierda en pantallas mayores */
+  /* Título: centrado en móviles y alineado a la izquierda en pantallas mayores */
+  .facturacion-caja-shampoo-header h1 {
+    color: #f90;
+    margin: 10px 0;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .facturacion-caja-shampoo-header .facturacion-caja-kike-icon {
+    font-size: 36px;
+    margin-right: 15px;
+  }
+
+  /* Contenedor para botones y búsqueda */
+  .header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  /* Botones de exportar y demás elementos, sin márgenes fijos */
+  .facturacion-caja-shampoo-header button,
+  .facturacion-caja-shampoo-fixed-icons a.export-excel-button {
+    padding: 10px 15px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .facturacion-caja-shampoo-fixed-icons a.export-excel-button {
+    font-size: 35px;
+    text-decoration: none;
+  }
+
+  .facturacion-caja-shampoo-fixed-icons a.export-excel-button:hover {
+    background-color: rgb(155, 205, 248);
+  }
+
+  .facturacion-caja-shampoo-header .facturacion-caja-shampoo-search-box {
+    display: flex;
+    align-items: center;
+  }
+
+  .facturacion-caja-shampoo-header input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  /* Tabla responsiva */
+  .facturacion-caja-shampoo-table-container {
+    width: 100%;
+    margin-top: 20px;
+    overflow-x: auto;
+  }
+
+  .facturacion-caja-shampoo-table {
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+  }
+
+  .facturacion-caja-shampoo-table th,
+  .facturacion-caja-shampoo-table td {
+    border: 1px solid #95defd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .facturacion-caja-shampoo-table th {
+    background-color: #95defd;
+  }
+
+  .facturacion-caja-shampoo-table tr:hover {
+    background-color: hsl(180, 1%, 83%);
+    transition: background-color 0.3s;
+  }
+
+  .facturacion-caja-shampoo-table td:hover {
+    background-color: #efc737;
+    transition: background-color 0.3s;
+  }
+
+  /* Otros estilos */
+  .facturacion-caja-shampoo-status-icon {
+    font-size: 1.2em;
+    margin-left: 5px;
+  }
+
+  .facturacion-caja-shampoo-status-paid {
+    color: #28a745;
+  }
+
+  .facturacion-caja-shampoo-status-pending {
+    color: #dc3545;
+  }
+
+  .facturacion-caja-shampoo-archive-button {
+    background-color: #96c4f5;
+    color: blue;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+
+  /* Paginación */
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    gap: 10px;
+  }
+
+  .pagination-controls button {
+    background-color: #3163f9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .pagination-controls button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .pagination-controls span {
+    font-size: 16px;
+  }
+
+  /* Media queries para pantallas de PC */
+
+  /* Desde 768px en adelante: ajustes para pantallas medianas */
+  @media screen and (min-width: 768px) {
     .facturacion-caja-shampoo-header h1 {
-        color: #f90;
-        margin: 10px 0;
-        font-size: 24px;
-        display: flex;
-        align-items: center;
-        flex: 1 1 100%;
-        text-align: center;
+      flex: unset;
+      text-align: left;
     }
-
-    .facturacion-caja-shampoo-header .facturacion-caja-kike-icon {
-        font-size: 36px;
-        margin-right: 15px;
-    }
-
-    /* Contenedor para botones y búsqueda */
     .header-actions {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        width: 100%;
+      justify-content: flex-end;
     }
+  }
 
-    /* Botón de exportar: se eliminó el margen fijo */
-    .facturacion-caja-shampoo-header button,
-    .facturacion-caja-shampoo-fixed-icons a.export-excel-button {
-        padding: 10px 15px;
-        background-color: #28a745;
-        border: none;
-        border-radius: 5px;
-        color: #fff;
-        cursor: pointer;
+  /* Desde 1200px en adelante: para pantallas grandes */
+  @media screen and (min-width: 1200px) {
+    .facturacion-caja-shampoo-header {
+      width: 80%;
+      padding: 20px 30px;
     }
-
-    /* Ajuste para el botón de Excel cuando es enlace */
-    .facturacion-caja-shampoo-fixed-icons a.export-excel-button {
-        font-size: 35px;
-        text-decoration: none;
+    .facturacion-caja-shampoo-header h1 {
+      font-size: 28px;
     }
-
-    .facturacion-caja-shampoo-fixed-icons a.export-excel-button:hover {
-        background-color: rgb(155, 205, 248);
-    }
-
-    .facturacion-caja-shampoo-header .facturacion-caja-shampoo-search-box {
-        display: flex;
-        align-items: center;
-    }
-
     .facturacion-caja-shampoo-header input[type="text"] {
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
+      padding: 12px;
+      font-size: 16px;
     }
-
-    /* Tabla responsiva */
-    .facturacion-caja-shampoo-table-container {
-        width: 100%;
-        margin-top: 20px;
-        overflow-x: auto;
-    }
-
-    .facturacion-caja-shampoo-table {
-        width: 100%;
-        margin: 0 auto;
-        border-collapse: collapse;
-    }
-
     .facturacion-caja-shampoo-table th,
     .facturacion-caja-shampoo-table td {
-        border: 1px solid #95defd;
-        padding: 8px;
-        text-align: left;
+      padding: 12px;
     }
+  }
 
-    .facturacion-caja-shampoo-table th {
-        background-color: #95defd;
+  /* Desde 1600px en adelante: para pantallas muy grandes */
+  @media screen and (min-width: 1600px) {
+    .facturacion-caja-shampoo-header {
+      width: 70%;
+      margin: 30px auto 70px auto;
     }
-
-    .facturacion-caja-shampoo-table tr:hover {
-        background-color: hsl(180, 1%, 83%);
-        transition: background-color 0.3s;
+    .facturacion-caja-shampoo-header h1 {
+      font-size: 32px;
     }
-
-    .facturacion-caja-shampoo-table td:hover {
-        background-color: #efc737;
-        transition: background-color 0.3s;
-    }
-
-    /* Otros elementos */
-    .facturacion-caja-shampoo-status-icon {
-        font-size: 1.2em;
-        margin-left: 5px;
-    }
-
-    .facturacion-caja-shampoo-status-paid {
-        color: #28a745;
-    }
-
-    .facturacion-caja-shampoo-status-pending {
-        color: #dc3545;
-    }
-
-    .facturacion-caja-shampoo-archive-button {
-        background-color: #96c4f5;
-        color: blue;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-size: 16px;
-        border-radius: 5px;
-    }
-
-    /* Paginación */
-    .pagination-controls {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 50px;
-        gap: 10px;
-    }
-
-    .pagination-controls button {
-        background-color: #3163f9;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 8px 15px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .pagination-controls button:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
-    }
-
     .pagination-controls span {
-        font-size: 16px;
+      font-size: 18px;
     }
-
-    /* Media query para pantallas mayores */
-    @media screen and (min-width: 768px) {
-        .facturacion-caja-shampoo-header h1 {
-            flex: unset;
-            text-align: left;
-        }
-        .header-actions {
-            justify-content: flex-end;
-        }
-    }
-
-    /* Media query para pantallas pequeñas */
-    @media screen and (max-width: 600px) {
-        .facturacion-caja-shampoo-header {
-            padding: 10px;
-        }
-        .facturacion-caja-shampoo-header h1 {
-            font-size: 20px;
-        }
-        .pagination-controls {
-            flex-direction: column;
-            gap: 5px;
-            margin-top: 20px;
-        }
-    }
+  }
 </style>
 
 <div class="facturacion-caja-shampoo-container">
-    <div class="facturacion-caja-shampoo-header">
-        <h1>
-            <i class="fa-solid fa-circle-dollar-to-slot facturacion-caja-kike-icon"></i>
-            Facturación - Precierres
-        </h1>
-        <div class="header-actions">
-            <div class="facturacion-caja-shampoo-fixed-icons">
-                <button class="btn-export-excel" onclick="location.href='{% url 'export_precierres_excel' %}'" title="Descargar Excel">
-                  <i class="fa fa-file-excel"></i> Descargar Excel
-                </button>
-            </div>
-            <div class="facturacion-caja-shampoo-search-box">
-                <input type="text" id="search-input" placeholder="Buscar por Fecha (YYYY-MM-DD)" />
-            </div>
-        </div>
+  <div class="facturacion-caja-shampoo-header">
+    <h1>
+      <i class="fa-solid fa-circle-dollar-to-slot facturacion-caja-kike-icon"></i>
+      Facturación - Precierres
+    </h1>
+    <div class="header-actions">
+      <div class="facturacion-caja-shampoo-fixed-icons">
+        <button class="btn-export-excel" onclick="location.href='{% url 'export_precierres_excel' %}'" title="Descargar Excel">
+          <i class="fa fa-file-excel"></i> Descargar Excel
+        </button>
+      </div>
+      <div class="facturacion-caja-shampoo-search-box">
+        <input type="text" id="search-input" placeholder="Buscar por Fecha (YYYY-MM-DD)" />
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="facturacion-caja-shampoo-table-container">
-    <table class="facturacion-caja-shampoo-table" id="precierres-table">
-        <thead>
-            <tr>
-                <th>Sucursal</th>
-                <th>Caja registradora</th>
-                <th>Hora apertura</th>
-                <th>Fecha</th>
-                <th>Monto Inicial Caja</th>
-                <th>Cajero</th>
-                <th>Impuestos</th>
-                <th>Efectivo</th>
-                <th>Facturas proveedor</th>
-                <th>Tarjetas</th>
-                <th>Simpe móvil</th>
-                <th>Venta crédito</th>
-                <th>Movimientos</th>
-                <th>Total Ventas</th>
-                <th>Cantidad facturas</th>
-                <th>Conteo Efectivo</th>
-                <th>Contado en Efectivo</th>
-                <th>Contado en Tarjetas</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for precierre in precierres %}
-            <tr>
-                <td>{{ precierre.sucursal }}</td>
-                <td>{{ precierre.caja_registradora }}</td>
-                <td>{{ precierre.hora_apertura }}</td>
-                <td>{{ precierre.fecha }}</td>
-                <td>{{ precierre.monto_inicial }}</td>
-                <td>{{ precierre.cajero }}</td>
-                <td>{{ precierre.impuestos }}</td>
-                <td>{{ precierre.efectivo }}</td>
-                <td>{{ precierre.facturas_proveedor }}</td>
-                <td>{{ precierre.tarjetas }}</td>
-                <td>{{ precierre.simpe_movil }}</td>
-                <td>{{ precierre.venta_credito }}</td>
-                <td>{{ precierre.movimientos }}</td>
-                <td>{{ precierre.total_ventas }}</td>
-                <td>{{ precierre.cantidad_facturas }}</td>
-                <td>{{ precierre.conteo_efectivo }}</td>
-                <td>{{ precierre.contado_efectivo }}</td>
-                <td>{{ precierre.contado_tarjetas }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+  <table class="facturacion-caja-shampoo-table" id="precierres-table">
+    <thead>
+      <tr>
+        <th>Sucursal</th>
+        <th>Caja registradora</th>
+        <th>Hora apertura</th>
+        <th>Fecha</th>
+        <th>Monto Inicial Caja</th>
+        <th>Cajero</th>
+        <th>Impuestos</th>
+        <th>Efectivo</th>
+        <th>Facturas proveedor</th>
+        <th>Tarjetas</th>
+        <th>Simpe móvil</th>
+        <th>Venta crédito</th>
+        <th>Movimientos</th>
+        <th>Total Ventas</th>
+        <th>Cantidad facturas</th>
+        <th>Conteo Efectivo</th>
+        <th>Contado en Efectivo</th>
+        <th>Contado en Tarjetas</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for precierre in precierres %}
+      <tr>
+        <td>{{ precierre.sucursal }}</td>
+        <td>{{ precierre.caja_registradora }}</td>
+        <td>{{ precierre.hora_apertura }}</td>
+        <td>{{ precierre.fecha }}</td>
+        <td>{{ precierre.monto_inicial }}</td>
+        <td>{{ precierre.cajero }}</td>
+        <td>{{ precierre.impuestos }}</td>
+        <td>{{ precierre.efectivo }}</td>
+        <td>{{ precierre.facturas_proveedor }}</td>
+        <td>{{ precierre.tarjetas }}</td>
+        <td>{{ precierre.simpe_movil }}</td>
+        <td>{{ precierre.venta_credito }}</td>
+        <td>{{ precierre.movimientos }}</td>
+        <td>{{ precierre.total_ventas }}</td>
+        <td>{{ precierre.cantidad_facturas }}</td>
+        <td>{{ precierre.conteo_efectivo }}</td>
+        <td>{{ precierre.contado_efectivo }}</td>
+        <td>{{ precierre.contado_tarjetas }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 <div class="pagination-controls">
-    <button id="prevPageBtn">Anterior</button>
-    <span>Página <span id="currentPage">1</span> de <span id="totalPages">1</span></span>
-    <button id="nextPageBtn">Siguiente</button>
+  <button id="prevPageBtn">Anterior</button>
+  <span>Página <span id="currentPage">1</span> de <span id="totalPages">1</span></span>
+  <button id="nextPageBtn">Siguiente</button>
 </div>
 
 <!-- Script para filtrar, imprimir y paginar -->
 <script>
-    // Imprimir (si existe el botón de imprimir)
-    document.addEventListener("DOMContentLoaded", function() {
-        var printButton = document.getElementById("print-button");
-        if (printButton) {
-            printButton.addEventListener("click", function () {
-                window.print();
-            });
-        }
-    });
+  // Impresión (si existe el botón de imprimir)
+  document.addEventListener("DOMContentLoaded", function() {
+    var printButton = document.getElementById("print-button");
+    if (printButton) {
+      printButton.addEventListener("click", function () {
+        window.print();
+      });
+    }
+  });
 
-    // Función para filtrar por fecha
-    function filterByDate() {
-        var input = document.getElementById("search-input");
-        var filter = input.value.trim().toLowerCase();
-        var table = document.getElementById("precierres-table");
-        var tr = table.getElementsByTagName("tr");
+  // Función para filtrar por fecha
+  function filterByDate() {
+    var input = document.getElementById("search-input");
+    var filter = input.value.trim().toLowerCase();
+    var table = document.getElementById("precierres-table");
+    var tr = table.getElementsByTagName("tr");
 
-        // Iterar sobre las filas de la tabla, excepto el encabezado
-        for (var i = 1; i < tr.length; i++) {
-            var td = tr[i].getElementsByTagName("td")[3]; // Índice 3 para la columna 'Fecha'
-            if (td) {
-                var txtValue = td.textContent || td.innerText;
-                tr[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
-            }
-        }
+    // Iterar sobre las filas, excepto el encabezado
+    for (var i = 1; i < tr.length; i++) {
+      var td = tr[i].getElementsByTagName("td")[3]; // Columna 'Fecha'
+      if (td) {
+        var txtValue = td.textContent || td.innerText;
+        tr[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+      }
+    }
+  }
+
+  // Eventos de filtrado en tiempo real
+  var searchInput = document.getElementById("search-input");
+  if (searchInput) {
+    searchInput.addEventListener("keyup", filterByDate);
+  }
+
+  // Paginación
+  document.addEventListener("DOMContentLoaded", function () {
+    const rowsPerPage = 5; // Número de filas por página
+    let currentPage = 1;
+
+    const table = document.getElementById("precierres-table");
+    const rows = Array.from(table.querySelectorAll("tbody tr"));
+    const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+    const currentPageSpan = document.getElementById("currentPage");
+    const totalPagesSpan = document.getElementById("totalPages");
+    const prevPageBtn = document.getElementById("prevPageBtn");
+    const nextPageBtn = document.getElementById("nextPageBtn");
+
+    totalPagesSpan.textContent = totalPages;
+
+    function showPage(page) {
+      const start = (page - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+
+      rows.forEach((row, index) => {
+        row.style.display = (index >= start && index < end) ? "" : "none";
+      });
+
+      currentPageSpan.textContent = page;
+      prevPageBtn.disabled = page === 1;
+      nextPageBtn.disabled = page === totalPages;
     }
 
-    // Eventos de filtrado en tiempo real
-    var searchInput = document.getElementById("search-input");
-    if (searchInput) {
-        searchInput.addEventListener("keyup", filterByDate);
-    }
-
-    // Paginación
-    document.addEventListener("DOMContentLoaded", function () {
-        const rowsPerPage = 5; // Número de filas por página
-        let currentPage = 1;
-
-        const table = document.getElementById("precierres-table");
-        const rows = Array.from(table.querySelectorAll("tbody tr"));
-        const totalPages = Math.ceil(rows.length / rowsPerPage);
-
-        const currentPageSpan = document.getElementById("currentPage");
-        const totalPagesSpan = document.getElementById("totalPages");
-        const prevPageBtn = document.getElementById("prevPageBtn");
-        const nextPageBtn = document.getElementById("nextPageBtn");
-
-        totalPagesSpan.textContent = totalPages;
-
-        function showPage(page) {
-            const start = (page - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
-
-            rows.forEach((row, index) => {
-                row.style.display = (index >= start && index < end) ? "" : "none";
-            });
-
-            currentPageSpan.textContent = page;
-            prevPageBtn.disabled = page === 1;
-            nextPageBtn.disabled = page === totalPages;
-        }
-
-        prevPageBtn.addEventListener("click", function () {
-            if (currentPage > 1) {
-                currentPage--;
-                showPage(currentPage);
-            }
-        });
-
-        nextPageBtn.addEventListener("click", function () {
-            if (currentPage < totalPages) {
-                currentPage++;
-                showPage(currentPage);
-            }
-        });
-
+    prevPageBtn.addEventListener("click", function () {
+      if (currentPage > 1) {
+        currentPage--;
         showPage(currentPage);
+      }
     });
+
+    nextPageBtn.addEventListener("click", function () {
+      if (currentPage < totalPages) {
+        currentPage++;
+        showPage(currentPage);
+      }
+    });
+
+    showPage(currentPage);
+  });
 </script>
 
 {% endblock %}
