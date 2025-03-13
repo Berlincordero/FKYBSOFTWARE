@@ -7,7 +7,7 @@ from .forms import ProveedorForm
 
 def proveedor_list(request):
     proveedores = Proveedor.objects.filter(activo=True) 
-    return render(request, 'Proveedores/proveedor_list.html', {'proveedores': proveedores})
+    return render(request, 'proveedores/proveedor_list.html', {'proveedores': proveedores})
 
 def agregar_proveedor(request):
     if request.method == 'POST':
