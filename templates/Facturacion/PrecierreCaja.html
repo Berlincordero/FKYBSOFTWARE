@@ -3,31 +3,72 @@
 {% block content %}
 
 <style>
-    
+    /* Contenedor principal */
+    .facturacion-caja-shampoo-container {
+        width: 100%;
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+
+    /* Cabecera con Flexbox para una distribución responsiva */
     .facturacion-caja-shampoo-header {
         display: flex;
-        width: 80%;
-        margin: 0 auto;
-        justify-content: space-between;
+        flex-wrap: wrap;
         align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        width: 90%;
+        margin: 20px auto 70px auto;
         background-color: #e0f0ff;
         border-radius: 10px;
         padding: 10px 20px;
-        margin-top: 20px;
-        margin-bottom: 70px;
     }
 
+    /* Título centrado en móviles y alineado a la izquierda en pantallas mayores */
     .facturacion-caja-shampoo-header h1 {
         color: #f90;
-        margin: 0;
+        margin: 10px 0;
         font-size: 24px;
         display: flex;
         align-items: center;
+        flex: 1 1 100%;
+        text-align: center;
     }
 
     .facturacion-caja-shampoo-header .facturacion-caja-kike-icon {
         font-size: 36px;
         margin-right: 15px;
+    }
+
+    /* Contenedor para botones y búsqueda */
+    .header-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+    }
+
+    /* Botón de exportar: se eliminó el margen fijo */
+    .facturacion-caja-shampoo-header button,
+    .facturacion-caja-shampoo-fixed-icons a.export-excel-button {
+        padding: 10px 15px;
+        background-color: #28a745;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    /* Ajuste para el botón de Excel cuando es enlace */
+    .facturacion-caja-shampoo-fixed-icons a.export-excel-button {
+        font-size: 35px;
+        text-decoration: none;
+    }
+
+    .facturacion-caja-shampoo-fixed-icons a.export-excel-button:hover {
+        background-color: rgb(155, 205, 248);
     }
 
     .facturacion-caja-shampoo-header .facturacion-caja-shampoo-search-box {
@@ -39,22 +80,13 @@
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 5px;
-        margin-right: 10px;
     }
 
-    .facturacion-caja-shampoo-header button {
-        padding: 10px 15px;
-        background-color: #28a745;
-        border: none;
-        border-radius: 5px;
-        color: #fff;
-        cursor: pointer;
-        margin-left: 565px;
-    }
-
+    /* Tabla responsiva */
     .facturacion-caja-shampoo-table-container {
         width: 100%;
         margin-top: 20px;
+        overflow-x: auto;
     }
 
     .facturacion-caja-shampoo-table {
@@ -84,32 +116,7 @@
         transition: background-color 0.3s;
     }
 
-    .facturacion-caja-shampoo-fixed-icons {
-        display: flex;
-    }
-
-    .facturacion-caja-shampoo-fixed-icons a.export-excel-button {
-        display: flex;
-        align-items: center;
-        padding: 10px 15px;
-       
-        color:  #28a745;
-        border: none;
-        border-radius: 5px;
-        text-decoration: none;
-        cursor: pointer;
-        font-size: 35px;
-        margin-left: 10px;
-    }
-
-    .facturacion-caja-shampoo-fixed-icons a.export-excel-button:hover {
-        background-color:rgb(155, 205, 248);
-    }
-
-    .facturacion-caja-shampoo-fixed-icons a.export-excel-button i {
-        margin-right: 5px;
-    }
-
+    /* Otros elementos */
     .facturacion-caja-shampoo-status-icon {
         font-size: 1.2em;
         margin-left: 5px;
@@ -132,11 +139,13 @@
         font-size: 16px;
         border-radius: 5px;
     }
+
+    /* Paginación */
     .pagination-controls {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 100px;
+        margin-top: 50px;
         gap: 10px;
     }
 
@@ -158,6 +167,32 @@
     .pagination-controls span {
         font-size: 16px;
     }
+
+    /* Media query para pantallas mayores */
+    @media screen and (min-width: 768px) {
+        .facturacion-caja-shampoo-header h1 {
+            flex: unset;
+            text-align: left;
+        }
+        .header-actions {
+            justify-content: flex-end;
+        }
+    }
+
+    /* Media query para pantallas pequeñas */
+    @media screen and (max-width: 600px) {
+        .facturacion-caja-shampoo-header {
+            padding: 10px;
+        }
+        .facturacion-caja-shampoo-header h1 {
+            font-size: 20px;
+        }
+        .pagination-controls {
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 20px;
+        }
+    }
 </style>
 
 <div class="facturacion-caja-shampoo-container">
@@ -166,14 +201,15 @@
             <i class="fa-solid fa-circle-dollar-to-slot facturacion-caja-kike-icon"></i>
             Facturación - Precierres
         </h1>
-        <div class="facturacion-caja-shampoo-fixed-icons">
-            <button class="btn-export-excel" onclick="location.href='{% url 'export_precierres_excel' %}'" title="Descargar">
-              <i class="fa fa-file-excel"></i> Descargar Excel
-            </button>
-          </div>
-        <div class="facturacion-caja-shampoo-search-box">
-            <input type="text" id="search-input" placeholder="Buscar por Fecha (YYYY-MM-DD)" />
-           
+        <div class="header-actions">
+            <div class="facturacion-caja-shampoo-fixed-icons">
+                <button class="btn-export-excel" onclick="location.href='{% url 'export_precierres_excel' %}'" title="Descargar Excel">
+                  <i class="fa fa-file-excel"></i> Descargar Excel
+                </button>
+            </div>
+            <div class="facturacion-caja-shampoo-search-box">
+                <input type="text" id="search-input" placeholder="Buscar por Fecha (YYYY-MM-DD)" />
+            </div>
         </div>
     </div>
 </div>
@@ -198,10 +234,8 @@
                 <th>Total Ventas</th>
                 <th>Cantidad facturas</th>
                 <th>Conteo Efectivo</th>
-              
                 <th>Contado en Efectivo</th>
                 <th>Contado en Tarjetas</th>
-                
             </tr>
         </thead>
         <tbody>
@@ -227,24 +261,20 @@
                 <td>{{ precierre.contado_tarjetas }}</td>
             </tr>
             {% endfor %}
-         
         </tbody>
     </table>
 </div>
+
 <div class="pagination-controls">
     <button id="prevPageBtn">Anterior</button>
     <span>Página <span id="currentPage">1</span> de <span id="totalPages">1</span></span>
     <button id="nextPageBtn">Siguiente</button>
 </div>
-<!-- Mover el estilo CSS al archivo styles.css o incluirlo en el bloque de estilos de base.html -->
 
-<!-- Script para archivar filas -->
+<!-- Script para filtrar, imprimir y paginar -->
 <script>
-
-
-    // Agregar evento de clic al botón de imprimir
+    // Imprimir (si existe el botón de imprimir)
     document.addEventListener("DOMContentLoaded", function() {
-        // Verificar si existe el botón de imprimir antes de agregar el evento
         var printButton = document.getElementById("print-button");
         if (printButton) {
             printButton.addEventListener("click", function () {
@@ -253,53 +283,30 @@
         }
     });
 
- 
-        // Función para imprimir (si existe el botón de imprimir)
-        var printButton = document.getElementById("print-button");
-        if (printButton) {
-            printButton.addEventListener("click", function () {
-                window.print();
-            });
-        }
+    // Función para filtrar por fecha
+    function filterByDate() {
+        var input = document.getElementById("search-input");
+        var filter = input.value.trim().toLowerCase();
+        var table = document.getElementById("precierres-table");
+        var tr = table.getElementsByTagName("tr");
 
-        // Función para filtrar por fecha
-        function filterByDate() {
-            var input = document.getElementById("search-input");
-            var filter = input.value.trim().toLowerCase();
-            var table = document.getElementById("precierres-table");
-            var tr = table.getElementsByTagName("tr");
-
-            // Iterar sobre las filas de la tabla, excepto la primera (encabezado)
-            for (var i = 1; i < tr.length; i++) {
-                var td = tr[i].getElementsByTagName("td")[3]; // Índice 3 para la columna 'Fecha'
-                if (td) {
-                    var txtValue = td.textContent || td.innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
+        // Iterar sobre las filas de la tabla, excepto el encabezado
+        for (var i = 1; i < tr.length; i++) {
+            var td = tr[i].getElementsByTagName("td")[3]; // Índice 3 para la columna 'Fecha'
+            if (td) {
+                var txtValue = td.textContent || td.innerText;
+                tr[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
             }
         }
+    }
 
-        // Agregar evento de clic al botón de búsqueda
-        var searchButton = document.getElementById("search-button");
-        if (searchButton) {
-            searchButton.addEventListener("click", function () {
-                filterByDate();
-            });
-        }
+    // Eventos de filtrado en tiempo real
+    var searchInput = document.getElementById("search-input");
+    if (searchInput) {
+        searchInput.addEventListener("keyup", filterByDate);
+    }
 
-        // Agregar evento 'keyup' para filtrar en tiempo real mientras el usuario escribe
-        var searchInput = document.getElementById("search-input");
-        if (searchInput) {
-            searchInput.addEventListener("keyup", function () {
-                filterByDate();
-            });
-        }
-    });
-
+    // Paginación
     document.addEventListener("DOMContentLoaded", function () {
         const rowsPerPage = 5; // Número de filas por página
         let currentPage = 1;
@@ -313,29 +320,20 @@
         const prevPageBtn = document.getElementById("prevPageBtn");
         const nextPageBtn = document.getElementById("nextPageBtn");
 
+        totalPagesSpan.textContent = totalPages;
+
         function showPage(page) {
             const start = (page - 1) * rowsPerPage;
             const end = start + rowsPerPage;
 
             rows.forEach((row, index) => {
-                row.style.display = index >= start && index < end ? "" : "none";
+                row.style.display = (index >= start && index < end) ? "" : "none";
             });
 
             currentPageSpan.textContent = page;
             prevPageBtn.disabled = page === 1;
             nextPageBtn.disabled = page === totalPages;
         }
-
-        function filterTable() {
-            const searchInput = document.getElementById("search-input").value.toLowerCase().trim();
-            rows.forEach((row) => {
-                const dateCell = row.querySelector("td:nth-child(4)");
-                const match = dateCell && dateCell.textContent.toLowerCase().includes(searchInput);
-                row.style.display = match ? "" : "none";
-            });
-        }
-
-        document.getElementById("search-input").addEventListener("input", filterTable);
 
         prevPageBtn.addEventListener("click", function () {
             if (currentPage > 1) {
@@ -352,12 +350,7 @@
         });
 
         showPage(currentPage);
-        totalPagesSpan.textContent = totalPages;
     });
-
 </script>
 
 {% endblock %}
-
-
-#Este Codigo tiene copyrights 2024 hecho y estructurado por Berlin Cordero Brenes derechos reservados 2024
