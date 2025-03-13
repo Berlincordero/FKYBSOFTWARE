@@ -5,6 +5,7 @@ import requests
 import dj_database_url
 from pathlib import Path
 
+
 env = environ.Env()
 environ.Env.read_env()
 
@@ -94,7 +95,7 @@ else:
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'fkybsoftware',
             'USER': 'postgres',
-            'PASSWORD': 'admin',
+            'PASSWORD': 'kik301',
             'HOST': 'localhost',  # o la dirección de tu servidor PostgreSQL
             'PORT': '5432',  # el puerto por defecto de PostgreSQL es 5432
         }
