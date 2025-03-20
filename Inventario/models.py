@@ -20,7 +20,7 @@ class Producto(models.Model):
         blank=True
     )
     descripcion = models.TextField(null=True, blank=True)
-    codigo_cabys = models.CharField(max_length=20, null=True, blank=True)
+    codigo_cabys = models.CharField(max_length=20, null=True, blank=True, unique=True)
     moneda = models.CharField(
         max_length=10,
         choices=[
