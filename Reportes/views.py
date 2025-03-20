@@ -275,7 +275,7 @@ def reporteTransportes(request):
     context = {
         'rutas': rutas,
     }
-    return render(request, 'Reportes/reporteTransportes.html', context)
+    return render(request, 'Reportes/reportetransportes.html', context)
 @login_required
 def generar_pdf_cuentas_por_cobrar(request):
     response = HttpResponse(content_type='application/pdf')
