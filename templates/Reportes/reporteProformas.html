@@ -61,7 +61,6 @@
                 <td>{{ item.proforma.cliente }}</td>
                 <td>{{ item.proforma.condicion_venta }}</td>
                 <td>
-                    <button class="btn-detalles">Ver Productos</button>
                     <a href="{% url 'detalle_proforma_pdf' item.proforma.id %}" class="action-btn" target="_blank">Descargar</a>
                 </td>
             </tr>
