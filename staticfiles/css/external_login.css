@@ -185,3 +185,22 @@ span a:hover{
 }
 
 
+
+/* Estilos para la alerta de error */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    color: #721c24; /* Color del texto */
+    background-color: #f8d7da; /* Color de fondo */
+    border-color: #f5c6cb; /* Color del borde */
+}
+
+/* Ocultar la alerta cuando tenga la clase "hidden" */
+.alert.hidden {
+    display: none;
+}

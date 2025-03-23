@@ -23,6 +23,15 @@
             <div class="col-md-6 right">
                 <div class="input-box">
                     <header>Inicio de sesión</header>
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                     <form method="post" class="form-group">
                         {% csrf_token %}
                         
@@ -49,30 +58,62 @@
     </div>
 </div>
 </body>
+
 <script>
+    //document.addEventListener("DOMContentLoaded", function() {
+       //setTimeout(function() {
+            //var alert = document.querySelector(".alert");
+            //if (alert) {
+                //alert.style.display = "none";
+            //}
+        //}, 10000); 
+        
+    //});
+    //function togglePasswordVisibility(id) {
+        //const input = document.getElementById(id);
+        //const icon = input.nextElementSibling.querySelector("i");
+    
+        //if (input.type === "password") {
+           //input.type = "text";
+            //icon.classList.remove("mdi-eye-off-outline");
+            //icon.classList.add("mdi-eye-outline");
+        //} else {
+            //input.type = "password";
+            //icon.classList.remove("mdi-eye-outline");
+            //icon.classList.add("mdi-eye-off-outline");
+        //}
+    //}
     document.addEventListener("DOMContentLoaded", function() {
         setTimeout(function() {
             var alert = document.querySelector(".alert");
             if (alert) {
                 alert.style.display = "none";
             }
-        }, 10000); 
-        
-    });
-    function togglePasswordVisibility(id) {
-        const input = document.getElementById(id);
-        const icon = input.nextElementSibling.querySelector("i");
-    
-        if (input.type === "password") {
-            input.type = "text";
-            icon.classList.remove("mdi-eye-off-outline");
-            icon.classList.add("mdi-eye-outline");
-        } else {
-            input.type = "password";
-            icon.classList.remove("mdi-eye-outline");
-            icon.classList.add("mdi-eye-off-outline");
+        }, 10000); // 10 segundos
+
+        function togglePasswordVisibility(id) {
+            const input = document.getElementById(id);
+            const icon = input.nextElementSibling.querySelector("i");
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("mdi-eye-off-outline");
+                icon.classList.add("mdi-eye-outline");
+            } else {
+                input.type = "password";
+                icon.classList.remove("mdi-eye-outline");
+                icon.classList.add("mdi-eye-off-outline");
+            }
         }
-    }
+
+        const togglePasswordButtons = document.querySelectorAll(".toggle-password");
+        togglePasswordButtons.forEach(button => {
+            button.addEventListener("click", function() {
+                const inputId = button.closest(".password-container").querySelector("input").id;
+                togglePasswordVisibility(inputId);
+            });
+        });
+    });
     
 </script>
 
