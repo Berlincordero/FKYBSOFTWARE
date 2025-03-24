@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Módulo Rutas</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -128,9 +129,7 @@
                     <option value="200">200</option>
                 </select>
             </div>
-            <button class="btn" style="background-color: #00bcd4; color: white;" onclick="printRutas()">
-                <i class="fa fa-print"></i> Imprimir Rutas
-            </button>
+            <button onclick="generatePDF()" class="btn btn-primary">Imprimir rutas</button>
         </div>
         
         
@@ -822,6 +821,138 @@
             .catch(error => alert('Error de conexión'));
         }
     }
+
+    
+    function generatePDF() {
+        // Obtener la tabla de rutas (solo las filas que necesitas)
+        const table = document.getElementById("routesTable");
+        const tableRows = table.querySelectorAll("tbody tr");
+    
+        // Cargar la librería jsPDF
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('landscape');
+    
+        // Agregar el logo
+        const logoPath = '/static/img/logo.jpg'; // Cambia esta ruta al logo que estás usando
+        doc.addImage(logoPath, 'JPEG', 10, 10, 30, 30); // X, Y, Ancho, Alto
+    
+        // Agregar el título y la fecha
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(22);
+        doc.text('Listado de Rutas', 210, 20, null, null, 'right'); // Centrado en formato horizontal
+        
+        doc.setFontSize(12);
+        doc.text('Fecha de impresión: ' + new Date().toLocaleDateString("es-ES")+"_"+ new Date().toLocaleTimeString("es-ES"), 210, 30, null, null, 'right');
+
+        // Establecer los bordes de la tabla
+        doc.setDrawColor(0, 0, 0);  // Color de la línea de la tabla (negro)
+        doc.setLineWidth(0.1);  // Ancho de la línea
+
+        // Definir el inicio de las celdas
+        let y = 50;  // Empieza debajo de los encabezados
+
+        // Añadir encabezado de la tabla
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);  // Color de texto azul
+        doc.text('ID Ruta', 10, y);
+        doc.text('Fecha', 40, y);
+        doc.text('Provincia', 70, y);
+        doc.text('Cantón', 110, y);
+        doc.text('Distrito', 150, y);
+        doc.text('Dirección Exacta', 190, y); // Dirección Exacta con mayor espacio
+        doc.text('Conductor', 250, y);
+        doc.text('Vehículo', 300, y);
+
+        // Aumentar la posición vertical para las filas de la tabla
+        y += 10;
+
+        // Añadir las filas de la tabla
+        tableRows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+
+            // Verificar si la fila debe tener el color de fondo gris (Inactivo)
+            const isInactive = row.getAttribute('data-estado') === 'false'; // Asegúrate de que esta sea la forma correcta de identificar el estado
+
+            // Si es Inactivo, aplicar un fondo gris
+            if (isInactive) {
+                doc.setFillColor(211, 211, 211); // Gris claro
+                doc.rect(5, y - 5, 35, 10, 'F'); // ID Ruta
+                doc.rect(35, y - 5, 30, 10, 'F'); // Fecha
+                doc.rect(65, y - 5, 40, 10, 'F'); // Provincia
+                doc.rect(105, y - 5, 40, 10, 'F'); // Cantón
+                doc.rect(145, y - 5, 40, 10, 'F'); // Distrito
+                doc.rect(185, y - 5, 60, 10, 'F'); // Dirección Exacta
+                doc.rect(245, y - 5, 50, 10, 'F'); // Conductor
+                doc.rect(295, y - 5, 50, 10, 'F'); // Vehículo
+            }
+
+            // Dibujar las celdas de la tabla
+            doc.setFillColor(255, 255, 255); // Color blanco para las celdas
+            doc.text(cells[0].textContent, 10, y); // ID Ruta
+            doc.text(cells[1].textContent, 40, y); // Fecha
+            doc.text(cells[2].textContent, 70, y); // Provincia
+            doc.text(cells[3].textContent, 110, y); // Cantón
+            doc.text(cells[4].textContent, 150, y); // Distrito
+
+            // Ajustar Dirección Exacta para que ocupe todo el espacio disponible
+            let direccionExacta = cells[5].textContent; // Dirección Exacta
+            doc.setFontSize(8); // Reducir tamaño de fuente para ajustarlo
+            doc.text(direccionExacta, 190, y, { maxWidth: 50, lineHeightFactor: 1.2 });  // Limitar el ancho de la columna y ajustar el texto
+
+            doc.text(cells[6].textContent, 250, y); // Conductor
+            doc.text(cells[7].textContent, 300, y); // Vehículo
+
+            // Dibujar las líneas de la tabla
+            doc.setDrawColor(0, 0, 0); // Color negro para las líneas
+            doc.rect(5, y - 5, 35, 10); // ID Ruta
+            doc.rect(35, y - 5, 30, 10); // Fecha
+            doc.rect(65, y - 5, 40, 10); // Provincia
+            doc.rect(105, y - 5, 40, 10); // Cantón
+            doc.rect(145, y - 5, 40, 10); // Distrito
+            doc.rect(185, y - 5, 60, 10); // Dirección Exacta
+            doc.rect(245, y - 5, 50, 10); // Conductor
+            doc.rect(295, y - 5, 50, 10); // Vehículo
+
+            // Aumentar la posición vertical para la siguiente fila
+            y += 12;
+
+            // Si el contenido se acerca al final de la página, agrega una nueva página
+            if (y > 270) { // El límite de la página horizontal es 270 para no cortar el contenido
+                doc.addPage();
+                y = 20;  // Reiniciar la posición en la nueva página
+
+                // Volver a agregar el encabezado en cada nueva página
+                doc.text('Listado de Rutas', 210, 20, null, null, 'center');
+                doc.text('Fecha de impresión: ' + new Date().toLocaleDateString("es-ES"), 210, 30, null, null, 'center');
+
+                // Reimprimir los encabezados de la tabla
+                doc.text('ID Ruta', 10, y);
+                doc.text('Fecha', 40, y);
+                doc.text('Provincia', 70, y);
+                doc.text('Cantón', 110, y);
+                doc.text('Distrito', 150, y);
+                doc.text('Dirección Exacta', 190, y); // Dirección Exacta con mayor espacio
+                doc.text('Conductor', 250, y);
+                doc.text('Vehículo', 300, y);
+
+                // Aumentar la posición para las filas de la tabla
+                y += 10;
+            }
+        });
+
+        // Agregar las firmas al final de la tabla
+        doc.setFontSize(12);
+        doc.text('Firma del encargado: _____________________________', 10, y);
+        y += 10;
+        doc.text('Firma del Conductor: _____________________________', 10, y);
+
+        // Guardar el PDF con la fecha en el nombre
+        const date = new Date();
+        const fileName = `Listado_Rutas_${date.getDate()}_${date.getMonth() + 1}_${date.getFullYear()}.pdf`;
+        doc.save(fileName);
+    }
+    
+
     
 
 </script>
