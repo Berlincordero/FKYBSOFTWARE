@@ -1214,40 +1214,42 @@
 
 
 
-<!-- Modal de Movimiento de Dinero -->
-<div id="movimientoDineroModal" class="modal"> 
-    <div class="modal-content">
-        <!-- Botón de cierre del modal -->
-        <span class="close" onclick="cerrarModalMovimientoDinero()">&times;</span>
-        
-        <form id="movimientoDineroForm" method="post" action="{% url 'guardar_movimiento_dinero' %}">
-            {% csrf_token %}
-            <label for="tipoMovimiento">Tipo de Movimiento:</label>
-            <select id="tipoMovimiento" name="tipoMovimiento" required>
-                <option value="egreso">Egreso</option>
-            </select>
+    <!-- Modal de Movimiento de Dinero -->
+    <div id="movimientoDineroModal" class="modal">
+        <div class="modal-content">
+            <!-- Botón de cierre del modal -->
+            <span class="close" onclick="cerrarModalMovimientoDinero()">&times;</span>
 
-            <label for="fechaHoraMovimiento">Fecha y Hora:</label>
-            <input type="datetime-local" id="fechaHoraMovimiento" name="fechaHora" required>
+            <form id="movimientoDineroForm" method="post" action="{% url 'guardar_movimiento_dinero' %}">
+                {% csrf_token %}
+                <label for="tipoMovimiento">Tipo de Movimiento:</label>
+                <select id="tipoMovimiento" name="tipoMovimiento" required>
+                    <option value="egreso">Egreso</option>
+                </select>
 
-            <label for="usuarioMovimiento">Administrador o Encargado:</label>
-            <input type="text" id="usuarioMovimiento" name="usuario" placeholder="Administrador o Encargado" required>
+                <label for="fechaHoraMovimiento">Fecha y Hora:</label>
+                <input type="datetime-local" id="fechaHoraMovimiento" name="fechaHora" required>
 
-            <label for="notaMovimiento">Nota:</label>
-            <textarea id="notaMovimiento" name="nota" placeholder="Nota"></textarea>
+                <label for="usuarioMovimiento">Administrador o Encargado:</label>
+                <input type="text" id="usuarioMovimiento" name="usuario" placeholder="Administrador o Encargado" required>
 
-            <label for="montoMovimiento">Monto:</label>
-            <input type="number" id="montoMovimiento" name="monto" step="0.01" placeholder="Monto" required>
+                <label for="notaMovimiento">Nota:</label>
+                <textarea id="notaMovimiento" name="nota" placeholder="Nota"></textarea>
 
-            
-            <label for="codigoSeguridad">Código de Seguridad:</label>
-            <input type="password" id="codigoSeguridad" name="codigo_seguridad" placeholder="Código de Seguridad" required>
+                <label for="montoMovimiento">Monto:</label>
+                <input type="number" id="montoMovimiento" name="monto" step="0.01" placeholder="Monto" required>
 
-            <button type="submit"   class="funcionalidad-caja"  >Realizar Movimiento</button>
-        
+
+                <label for="codigoSeguridad">Código de Seguridad:</label>
+                <input type="password" id="codigoSeguridadMovimiento" name="codigo_seguridad" placeholder="Código de Seguridad" required>
+
+                <!-- Al presionar este botón se hará el submit y luego se abre el ticket de impresión -->
+                <button type="submit" class="funcionalidad-caja">Realizar Movimiento</button>
+
+            </form>
+        </div>
     </div>
-</div>
-</form>
+
 
 
 
@@ -2587,6 +2589,148 @@ document.addEventListener("DOMContentLoaded", function() {
         // Llamada inicial para actualizar el estado de la caja
         actualizarEstadoCaja();
     });
+
+    
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // -------------- NUEVO: Enviar Movimiento y luego imprimir ticket --------------
+        // Interceptamos el submit del formulario de movimiento de dinero
+        document.addEventListener("DOMContentLoaded", function() {
+            const movimientoDineroForm = document.getElementById('movimientoDineroForm');
+
+            movimientoDineroForm.addEventListener('submit', function(event){
+                event.preventDefault();
+
+                const formData = new FormData(movimientoDineroForm);
+                const datos = {};
+                formData.forEach((value, key) => {
+                    datos[key] = value;
+                });
+
+                // Petición POST por fetch
+                fetch("{% url 'guardar_movimiento_dinero' %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        // Si hay error, mostramos un mensaje
+                        alert('Error al realizar el movimiento de dinero.');
+                        throw new Error('Error al guardar el movimiento de dinero');
+                    }
+                    return response.text();
+                })
+                .then(textoRespuesta => {
+                    // Cerramos el modal
+                    cerrarModalMovimientoDinero();
+
+                    // Aquí imprimimos el ticket con la info que ingresó el usuario
+                    printMovimientoDinero(datos);
+
+                    // Forzamos un reload para refrescar la página (opcional)
+                    setTimeout(()=> {
+                        location.reload();
+                    }, 2000);
+
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            });
+        });
+
+        // Función para imprimir el ticket de "Movimiento de Dinero"
+        function printMovimientoDinero(datosMovimiento) {
+            // Creamos una ventana nueva y un contenido con estilo "ticket"
+            const printWindow = window.open("", "_blank", "width=300,height=400");
+
+            // Obtén la fecha/hora en formato legible
+            const fechaHoraForm = datosMovimiento['fechaHora'] || '';
+            const usuarioForm = datosMovimiento['usuario'] || '';
+            const notaForm = datosMovimiento['nota'] || '';
+            const montoForm = datosMovimiento['monto'] || '';
+            const tipoMov = datosMovimiento['tipoMovimiento'] || 'egreso';
+
+            const estilosTicket = `
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        font-size: 14px;
+                        margin: 0;
+                        padding: 0;
+                        width: 80mm;
+                    }
+                    .ticket-header {
+                        text-align: center;
+                        margin-bottom: 10px;
+                    }
+                    .ticket-header p {
+                        margin: 2px 0;
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 5px 0;
+                        table-layout: fixed;
+                    }
+                    table th, table td {
+                        padding: 2px;
+                        font-size: 12px;
+                        word-wrap: break-word;
+                    }
+                    table th {
+                        border-bottom: 1px solid #000;
+                    }
+                    @page {
+                        margin: 5mm;
+                    }
+                </style>
+            `;
+
+            // Armamos el contenido
+            const contenidoTicket = `
+                <div class="ticket-header">
+                    <h2>FERRETERIA SAN JERONIMO</h2>
+                    <p>MORAVIA, SAN JOSÉ</p>
+                    <p>TEL: 2224 5602</p>
+                    <p>EMAIL: ferreteriaSanJeronimo@gmail.com</p>
+                    <p>--------------------------------------</p>
+                </div>
+
+                <p><strong>Movimiento de Dinero</strong></p>
+                <p>Tipo: ${tipoMov}</p>
+                <p>Fecha/Hora: ${fechaHoraForm}</p>
+                <p>Usuario/Administrador: ${usuarioForm}</p>
+                <p>Nota: ${notaForm}</p>
+                <p>Monto: ₡${montoForm}</p>
+                <p>--------------------------------------</p>
+                <p>¡Gracias!</p>
+                <p>--------------------------------------</p>
+            `;
+
+            // Escribimos en la ventana
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Ticket Movimiento</title>
+                    ${estilosTicket}
+                </head>
+                <body>
+                    ${contenidoTicket}
+                </body>
+                </html>
+            `);
+
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        }
+        // -----------------------------------------------------------------------------
+
 
 
 
