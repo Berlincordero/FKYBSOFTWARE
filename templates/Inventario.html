@@ -696,85 +696,79 @@
       contarProductos();
 
       // Función para imprimir la tabla en PDF (o en papel)
-      function imprimirTabla() {
-        const tablaHtml = document.querySelector(".producto-tabla").outerHTML;
+function imprimirTabla() {
+  const tablaHtml = document.querySelector(".producto-tabla").outerHTML;
 
-        // Datos para el encabezado
-        const logoURL = "{% static 'img/logo.jpg' %}";
-        const tel = "Tel: +506 1234-5678";
-        const email = "ferreteria@sanjeronimo.cr";
-        const direccion = "San Jerónimo, Costa Rica";
-        const fechaHora = new Date().toLocaleString();
+  // Datos para el encabezado (eliminamos la parte del logo)
+  const tel = "Tel: +506 1234-5678";
+  const email = "ferreteria@sanjeronimo.cr";
+  const direccion = "San Jerónimo, Costa Rica";
+  const fechaHora = new Date().toLocaleString();
 
-        const ventanaImpresion = window.open("", "_blank", "width=1200,height=600");
-        ventanaImpresion.document.write(`
-          <html>
-            <head>
-              <title>Imprimir Inventario</title>
-              <style>
-                body {
-                  font-family: Arial, sans-serif;
-                  margin: 20px;
-                }
-                .info-header {
-                  text-align: center;
-                  margin-bottom: 20px;
-                }
-                .info-header img {
-                  width: 100px;
-                  height: 100px;
-                  margin-bottom: 10px;
-                }
-                h1 {
-                  margin: 5px 0;
-                  font-size: 24px;
-                }
-                .info-header p {
-                  margin: 3px 0;
-                }
-                table {
-                  width: 100%;
-                  border-collapse: collapse;
-                  font-size: 16px;
-                  text-align: center;
-                  margin-top: 20px;
-                }
-                th, td {
-                  padding: 8px;
-                  border: 1px solid #000;
-                }
-                th {
-                  background-color: #95defd;
-                }
-                tbody tr:nth-child(even) {
-                  background-color: #f2f2f2;
-                }
-                /* Ocultamos la columna de opciones en la ventana emergente también (por si acaso) */
-                thead th:nth-child(11),
-                tbody td:nth-child(11) {
-                  display: none;
-                }
-              </style>
-            </head>
-            <body>
-              <div class="info-header">
-                <img src="${logoURL}" alt="Logo" />
-                <h1>Ferretería San Jerónimo</h1>
-                <p>${tel}</p>
-                <p>${email}</p>
-                <p>${direccion}</p>
-                <p>Fecha/Hora: ${fechaHora}</p>
-                <h2>Inventario de Productos</h2>
-              </div>
-              ${tablaHtml}
-            </body>
-          </html>
-        `);
-        ventanaImpresion.document.close();
-        ventanaImpresion.focus();
-        ventanaImpresion.print();
-        ventanaImpresion.close();
-      }
+  const ventanaImpresion = window.open("", "_blank", "width=1200,height=600");
+  ventanaImpresion.document.write(`
+    <html>
+      <head>
+        <title>Imprimir Inventario</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+          }
+          .info-header {
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          h1 {
+            margin: 5px 0;
+            font-size: 24px;
+          }
+          .info-header p {
+            margin: 3px 0;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 20px;
+          }
+          th, td {
+            padding: 8px;
+            border: 1px solid #000;
+          }
+          th {
+            background-color: #95defd;
+          }
+          tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+          }
+          /* Ocultamos la columna de opciones en la ventana emergente también (por si acaso) */
+          thead th:nth-child(11),
+          tbody td:nth-child(11) {
+            display: none;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="info-header">
+          <!-- Se eliminó la imagen del logo -->
+          <h1>Ferretería San Jerónimo</h1>
+          <p>${tel}</p>
+          <p>${email}</p>
+          <p>${direccion}</p>
+          <p>Fecha/Hora: ${fechaHora}</p>
+          <h2>Inventario de Productos</h2>
+        </div>
+        ${tablaHtml}
+      </body>
+    </html>
+  `);
+  ventanaImpresion.document.close();
+  ventanaImpresion.focus();
+  ventanaImpresion.print();
+  ventanaImpresion.close();
+}
 
       // Eliminar producto (modal de confirmación)
       function confirmDelete(deleteUrl) {
