@@ -1144,7 +1144,7 @@
                 <p>Pagos en Tarjetas: <input type="number" name="tarjetas" step="0.01" value="{{ tarjetas_acumulado|default:"0.00" }}"></p>
             </div>
             <div class="info">
-                <p>Pagos por Simpe móvil(incluye el 13% I.V.A): <input type="number" name="simpe_movil" step="0.01" value="{{ simpe_movil_acumulado|default:"0.00" }}"></p>
+                <p>Pagos por Sinpe móvil(incluye el 13% I.V.A): <input type="number" name="simpe_movil" step="0.01" value="{{ simpe_movil_acumulado|default:"0.00" }}"></p>
             </div>
             <div class="info">
                 <p>Ventas a  crédito(se suma al total de ventas pero no al total de efectivo): <input type="number" name="venta_credito" step="0.01" value="{{ venta_credito_acumulado|default:"0.00" }}"></p>
@@ -2241,83 +2241,107 @@ function printFactura() {
     printWindow.close();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function printPreCierre() {
-    // Seleccionar únicamente el contenido del modal de precierre
-    const modalContent = document.querySelector("#preCierreCajaModal .modal-content");
+  //------------------------------------------------------------------------------------
+            // Mejorar la impresión del Precierre
+            function printPreCierre() {
+                // Seleccionar el contenido del modal de precierre
+                const modalContent = document.querySelector("#preCierreCajaModal .modal-content");
 
-    // Clonar el contenido del modal
-    const modalClone = modalContent.cloneNode(true);
+                // Clonar el contenido del modal
+                const modalClone = modalContent.cloneNode(true);
 
-    // Reemplazar los inputs por sus valores actuales
-    modalClone.querySelectorAll("input").forEach(input => {
-        const span = document.createElement("span");
-        span.textContent = input.value; // Capturar el valor actual del input
-        input.replaceWith(span); // Reemplazar input con texto plano
-    });
+                // Reemplazar los inputs por sus valores
+                modalClone.querySelectorAll("input").forEach(input => {
+                    const span = document.createElement("span");
+                    span.textContent = input.value;
+                    input.replaceWith(span);
+                });
 
-    // Asegurarnos de eliminar cualquier botón, ícono de cerrar u otro elemento innecesario
-    modalClone.querySelectorAll(".close, button").forEach(el => el.remove());
+                // Eliminar cualquier botón, icono de cierre, etc.
+                modalClone.querySelectorAll(".close, button, .print-icon-precierre-container").forEach(el => el.remove());
 
-    // Crear una nueva ventana para la impresión
-    const printWindow = window.open("", "_blank", "width=300,height=400");
+                // Crear un encabezado para el precierre
+                const headingElement = document.createElement("div");
+                headingElement.style.textAlign = "center";
+                headingElement.style.marginBottom = "10px";
+                headingElement.innerHTML = `
+                    <h2 style="margin: 5px 0;">FERRETERIA SAN JERONIMO</h2>
+                    <h3 style="margin: 5px 0;">PRECierre</h3>
+                    <p style="margin: 2px 0;">Email: ferreteriaSanJeronimo@gmail.com</p>
+                    <p style="margin: 2px 0;">Fecha/Hora: ${(new Date()).toLocaleString()}</p>
+                    <p>--------------------------------------</p>
+                `;
+                modalClone.prepend(headingElement);
 
-    // Incluir estilos específicos para impresión
-    const printStyles = `
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                font-size: 14px;
-                margin: 0;
-                padding: 0;
-                width: 80mm; /* Ajustar para impresoras térmicas */
+                // Crear la ventana de impresión
+                const printWindow = window.open("", "_blank", "width=300,height=400");
+
+                // Estilos de impresión
+                const printStyles = `
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            font-size: 14px;
+                            margin: 0;
+                            padding: 0;
+                            width: 80mm;
+                        }
+                        .modal-content {
+                            box-shadow: none;
+                            border: none;
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .info p, .invoice-details {
+                            margin: 5px 0;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 10px;
+                        }
+                        table th, table td {
+                            padding: 5px;
+                            border: 1px solid #ddd;
+                            text-align: left;
+                            font-size: 12px;
+                            word-wrap: break-word;
+                        }
+                        h2, h3 {
+                            margin: 0;
+                            padding: 0;
+                        }
+                        p {
+                            margin: 3px 0;
+                        }
+                        @page {
+                            margin: 5mm;
+                        }
+                    </style>
+                `;
+
+                // Contenido final a imprimir
+                const printContent = `
+                    <html>
+                        <head>
+                            <title>PreCierre</title>
+                            ${printStyles}
+                        </head>
+                        <body>
+                            <div class="modal-content">
+                                ${modalClone.innerHTML}
+                            </div>
+                        </body>
+                    </html>
+                `;
+
+                // Escribir, imprimir y cerrar
+                printWindow.document.write(printContent);
+                printWindow.document.close();
+                printWindow.focus();
+                printWindow.print();
+                printWindow.close();
             }
-            .modal-content {
-                box-shadow: none;
-                border: none;
-                margin: 0;
-                padding: 0;
-            }
-            .info p, .invoice-details {
-                margin: 5px 0;
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            table th, table td {
-                padding: 5px;
-                border: 1px solid #ddd;
-                text-align: left;
-            }
-            @page {
-                margin: 5mm;
-            }
-        </style>
-    `;
-
-    // Escribir el contenido clonado en la ventana de impresión
-    printWindow.document.write(`
-        <html>
-            <head>
-                <title>PreCierre</title>
-                ${printStyles}
-            </head>
-            <body>
-                <div class="modal-content">
-                    ${modalClone.innerHTML}
-                </div>
-            </body>
-        </html>
-    `);
-
-    // Finalizar la escritura e iniciar impresión
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
-}
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////
 
