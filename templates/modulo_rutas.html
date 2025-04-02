@@ -808,12 +808,14 @@
             fetch(`/transportes/eliminar_ruta/${idRuta}/`, {
                 method: 'POST',
                 headers: {
-                    'X-CSRFToken': '{{ csrf_token }}',
-                }
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({})
             })
             .then(response => {
                 if (response.ok) {
-                    location.reload(); // Recarga la página para reflejar los cambios
+                    location.reload(); // 🔄 Recarga la página para reflejar los cambios
                 } else {
                     alert('Error al desactivar la ruta');
                 }
@@ -821,6 +823,7 @@
             .catch(error => alert('Error de conexión'));
         }
     }
+    
 
     
     function generatePDF() {
@@ -965,21 +968,23 @@ let rutaIdToActivate = null;
 function activarRuta(idRuta) {
     if (confirm('¿Estás seguro de que deseas activar esta ruta?')) {
         fetch(`/transportes/activar_ruta/${idRuta}/`, {
-            method: 'POST',
+            method: 'POST',  // 🔹 Debe ser POST, no GET
             headers: {
                 'X-CSRFToken': '{{ csrf_token }}',
             }
         })
         .then(response => {
             if (response.ok) {
-                location.reload(); // Recarga la página para reflejar los cambios
+                location.reload(); // Recargar la página para reflejar cambios
             } else {
-                alert('Error al activar la ruta');
+                alert('Hubo un error al activar la ruta.');
             }
         })
         .catch(error => alert('Error de conexión'));
     }
 }
+
+
 
 
 </script>

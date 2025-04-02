@@ -11,6 +11,8 @@ from django.contrib import messages
 from geografia.models import Provincia, Canton, Distrito
 from django.http import JsonResponse
 
+from datetime import datetime
+
 @login_required
 def modulo_transportes(request):
     conductores = Conductor.objects.filter(activo=True)  # Obtener todos los conductores en activos
@@ -119,17 +121,23 @@ def editar_vehiculo(request, id_vehiculo):
 @login_required
 def eliminar_vehiculo(request, id_vehiculo):
     if request.method == 'POST':
-        vehiculo = get_object_or_404(Vehiculo, id_vehiculo=id_vehiculo)
-        VehiculoEliminado.objects.create(
-            vehiculo=vehiculo,
-            fecha_eliminacion=timezone.now()
-        )
-        vehiculo.activo = False
-        vehiculo.save()
+        try:
+            # Usar el campo adecuado (por ejemplo, 'id_vehiculo' si es tu clave primaria)
+            vehiculo = Vehiculo.objects.get(id_vehiculo=id_vehiculo)
 
-        messages.success(request, 'Vehiculo movido a eliminadas con éxito.')
-        return redirect('transportes:modulo_vehiculos')
-    return HttpResponse("Método no permitido", status=405)
+            # Guardar los datos en la tabla transportes_vehiculoeliminado
+            VehiculoEliminado.objects.create(
+                vehiculo_id=vehiculo.id_vehiculo,  # Usar el campo correcto para el ID
+                fecha_eliminacion=datetime.now()  # Guarda la fecha de eliminación
+            )
+
+            # Eliminar el vehículo de la tabla principal
+            vehiculo.delete()
+
+            return JsonResponse({'message': 'Vehículo eliminado correctamente y registrado en Vehiculos Eliminados.'}, status=200)
+        except Vehiculo.DoesNotExist:
+            return JsonResponse({'message': 'Vehículo no encontrado.'}, status=404)
+    return JsonResponse({'message': 'Método no permitido.'}, status=405)
 
 # Rutas #
 @login_required
@@ -185,33 +193,27 @@ def agregar_ruta(request):
     
 @login_required
 def activar_ruta(request, id_ruta):
-    if request.method == 'POST':
-        ruta = get_object_or_404(Ruta, id_ruta=id_ruta)
-        ruta.activo = True
-        ruta.save()
-
-        messages.success(request, 'Ruta activada.')
-        return redirect('modulo_rutas')
-    return HttpResponse("Método no permitido", status=405)    
+    if request.method == "POST":
+        try:
+            ruta = Ruta.objects.get(id_ruta=id_ruta)  # 🔹 Usar id_ruta correctamente
+            ruta.activo = True  # Activar la ruta
+            ruta.save()
+            return JsonResponse({"success": True})
+        except Ruta.DoesNotExist:
+            return JsonResponse({"success": False, "error": "Ruta no encontrada"}, status=404)
+    return JsonResponse({"success": False, "error": "Método no permitido"}, status=405)  
 
 @login_required
 def eliminar_ruta(request, id):
-    if request.method == 'POST':
-        # Obtiene la ruta que quieres "eliminar"
-        ruta = get_object_or_404(Ruta, id_ruta=id)
-        
-        # Si ya tienes una tabla RutaEliminada, mueve la ruta allí
-        RutaEliminada.objects.create(
-            ruta=ruta,  # Asume que RutaEliminada tiene un campo 'ruta' que guarda la ruta original
-            fecha_eliminacion=timezone.now()
-        )
-        
-        # Marca la ruta como inactiva en lugar de eliminarla (opcional, dependiendo de tu modelo)
-        ruta.activo = False  # Suponiendo que tienes un campo 'activo' para marcar como inactiva
-        ruta.save()
-
-        messages.success(request, 'Ruta movida a eliminadas con éxito.')
-        return redirect('transportes:modulo_rutas')
+    if request.method == "POST":
+        try:
+            ruta = Ruta.objects.get(id_ruta=id)  # 🔹 Usar id_ruta en lugar de id
+            ruta.activo = False  # Desactivar en lugar de eliminar
+            ruta.save()
+            return JsonResponse({"success": True})
+        except Ruta.DoesNotExist:
+            return JsonResponse({"success": False, "error": "Ruta no encontrada"}, status=404)
+    return JsonResponse({"success": False, "error": "Método no permitido"}, status=405)
 
 @login_required    
 def editar_ruta(request, id_ruta):
