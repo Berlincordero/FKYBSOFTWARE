@@ -282,26 +282,21 @@ def abrir_caja_view(request):
 def guardar_movimiento_dinero(request):
     if request.method == 'POST':
         try:
-            # Obtener datos desde el formulario
             tipo = request.POST.get('tipoMovimiento')
             fecha_hora_str = request.POST.get('fechaHora')
             usuario = request.POST.get('usuario')
             nota = request.POST.get('nota', '')
             monto_str = request.POST.get('monto', '0.00')
             monto = Decimal(monto_str)
-            codigo_seguridad = request.POST.get('codigo_seguridad')  # Obtener la clave de seguridad
+            codigo_seguridad = request.POST.get('codigo_seguridad')
 
-            # Validar el código de seguridad
-            codigo_correcto = "KIK301"  # Cambia esto a la clave que deseas validar
+            codigo_correcto = "KIK301"
             if codigo_seguridad != codigo_correcto:
-                # Si la clave es incorrecta, mostrar mensaje de error y detener la operación
                 messages.error(request, 'Código de seguridad incorrecto. No se puede realizar el movimiento.')
                 return redirect('Cajaregistradora_view')
 
-            # Convertir la fecha y hora al formato datetime
             fecha_hora_dt = datetime.strptime(fecha_hora_str, "%Y-%m-%dT%H:%M")
 
-            # Obtener la caja abierta desde la sesión
             caja_abierta_id = request.session.get('caja_abierta_id')
             if not caja_abierta_id:
                 messages.error(request, 'No hay una caja abierta.')
@@ -309,7 +304,6 @@ def guardar_movimiento_dinero(request):
 
             apertura_caja = AperturaCaja.objects.get(id=caja_abierta_id, abierta=True)
 
-            # Crear el movimiento de dinero
             MovimientoDinero.objects.create(
                 apertura_caja=apertura_caja,
                 tipo_movimiento=tipo,
@@ -319,7 +313,6 @@ def guardar_movimiento_dinero(request):
                 monto=monto
             )
 
-            # Mostrar mensaje de éxito y redirigir
             messages.success(request, 'Movimiento de dinero registrado con éxito.')
             return redirect('Cajaregistradora_view')
 
@@ -328,14 +321,13 @@ def guardar_movimiento_dinero(request):
             return redirect('Cajaregistradora_view')
 
         except Exception as e:
-            # Registrar un mensaje de error genérico
             messages.error(request, f'Ocurrió un error: {str(e)}')
             return redirect('Cajaregistradora_view')
 
     else:
         messages.error(request, 'Método no permitido.')
         return redirect('Cajaregistradora_view')
-
+    
 @csrf_exempt
 def guardar_precierre(request):
     if request.method == 'POST':

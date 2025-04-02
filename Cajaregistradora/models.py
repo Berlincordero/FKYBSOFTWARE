@@ -89,3 +89,5 @@ class PreCierre(models.Model):
 
     def __str__(self):
         return f"PreCierre - {self.sucursal} - {self.fecha}"
+
+# Este Codigo tiene copyrights 2024  estructurado por Berlin Cordero Brenes

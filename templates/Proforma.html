@@ -64,6 +64,20 @@
         margin-right: 10px;
       }
 
+      /* Botón "Descargar Excel" */
+      #downloadExcelBtn {
+        background-color: #f96302;
+        border: none;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      #downloadExcelBtn:hover {
+        background-color: #d85402;
+      }
+
       .header,
       .form-group,
       .line-details,
@@ -559,7 +573,6 @@
       .berlin:hover {
         background-color: #1765C1;
       }
-
     </style>
   </head>
   <body>
@@ -568,8 +581,11 @@
         <i class="fa fa-file-invoice-dollar"></i>
         <h1>Proformas</h1>
       </div>
+      <!-- Barra de búsqueda + Botón de Descargar Excel -->
       <div class="search-container">
         <input type="text" id="search" placeholder="Buscar por cliente" />
+        <!-- Nuevo botón para descargar Excel -->
+        <button id="downloadExcelBtn" onclick="downloadExcel()">Descargar Excel</button>
       </div>
     </div>
 
@@ -884,8 +900,6 @@
         </div>
       </div>
     </div>
-   
-
 
    <!-- ========== MODAL DE EDITAR PROFORMA ========== -->
 <div id="editarproformaModal" class="modal-proforma" style="display: none">
@@ -1162,6 +1176,38 @@
 </div>
 
     <script>
+      /************ FUNCIÓN PARA DESCARGAR LA TABLA COMO EXCEL ************/
+      function downloadExcel() {
+        // Tomamos la tabla entera de proformas
+        const tableHTML = document.querySelector(".proforma-tabla").outerHTML;
+        
+        // Construimos un HTML minimal para Excel
+        const html = `
+          <html>
+            <head>
+              <meta charset="UTF-8">
+            </head>
+            <body>
+              ${tableHTML}
+            </body>
+          </html>`;
+        
+        // Creamos un Blob con el tipo Excel
+        const blob = new Blob([html], { type: "application/vnd.ms-excel" });
+        const url = URL.createObjectURL(blob);
+        
+        // Creamos un link <a> para forzar la descarga
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "Proformas.xls";
+        document.body.appendChild(a);
+        a.click();
+        
+        // Limpiamos
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+      
       function imprimirProforma() {
         var contenido = document
           .getElementById("proformaModal")
@@ -1447,7 +1493,6 @@ function actualizarSubtotalEditar() {
       //=====================================================================================================//
       // ============ NUEVA FUNCION que llena la tabla #line-items-table-editar con fetch ============
       function cargarLineasEditar(proformaId) {
-        // Uso tu endpoint obtener_detalles_proforma
         fetch(`/obtener_detalles_proforma/${proformaId}/`)
           .then((response) => {
             if (!response.ok) {
@@ -1460,7 +1505,6 @@ function actualizarSubtotalEditar() {
             tbody.innerHTML = ""; // Limpia la tabla
 
             data.forEach((item) => {
-              // item.descuento está en colones, supongamos que es "montoDesc"
               let subtotalSinDesc = item.cantidad * item.precio_unitario;
               let descuentoPorcentaje = 0;
               if (subtotalSinDesc > 0) {
@@ -1703,8 +1747,8 @@ function actualizarSubtotalEditar() {
         const filasProductos = document.querySelectorAll('#line-items-table tbody tr');
         filasProductos.forEach((fila) => {
           const codigo = fila.querySelector('td:nth-child(1)').innerText.trim();
-          const nombre = fila.querySelector('td:nth-child(2)').innerText.trim();  // *** NUEVO ***
-          const descripcion = fila.querySelector('td:nth-child(3)').innerText.trim(); // *** NUEVO ***
+          const nombre = fila.querySelector('td:nth-child(2)').innerText.trim();
+          const descripcion = fila.querySelector('td:nth-child(3)').innerText.trim();
 
           const cantidad = parseFloat(
             fila.querySelector('td:nth-child(4) input').value || 0
@@ -1718,7 +1762,7 @@ function actualizarSubtotalEditar() {
             .trim();
           const precioUnitario = parseFloat(precioTexto || 0);
 
-          // ======== NUEVO: Creamos inputs hidden para nombre/desc ===========
+          // Nombre y descripción
           const inputNombre = document.createElement('input');
           inputNombre.type = 'hidden';
           inputNombre.name = `nombre_${codigo}`;
@@ -1732,7 +1776,6 @@ function actualizarSubtotalEditar() {
           inputDesc.value = descripcion;
           inputDesc.classList.add('line-item-fields');
           formCrear.appendChild(inputDesc);
-          // ===============================================================
 
           // cantidad_codigo
           const inputCantidad = document.createElement('input');
@@ -1899,9 +1942,6 @@ function actualizarSubtotalEditar() {
 
       // === EDICIÓN: similar idea de crear inputs hidden en la Proforma Editar ===
       function prepararDatosProformaEditar() {
-        // Ejemplo sencillo: en la edición, no estás mostrando los mismos campos
-        // de detalle en tu HTML, pero la idea es la misma si los tuvieras.
-        // Se setean los totales hidden:
         const subtotal = parseFloat(
           document.querySelector("#subtotal-editar").textContent.replace("₡", "")
         );
@@ -1926,14 +1966,10 @@ function actualizarSubtotalEditar() {
         document.querySelector("#total-editar-input").value = total;
         document.querySelector("#total-dolares-editar-input").value =
           totalDolares;
-
-        // Si tuvieras filas en la tabla #line-items-table-editar, harías algo similar
-        // a "prepararDatosProforma()" para crear hidden inputs con el nombre/desc/cant/etc.
       }
 
 
       function mostrarModalProductosEditar() {
-        // Mismo fetch que en crear:
         fetch("{% url 'obtener_productos' %}")
           .then((response) => {
             if (!response.ok) {
@@ -2007,11 +2043,7 @@ function actualizarSubtotalEditar() {
         tbody.insertAdjacentHTML("beforeend", fila);
       
         cerrarModalProductosEditar();
-        // Podrías llamar a updateTotalEditar() si deseas recalcular de inmediato
       }
-
-
-
     </script>
   </body>
 </html>
